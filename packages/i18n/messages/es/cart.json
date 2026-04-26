@@ -1,23 +1,43 @@
 {
   "title": "Carrito",
+  "metaTitle": "Carrito de compra",
+  "metaDescription": "Revisa tus productos personalizados, ajusta cantidades y continúa al pago.",
   "empty": {
     "title": "Tu carrito está vacío",
     "body": "Añade productos del catálogo o guarda un diseño para empezar.",
     "cta": "Ver productos"
   },
   "summary": {
+    "heading": "Resumen del pedido",
+    "itemCount": "{count} artículos",
     "subtotal": "Subtotal",
     "shipping": "Envío",
     "tax": "Impuestos",
     "total": "Total",
     "promoCode": "Código promocional",
-    "applyPromoCode": "Aplicar"
+    "applyPromoCode": "Aplicar",
+    "estimatedDelivery": "Entrega estimada: {days} días laborables"
   },
   "item": {
     "quantity": "Cantidad",
     "remove": "Quitar",
     "designLabel": "Diseño personalizado",
-    "variantLabel": "Variante"
+    "variantLabel": "Variante",
+    "printMethod": "Método de impresión",
+    "printAreas": "Áreas de impresión",
+    "unitPrice": "Precio unitario",
+    "lineTotal": "Total línea",
+    "noDesign": "Sin diseño asociado",
+    "previewAlt": "Vista previa del diseño",
+    "skuLabel": "SKU"
+  },
+  "actions": {
+    "continueShopping": "Seguir comprando",
+    "checkout": "Ir a pagar",
+    "saving": "Actualizando…",
+    "removed": "Eliminado",
+    "added": "Añadido al carrito",
+    "saveFailed": "No se pudo actualizar el carrito"
   },
   "checkoutCta": "Ir a pagar"
 }

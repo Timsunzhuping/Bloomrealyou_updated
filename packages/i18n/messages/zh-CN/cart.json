@@ -1,23 +1,43 @@
 {
   "title": "购物车",
+  "metaTitle": "购物车",
+  "metaDescription": "确认您的定制商品、修改数量，然后进入结账。",
   "empty": {
     "title": "购物车还是空的",
     "body": "从商品目录添加商品，或保存一个设计开始吧。",
     "cta": "去看看商品"
   },
   "summary": {
+    "heading": "订单概要",
+    "itemCount": "共 {count} 件商品",
     "subtotal": "小计",
     "shipping": "运费",
     "tax": "税费",
     "total": "合计",
     "promoCode": "优惠码",
-    "applyPromoCode": "应用"
+    "applyPromoCode": "应用",
+    "estimatedDelivery": "预计送达：{days} 个工作日"
   },
   "item": {
     "quantity": "数量",
     "remove": "移除",
     "designLabel": "定制设计",
-    "variantLabel": "规格"
+    "variantLabel": "规格",
+    "printMethod": "印刷工艺",
+    "printAreas": "印刷区域",
+    "unitPrice": "单价",
+    "lineTotal": "小计",
+    "noDesign": "未关联设计",
+    "previewAlt": "定制设计预览",
+    "skuLabel": "SKU"
+  },
+  "actions": {
+    "continueShopping": "继续购物",
+    "checkout": "前往结账",
+    "saving": "更新中…",
+    "removed": "已移除",
+    "added": "已加入购物车",
+    "saveFailed": "更新失败"
   },
   "checkoutCta": "前往结账"
 }

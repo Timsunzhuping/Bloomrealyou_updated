@@ -3,6 +3,7 @@ export {
   ApiError,
   createApiClient,
   type ApiClientOptions,
+  type SessionStorage,
 } from './client.js';
 export type { HealthResponse } from './types.js';
 export {
@@ -11,3 +12,5 @@ export {
   type ListProductsResponse,
 } from './products.js';
 export { CustomizationsClient } from './customizations.js';
+export { PricingClient } from './pricing.js';
+export { CartClient } from './cart.js';

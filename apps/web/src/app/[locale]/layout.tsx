@@ -58,8 +58,8 @@ export default async function LocaleLayout(props: LocaleLayoutProps): Promise<JS
               <nav className="flex items-center gap-4 text-sm">
                 <Link href="/">{t('nav.home')}</Link>
                 <Link href="/products">{t('nav.products')}</Link>
-                <Link href="/designer">{t('nav.designer')}</Link>
                 <Link href="/business">{t('nav.business')}</Link>
+                <Link href="/cart">{t('nav.cart')}</Link>
                 <LanguageSwitcher />
               </nav>
             </div>

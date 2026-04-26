@@ -4,6 +4,7 @@ import { formatCurrency, type Locale } from '@custom-merch/i18n';
 import { ApiError } from '@custom-merch/sdk';
 import type {
   CustomerDesignDto,
+  PricingResult,
   Product,
   ProductPrintArea,
   ProductVariant,
@@ -15,6 +16,7 @@ import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
+import { useRouter } from '@/i18n/navigation';
 import { getClientApi } from '@/lib/client-api';
 
 import { CustomizerBottomBar } from './bottom-bar';
@@ -79,6 +81,7 @@ export function Customizer({
   const tTopBar = useTranslations('customizer.topBar');
   const tWarn = useTranslations('customizer.warnings');
   const tValidation = useTranslations('customizer.validation');
+  const router = useRouter();
 
   const setContext = useCustomizerStore((s) => s.setContext);
   const reset = useCustomizerStore((s) => s.reset);
@@ -101,6 +104,42 @@ export function Customizer({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const stageRef = React.useRef<CanvasStageHandle>(null);
   const [containerWidth, setContainerWidth] = React.useState(640);
+  const [pricing, setPricing] = React.useState<PricingResult | null>(null);
+
+  const printAreaKeys = React.useMemo(
+    () => printAreas.map((a) => a.key).slice(0, 1),
+    [printAreas],
+  );
+  const defaultPrintMethod = product.supportedPrintMethods[0];
+
+  // Live pricing: re-calculate whenever quantity changes.
+  React.useEffect(() => {
+    let cancelled = false;
+    const variantId = initialVariantId ?? variants[0]?.id;
+    if (!variantId) return;
+    const handle = window.setTimeout(() => {
+      void getClientApi()
+        .pricing.calculate({
+          productId: product.id,
+          variantId,
+          quantity,
+          printMethod: defaultPrintMethod,
+          printAreas: printAreaKeys,
+          shippingCountry: 'US',
+        })
+        .then((next) => {
+          if (!cancelled) setPricing(next);
+        })
+        .catch((err: unknown) => {
+          // eslint-disable-next-line no-console
+          console.warn('[customizer] pricing failed', (err as Error).message);
+        });
+    }, 200);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(handle);
+    };
+  }, [defaultPrintMethod, initialVariantId, printAreaKeys, product.id, quantity, variants]);
 
   // One-time initialization based on product props.
   React.useEffect(() => {
@@ -319,23 +358,52 @@ export function Customizer({
   }, [persist, savedDesignId, tTopBar]);
 
   const finalizeAddToCart = React.useCallback(
-    (designId: string, validation: ValidationResult): void => {
-      // eslint-disable-next-line no-console
-      console.info('[customizer] add-to-cart payload', {
-        quantity,
-        designId,
-        validation,
-      });
-      setToast(tTopBar('addedToCart'));
+    async (designId: string, _validation: ValidationResult): Promise<void> => {
+      const variantId = initialVariantId ?? variants[0]?.id;
+      if (!variantId) {
+        setToast(tTopBar('saveFailed'));
+        return;
+      }
+      try {
+        await getClientApi().cart.addItem({
+          productId: product.id,
+          variantId,
+          customizationId: designId,
+          quantity,
+          printMethod: defaultPrintMethod,
+          printAreas: printAreaKeys,
+          previewImageUrl: pricing ? captureDataUrl() : undefined,
+          productNameSnapshot: localizedName,
+        });
+        setToast(tTopBar('addedToCart'));
+        router.push('/cart');
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[customizer] add-to-cart failed', (err as Error).message);
+        setToast(tTopBar('saveFailed'));
+      }
     },
-    [quantity, tTopBar],
+    [
+      captureDataUrl,
+      defaultPrintMethod,
+      initialVariantId,
+      localizedName,
+      pricing,
+      printAreaKeys,
+      product.id,
+      quantity,
+      router,
+      tTopBar,
+      variants,
+    ],
   );
 
-  const totalCents = product.basePrice.amountMinor * quantity;
-  const totalLabel = formatCurrency(
-    { amountMinor: totalCents, currency: product.basePrice.currency },
-    locale,
-  );
+  const totalLabel = pricing
+    ? formatCurrency(pricing.total, locale)
+    : formatCurrency(
+        { amountMinor: product.basePrice.amountMinor * quantity, currency: product.basePrice.currency },
+        locale,
+      );
   const mockupSrc = product.imageUrls[0] ?? '';
 
   return (

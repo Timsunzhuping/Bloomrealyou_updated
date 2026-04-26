@@ -1,23 +1,43 @@
 {
   "title": "السلة",
+  "metaTitle": "سلة التسوق",
+  "metaDescription": "راجع منتجاتك المخصصة، عدّل الكميات وتابع إلى الدفع.",
   "empty": {
     "title": "سلتك فارغة",
     "body": "أضف منتجات من الكتالوج أو احفظ تصميماً للبدء.",
     "cta": "تصفح المنتجات"
   },
   "summary": {
+    "heading": "ملخص الطلب",
+    "itemCount": "{count} منتج",
     "subtotal": "المجموع الفرعي",
     "shipping": "الشحن",
     "tax": "الضرائب",
     "total": "الإجمالي",
     "promoCode": "رمز الخصم",
-    "applyPromoCode": "تطبيق"
+    "applyPromoCode": "تطبيق",
+    "estimatedDelivery": "تاريخ التسليم المتوقع: {days} يوم عمل"
   },
   "item": {
     "quantity": "الكمية",
     "remove": "إزالة",
     "designLabel": "تصميم مخصص",
-    "variantLabel": "الخيار"
+    "variantLabel": "الخيار",
+    "printMethod": "طريقة الطباعة",
+    "printAreas": "مناطق الطباعة",
+    "unitPrice": "سعر الوحدة",
+    "lineTotal": "إجمالي السطر",
+    "noDesign": "لا يوجد تصميم مرتبط",
+    "previewAlt": "معاينة التصميم",
+    "skuLabel": "SKU"
+  },
+  "actions": {
+    "continueShopping": "متابعة التسوق",
+    "checkout": "متابعة الدفع",
+    "saving": "جارٍ التحديث…",
+    "removed": "تمت الإزالة",
+    "added": "أضيف إلى السلة",
+    "saveFailed": "تعذّر تحديث السلة"
   },
   "checkoutCta": "متابعة الدفع"
 }
