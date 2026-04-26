@@ -1,0 +1,38 @@
+{
+  "name": "@custom-merch/sdk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Typed API client SDK consumed by web and admin apps.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"@custom-merch/sdk: no tests yet\"",
+    "clean": "rimraf dist .turbo"
+  },
+  "dependencies": {
+    "@custom-merch/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@custom-merch/config": "workspace:*",
+    "@types/node": "^20.14.10",
+    "eslint": "^8.57.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.5.4"
+  }
+}

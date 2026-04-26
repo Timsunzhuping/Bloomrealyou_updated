@@ -1,0 +1,27 @@
+// =============================================================================
+// Custom Merch Platform - Prisma schema (WP-00 scaffold)
+// =============================================================================
+// NOTE: This is a placeholder schema for project bootstrap (WP-00).
+// Domain models (products, orders, customers, suppliers, audit logs, ...) are
+// added in subsequent work packages (WP-01 onwards).
+// =============================================================================
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Internal placeholder model used to verify the Prisma toolchain.
+/// Will be removed once real domain models are introduced.
+model HealthCheck {
+  id        String   @id @default(cuid())
+  service   String
+  okAt      DateTime @default(now())
+
+  @@map("health_checks")
+}

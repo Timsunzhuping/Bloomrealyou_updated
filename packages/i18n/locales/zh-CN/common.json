@@ -1,0 +1,18 @@
+{
+  "app": {
+    "name": "定制商品平台",
+    "tagline": "AI 驱动的全球定制化商品与企业礼品平台"
+  },
+  "nav": {
+    "home": "首页",
+    "products": "商品",
+    "designer": "在线定制",
+    "business": "企业采购",
+    "account": "我的账户"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "出错了",
+    "retry": "重试"
+  }
+}

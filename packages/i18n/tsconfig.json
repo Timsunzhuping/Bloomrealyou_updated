@@ -1,0 +1,12 @@
+{
+  "extends": "@custom-merch/config/typescript/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "locales/**/*.json"],
+  "exclude": ["node_modules", "dist"]
+}

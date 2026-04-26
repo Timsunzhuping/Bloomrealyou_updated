@@ -1,0 +1,18 @@
+{
+  "app": {
+    "name": "Plataforma de Productos Personalizados",
+    "tagline": "Productos personalizados y merchandising corporativo con IA"
+  },
+  "nav": {
+    "home": "Inicio",
+    "products": "Productos",
+    "designer": "Diseñador",
+    "business": "Para Empresas",
+    "account": "Cuenta"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "retry": "Reintentar"
+  }
+}
