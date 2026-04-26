@@ -1,0 +1,26 @@
+{
+  "list": {
+    "title": "Products",
+    "subtitle": "Browse our customisable catalog.",
+    "empty": "No products match these filters.",
+    "sortBy": "Sort by",
+    "filterBy": "Filter by"
+  },
+  "detail": {
+    "selectColor": "Select color",
+    "selectSize": "Select size",
+    "selectQuantity": "Select quantity",
+    "addToCart": "Add to cart",
+    "customize": "Customize",
+    "productionLeadDays": "Production lead time: {days} business days",
+    "fromPrice": "From {price}"
+  },
+  "categories": {
+    "t-shirts": "T-Shirts",
+    "hoodies": "Hoodies",
+    "mugs": "Mugs",
+    "hats": "Hats",
+    "tote-bags": "Tote Bags",
+    "stickers": "Stickers"
+  }
+}

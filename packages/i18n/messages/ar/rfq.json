@@ -1,0 +1,26 @@
+{
+  "title": "طلب عرض سعر",
+  "subtitle": "أخبرنا بمشروعك وسيرد عليك فريق المبيعات خلال يوم عمل واحد.",
+  "form": {
+    "company": "الشركة",
+    "contactName": "اسم جهة الاتصال",
+    "contactEmail": "البريد الإلكتروني",
+    "contactPhone": "الهاتف",
+    "items": "البنود",
+    "addItem": "إضافة بند",
+    "removeItem": "إزالة",
+    "description": "الوصف",
+    "quantity": "الكمية",
+    "preferredPrintMethod": "طريقة الطباعة المفضلة",
+    "targetUnitPrice": "السعر المستهدف للوحدة",
+    "requiredBy": "تاريخ التسليم المطلوب",
+    "notes": "ملاحظات إضافية",
+    "attachments": "المرفقات",
+    "submit": "إرسال الطلب"
+  },
+  "submitted": {
+    "title": "تم استلام طلبك",
+    "body": "أسندنا الطلب لمندوب مبيعات وستصلك رسالة تأكيد قريباً.",
+    "rfqNumber": "رقم الطلب: {number}"
+  }
+}

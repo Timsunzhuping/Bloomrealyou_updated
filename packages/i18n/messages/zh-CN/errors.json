@@ -1,0 +1,16 @@
+{
+  "generic": "出错了，请稍后再试。",
+  "network": "网络异常，请检查连接后重试。",
+  "unauthorized": "您没有执行该操作的权限。",
+  "notFound": {
+    "title": "找不到页面",
+    "body": "您查找的页面不存在。",
+    "backHome": "返回首页"
+  },
+  "validation": {
+    "required": "此项必填",
+    "emailInvalid": "请输入有效的邮箱地址",
+    "minLength": "至少需要 {min} 个字符",
+    "maxLength": "最多 {max} 个字符"
+  }
+}

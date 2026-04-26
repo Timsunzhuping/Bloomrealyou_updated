@@ -1,0 +1,25 @@
+{
+  "title": "Tu cuenta",
+  "tabs": {
+    "overview": "Resumen",
+    "orders": "Pedidos",
+    "designs": "Diseños",
+    "addresses": "Direcciones",
+    "settings": "Ajustes"
+  },
+  "orders": {
+    "empty": "Aún no has realizado ningún pedido.",
+    "viewDetails": "Ver detalles"
+  },
+  "designs": {
+    "empty": "Aún no has guardado ningún diseño.",
+    "edit": "Editar diseño",
+    "duplicate": "Duplicar"
+  },
+  "settings": {
+    "language": "Idioma",
+    "currency": "Moneda",
+    "notifications": "Notificaciones",
+    "deleteAccount": "Eliminar cuenta"
+  }
+}

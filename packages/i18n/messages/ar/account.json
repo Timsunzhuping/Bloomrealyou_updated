@@ -1,0 +1,25 @@
+{
+  "title": "حسابك",
+  "tabs": {
+    "overview": "نظرة عامة",
+    "orders": "الطلبات",
+    "designs": "التصاميم",
+    "addresses": "العناوين",
+    "settings": "الإعدادات"
+  },
+  "orders": {
+    "empty": "لم تقم بأي طلبات بعد.",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "designs": {
+    "empty": "لم تحفظ أي تصميم بعد.",
+    "edit": "تعديل التصميم",
+    "duplicate": "تكرار"
+  },
+  "settings": {
+    "language": "اللغة",
+    "currency": "العملة",
+    "notifications": "الإشعارات",
+    "deleteAccount": "حذف الحساب"
+  }
+}

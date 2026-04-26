@@ -1,0 +1,54 @@
+{
+  "app": {
+    "name": "Custom Merch Platform",
+    "tagline": "AI-powered custom products and corporate merchandise"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "designer": "Designer",
+    "business": "For Business",
+    "account": "Account",
+    "cart": "Cart",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "retry": "Retry",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "learnMore": "Learn more"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full name",
+    "phone": "Phone",
+    "company": "Company",
+    "country": "Country",
+    "required": "Required",
+    "optional": "Optional"
+  },
+  "states": {
+    "loading": "Loading...",
+    "empty": "Nothing here yet",
+    "error": "Something went wrong"
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "zh-CN": "简体中文",
+    "es": "Español",
+    "ar": "العربية"
+  }
+}

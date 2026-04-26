@@ -1,0 +1,30 @@
+{
+  "title": "后台管理",
+  "nav": {
+    "dashboard": "概览",
+    "products": "商品",
+    "orders": "订单",
+    "customers": "客户",
+    "suppliers": "供应商",
+    "production": "生产",
+    "rfqs": "询价",
+    "quotes": "报价",
+    "designs": "设计审核",
+    "finance": "财务",
+    "settings": "系统设置"
+  },
+  "dashboard": {
+    "heading": "运营总览",
+    "subtitle": "今日运营快照。",
+    "kpi": {
+      "ordersToday": "今日订单",
+      "revenueToday": "今日营收",
+      "openRfqs": "待处理询价",
+      "productionJobsInFlight": "生产中任务"
+    }
+  },
+  "auth": {
+    "signInHeading": "登录后台",
+    "signInCta": "登录"
+  }
+}

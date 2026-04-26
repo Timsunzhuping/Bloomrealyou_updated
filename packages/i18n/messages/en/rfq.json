@@ -1,0 +1,26 @@
+{
+  "title": "Request a quote",
+  "subtitle": "Tell us about your project and our sales team will get back within one business day.",
+  "form": {
+    "company": "Company",
+    "contactName": "Contact name",
+    "contactEmail": "Email",
+    "contactPhone": "Phone",
+    "items": "Items",
+    "addItem": "Add item",
+    "removeItem": "Remove",
+    "description": "Description",
+    "quantity": "Quantity",
+    "preferredPrintMethod": "Preferred print method",
+    "targetUnitPrice": "Target unit price",
+    "requiredBy": "Required by",
+    "notes": "Additional notes",
+    "attachments": "Attachments",
+    "submit": "Submit request"
+  },
+  "submitted": {
+    "title": "Request received",
+    "body": "We've assigned a sales lead. You'll receive a confirmation email shortly.",
+    "rfqNumber": "RFQ number: {number}"
+  }
+}

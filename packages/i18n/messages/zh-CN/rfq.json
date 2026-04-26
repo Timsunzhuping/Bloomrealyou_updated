@@ -1,0 +1,26 @@
+{
+  "title": "提交询价",
+  "subtitle": "告诉我们您的项目需求，销售团队会在 1 个工作日内回复。",
+  "form": {
+    "company": "公司",
+    "contactName": "联系人",
+    "contactEmail": "邮箱",
+    "contactPhone": "电话",
+    "items": "需求条目",
+    "addItem": "新增条目",
+    "removeItem": "移除",
+    "description": "描述",
+    "quantity": "数量",
+    "preferredPrintMethod": "首选印刷工艺",
+    "targetUnitPrice": "期望单价",
+    "requiredBy": "期望交期",
+    "notes": "补充说明",
+    "attachments": "附件",
+    "submit": "提交询价"
+  },
+  "submitted": {
+    "title": "已收到您的询价",
+    "body": "我们已分配销售跟进，确认邮件即将送达您的邮箱。",
+    "rfqNumber": "询价编号：{number}"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Designer",
+  "tools": {
+    "addText": "Add text",
+    "addImage": "Add image",
+    "addShape": "Add shape",
+    "undo": "Undo",
+    "redo": "Redo",
+    "saveDesign": "Save design",
+    "preview": "Preview"
+  },
+  "panels": {
+    "layers": "Layers",
+    "properties": "Properties",
+    "printAreas": "Print areas",
+    "ai": "AI assistant"
+  },
+  "printAreas": {
+    "front": "Front",
+    "back": "Back",
+    "left_sleeve": "Left sleeve",
+    "right_sleeve": "Right sleeve",
+    "wrap": "Wrap-around",
+    "face": "Face",
+    "cuff": "Cuff"
+  },
+  "layer": {
+    "delete": "Delete layer",
+    "duplicate": "Duplicate layer",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "moveUp": "Bring forward",
+    "moveDown": "Send backward"
+  },
+  "ai": {
+    "generateSlogan": "Generate slogan",
+    "improveDesign": "Improve design",
+    "tryGiftBundle": "Suggest gift bundle"
+  }
+}

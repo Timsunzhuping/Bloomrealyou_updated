@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "title": "定制周边，轻松搞定",
+    "subtitle": "在 AI 协作工作室中完成设计、报价与履约，适配任意规模订单。",
+    "ctaPrimary": "浏览商品",
+    "ctaSecondary": "试用在线定制"
+  },
+  "categories": {
+    "heading": "按品类选购",
+    "subtitle": "从日常 T 恤到企业礼品组合，一站搞定。"
+  },
+  "features": {
+    "heading": "团队为何选择我们",
+    "ai": {
+      "title": "AI 设计助手",
+      "body": "几秒生成 slogan、版面与品牌一致的图形。"
+    },
+    "pricing": {
+      "title": "智能阶梯报价",
+      "body": "数量阶梯、加急费与运费自动计算。"
+    },
+    "fulfilment": {
+      "title": "全球履约",
+      "body": "美欧亚 POD 合作伙伴，缩短交付周期。"
+    }
+  }
+}

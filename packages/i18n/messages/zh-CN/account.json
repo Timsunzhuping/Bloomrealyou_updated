@@ -1,0 +1,25 @@
+{
+  "title": "我的账户",
+  "tabs": {
+    "overview": "总览",
+    "orders": "订单",
+    "designs": "我的设计",
+    "addresses": "地址簿",
+    "settings": "账户设置"
+  },
+  "orders": {
+    "empty": "您还没有订单。",
+    "viewDetails": "查看详情"
+  },
+  "designs": {
+    "empty": "您还没有保存任何设计。",
+    "edit": "继续编辑",
+    "duplicate": "复制设计"
+  },
+  "settings": {
+    "language": "语言",
+    "currency": "货币",
+    "notifications": "通知偏好",
+    "deleteAccount": "注销账户"
+  }
+}

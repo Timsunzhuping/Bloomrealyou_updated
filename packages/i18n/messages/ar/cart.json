@@ -1,0 +1,23 @@
+{
+  "title": "السلة",
+  "empty": {
+    "title": "سلتك فارغة",
+    "body": "أضف منتجات من الكتالوج أو احفظ تصميماً للبدء.",
+    "cta": "تصفح المنتجات"
+  },
+  "summary": {
+    "subtotal": "المجموع الفرعي",
+    "shipping": "الشحن",
+    "tax": "الضرائب",
+    "total": "الإجمالي",
+    "promoCode": "رمز الخصم",
+    "applyPromoCode": "تطبيق"
+  },
+  "item": {
+    "quantity": "الكمية",
+    "remove": "إزالة",
+    "designLabel": "تصميم مخصص",
+    "variantLabel": "الخيار"
+  },
+  "checkoutCta": "متابعة الدفع"
+}

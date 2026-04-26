@@ -1,0 +1,26 @@
+{
+  "title": "Solicitar presupuesto",
+  "subtitle": "Cuéntanos sobre tu proyecto y nuestro equipo de ventas responderá en un día laborable.",
+  "form": {
+    "company": "Empresa",
+    "contactName": "Nombre de contacto",
+    "contactEmail": "Correo electrónico",
+    "contactPhone": "Teléfono",
+    "items": "Líneas",
+    "addItem": "Añadir línea",
+    "removeItem": "Quitar",
+    "description": "Descripción",
+    "quantity": "Cantidad",
+    "preferredPrintMethod": "Método de impresión preferido",
+    "targetUnitPrice": "Precio unitario objetivo",
+    "requiredBy": "Fecha requerida",
+    "notes": "Notas adicionales",
+    "attachments": "Adjuntos",
+    "submit": "Enviar solicitud"
+  },
+  "submitted": {
+    "title": "Solicitud recibida",
+    "body": "Hemos asignado un comercial. Recibirás un correo de confirmación en breve.",
+    "rfqNumber": "Número de RFQ: {number}"
+  }
+}

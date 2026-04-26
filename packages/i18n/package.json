@@ -12,11 +12,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./locales/*": "./locales/*"
+    "./messages/*": "./messages/*"
   },
   "files": [
     "dist",
-    "locales"
+    "messages"
   ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",

@@ -1,0 +1,40 @@
+{
+  "title": "在线定制",
+  "tools": {
+    "addText": "添加文字",
+    "addImage": "上传图片",
+    "addShape": "添加形状",
+    "undo": "撤销",
+    "redo": "重做",
+    "saveDesign": "保存设计",
+    "preview": "预览"
+  },
+  "panels": {
+    "layers": "图层",
+    "properties": "属性",
+    "printAreas": "印刷区域",
+    "ai": "AI 助手"
+  },
+  "printAreas": {
+    "front": "正面",
+    "back": "背面",
+    "left_sleeve": "左袖",
+    "right_sleeve": "右袖",
+    "wrap": "环绕",
+    "face": "正面",
+    "cuff": "帽口"
+  },
+  "layer": {
+    "delete": "删除图层",
+    "duplicate": "复制图层",
+    "lock": "锁定",
+    "unlock": "解锁",
+    "moveUp": "上移一层",
+    "moveDown": "下移一层"
+  },
+  "ai": {
+    "generateSlogan": "生成 Slogan",
+    "improveDesign": "优化设计",
+    "tryGiftBundle": "推荐礼品组合"
+  }
+}

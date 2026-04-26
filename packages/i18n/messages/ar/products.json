@@ -1,0 +1,26 @@
+{
+  "list": {
+    "title": "المنتجات",
+    "subtitle": "تصفّح كتالوجنا القابل للتخصيص.",
+    "empty": "لا توجد منتجات تطابق هذه الفلاتر.",
+    "sortBy": "ترتيب حسب",
+    "filterBy": "تصفية حسب"
+  },
+  "detail": {
+    "selectColor": "اختر اللون",
+    "selectSize": "اختر المقاس",
+    "selectQuantity": "اختر الكمية",
+    "addToCart": "أضف إلى السلة",
+    "customize": "تخصيص",
+    "productionLeadDays": "مدة التنفيذ: {days} يوم عمل",
+    "fromPrice": "ابتداءً من {price}"
+  },
+  "categories": {
+    "t-shirts": "تيشيرتات",
+    "hoodies": "هوديز",
+    "mugs": "أكواب",
+    "hats": "قبعات",
+    "tote-bags": "حقائب قماش",
+    "stickers": "ملصقات"
+  }
+}

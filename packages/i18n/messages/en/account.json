@@ -1,0 +1,25 @@
+{
+  "title": "Your account",
+  "tabs": {
+    "overview": "Overview",
+    "orders": "Orders",
+    "designs": "Designs",
+    "addresses": "Addresses",
+    "settings": "Settings"
+  },
+  "orders": {
+    "empty": "You haven't placed any orders yet.",
+    "viewDetails": "View details"
+  },
+  "designs": {
+    "empty": "You haven't saved any designs yet.",
+    "edit": "Edit design",
+    "duplicate": "Duplicate"
+  },
+  "settings": {
+    "language": "Language",
+    "currency": "Currency",
+    "notifications": "Notifications",
+    "deleteAccount": "Delete account"
+  }
+}

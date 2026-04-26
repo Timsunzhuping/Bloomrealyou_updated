@@ -1,0 +1,30 @@
+{
+  "title": "وحدة الإدارة",
+  "nav": {
+    "dashboard": "اللوحة",
+    "products": "المنتجات",
+    "orders": "الطلبات",
+    "customers": "العملاء",
+    "suppliers": "الموردون",
+    "production": "الإنتاج",
+    "rfqs": "طلبات عروض الأسعار",
+    "quotes": "العروض",
+    "designs": "التصاميم",
+    "finance": "المالية",
+    "settings": "الإعدادات"
+  },
+  "dashboard": {
+    "heading": "نظرة عامة",
+    "subtitle": "صورة سريعة لعمليات اليوم.",
+    "kpi": {
+      "ordersToday": "طلبات اليوم",
+      "revenueToday": "إيرادات اليوم",
+      "openRfqs": "طلبات أسعار مفتوحة",
+      "productionJobsInFlight": "مهام قيد الإنتاج"
+    }
+  },
+  "auth": {
+    "signInHeading": "تسجيل الدخول إلى وحدة الإدارة",
+    "signInCta": "تسجيل الدخول"
+  }
+}

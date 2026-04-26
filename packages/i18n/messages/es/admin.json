@@ -1,0 +1,30 @@
+{
+  "title": "Consola de administración",
+  "nav": {
+    "dashboard": "Panel",
+    "products": "Productos",
+    "orders": "Pedidos",
+    "customers": "Clientes",
+    "suppliers": "Proveedores",
+    "production": "Producción",
+    "rfqs": "RFQs",
+    "quotes": "Presupuestos",
+    "designs": "Diseños",
+    "finance": "Finanzas",
+    "settings": "Ajustes"
+  },
+  "dashboard": {
+    "heading": "Resumen",
+    "subtitle": "Vista operativa de hoy.",
+    "kpi": {
+      "ordersToday": "Pedidos hoy",
+      "revenueToday": "Ingresos hoy",
+      "openRfqs": "RFQs abiertas",
+      "productionJobsInFlight": "Trabajos en producción"
+    }
+  },
+  "auth": {
+    "signInHeading": "Inicia sesión en el back-office",
+    "signInCta": "Iniciar sesión"
+  }
+}

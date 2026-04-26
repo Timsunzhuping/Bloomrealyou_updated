@@ -1,0 +1,54 @@
+{
+  "app": {
+    "name": "定制商品平台",
+    "tagline": "AI 驱动的全球定制化商品与企业礼品平台"
+  },
+  "nav": {
+    "home": "首页",
+    "products": "商品",
+    "designer": "在线定制",
+    "business": "企业采购",
+    "account": "我的账户",
+    "cart": "购物车",
+    "signIn": "登录",
+    "signUp": "注册",
+    "signOut": "退出登录"
+  },
+  "actions": {
+    "save": "保存",
+    "cancel": "取消",
+    "continue": "继续",
+    "back": "返回",
+    "retry": "重试",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "search": "搜索",
+    "filter": "筛选",
+    "submit": "提交",
+    "confirm": "确认",
+    "learnMore": "了解更多"
+  },
+  "form": {
+    "email": "邮箱",
+    "password": "密码",
+    "fullName": "姓名",
+    "phone": "电话",
+    "company": "公司",
+    "country": "国家 / 地区",
+    "required": "必填",
+    "optional": "可选"
+  },
+  "states": {
+    "loading": "加载中...",
+    "empty": "暂无内容",
+    "error": "出错了"
+  },
+  "languageSwitcher": {
+    "label": "语言",
+    "en": "English",
+    "zh-CN": "简体中文",
+    "es": "Español",
+    "ar": "العربية"
+  }
+}

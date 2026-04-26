@@ -1,0 +1,34 @@
+{
+  "title": "Checkout",
+  "steps": {
+    "shipping": "Shipping",
+    "payment": "Payment",
+    "review": "Review"
+  },
+  "shipping": {
+    "heading": "Where should we ship?",
+    "name": "Full name",
+    "addressLine1": "Address line 1",
+    "addressLine2": "Address line 2",
+    "city": "City",
+    "state": "State",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "saveDefault": "Save as default address"
+  },
+  "payment": {
+    "heading": "Payment method",
+    "card": "Credit / debit card",
+    "paypal": "PayPal",
+    "invoice": "Manual invoice"
+  },
+  "review": {
+    "heading": "Review and place order",
+    "placeOrder": "Place order"
+  },
+  "thanks": {
+    "title": "Thank you for your order",
+    "body": "We've sent a confirmation to {email}.",
+    "trackOrder": "Track order"
+  }
+}

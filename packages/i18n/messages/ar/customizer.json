@@ -1,0 +1,40 @@
+{
+  "title": "المصمم",
+  "tools": {
+    "addText": "إضافة نص",
+    "addImage": "إضافة صورة",
+    "addShape": "إضافة شكل",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "saveDesign": "حفظ التصميم",
+    "preview": "معاينة"
+  },
+  "panels": {
+    "layers": "الطبقات",
+    "properties": "الخصائص",
+    "printAreas": "مناطق الطباعة",
+    "ai": "مساعد الذكاء الاصطناعي"
+  },
+  "printAreas": {
+    "front": "الأمام",
+    "back": "الخلف",
+    "left_sleeve": "الكم الأيسر",
+    "right_sleeve": "الكم الأيمن",
+    "wrap": "الغلاف",
+    "face": "الواجهة",
+    "cuff": "الحافة"
+  },
+  "layer": {
+    "delete": "حذف الطبقة",
+    "duplicate": "تكرار الطبقة",
+    "lock": "قفل",
+    "unlock": "فتح القفل",
+    "moveUp": "إحضار للأمام",
+    "moveDown": "إرسال للخلف"
+  },
+  "ai": {
+    "generateSlogan": "اقترح شعاراً",
+    "improveDesign": "تحسين التصميم",
+    "tryGiftBundle": "اقترح حزمة هدايا"
+  }
+}

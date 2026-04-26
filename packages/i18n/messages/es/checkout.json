@@ -1,0 +1,34 @@
+{
+  "title": "Pago",
+  "steps": {
+    "shipping": "Envío",
+    "payment": "Pago",
+    "review": "Revisar"
+  },
+  "shipping": {
+    "heading": "¿A dónde lo enviamos?",
+    "name": "Nombre completo",
+    "addressLine1": "Dirección 1",
+    "addressLine2": "Dirección 2",
+    "city": "Ciudad",
+    "state": "Provincia",
+    "postalCode": "Código postal",
+    "country": "País",
+    "saveDefault": "Guardar como dirección predeterminada"
+  },
+  "payment": {
+    "heading": "Método de pago",
+    "card": "Tarjeta de crédito / débito",
+    "paypal": "PayPal",
+    "invoice": "Factura manual"
+  },
+  "review": {
+    "heading": "Revisar y realizar pedido",
+    "placeOrder": "Realizar pedido"
+  },
+  "thanks": {
+    "title": "Gracias por tu pedido",
+    "body": "Hemos enviado una confirmación a {email}.",
+    "trackOrder": "Seguir pedido"
+  }
+}

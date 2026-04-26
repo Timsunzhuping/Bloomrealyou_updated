@@ -1,0 +1,40 @@
+{
+  "title": "Diseñador",
+  "tools": {
+    "addText": "Añadir texto",
+    "addImage": "Añadir imagen",
+    "addShape": "Añadir forma",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "saveDesign": "Guardar diseño",
+    "preview": "Vista previa"
+  },
+  "panels": {
+    "layers": "Capas",
+    "properties": "Propiedades",
+    "printAreas": "Áreas de impresión",
+    "ai": "Asistente IA"
+  },
+  "printAreas": {
+    "front": "Frente",
+    "back": "Atrás",
+    "left_sleeve": "Manga izquierda",
+    "right_sleeve": "Manga derecha",
+    "wrap": "Envolvente",
+    "face": "Cara",
+    "cuff": "Vuelta"
+  },
+  "layer": {
+    "delete": "Eliminar capa",
+    "duplicate": "Duplicar capa",
+    "lock": "Bloquear",
+    "unlock": "Desbloquear",
+    "moveUp": "Traer al frente",
+    "moveDown": "Enviar atrás"
+  },
+  "ai": {
+    "generateSlogan": "Generar eslogan",
+    "improveDesign": "Mejorar diseño",
+    "tryGiftBundle": "Sugerir pack de regalo"
+  }
+}

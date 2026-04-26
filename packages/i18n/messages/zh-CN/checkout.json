@@ -1,0 +1,34 @@
+{
+  "title": "结账",
+  "steps": {
+    "shipping": "收货地址",
+    "payment": "支付方式",
+    "review": "确认订单"
+  },
+  "shipping": {
+    "heading": "请填写收货地址",
+    "name": "姓名",
+    "addressLine1": "地址行 1",
+    "addressLine2": "地址行 2",
+    "city": "城市",
+    "state": "省 / 州",
+    "postalCode": "邮编",
+    "country": "国家 / 地区",
+    "saveDefault": "保存为默认地址"
+  },
+  "payment": {
+    "heading": "选择支付方式",
+    "card": "信用卡 / 借记卡",
+    "paypal": "PayPal",
+    "invoice": "线下对公转账"
+  },
+  "review": {
+    "heading": "确认并提交订单",
+    "placeOrder": "提交订单"
+  },
+  "thanks": {
+    "title": "感谢您的下单",
+    "body": "确认邮件已发送至 {email}。",
+    "trackOrder": "查看订单"
+  }
+}

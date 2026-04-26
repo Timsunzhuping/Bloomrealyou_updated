@@ -1,0 +1,34 @@
+{
+  "title": "الدفع",
+  "steps": {
+    "shipping": "الشحن",
+    "payment": "الدفع",
+    "review": "المراجعة"
+  },
+  "shipping": {
+    "heading": "إلى أين نشحن؟",
+    "name": "الاسم الكامل",
+    "addressLine1": "العنوان السطر 1",
+    "addressLine2": "العنوان السطر 2",
+    "city": "المدينة",
+    "state": "المنطقة",
+    "postalCode": "الرمز البريدي",
+    "country": "الدولة",
+    "saveDefault": "احفظه كعنوان افتراضي"
+  },
+  "payment": {
+    "heading": "طريقة الدفع",
+    "card": "بطاقة ائتمان / خصم",
+    "paypal": "PayPal",
+    "invoice": "فاتورة يدوية"
+  },
+  "review": {
+    "heading": "راجع وقدّم الطلب",
+    "placeOrder": "تقديم الطلب"
+  },
+  "thanks": {
+    "title": "شكراً على طلبك",
+    "body": "أرسلنا تأكيداً إلى {email}.",
+    "trackOrder": "تتبع الطلب"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "generic": "Algo salió mal. Inténtalo de nuevo.",
+  "network": "Error de red. Comprueba tu conexión.",
+  "unauthorized": "No tienes permisos para hacer esto.",
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "La página que buscas no existe.",
+    "backHome": "Ir al inicio"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "emailInvalid": "Introduce un correo válido",
+    "minLength": "Debe tener al menos {min} caracteres",
+    "maxLength": "Debe tener como máximo {max} caracteres"
+  }
+}

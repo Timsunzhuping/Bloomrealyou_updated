@@ -1,0 +1,26 @@
+{
+  "list": {
+    "title": "Productos",
+    "subtitle": "Explora nuestro catálogo personalizable.",
+    "empty": "No hay productos para estos filtros.",
+    "sortBy": "Ordenar por",
+    "filterBy": "Filtrar por"
+  },
+  "detail": {
+    "selectColor": "Selecciona color",
+    "selectSize": "Selecciona talla",
+    "selectQuantity": "Selecciona cantidad",
+    "addToCart": "Añadir al carrito",
+    "customize": "Personalizar",
+    "productionLeadDays": "Plazo de producción: {days} días laborables",
+    "fromPrice": "Desde {price}"
+  },
+  "categories": {
+    "t-shirts": "Camisetas",
+    "hoodies": "Sudaderas con capucha",
+    "mugs": "Tazas",
+    "hats": "Gorras",
+    "tote-bags": "Bolsas de tela",
+    "stickers": "Pegatinas"
+  }
+}

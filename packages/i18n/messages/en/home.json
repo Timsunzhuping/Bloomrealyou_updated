@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "title": "Custom merchandise, made effortless",
+    "subtitle": "Design, price, and fulfil custom products at any scale with our AI-assisted studio.",
+    "ctaPrimary": "Browse products",
+    "ctaSecondary": "Try the designer"
+  },
+  "categories": {
+    "heading": "Shop by category",
+    "subtitle": "From everyday tees to corporate gift bundles."
+  },
+  "features": {
+    "heading": "Why teams choose us",
+    "ai": {
+      "title": "AI design assistant",
+      "body": "Generate slogans, layouts, and on-brand artwork in seconds."
+    },
+    "pricing": {
+      "title": "Smart volume pricing",
+      "body": "Quantity tiers, rush fees, and shipping calculated automatically."
+    },
+    "fulfilment": {
+      "title": "Global fulfilment",
+      "body": "POD partners across the US, EU, and Asia keep lead times short."
+    }
+  }
+}

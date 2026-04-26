@@ -1,0 +1,30 @@
+{
+  "title": "Admin Console",
+  "nav": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "orders": "Orders",
+    "customers": "Customers",
+    "suppliers": "Suppliers",
+    "production": "Production",
+    "rfqs": "RFQs",
+    "quotes": "Quotes",
+    "designs": "Designs",
+    "finance": "Finance",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "heading": "Overview",
+    "subtitle": "Operational snapshot for today.",
+    "kpi": {
+      "ordersToday": "Orders today",
+      "revenueToday": "Revenue today",
+      "openRfqs": "Open RFQs",
+      "productionJobsInFlight": "Jobs in production"
+    }
+  },
+  "auth": {
+    "signInHeading": "Sign in to the back office",
+    "signInCta": "Sign in"
+  }
+}

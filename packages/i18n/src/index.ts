@@ -1,22 +1,32 @@
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES, isRtlLocale, type Locale } from '@custom-merch/shared';
+/**
+ * Public API of `@custom-merch/i18n`.
+ *
+ * Apps consume this barrel for both server-side rendering helpers
+ * (`getMessages`, `getNamespaceMessages`) and client-side helpers
+ * (`getLocalizedPath`, `formatCurrency`, …).
+ */
+import type { Locale } from '@custom-merch/shared';
 
-import ar from '../locales/ar/common.json' with { type: 'json' };
-import en from '../locales/en/common.json' with { type: 'json' };
-import es from '../locales/es/common.json' with { type: 'json' };
-import zhCN from '../locales/zh-CN/common.json' with { type: 'json' };
+import { getNamespaceMessages, type Messages } from './messages';
 
-export type CommonMessages = typeof en;
+export * from './messages';
+export * from './paths';
+export * from './format';
 
-const MESSAGES: Record<Locale, CommonMessages> = {
-  en,
-  'zh-CN': zhCN,
-  es,
-  ar,
-};
+export {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES,
+  RTL_LOCALES,
+  isRtlLocale,
+  isSupportedLocale,
+  coerceLocale,
+} from '@custom-merch/shared';
+export type { Locale } from '@custom-merch/shared';
 
-export function getCommonMessages(locale: Locale): CommonMessages {
-  return MESSAGES[locale] ?? MESSAGES[DEFAULT_LOCALE];
+/**
+ * Backwards-compatible helper used by older callers (apps/web, apps/admin)
+ * before they were migrated to next-intl.
+ */
+export function getCommonMessages(locale: Locale): Messages['common'] {
+  return getNamespaceMessages(locale, 'common');
 }
-
-export { DEFAULT_LOCALE, SUPPORTED_LOCALES, isRtlLocale };
-export type { Locale };

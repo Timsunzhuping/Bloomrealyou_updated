@@ -1,0 +1,23 @@
+{
+  "title": "购物车",
+  "empty": {
+    "title": "购物车还是空的",
+    "body": "从商品目录添加商品，或保存一个设计开始吧。",
+    "cta": "去看看商品"
+  },
+  "summary": {
+    "subtotal": "小计",
+    "shipping": "运费",
+    "tax": "税费",
+    "total": "合计",
+    "promoCode": "优惠码",
+    "applyPromoCode": "应用"
+  },
+  "item": {
+    "quantity": "数量",
+    "remove": "移除",
+    "designLabel": "定制设计",
+    "variantLabel": "规格"
+  },
+  "checkoutCta": "前往结账"
+}

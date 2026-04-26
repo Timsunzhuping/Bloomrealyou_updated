@@ -1,0 +1,23 @@
+{
+  "title": "Cart",
+  "empty": {
+    "title": "Your cart is empty",
+    "body": "Add products from the catalog or save a design to get started.",
+    "cta": "Browse products"
+  },
+  "summary": {
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "tax": "Tax",
+    "total": "Total",
+    "promoCode": "Promo code",
+    "applyPromoCode": "Apply"
+  },
+  "item": {
+    "quantity": "Quantity",
+    "remove": "Remove",
+    "designLabel": "Custom design",
+    "variantLabel": "Variant"
+  },
+  "checkoutCta": "Proceed to checkout"
+}

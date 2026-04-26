@@ -1,0 +1,26 @@
+{
+  "list": {
+    "title": "全部商品",
+    "subtitle": "浏览可定制的商品目录。",
+    "empty": "没有符合筛选条件的商品。",
+    "sortBy": "排序方式",
+    "filterBy": "筛选"
+  },
+  "detail": {
+    "selectColor": "选择颜色",
+    "selectSize": "选择规格",
+    "selectQuantity": "选择数量",
+    "addToCart": "加入购物车",
+    "customize": "立即定制",
+    "productionLeadDays": "生产周期：{days} 个工作日",
+    "fromPrice": "起价 {price}"
+  },
+  "categories": {
+    "t-shirts": "T 恤",
+    "hoodies": "卫衣",
+    "mugs": "马克杯",
+    "hats": "帽子",
+    "tote-bags": "托特包",
+    "stickers": "贴纸"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "title": "Merchandising personalizado, fácil de gestionar",
+    "subtitle": "Diseña, cotiza y entrega productos personalizados a cualquier escala con nuestro estudio asistido por IA.",
+    "ctaPrimary": "Ver productos",
+    "ctaSecondary": "Probar el diseñador"
+  },
+  "categories": {
+    "heading": "Comprar por categoría",
+    "subtitle": "Desde camisetas diarias hasta packs de regalo corporativo."
+  },
+  "features": {
+    "heading": "Por qué los equipos nos eligen",
+    "ai": {
+      "title": "Asistente de diseño con IA",
+      "body": "Genera lemas, layouts y arte alineado con tu marca en segundos."
+    },
+    "pricing": {
+      "title": "Precios por volumen inteligentes",
+      "body": "Tramos por cantidad, recargos urgentes y envío calculados automáticamente."
+    },
+    "fulfilment": {
+      "title": "Logística global",
+      "body": "Socios POD en EE. UU., UE y Asia para mantener los plazos cortos."
+    }
+  }
+}
