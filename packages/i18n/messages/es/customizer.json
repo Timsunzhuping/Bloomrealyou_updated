@@ -1,9 +1,21 @@
 {
   "title": "Diseñador",
+  "metaTitleTemplate": "Personalizar {name}",
+  "topBar": {
+    "back": "Volver al producto",
+    "saveDraft": "Guardar diseño",
+    "preview": "Vista previa",
+    "addToCart": "Añadir al carrito",
+    "draftSaved": "Diseño guardado localmente",
+    "exportJson": "Exportar JSON"
+  },
   "tools": {
     "addText": "Añadir texto",
-    "addImage": "Añadir imagen",
+    "addImage": "Subir imagen",
     "addShape": "Añadir forma",
+    "templates": "Plantillas",
+    "ai": "Diseño con IA",
+    "layers": "Capas",
     "undo": "Deshacer",
     "redo": "Rehacer",
     "saveDesign": "Guardar diseño",
@@ -12,8 +24,11 @@
   "panels": {
     "layers": "Capas",
     "properties": "Propiedades",
-    "printAreas": "Áreas de impresión",
-    "ai": "Asistente IA"
+    "printAreas": "Área de impresión",
+    "ai": "Asistente IA",
+    "selectObjectHint": "Selecciona un objeto para editar sus propiedades.",
+    "templatesPlaceholder": "Las plantillas llegan pronto.",
+    "aiPlaceholder": "El asistente IA llega en una próxima actualización."
   },
   "printAreas": {
     "front": "Frente",
@@ -30,11 +45,61 @@
     "lock": "Bloquear",
     "unlock": "Desbloquear",
     "moveUp": "Traer al frente",
-    "moveDown": "Enviar atrás"
+    "moveDown": "Enviar atrás",
+    "show": "Mostrar",
+    "hide": "Ocultar",
+    "empty": "No hay capas — añade texto o sube una imagen.",
+    "textLabel": "Texto",
+    "imageLabel": "Imagen"
+  },
+  "properties": {
+    "text": {
+      "content": "Contenido del texto",
+      "fontFamily": "Fuente",
+      "fontSize": "Tamaño",
+      "fontWeight": "Peso",
+      "color": "Color",
+      "textAlign": "Alineación",
+      "alignLeft": "Izquierda",
+      "alignCenter": "Centro",
+      "alignRight": "Derecha"
+    },
+    "image": {
+      "filename": "Archivo",
+      "width": "Ancho",
+      "height": "Alto"
+    },
+    "shared": {
+      "position": "Posición",
+      "x": "X",
+      "y": "Y",
+      "rotation": "Rotación",
+      "opacity": "Opacidad",
+      "lock": "Bloquear objeto",
+      "delete": "Eliminar objeto",
+      "bringForward": "Traer al frente",
+      "sendBackward": "Enviar atrás"
+    }
   },
   "ai": {
     "generateSlogan": "Generar eslogan",
     "improveDesign": "Mejorar diseño",
     "tryGiftBundle": "Sugerir pack de regalo"
+  },
+  "warnings": {
+    "outsideSafeArea": "La capa sale del área segura — puede recortarse en producción.",
+    "lowResolution": "La resolución es inferior a 300 DPI — la calidad puede bajar.",
+    "fileTooLarge": "Archivo demasiado grande. Máximo 25 MB por imagen."
+  },
+  "bottomBar": {
+    "quantity": "Cantidad",
+    "estimatedDelivery": "Entrega estimada",
+    "deliveryWindow": "{days} días laborables",
+    "addToCart": "Añadir al carrito",
+    "currentPrice": "Total estimado"
+  },
+  "upload": {
+    "accepted": "Acepta PNG, JPG, SVG hasta 25 MB",
+    "newText": "Tu texto"
   }
 }

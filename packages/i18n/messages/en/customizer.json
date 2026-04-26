@@ -1,9 +1,21 @@
 {
   "title": "Designer",
+  "metaTitleTemplate": "Customize {name}",
+  "topBar": {
+    "back": "Back to product",
+    "saveDraft": "Save design",
+    "preview": "Preview",
+    "addToCart": "Add to cart",
+    "draftSaved": "Design saved locally",
+    "exportJson": "Export JSON"
+  },
   "tools": {
     "addText": "Add text",
-    "addImage": "Add image",
+    "addImage": "Upload image",
     "addShape": "Add shape",
+    "templates": "Templates",
+    "ai": "AI design",
+    "layers": "Layers",
     "undo": "Undo",
     "redo": "Redo",
     "saveDesign": "Save design",
@@ -12,8 +24,11 @@
   "panels": {
     "layers": "Layers",
     "properties": "Properties",
-    "printAreas": "Print areas",
-    "ai": "AI assistant"
+    "printAreas": "Print area",
+    "ai": "AI assistant",
+    "selectObjectHint": "Select an object to edit its properties.",
+    "templatesPlaceholder": "Templates coming soon.",
+    "aiPlaceholder": "AI design assistant launches in a future update."
   },
   "printAreas": {
     "front": "Front",
@@ -30,11 +45,61 @@
     "lock": "Lock",
     "unlock": "Unlock",
     "moveUp": "Bring forward",
-    "moveDown": "Send backward"
+    "moveDown": "Send backward",
+    "show": "Show",
+    "hide": "Hide",
+    "empty": "No layers yet — add text or upload an image to start.",
+    "textLabel": "Text",
+    "imageLabel": "Image"
+  },
+  "properties": {
+    "text": {
+      "content": "Text content",
+      "fontFamily": "Font",
+      "fontSize": "Size",
+      "fontWeight": "Weight",
+      "color": "Color",
+      "textAlign": "Alignment",
+      "alignLeft": "Left",
+      "alignCenter": "Center",
+      "alignRight": "Right"
+    },
+    "image": {
+      "filename": "Filename",
+      "width": "Width",
+      "height": "Height"
+    },
+    "shared": {
+      "position": "Position",
+      "x": "X",
+      "y": "Y",
+      "rotation": "Rotation",
+      "opacity": "Opacity",
+      "lock": "Lock object",
+      "delete": "Delete object",
+      "bringForward": "Bring forward",
+      "sendBackward": "Send backward"
+    }
   },
   "ai": {
     "generateSlogan": "Generate slogan",
     "improveDesign": "Improve design",
     "tryGiftBundle": "Suggest gift bundle"
+  },
+  "warnings": {
+    "outsideSafeArea": "Layer extends past the safe area — it may be trimmed in production.",
+    "lowResolution": "Image resolution is below 300 DPI — print quality may be reduced.",
+    "fileTooLarge": "File too large. Maximum 25 MB per image."
+  },
+  "bottomBar": {
+    "quantity": "Quantity",
+    "estimatedDelivery": "Estimated delivery",
+    "deliveryWindow": "{days} business days",
+    "addToCart": "Add to cart",
+    "currentPrice": "Estimated total"
+  },
+  "upload": {
+    "accepted": "Accepted: PNG, JPG, SVG up to 25 MB",
+    "newText": "Your text"
   }
 }

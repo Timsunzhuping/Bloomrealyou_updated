@@ -1,9 +1,21 @@
 {
   "title": "在线定制",
+  "metaTitleTemplate": "定制 {name}",
+  "topBar": {
+    "back": "返回商品",
+    "saveDraft": "保存设计",
+    "preview": "预览",
+    "addToCart": "加入购物车",
+    "draftSaved": "设计已保存到本地",
+    "exportJson": "导出 JSON"
+  },
   "tools": {
     "addText": "添加文字",
     "addImage": "上传图片",
     "addShape": "添加形状",
+    "templates": "模板",
+    "ai": "AI 设计",
+    "layers": "图层",
     "undo": "撤销",
     "redo": "重做",
     "saveDesign": "保存设计",
@@ -13,7 +25,10 @@
     "layers": "图层",
     "properties": "属性",
     "printAreas": "印刷区域",
-    "ai": "AI 助手"
+    "ai": "AI 助手",
+    "selectObjectHint": "选中一个对象后即可编辑属性。",
+    "templatesPlaceholder": "模板功能即将上线。",
+    "aiPlaceholder": "AI 设计助手稍后版本上线。"
   },
   "printAreas": {
     "front": "正面",
@@ -30,11 +45,61 @@
     "lock": "锁定",
     "unlock": "解锁",
     "moveUp": "上移一层",
-    "moveDown": "下移一层"
+    "moveDown": "下移一层",
+    "show": "显示",
+    "hide": "隐藏",
+    "empty": "还没有图层 — 添加文字或上传图片开始设计。",
+    "textLabel": "文字",
+    "imageLabel": "图片"
+  },
+  "properties": {
+    "text": {
+      "content": "文字内容",
+      "fontFamily": "字体",
+      "fontSize": "字号",
+      "fontWeight": "字重",
+      "color": "颜色",
+      "textAlign": "对齐",
+      "alignLeft": "左对齐",
+      "alignCenter": "居中",
+      "alignRight": "右对齐"
+    },
+    "image": {
+      "filename": "文件名",
+      "width": "宽度",
+      "height": "高度"
+    },
+    "shared": {
+      "position": "位置",
+      "x": "X",
+      "y": "Y",
+      "rotation": "旋转",
+      "opacity": "透明度",
+      "lock": "锁定对象",
+      "delete": "删除对象",
+      "bringForward": "上移一层",
+      "sendBackward": "下移一层"
+    }
   },
   "ai": {
     "generateSlogan": "生成 Slogan",
     "improveDesign": "优化设计",
     "tryGiftBundle": "推荐礼品组合"
+  },
+  "warnings": {
+    "outsideSafeArea": "图层超出安全区，生产时可能被裁切。",
+    "lowResolution": "图片分辨率低于 300 DPI，印刷效果可能降低。",
+    "fileTooLarge": "文件过大，单文件最多 25 MB。"
+  },
+  "bottomBar": {
+    "quantity": "数量",
+    "estimatedDelivery": "预计送达",
+    "deliveryWindow": "{days} 个工作日",
+    "addToCart": "加入购物车",
+    "currentPrice": "预估金额"
+  },
+  "upload": {
+    "accepted": "支持 PNG、JPG、SVG，单文件不超过 25 MB",
+    "newText": "你的文字"
   }
 }

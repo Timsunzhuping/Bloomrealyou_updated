@@ -17,11 +17,15 @@
     "@custom-merch/sdk": "workspace:*",
     "@custom-merch/shared": "workspace:*",
     "@custom-merch/ui": "workspace:*",
+    "konva": "^9.3.18",
     "lucide-react": "^0.460.0",
     "next": "^14.2.18",
     "next-intl": "^3.26.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-konva": "^18.2.10",
+    "use-image": "^1.1.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@custom-merch/config": "workspace:*",
