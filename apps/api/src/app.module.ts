@@ -6,7 +6,10 @@ import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AdminDesignReviewsModule } from './admin-design-reviews/admin-design-reviews.module';
 import { AdminOrdersModule } from './admin-orders/admin-orders.module';
+import { AdminProductionModule } from './admin-production/admin-production.module';
 import { AdminProductsModule } from './admin-products/admin-products.module';
+import { AdminShippingModule } from './admin-shipments/admin-shipments.module';
+import { AdminSuppliersModule } from './admin-suppliers/admin-suppliers.module';
 import { AdminTemplatesModule } from './admin-templates/admin-templates.module';
 import { AIModule } from './ai/ai.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
@@ -41,6 +44,9 @@ import { RFQsModule } from './rfqs/rfqs.module';
     AdminTemplatesModule,
     AdminOrdersModule,
     AdminDesignReviewsModule,
+    AdminSuppliersModule,
+    AdminProductionModule,
+    AdminShippingModule,
   ],
 })
 export class AppModule {}

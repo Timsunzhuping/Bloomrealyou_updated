@@ -131,5 +131,36 @@
     "currency": "العملة",
     "notifications": "الإشعارات",
     "deleteAccount": "حذف الحساب"
+  },
+  "tracking": {
+    "heading": "تتبّع الشحنة",
+    "emptyForStatus": "لا توجد شحنات بعد — حالة الطلب الحالية: {status}.",
+    "lastUpdated": "آخر تحديث {time}",
+    "noCarrier": "شركة الشحن لم تُحدَّد",
+    "trackingNumber": "رقم التتبّع",
+    "shippingMethod": "الطريقة",
+    "shippedAt": "الشحن",
+    "deliveredAt": "التسليم",
+    "estimated": "المتوقع",
+    "status": {
+      "pending": "بانتظار",
+      "label_created": "تم إنشاء الملصق",
+      "in_transit": "في الطريق",
+      "out_for_delivery": "خارج للتسليم",
+      "delivered": "تم التسليم",
+      "returned": "أُعيدت",
+      "failed": "فشل"
+    },
+    "orderStatus": {
+      "pending_payment": "بانتظار الدفع",
+      "paid": "مدفوع",
+      "design_review": "قيد مراجعة التصميم",
+      "design_approved": "تمت الموافقة على التصميم",
+      "in_production": "قيد الإنتاج",
+      "quality_inspection": "قيد ضبط الجودة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التسليم",
+      "completed": "مكتمل"
+    }
   }
 }

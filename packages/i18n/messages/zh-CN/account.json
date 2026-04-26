@@ -131,5 +131,36 @@
     "currency": "货币",
     "notifications": "通知偏好",
     "deleteAccount": "注销账户"
+  },
+  "tracking": {
+    "heading": "物流追踪",
+    "emptyForStatus": "暂无物流记录 — 当前订单状态:{status}。",
+    "lastUpdated": "最后更新 {time}",
+    "noCarrier": "承运商待定",
+    "trackingNumber": "运单号",
+    "shippingMethod": "配送方式",
+    "shippedAt": "发货时间",
+    "deliveredAt": "送达时间",
+    "estimated": "预计",
+    "status": {
+      "pending": "待处理",
+      "label_created": "面单已创建",
+      "in_transit": "运输中",
+      "out_for_delivery": "派送中",
+      "delivered": "已送达",
+      "returned": "已退回",
+      "failed": "异常"
+    },
+    "orderStatus": {
+      "pending_payment": "待支付",
+      "paid": "已支付",
+      "design_review": "设计审核中",
+      "design_approved": "设计已通过",
+      "in_production": "生产中",
+      "quality_inspection": "质检中",
+      "shipped": "已发货",
+      "delivered": "已送达",
+      "completed": "已完成"
+    }
   }
 }

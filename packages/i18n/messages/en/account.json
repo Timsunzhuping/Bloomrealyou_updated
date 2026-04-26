@@ -131,5 +131,36 @@
     "currency": "Currency",
     "notifications": "Notifications",
     "deleteAccount": "Delete account"
+  },
+  "tracking": {
+    "heading": "Shipment tracking",
+    "emptyForStatus": "No shipments yet — your order is currently {status}.",
+    "lastUpdated": "Last updated {time}",
+    "noCarrier": "Carrier pending",
+    "trackingNumber": "Tracking number",
+    "shippingMethod": "Method",
+    "shippedAt": "Shipped",
+    "deliveredAt": "Delivered",
+    "estimated": "Est.",
+    "status": {
+      "pending": "Pending",
+      "label_created": "Label created",
+      "in_transit": "In transit",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "failed": "Failed"
+    },
+    "orderStatus": {
+      "pending_payment": "pending payment",
+      "paid": "paid",
+      "design_review": "in design review",
+      "design_approved": "design approved",
+      "in_production": "in production",
+      "quality_inspection": "in quality control",
+      "shipped": "shipped",
+      "delivered": "delivered",
+      "completed": "completed"
+    }
   }
 }

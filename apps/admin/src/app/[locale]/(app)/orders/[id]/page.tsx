@@ -17,6 +17,7 @@ import { AlertTriangle, ArrowLeft, FileDown, Image as ImageIcon } from 'lucide-r
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+import { CreateProductionJobs } from '@/components/orders/create-production-jobs';
 import { OrderActions } from '@/components/orders/order-actions';
 import { Link } from '@/i18n/navigation';
 import { getAdminApi, getApiBaseUrl } from '@/lib/api';
@@ -192,6 +193,8 @@ export default async function AdminOrderDetailPage({ params }: Props): Promise<J
       </div>
 
       <OrderActions order={order} apiBaseUrl={getApiBaseUrl()} />
+
+      <CreateProductionJobs order={order} apiBaseUrl={getApiBaseUrl()} />
 
       <Card>
         <CardHeader className="pb-2">

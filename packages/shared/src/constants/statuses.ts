@@ -48,12 +48,16 @@ export const PAYMENT_STATUSES = [
 export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 
 export const PRODUCTION_JOB_STATUSES = [
-  'queued',
+  'created',
   'assigned',
-  'in_progress',
-  'quality_check',
-  'completed',
-  'failed',
+  'supplier_confirmed',
+  'in_production',
+  'qc_pending',
+  'qc_passed',
+  'qc_failed',
+  'ready_to_ship',
+  'shipped',
+  'cancelled',
 ] as const;
 export type ProductionJobStatus = (typeof PRODUCTION_JOB_STATUSES)[number];
 

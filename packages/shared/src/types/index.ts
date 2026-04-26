@@ -28,3 +28,4 @@ export * from './admin-template-dto';
 export * from './admin-order-dto';
 export * from './admin-design-review-dto';
 export * from './audit-log-dto';
+export * from './admin-supply-dto';

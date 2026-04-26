@@ -33,3 +33,17 @@ export {
   AdminDesignReviewsClient,
   type AdminDesignReviewListResponse,
 } from './admin-design-reviews.js';
+export {
+  AdminSuppliersClient,
+  type AdminSupplierListResponse,
+  type AdminSupplierMappingListResponse,
+} from './admin-suppliers.js';
+export {
+  AdminProductionClient,
+  type AdminProductionJobListResponse,
+} from './admin-production.js';
+export {
+  AdminShipmentsClient,
+  OrderTrackingClient,
+  type AdminShipmentListResponse,
+} from './admin-shipments.js';

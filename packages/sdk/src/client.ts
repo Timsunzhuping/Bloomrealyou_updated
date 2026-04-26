@@ -3,7 +3,10 @@ import { AdminAuthClient } from './admin-auth.js';
 import { AdminDashboardClient } from './admin-dashboard.js';
 import { AdminDesignReviewsClient } from './admin-design-reviews.js';
 import { AdminOrdersClient } from './admin-orders.js';
+import { AdminProductionClient } from './admin-production.js';
 import { AdminProductsClient } from './admin-products.js';
+import { AdminShipmentsClient, OrderTrackingClient } from './admin-shipments.js';
+import { AdminSuppliersClient } from './admin-suppliers.js';
 import { AdminTemplatesClient } from './admin-templates.js';
 import { AIClient } from './ai.js';
 import { CartClient } from './cart.js';
@@ -99,6 +102,10 @@ export class ApiClient {
   readonly adminTemplates: AdminTemplatesClient;
   readonly adminOrders: AdminOrdersClient;
   readonly adminDesignReviews: AdminDesignReviewsClient;
+  readonly adminSuppliers: AdminSuppliersClient;
+  readonly adminProduction: AdminProductionClient;
+  readonly adminShipments: AdminShipmentsClient;
+  readonly tracking: OrderTrackingClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -124,6 +131,10 @@ export class ApiClient {
     this.adminTemplates = new AdminTemplatesClient(this);
     this.adminOrders = new AdminOrdersClient(this);
     this.adminDesignReviews = new AdminDesignReviewsClient(this);
+    this.adminSuppliers = new AdminSuppliersClient(this);
+    this.adminProduction = new AdminProductionClient(this);
+    this.adminShipments = new AdminShipmentsClient(this);
+    this.tracking = new OrderTrackingClient(this);
   }
 
   /** Set / clear the admin bearer token. Cleared on logout. */

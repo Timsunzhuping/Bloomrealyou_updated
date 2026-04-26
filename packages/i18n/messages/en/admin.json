@@ -504,5 +504,221 @@
       "message": "What needs to change (sent to customer)",
       "note": "Internal note"
     }
+  },
+  "suppliers": {
+    "listHeading": "Suppliers",
+    "listSubtitle": "Manage production partners and their per-product mappings.",
+    "empty": "No suppliers match this filter.",
+    "actions": {
+      "create": "New supplier",
+      "backToList": "Back to suppliers"
+    },
+    "filter": {
+      "search": "Search",
+      "searchPlaceholder": "Name, email, contact",
+      "country": "Country",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "category": "Category",
+      "allCategories": "All categories",
+      "apply": "Apply"
+    },
+    "table": {
+      "name": "Name",
+      "country": "Country",
+      "contact": "Contact",
+      "categories": "Categories",
+      "print": "Print methods",
+      "moq": "MOQ",
+      "leadDays": "Lead",
+      "qualityScore": "Quality",
+      "status": "Status"
+    },
+    "statusLabels": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "suspended": "Suspended",
+      "onboarding": "Onboarding"
+    },
+    "createHeading": "New supplier",
+    "createSubtitle": "Onboarding details for the routing engine.",
+    "form": {
+      "name": "Supplier name",
+      "country": "Country (ISO-2)",
+      "region": "Region",
+      "contactName": "Primary contact",
+      "contactEmail": "Contact email",
+      "contactPhone": "Contact phone",
+      "minOrderQuantity": "Minimum order quantity",
+      "averageProductionDays": "Average production days",
+      "qualityScore": "Quality score (0–100)",
+      "onTimeRate": "On-time rate",
+      "returnRate": "Return rate",
+      "rateHint": "0–1 (e.g. 0.95)",
+      "supportedCategories": "Supported categories",
+      "supportedPrintMethods": "Supported print methods",
+      "supportsWhiteLabel": "Supports white label",
+      "supportsSample": "Supports sampling",
+      "status": "Status",
+      "notes": "Internal notes",
+      "save": "Save supplier",
+      "saving": "Saving…"
+    },
+    "delete": {
+      "heading": "Delete supplier",
+      "body": "Removes the supplier and all of their product mappings. Cannot be undone.",
+      "cta": "Delete supplier",
+      "busy": "Deleting…",
+      "confirm": "Are you sure you want to delete this supplier?"
+    },
+    "mappings": {
+      "heading": "Product mappings",
+      "empty": "No product mappings yet.",
+      "productId": "Product ID",
+      "variantId": "Variant ID (optional)",
+      "sku": "Supplier SKU",
+      "costPrice": "Cost price (cents)",
+      "productionDays": "Production days",
+      "minOrderQuantity": "Min qty",
+      "maxDailyCapacity": "Daily capacity",
+      "add": "Add mapping",
+      "saving": "Saving…",
+      "disable": "Disable mapping"
+    }
+  },
+  "productionJobs": {
+    "listHeading": "Production jobs",
+    "listSubtitle": "Active jobs across all suppliers.",
+    "empty": "No production jobs match this filter.",
+    "actions": {
+      "backToList": "Back to production jobs"
+    },
+    "filter": {
+      "search": "Search",
+      "searchPlaceholder": "Job number or order",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "apply": "Apply"
+    },
+    "table": {
+      "jobNumber": "Job #",
+      "order": "Order",
+      "supplier": "Supplier",
+      "printMethod": "Print",
+      "quantity": "Qty",
+      "status": "Status",
+      "updated": "Updated"
+    },
+    "statusLabels": {
+      "created": "Created",
+      "assigned": "Assigned",
+      "supplier_confirmed": "Supplier confirmed",
+      "in_production": "In production",
+      "qc_pending": "QC pending",
+      "qc_passed": "QC passed",
+      "qc_failed": "QC failed",
+      "ready_to_ship": "Ready to ship",
+      "shipped": "Shipped",
+      "cancelled": "Cancelled"
+    },
+    "createFromOrder": {
+      "heading": "Create production job",
+      "body": "Pick the order items and a print method to spawn a production job.",
+      "printMethod": "Print method",
+      "totalQty": "Total quantity",
+      "cta": "Create job",
+      "busy": "Creating…",
+      "created": "Created job {jobNumber}"
+    },
+    "detail": {
+      "summary": "Job summary",
+      "quantityLabel": "{count} units",
+      "orderItems": "Order items",
+      "expectedReadyAt": "Expected ready",
+      "startedAt": "Started",
+      "completedAt": "Completed",
+      "supplierCost": "Supplier cost",
+      "failureReason": "Failure reason",
+      "statusActions": "Status",
+      "status": "Status",
+      "statusNote": "Note (audit only)",
+      "saveStatus": "Save status",
+      "assignHeading": "Assign supplier",
+      "supplier": "Supplier",
+      "unitCost": "Unit cost (cents)",
+      "budgetUnitPrice": "Max unit cost (cents)",
+      "recommend": "Recommend",
+      "noRecommendations": "No suppliers match these requirements.",
+      "pick": "Pick",
+      "assignCta": "Assign supplier",
+      "qcHeading": "Quality control",
+      "qcPass": "Mark as passed",
+      "qcFail": "Mark as failed",
+      "qcNotes": "QC notes",
+      "qcFailureReason": "Failure reason (visible to customer)",
+      "qcAttachment": "Attachment",
+      "qcUpload": "Upload QC result",
+      "qcArchive": "QC archive",
+      "openAttachment": "Open",
+      "createShipmentHeading": "Create shipment",
+      "carrier": "Carrier",
+      "trackingNumber": "Tracking number",
+      "trackingUrl": "Tracking URL",
+      "shippingCostCents": "Shipping cost (cents)",
+      "createShipment": "Create shipment",
+      "notes": "Internal notes"
+    }
+  },
+  "shipments": {
+    "listHeading": "Shipments",
+    "listSubtitle": "Track parcels in flight to customers.",
+    "empty": "No shipments match this filter.",
+    "actions": {
+      "backToList": "Back to shipments"
+    },
+    "filter": {
+      "search": "Search",
+      "searchPlaceholder": "Shipment, order, tracking",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "apply": "Apply"
+    },
+    "table": {
+      "shipmentNumber": "Shipment #",
+      "order": "Order",
+      "carrier": "Carrier",
+      "tracking": "Tracking",
+      "status": "Status",
+      "shippedAt": "Shipped",
+      "deliveredAt": "Delivered"
+    },
+    "statusLabels": {
+      "pending": "Pending",
+      "label_created": "Label created",
+      "in_transit": "In transit",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "failed": "Failed"
+    },
+    "detail": {
+      "summary": "Shipment summary",
+      "editHeading": "Edit shipment",
+      "carrier": "Carrier",
+      "trackingNumber": "Tracking number",
+      "trackingUrl": "Tracking URL",
+      "shippingMethod": "Shipping method",
+      "shippingCost": "Shipping cost",
+      "shippingCostCents": "Shipping cost (cents)",
+      "shippedAt": "Shipped",
+      "estimatedDeliveryAt": "Estimated delivery",
+      "deliveredAt": "Delivered",
+      "productionJobs": "Production jobs",
+      "weight": "Package weight",
+      "status": "Status",
+      "notes": "Notes",
+      "save": "Save shipment",
+      "saving": "Saving…"
+    }
   }
 }
