@@ -1,0 +1,188 @@
+{
+  "title": "Sistema de Diseño",
+  "subtitle": "Componentes base utilizados en la tienda y el back-office.",
+  "sections": {
+    "buttons": "Botones",
+    "form": "Campos de formulario",
+    "selection": "Controles de selección",
+    "feedback": "Retroalimentación",
+    "overlay": "Overlays",
+    "navigation": "Navegación",
+    "data": "Datos",
+    "ecommerce": "E-commerce",
+    "marketing": "Marketing",
+    "states": "Estados"
+  },
+  "buttons": {
+    "primary": "Primario",
+    "secondary": "Secundario",
+    "outline": "Contorno",
+    "ghost": "Fantasma",
+    "destructive": "Destructivo"
+  },
+  "form": {
+    "emailLabel": "Correo",
+    "emailPlaceholder": "tu@example.com",
+    "emailDescription": "Nunca compartiremos tu correo.",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "¿Cómo podemos ayudar?",
+    "rolesLabel": "Rol",
+    "marketingLabel": "Suscribirse a novedades",
+    "subscribeYes": "Sí, suscríbeme",
+    "subscribeNo": "Quizá luego"
+  },
+  "feedback": {
+    "successBadge": "Activo",
+    "warningBadge": "En revisión",
+    "errorTitle": "No se pudieron cargar los diseños",
+    "errorBody": "Inténtalo de nuevo en unos instantes.",
+    "loadingLabel": "Cargando diseños",
+    "emptyTitle": "Sin diseños guardados",
+    "emptyBody": "Los diseños que guardes aparecerán aquí.",
+    "emptyCta": "Abrir el diseñador"
+  },
+  "overlay": {
+    "openDialog": "Abrir diálogo",
+    "openDrawer": "Abrir cajón",
+    "dialogTitle": "Confirmar acción",
+    "dialogBody": "Diálogo de muestra del componente Dialog.",
+    "dialogConfirm": "Confirmar",
+    "dialogCancel": "Cancelar",
+    "dialogClose": "Cerrar",
+    "drawerTitle": "Cajón de muestra",
+    "drawerBody": "El cajón se desliza desde el borde lateral."
+  },
+  "navigation": {
+    "tabs": {
+      "overview": "Resumen",
+      "details": "Detalles",
+      "reviews": "Reseñas"
+    },
+    "tabContent": {
+      "overview": "Contenido de resumen.",
+      "details": "Detalles y especificaciones.",
+      "reviews": "Reseñas de clientes."
+    },
+    "breadcrumbs": {
+      "home": "Inicio",
+      "category": "Camisetas",
+      "product": "Camiseta de algodón premium"
+    },
+    "paginationLabels": {
+      "nav": "Navegación de páginas",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    }
+  },
+  "data": {
+    "tableCaption": "Pedidos recientes (datos de muestra)",
+    "tableHeaders": {
+      "order": "Pedido",
+      "customer": "Cliente",
+      "status": "Estado",
+      "total": "Total"
+    }
+  },
+  "ecommerce": {
+    "productName": "Camiseta de algodón premium",
+    "fromPrice": "Desde",
+    "addToCart": "Añadir al carrito",
+    "quantity": "Cantidad",
+    "decrement": "Disminuir",
+    "increment": "Aumentar",
+    "uploadTitle": "Sube tu arte",
+    "uploadDescription": "PNG, SVG o AI hasta 25 MB.",
+    "uploadBrowse": "Elegir archivo",
+    "uploadAria": "Subir archivo de arte",
+    "filterReset": "Restablecer filtros",
+    "sortLabel": "Ordenar por",
+    "sortOptions": {
+      "popular": "Más populares",
+      "priceAsc": "Precio: menor a mayor",
+      "priceDesc": "Precio: mayor a menor",
+      "newest": "Más recientes"
+    }
+  },
+  "marketing": {
+    "heroEyebrow": "Hecho para equipos globales",
+    "heroTitle": "Diseña, cotiza y produce merchandising en minutos.",
+    "heroBody": "Una plataforma que convierte diseños en productos enviados a todo el mundo.",
+    "heroPrimary": "Ver productos",
+    "heroSecondary": "Hablar con ventas",
+    "trust": {
+      "global": "Envíos a 100+ países",
+      "speed": "Producción en 5 días",
+      "quality": "Auditorías ISO-9001",
+      "support": "Soporte 24/7 multilingüe"
+    },
+    "corporateEyebrow": "Para empresas",
+    "corporateTitle": "Equipa a tu equipo sin sufrir con hojas de cálculo.",
+    "corporateBody": "Precios por volumen, RFQ y account management para pedidos de 50+.",
+    "corporateBullets": {
+      "rfq": "RFQ en menos de 60 segundos",
+      "templates": "Plantillas reutilizables",
+      "billing": "Facturación Net-30",
+      "logistics": "Logística masiva"
+    },
+    "corporateCta": "Solicitar presupuesto",
+    "corporateSecondary": "Descargar capabilities deck",
+    "ctaEyebrow": "Empieza",
+    "ctaTitle": "Prueba gratis el asistente de diseño con IA.",
+    "ctaBody": "Sin tarjeta. Actualiza cuando envíes.",
+    "ctaPrimary": "Abrir diseñador",
+    "ctaSecondary": "Ver precios",
+    "faqHeading": "Preguntas frecuentes",
+    "faqItems": {
+      "q1": "¿Cuál es el plazo de producción típico?",
+      "a1": "La mayoría de productos se envía en 5 días tras aprobar el arte.",
+      "q2": "¿Hay descuentos por volumen empresarial?",
+      "a2": "Sí, envía un RFQ por 50+ unidades y responderemos en un día laborable.",
+      "q3": "¿Soportan diseños personalizados?",
+      "a3": "Sí. El diseñador 2D admite capas de texto, imagen y formas en varias áreas de impresión."
+    },
+    "testimonials": {
+      "quote1": "Vestimos a nuestro equipo en 7 países desde un solo panel. La velocidad fue increíble.",
+      "author1": "Maya Lin",
+      "role1": "Head of Brand, Acme Co",
+      "quote2": "El flujo de RFQ ahorró una semana de idas y vueltas a compras.",
+      "author2": "Jordan Reyes",
+      "role2": "Procurement Manager, FreshLabs"
+    }
+  },
+  "states": {
+    "imagesAlt": "Mockup de ropa de muestra",
+    "thumbnailListLabel": "Miniaturas del producto",
+    "categoryName": "Camisetas",
+    "categoryDescription": "Algodón suave, listo para imprimir."
+  },
+  "switchers": {
+    "localeLabel": "Idioma",
+    "currencyLabel": "Moneda"
+  },
+  "badges": {
+    "new": "Nuevo",
+    "bestseller": "Más vendido",
+    "eco": "Eco-friendly"
+  },
+  "footer": {
+    "company": {
+      "heading": "Empresa",
+      "about": "Sobre nosotros",
+      "press": "Prensa",
+      "blog": "Blog"
+    },
+    "support": {
+      "heading": "Soporte",
+      "help": "Centro de ayuda",
+      "shipping": "Envíos",
+      "returns": "Devoluciones"
+    },
+    "legal": {
+      "heading": "Legal",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "cookies": "Cookies"
+    },
+    "copyright": "© Plataforma de Productos Personalizados"
+  }
+}

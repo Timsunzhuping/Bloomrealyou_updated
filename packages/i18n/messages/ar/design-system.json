@@ -1,0 +1,188 @@
+{
+  "title": "نظام التصميم",
+  "subtitle": "المكونات الأساسية المستخدمة في الواجهة ولوحة الإدارة.",
+  "sections": {
+    "buttons": "الأزرار",
+    "form": "حقول النموذج",
+    "selection": "أدوات الاختيار",
+    "feedback": "التغذية الراجعة",
+    "overlay": "النوافذ المنبثقة",
+    "navigation": "التنقل",
+    "data": "عرض البيانات",
+    "ecommerce": "التجارة الإلكترونية",
+    "marketing": "التسويق",
+    "states": "الحالات"
+  },
+  "buttons": {
+    "primary": "أساسي",
+    "secondary": "ثانوي",
+    "outline": "محدد",
+    "ghost": "شفاف",
+    "destructive": "تدميري"
+  },
+  "form": {
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "you@example.com",
+    "emailDescription": "لن نشارك بريدك مع أحد.",
+    "messageLabel": "الرسالة",
+    "messagePlaceholder": "كيف يمكننا مساعدتك؟",
+    "rolesLabel": "الدور",
+    "marketingLabel": "اشترك في النشرة",
+    "subscribeYes": "نعم، اشتركني",
+    "subscribeNo": "لاحقاً ربما"
+  },
+  "feedback": {
+    "successBadge": "نشط",
+    "warningBadge": "قيد المراجعة",
+    "errorTitle": "تعذّر تحميل التصاميم",
+    "errorBody": "حاول مرة أخرى بعد قليل.",
+    "loadingLabel": "جارٍ تحميل التصاميم",
+    "emptyTitle": "لا توجد تصاميم محفوظة",
+    "emptyBody": "ستظهر هنا التصاميم التي تحفظها في المصمم.",
+    "emptyCta": "افتح المصمم"
+  },
+  "overlay": {
+    "openDialog": "افتح النافذة",
+    "openDrawer": "افتح الدرج",
+    "dialogTitle": "تأكيد الإجراء",
+    "dialogBody": "هذا مثال على مكون النافذة.",
+    "dialogConfirm": "تأكيد",
+    "dialogCancel": "إلغاء",
+    "dialogClose": "إغلاق",
+    "drawerTitle": "درج عينة",
+    "drawerBody": "ينزلق الدرج من الحافة الجانبية."
+  },
+  "navigation": {
+    "tabs": {
+      "overview": "نظرة عامة",
+      "details": "التفاصيل",
+      "reviews": "التقييمات"
+    },
+    "tabContent": {
+      "overview": "محتوى تبويب النظرة العامة.",
+      "details": "محتوى تبويب التفاصيل.",
+      "reviews": "محتوى تبويب التقييمات."
+    },
+    "breadcrumbs": {
+      "home": "الرئيسية",
+      "category": "تيشيرتات",
+      "product": "تيشيرت قطن فاخر"
+    },
+    "paginationLabels": {
+      "nav": "تنقّل الصفحات",
+      "previous": "السابق",
+      "next": "التالي"
+    }
+  },
+  "data": {
+    "tableCaption": "أحدث الطلبات (بيانات تجريبية)",
+    "tableHeaders": {
+      "order": "الطلب",
+      "customer": "العميل",
+      "status": "الحالة",
+      "total": "الإجمالي"
+    }
+  },
+  "ecommerce": {
+    "productName": "تيشيرت قطن فاخر",
+    "fromPrice": "ابتداءً من",
+    "addToCart": "أضف إلى السلة",
+    "quantity": "الكمية",
+    "decrement": "تقليل",
+    "increment": "زيادة",
+    "uploadTitle": "ارفع تصميمك",
+    "uploadDescription": "PNG أو SVG أو AI حتى 25MB.",
+    "uploadBrowse": "اختر ملفاً",
+    "uploadAria": "ارفع ملف تصميم",
+    "filterReset": "إعادة ضبط الفلاتر",
+    "sortLabel": "ترتيب حسب",
+    "sortOptions": {
+      "popular": "الأكثر شيوعاً",
+      "priceAsc": "السعر: من الأقل للأعلى",
+      "priceDesc": "السعر: من الأعلى للأقل",
+      "newest": "الأحدث"
+    }
+  },
+  "marketing": {
+    "heroEyebrow": "صُنع للفِرق العالمية",
+    "heroTitle": "صمّم وسعّر وأنتج المنتجات المخصصة في دقائق.",
+    "heroBody": "منصة موحدة تحوّل التصاميم إلى منتجات مشحونة حول العالم.",
+    "heroPrimary": "تصفح المنتجات",
+    "heroSecondary": "تواصل مع المبيعات",
+    "trust": {
+      "global": "شحن إلى أكثر من 100 دولة",
+      "speed": "إنتاج خلال 5 أيام",
+      "quality": "تدقيق موردين ISO-9001",
+      "support": "دعم متعدد اللغات 24/7"
+    },
+    "corporateEyebrow": "للشركات",
+    "corporateTitle": "جهّز فريقك دون عناء جداول البيانات.",
+    "corporateBody": "تسعير حسب الكمية وسير عمل RFQ ومدير حساب مخصص لطلبات 50+.",
+    "corporateBullets": {
+      "rfq": "تقديم RFQ في أقل من 60 ثانية",
+      "templates": "قوالب تصميم قابلة لإعادة الاستخدام",
+      "billing": "فوترة Net-30",
+      "logistics": "تنسيق شحن بالجملة"
+    },
+    "corporateCta": "اطلب عرض سعر",
+    "corporateSecondary": "حمّل ملف القدرات",
+    "ctaEyebrow": "ابدأ الآن",
+    "ctaTitle": "جرّب مساعد التصميم بالذكاء الاصطناعي مجاناً.",
+    "ctaBody": "بدون بطاقة ائتمان. ارقِ خطّتك بعد الشحن.",
+    "ctaPrimary": "افتح المصمم",
+    "ctaSecondary": "عرض الأسعار",
+    "faqHeading": "الأسئلة الشائعة",
+    "faqItems": {
+      "q1": "ما المدة الاعتيادية للإنتاج؟",
+      "a1": "تُشحن أغلب المنتجات خلال 5 أيام عمل بعد اعتماد التصميم.",
+      "q2": "هل توجد خصومات للشركات؟",
+      "a2": "نعم، قدّم RFQ لطلبات 50 وحدة فأكثر وسنرد خلال يوم عمل.",
+      "q3": "هل تدعمون التصاميم المخصصة؟",
+      "a3": "بالتأكيد. يدعم المصمم ثنائي الأبعاد طبقات النص والصورة والأشكال عبر مناطق طباعة متعددة."
+    },
+    "testimonials": {
+      "quote1": "جهّزنا فرقنا في 7 دول من لوحة واحدة بسرعة لا تصدّق.",
+      "author1": "Maya Lin",
+      "role1": "رئيس قسم العلامة، Acme",
+      "quote2": "وفّر تدفق RFQ على فريق المشتريات أسبوعاً من الذهاب والإياب.",
+      "author2": "Jordan Reyes",
+      "role2": "مدير المشتريات، FreshLabs"
+    }
+  },
+  "states": {
+    "imagesAlt": "نموذج ملابس",
+    "thumbnailListLabel": "صور مصغّرة للمنتج",
+    "categoryName": "تيشيرتات",
+    "categoryDescription": "قطن ناعم جاهز للطباعة."
+  },
+  "switchers": {
+    "localeLabel": "اللغة",
+    "currencyLabel": "العملة"
+  },
+  "badges": {
+    "new": "جديد",
+    "bestseller": "الأكثر مبيعاً",
+    "eco": "صديق للبيئة"
+  },
+  "footer": {
+    "company": {
+      "heading": "الشركة",
+      "about": "من نحن",
+      "press": "الصحافة",
+      "blog": "المدونة"
+    },
+    "support": {
+      "heading": "الدعم",
+      "help": "مركز المساعدة",
+      "shipping": "الشحن",
+      "returns": "الاسترجاع"
+    },
+    "legal": {
+      "heading": "قانوني",
+      "privacy": "الخصوصية",
+      "terms": "الشروط",
+      "cookies": "ملفات تعريف الارتباط"
+    },
+    "copyright": "© منصة المنتجات المخصصة"
+  }
+}
