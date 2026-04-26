@@ -233,5 +233,276 @@
       "expired": "已过期",
       "converted_to_order": "已转为订单"
     }
+  },
+  "shared": {
+    "pagination": {
+      "previous": "上一页",
+      "next": "下一页",
+      "pageOf": "第 {page} 页 / 共 {total} 页",
+      "range": "{start}–{end} / 共 {total}"
+    }
+  },
+  "products": {
+    "listHeading": "商品",
+    "listSubtitle": "面向商城和定制器的商品目录。",
+    "empty": "当前筛选下暂无商品。",
+    "actions": {
+      "create": "新建商品",
+      "backToList": "返回商品列表"
+    },
+    "filter": {
+      "search": "搜索",
+      "searchPlaceholder": "Slug、名称或标签",
+      "category": "品类",
+      "allCategories": "全部品类",
+      "status": "状态",
+      "allStatuses": "全部状态",
+      "apply": "筛选"
+    },
+    "table": {
+      "name": "名称",
+      "slug": "Slug",
+      "category": "品类",
+      "status": "状态",
+      "basePrice": "基础价",
+      "variants": "变体",
+      "updated": "更新时间"
+    },
+    "statusLabels": {
+      "draft": "草稿",
+      "active": "上架",
+      "archived": "已归档",
+      "discontinued": "已停产"
+    },
+    "createHeading": "新建商品",
+    "createSubtitle": "先定义基础信息,再添加变体、印刷区域与阶梯报价。",
+    "editHeading": "编辑商品",
+    "form": {
+      "slug": "Slug(短横线小写)",
+      "category": "品类",
+      "status": "状态",
+      "name": "名称",
+      "description": "描述",
+      "basePrice": "基础价(分)",
+      "basePriceHint": "最低变体价格,以最小货币单位表示(1999 = $19.99)。",
+      "supportedPrintMethods": "支持的印刷工艺",
+      "productionLeadDays": "生产工期(天)",
+      "tags": "标签",
+      "tagsHint": "逗号分隔。",
+      "images": "商品图",
+      "imagesHint": "添加商品 mockup(PNG/JPG/WEBP/SVG)。",
+      "seoSection": "SEO",
+      "seoTitle": "SEO 标题",
+      "seoDescription": "SEO 描述",
+      "save": "保存商品",
+      "saving": "保存中…"
+    },
+    "variants": {
+      "heading": "变体",
+      "empty": "暂无变体。",
+      "active": "已启用",
+      "inactive": "已停用",
+      "sku": "SKU",
+      "color": "颜色",
+      "size": "尺码",
+      "material": "材质",
+      "unitPrice": "单价(分)",
+      "add": "添加变体",
+      "remove": "删除变体"
+    },
+    "printAreas": {
+      "heading": "印刷区域",
+      "empty": "暂无印刷区域。",
+      "key": "Key(如 front)",
+      "label": "名称(EN)",
+      "add": "添加印刷区域",
+      "remove": "删除"
+    },
+    "priceTiers": {
+      "heading": "阶梯报价",
+      "empty": "暂无阶梯报价。",
+      "minQty": "最小数量",
+      "maxQty": "最大数量(留空 = ∞)",
+      "unitPrice": "单价(分)",
+      "add": "添加阶梯",
+      "remove": "删除"
+    },
+    "delete": {
+      "heading": "删除商品",
+      "body": "将删除商品及其变体、印刷区域与阶梯报价,无法撤销。",
+      "cta": "删除商品",
+      "busy": "删除中…",
+      "confirm": "确认删除该商品?"
+    },
+    "detail": {
+      "lastUpdated": "最后更新 {time}"
+    }
+  },
+  "templates": {
+    "listHeading": "设计模板",
+    "listSubtitle": "面向定制器的精选模板。",
+    "empty": "当前筛选下暂无模板。",
+    "actions": {
+      "create": "新建模板",
+      "backToList": "返回模板列表"
+    },
+    "filter": {
+      "search": "搜索",
+      "searchPlaceholder": "名称或标签",
+      "category": "品类",
+      "allCategories": "全部品类",
+      "publish": "上架",
+      "all": "全部",
+      "apply": "筛选"
+    },
+    "table": {
+      "preview": "预览图",
+      "name": "名称",
+      "categories": "适用品类",
+      "status": "状态",
+      "featured": "精选",
+      "updated": "更新时间"
+    },
+    "statusLabels": {
+      "published": "已上架",
+      "unpublished": "未上架"
+    },
+    "createHeading": "新建模板",
+    "createSubtitle": "上传预览图、粘贴 designJson、选择适用品类。",
+    "form": {
+      "name": "名称",
+      "descriptionEn": "描述(EN)",
+      "supportedCategories": "适用品类",
+      "preview": "预览图",
+      "designJson": "Design JSON",
+      "designJsonHint": "粘贴用于初始化定制器的 JSON。",
+      "editableFields": "可编辑字段",
+      "editableFieldsHint": "客户在定制器中可填写的字段(名字、颜色等)。",
+      "editableFieldsEmpty": "暂无可编辑字段。",
+      "fieldKey": "Key",
+      "fieldLabel": "标签(EN)",
+      "addField": "添加字段",
+      "isFeatured": "精选",
+      "isPublished": "上架",
+      "tags": "标签(逗号分隔)",
+      "save": "保存模板",
+      "saving": "保存中…"
+    },
+    "delete": {
+      "heading": "删除模板",
+      "body": "将删除该模板,无法撤销。",
+      "cta": "删除模板",
+      "busy": "删除中…",
+      "confirm": "确认删除该模板?"
+    }
+  },
+  "orders": {
+    "listHeading": "订单",
+    "listSubtitle": "最新订单优先。",
+    "empty": "当前筛选下暂无订单。",
+    "filter": {
+      "search": "搜索",
+      "searchPlaceholder": "订单号或邮箱",
+      "status": "状态",
+      "allStatuses": "全部状态",
+      "flaggedOnly": "只看异常",
+      "apply": "筛选"
+    },
+    "table": {
+      "orderNumber": "订单号",
+      "customer": "客户",
+      "items": "条目",
+      "total": "总额",
+      "status": "状态",
+      "placedAt": "下单时间"
+    },
+    "statusLabels": {
+      "pending": "待处理",
+      "pending_payment": "待支付",
+      "paid": "已支付",
+      "design_review": "设计审核",
+      "design_approved": "设计通过",
+      "production_assigned": "已分配生产",
+      "in_production": "生产中",
+      "quality_inspection": "质检",
+      "shipped": "已发货",
+      "delivered": "已送达",
+      "completed": "已完成",
+      "cancelled": "已取消",
+      "refunded": "已退款",
+      "exception": "异常"
+    },
+    "actions": {
+      "backToList": "返回订单列表"
+    },
+    "detail": {
+      "items": "订单项",
+      "product": "商品",
+      "quantity": "数量",
+      "unitPrice": "单价",
+      "lineTotal": "小计",
+      "assets": "资产",
+      "preview": "预览图",
+      "productionFile": "生产文件",
+      "totals": "金额合计",
+      "subtotal": "小计",
+      "shipping": "运费",
+      "tax": "税费",
+      "discount": "折扣",
+      "total": "总计",
+      "shippingAddress": "收货地址",
+      "customerNote": "客户备注",
+      "internalNotes": "内部备注",
+      "noInternalNotes": "暂无内部备注。",
+      "addNote": "添加内部备注",
+      "notePlaceholder": "内部上下文、异常、跟进…",
+      "appendNote": "添加备注",
+      "statusActions": "状态与标记",
+      "status": "状态",
+      "statusNote": "状态变更备注",
+      "statusNotePlaceholder": "可选 — 将作为内部备注追加。",
+      "flagException": "将本订单标记为异常",
+      "saveStatus": "保存状态",
+      "saving": "保存中…",
+      "flagged": "已标记"
+    }
+  },
+  "designReviews": {
+    "heading": "设计审核",
+    "subtitle": "审核客户提交的设计,可通过/驳回/要求修改。",
+    "empty": "当前筛选下暂无待审。",
+    "filter": {
+      "status": "状态",
+      "apply": "筛选"
+    },
+    "statusLabels": {
+      "draft": "草稿",
+      "submitted": "待审核",
+      "approved": "已通过",
+      "rejected": "已驳回",
+      "revision_requested": "已要求修改"
+    },
+    "designJson": "Design JSON",
+    "validation": "校验结果",
+    "reviewerNotes": "审核备注",
+    "productionFile": "生产文件",
+    "finalised": "该设计已终结,不可再操作。",
+    "busy": "提交中…",
+    "actions": {
+      "approve": "通过",
+      "reject": "驳回",
+      "requestRevision": "要求修改"
+    },
+    "approve": {
+      "note": "可选审核备注(仅审计)"
+    },
+    "reject": {
+      "reason": "驳回原因(将展示给客户)",
+      "note": "内部备注"
+    },
+    "revision": {
+      "message": "需要修改的内容(将发送给客户)",
+      "note": "内部备注"
+    }
   }
 }

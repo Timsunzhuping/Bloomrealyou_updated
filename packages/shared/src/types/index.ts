@@ -23,3 +23,8 @@ export * from './ai-dto';
 export * from './rfq-dto';
 export * from './quote-dto';
 export * from './admin-dto';
+export * from './admin-product-dto';
+export * from './admin-template-dto';
+export * from './admin-order-dto';
+export * from './admin-design-review-dto';
+export * from './audit-log-dto';

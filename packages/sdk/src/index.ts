@@ -22,3 +22,14 @@ export { AdminRFQsClient, RFQsClient } from './rfqs.js';
 export { AdminQuotesClient } from './quotes.js';
 export { AdminAuthClient } from './admin-auth.js';
 export { AdminDashboardClient } from './admin-dashboard.js';
+export { AdminProductsClient, type AdminProductListResponse } from './admin-products.js';
+export { AdminTemplatesClient, type AdminTemplateListResponse } from './admin-templates.js';
+export {
+  AdminOrdersClient,
+  type AdminOrderListResponse,
+  type AdminOrderSummary,
+} from './admin-orders.js';
+export {
+  AdminDesignReviewsClient,
+  type AdminDesignReviewListResponse,
+} from './admin-design-reviews.js';

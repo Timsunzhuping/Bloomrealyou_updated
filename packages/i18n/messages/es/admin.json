@@ -233,5 +233,276 @@
       "expired": "Caducado",
       "converted_to_order": "Convertido en pedido"
     }
+  },
+  "shared": {
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageOf": "Página {page} de {total}",
+      "range": "{start}–{end} de {total}"
+    }
+  },
+  "products": {
+    "listHeading": "Productos",
+    "listSubtitle": "Productos del catálogo disponibles en la tienda y el customizer.",
+    "empty": "No hay productos con este filtro.",
+    "actions": {
+      "create": "Nuevo producto",
+      "backToList": "Volver a productos"
+    },
+    "filter": {
+      "search": "Buscar",
+      "searchPlaceholder": "Slug, nombre o etiqueta",
+      "category": "Categoría",
+      "allCategories": "Todas las categorías",
+      "status": "Estado",
+      "allStatuses": "Todos los estados",
+      "apply": "Aplicar"
+    },
+    "table": {
+      "name": "Nombre",
+      "slug": "Slug",
+      "category": "Categoría",
+      "status": "Estado",
+      "basePrice": "Precio base",
+      "variants": "Variantes",
+      "updated": "Actualizado"
+    },
+    "statusLabels": {
+      "draft": "Borrador",
+      "active": "Activo",
+      "archived": "Archivado",
+      "discontinued": "Descontinuado"
+    },
+    "createHeading": "Nuevo producto",
+    "createSubtitle": "Define el producto, luego añade variantes, áreas y tramos de precio.",
+    "editHeading": "Editar producto",
+    "form": {
+      "slug": "Slug (kebab-case)",
+      "category": "Categoría",
+      "status": "Estado",
+      "name": "Nombre",
+      "description": "Descripción",
+      "basePrice": "Precio base (céntimos)",
+      "basePriceHint": "Precio mínimo en unidades menores (1999 = $19,99).",
+      "supportedPrintMethods": "Métodos de impresión soportados",
+      "productionLeadDays": "Días de producción",
+      "tags": "Etiquetas",
+      "tagsHint": "Separadas por comas.",
+      "images": "Imágenes",
+      "imagesHint": "Añade mockups (PNG/JPG/WEBP/SVG).",
+      "seoSection": "SEO",
+      "seoTitle": "Título SEO",
+      "seoDescription": "Descripción SEO",
+      "save": "Guardar producto",
+      "saving": "Guardando…"
+    },
+    "variants": {
+      "heading": "Variantes",
+      "empty": "Sin variantes.",
+      "active": "activa",
+      "inactive": "inactiva",
+      "sku": "SKU",
+      "color": "Color",
+      "size": "Talla",
+      "material": "Material",
+      "unitPrice": "Precio unitario (céntimos)",
+      "add": "Añadir variante",
+      "remove": "Quitar variante"
+    },
+    "printAreas": {
+      "heading": "Áreas de impresión",
+      "empty": "Sin áreas de impresión.",
+      "key": "Key (p.ej. front)",
+      "label": "Etiqueta (EN)",
+      "add": "Añadir área",
+      "remove": "Quitar área"
+    },
+    "priceTiers": {
+      "heading": "Tramos de precio",
+      "empty": "Sin tramos.",
+      "minQty": "Cantidad mínima",
+      "maxQty": "Máxima (vacío = ∞)",
+      "unitPrice": "Precio unitario (céntimos)",
+      "add": "Añadir tramo",
+      "remove": "Quitar tramo"
+    },
+    "delete": {
+      "heading": "Eliminar producto",
+      "body": "Elimina el producto y todas sus variantes/áreas/tramos. No se puede deshacer.",
+      "cta": "Eliminar producto",
+      "busy": "Eliminando…",
+      "confirm": "¿Seguro que quieres eliminar este producto?"
+    },
+    "detail": {
+      "lastUpdated": "Última actualización {time}"
+    }
+  },
+  "templates": {
+    "listHeading": "Plantillas",
+    "listSubtitle": "Puntos de partida curados para el customizer.",
+    "empty": "No hay plantillas con este filtro.",
+    "actions": {
+      "create": "Nueva plantilla",
+      "backToList": "Volver a plantillas"
+    },
+    "filter": {
+      "search": "Buscar",
+      "searchPlaceholder": "Nombre o etiqueta",
+      "category": "Categoría",
+      "allCategories": "Todas las categorías",
+      "publish": "Publicación",
+      "all": "Todo",
+      "apply": "Aplicar"
+    },
+    "table": {
+      "preview": "Preview",
+      "name": "Nombre",
+      "categories": "Categorías",
+      "status": "Estado",
+      "featured": "Destacada",
+      "updated": "Actualizada"
+    },
+    "statusLabels": {
+      "published": "Publicada",
+      "unpublished": "Borrador"
+    },
+    "createHeading": "Nueva plantilla",
+    "createSubtitle": "Sube un preview, pega designJson y elige categorías.",
+    "form": {
+      "name": "Nombre",
+      "descriptionEn": "Descripción (EN)",
+      "supportedCategories": "Categorías soportadas",
+      "preview": "Imagen preview",
+      "designJson": "Design JSON",
+      "designJsonHint": "Pega el payload del customizer que inicializa esta plantilla.",
+      "editableFields": "Campos editables",
+      "editableFieldsHint": "Inputs que el customizer expone (nombre, color…).",
+      "editableFieldsEmpty": "Sin campos editables.",
+      "fieldKey": "Key",
+      "fieldLabel": "Etiqueta (EN)",
+      "addField": "Añadir campo",
+      "isFeatured": "Destacada",
+      "isPublished": "Publicada",
+      "tags": "Etiquetas (separadas por comas)",
+      "save": "Guardar plantilla",
+      "saving": "Guardando…"
+    },
+    "delete": {
+      "heading": "Eliminar plantilla",
+      "body": "Elimina la plantilla. No se puede deshacer.",
+      "cta": "Eliminar plantilla",
+      "busy": "Eliminando…",
+      "confirm": "¿Seguro que quieres eliminar esta plantilla?"
+    }
+  },
+  "orders": {
+    "listHeading": "Pedidos",
+    "listSubtitle": "Pedidos más recientes primero.",
+    "empty": "No hay pedidos con este filtro.",
+    "filter": {
+      "search": "Buscar",
+      "searchPlaceholder": "Número de pedido o correo",
+      "status": "Estado",
+      "allStatuses": "Todos los estados",
+      "flaggedOnly": "Solo marcados",
+      "apply": "Aplicar"
+    },
+    "table": {
+      "orderNumber": "Pedido #",
+      "customer": "Cliente",
+      "items": "Líneas",
+      "total": "Total",
+      "status": "Estado",
+      "placedAt": "Fecha"
+    },
+    "statusLabels": {
+      "pending": "Pendiente",
+      "pending_payment": "Pendiente pago",
+      "paid": "Pagado",
+      "design_review": "Revisión de diseño",
+      "design_approved": "Diseño aprobado",
+      "production_assigned": "Producción asignada",
+      "in_production": "En producción",
+      "quality_inspection": "Control de calidad",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "refunded": "Reembolsado",
+      "exception": "Incidencia"
+    },
+    "actions": {
+      "backToList": "Volver a pedidos"
+    },
+    "detail": {
+      "items": "Líneas",
+      "product": "Producto",
+      "quantity": "Cant.",
+      "unitPrice": "Precio unit.",
+      "lineTotal": "Subtotal línea",
+      "assets": "Activos",
+      "preview": "Preview",
+      "productionFile": "Archivo producción",
+      "totals": "Totales",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "tax": "Impuestos",
+      "discount": "Descuento",
+      "total": "Total",
+      "shippingAddress": "Dirección envío",
+      "customerNote": "Nota del cliente",
+      "internalNotes": "Notas internas",
+      "noInternalNotes": "Aún no hay notas internas.",
+      "addNote": "Añadir nota interna",
+      "notePlaceholder": "Contexto interno, incidencias, seguimientos…",
+      "appendNote": "Añadir nota",
+      "statusActions": "Estado y banderas",
+      "status": "Estado",
+      "statusNote": "Nota del cambio",
+      "statusNotePlaceholder": "Opcional — se añade como nota interna.",
+      "flagException": "Marcar como incidencia",
+      "saveStatus": "Guardar estado",
+      "saving": "Guardando…",
+      "flagged": "Marcado"
+    }
+  },
+  "designReviews": {
+    "heading": "Revisiones de diseño",
+    "subtitle": "Aprueba, rechaza o solicita revisiones a diseños del cliente.",
+    "empty": "No hay diseños con este filtro.",
+    "filter": {
+      "status": "Estado",
+      "apply": "Aplicar"
+    },
+    "statusLabels": {
+      "draft": "Borrador",
+      "submitted": "Enviado",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "revision_requested": "Revisión solicitada"
+    },
+    "designJson": "Design JSON",
+    "validation": "Resultado validación",
+    "reviewerNotes": "Nota del revisor",
+    "productionFile": "Archivo producción",
+    "finalised": "Este diseño está cerrado: no hay más acciones disponibles.",
+    "busy": "Enviando…",
+    "actions": {
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "requestRevision": "Pedir revisión"
+    },
+    "approve": {
+      "note": "Nota opcional (solo auditoría)"
+    },
+    "reject": {
+      "reason": "Motivo (visible para el cliente)",
+      "note": "Nota interna"
+    },
+    "revision": {
+      "message": "Qué cambiar (se envía al cliente)",
+      "note": "Nota interna"
+    }
   }
 }

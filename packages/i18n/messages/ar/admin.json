@@ -233,5 +233,276 @@
       "expired": "منتهي",
       "converted_to_order": "تحوّل إلى طلب"
     }
+  },
+  "shared": {
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "pageOf": "صفحة {page} من {total}",
+      "range": "{start}–{end} من {total}"
+    }
+  },
+  "products": {
+    "listHeading": "المنتجات",
+    "listSubtitle": "منتجات الكتالوج المتاحة في المتجر ومُكوِّن التخصيص.",
+    "empty": "لا توجد منتجات تطابق هذه التصفية.",
+    "actions": {
+      "create": "منتج جديد",
+      "backToList": "العودة إلى المنتجات"
+    },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "Slug أو الاسم أو وسم",
+      "category": "الفئة",
+      "allCategories": "كل الفئات",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "name": "الاسم",
+      "slug": "Slug",
+      "category": "الفئة",
+      "status": "الحالة",
+      "basePrice": "السعر الأساسي",
+      "variants": "المتغيرات",
+      "updated": "آخر تحديث"
+    },
+    "statusLabels": {
+      "draft": "مسودة",
+      "active": "نشط",
+      "archived": "مؤرشف",
+      "discontinued": "متوقف"
+    },
+    "createHeading": "منتج جديد",
+    "createSubtitle": "عرّف المنتج ثم أضف المتغيرات ومناطق الطباعة وشرائح الأسعار.",
+    "editHeading": "تعديل المنتج",
+    "form": {
+      "slug": "Slug (kebab-case)",
+      "category": "الفئة",
+      "status": "الحالة",
+      "name": "الاسم",
+      "description": "الوصف",
+      "basePrice": "السعر الأساسي (سنت)",
+      "basePriceHint": "أقل سعر متغير بالوحدات الصغرى (1999 = 19.99 USD).",
+      "supportedPrintMethods": "طرق الطباعة المدعومة",
+      "productionLeadDays": "أيام الإنتاج",
+      "tags": "الوسوم",
+      "tagsHint": "افصل بفواصل.",
+      "images": "صور المعرض",
+      "imagesHint": "أضف صور المنتج (PNG/JPG/WEBP/SVG).",
+      "seoSection": "SEO",
+      "seoTitle": "عنوان SEO",
+      "seoDescription": "وصف SEO",
+      "save": "حفظ المنتج",
+      "saving": "جارٍ الحفظ…"
+    },
+    "variants": {
+      "heading": "المتغيرات",
+      "empty": "لا توجد متغيرات.",
+      "active": "نشط",
+      "inactive": "متوقف",
+      "sku": "SKU",
+      "color": "اللون",
+      "size": "المقاس",
+      "material": "الخامة",
+      "unitPrice": "سعر الوحدة (سنت)",
+      "add": "إضافة متغير",
+      "remove": "إزالة"
+    },
+    "printAreas": {
+      "heading": "مناطق الطباعة",
+      "empty": "لا توجد مناطق.",
+      "key": "Key (مثل front)",
+      "label": "التسمية (EN)",
+      "add": "إضافة منطقة",
+      "remove": "إزالة"
+    },
+    "priceTiers": {
+      "heading": "شرائح الأسعار",
+      "empty": "لا توجد شرائح.",
+      "minQty": "الحد الأدنى",
+      "maxQty": "الحد الأقصى (فارغ = ∞)",
+      "unitPrice": "سعر الوحدة (سنت)",
+      "add": "إضافة شريحة",
+      "remove": "إزالة"
+    },
+    "delete": {
+      "heading": "حذف المنتج",
+      "body": "يحذف المنتج وكل متغيراته ومناطقه وشرائحه. لا يمكن التراجع.",
+      "cta": "حذف المنتج",
+      "busy": "جارٍ الحذف…",
+      "confirm": "هل أنت متأكد من حذف هذا المنتج؟"
+    },
+    "detail": {
+      "lastUpdated": "آخر تحديث {time}"
+    }
+  },
+  "templates": {
+    "listHeading": "القوالب",
+    "listSubtitle": "نقاط بداية منسّقة لمكوّن التخصيص.",
+    "empty": "لا توجد قوالب تطابق هذه التصفية.",
+    "actions": {
+      "create": "قالب جديد",
+      "backToList": "العودة إلى القوالب"
+    },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "الاسم أو وسم",
+      "category": "الفئة",
+      "allCategories": "كل الفئات",
+      "publish": "النشر",
+      "all": "الكل",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "preview": "المعاينة",
+      "name": "الاسم",
+      "categories": "الفئات",
+      "status": "الحالة",
+      "featured": "مميَّز",
+      "updated": "آخر تحديث"
+    },
+    "statusLabels": {
+      "published": "منشور",
+      "unpublished": "مسودة"
+    },
+    "createHeading": "قالب جديد",
+    "createSubtitle": "ارفع صورة معاينة، الصق designJson واختر الفئات.",
+    "form": {
+      "name": "الاسم",
+      "descriptionEn": "الوصف (EN)",
+      "supportedCategories": "الفئات المدعومة",
+      "preview": "صورة المعاينة",
+      "designJson": "Design JSON",
+      "designJsonHint": "الصق حِمل التخصيص الذي يبدأ منه القالب.",
+      "editableFields": "الحقول القابلة للتعديل",
+      "editableFieldsHint": "حقول يكشفها التخصيص للعميل (اسم، لون...).",
+      "editableFieldsEmpty": "لا توجد حقول.",
+      "fieldKey": "Key",
+      "fieldLabel": "التسمية (EN)",
+      "addField": "إضافة حقل",
+      "isFeatured": "مميَّز",
+      "isPublished": "منشور",
+      "tags": "الوسوم (مفصولة بفواصل)",
+      "save": "حفظ القالب",
+      "saving": "جارٍ الحفظ…"
+    },
+    "delete": {
+      "heading": "حذف القالب",
+      "body": "يحذف القالب نهائيًا.",
+      "cta": "حذف القالب",
+      "busy": "جارٍ الحذف…",
+      "confirm": "هل أنت متأكد من الحذف؟"
+    }
+  },
+  "orders": {
+    "listHeading": "الطلبات",
+    "listSubtitle": "أحدث الطلبات أولاً.",
+    "empty": "لا توجد طلبات تطابق هذه التصفية.",
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "رقم الطلب أو البريد",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "flaggedOnly": "المعلَّمة فقط",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "orderNumber": "رقم الطلب",
+      "customer": "العميل",
+      "items": "البنود",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "placedAt": "تاريخ الطلب"
+    },
+    "statusLabels": {
+      "pending": "معلَّق",
+      "pending_payment": "بانتظار الدفع",
+      "paid": "مدفوع",
+      "design_review": "مراجعة التصميم",
+      "design_approved": "تمت الموافقة على التصميم",
+      "production_assigned": "تم إسناد الإنتاج",
+      "in_production": "قيد الإنتاج",
+      "quality_inspection": "جودة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التسليم",
+      "completed": "مكتمل",
+      "cancelled": "ملغى",
+      "refunded": "مردود",
+      "exception": "استثناء"
+    },
+    "actions": {
+      "backToList": "العودة إلى الطلبات"
+    },
+    "detail": {
+      "items": "بنود الطلب",
+      "product": "المنتج",
+      "quantity": "الكمية",
+      "unitPrice": "سعر الوحدة",
+      "lineTotal": "إجمالي السطر",
+      "assets": "الملفات",
+      "preview": "معاينة",
+      "productionFile": "ملف الإنتاج",
+      "totals": "الإجماليات",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "shippingAddress": "عنوان الشحن",
+      "customerNote": "ملاحظة العميل",
+      "internalNotes": "ملاحظات داخلية",
+      "noInternalNotes": "لا توجد ملاحظات داخلية بعد.",
+      "addNote": "إضافة ملاحظة داخلية",
+      "notePlaceholder": "سياق داخلي أو استثناء أو متابعة…",
+      "appendNote": "إضافة ملاحظة",
+      "statusActions": "الحالة والوسوم",
+      "status": "الحالة",
+      "statusNote": "ملاحظة تغيير الحالة",
+      "statusNotePlaceholder": "اختياري — تُضاف كملاحظة داخلية.",
+      "flagException": "وضع علامة استثناء على هذا الطلب",
+      "saveStatus": "حفظ الحالة",
+      "saving": "جارٍ الحفظ…",
+      "flagged": "موسوم"
+    }
+  },
+  "designReviews": {
+    "heading": "مراجعات التصميم",
+    "subtitle": "وافق أو ارفض أو اطلب تعديل التصاميم المُرسلة من العملاء.",
+    "empty": "لا توجد تصاميم تطابق هذه التصفية.",
+    "filter": {
+      "status": "الحالة",
+      "apply": "تطبيق"
+    },
+    "statusLabels": {
+      "draft": "مسودة",
+      "submitted": "بانتظار المراجعة",
+      "approved": "موافَق عليه",
+      "rejected": "مرفوض",
+      "revision_requested": "طُلب تعديل"
+    },
+    "designJson": "Design JSON",
+    "validation": "نتيجة التحقق",
+    "reviewerNotes": "ملاحظة المراجع",
+    "productionFile": "ملف الإنتاج",
+    "finalised": "هذا التصميم منتهٍ — لا توجد إجراءات إضافية.",
+    "busy": "جارٍ الإرسال…",
+    "actions": {
+      "approve": "موافقة",
+      "reject": "رفض",
+      "requestRevision": "طلب تعديل"
+    },
+    "approve": {
+      "note": "ملاحظة اختيارية (تدقيق فقط)"
+    },
+    "reject": {
+      "reason": "السبب (يظهر للعميل)",
+      "note": "ملاحظة داخلية"
+    },
+    "revision": {
+      "message": "ما يجب تعديله (يُرسل للعميل)",
+      "note": "ملاحظة داخلية"
+    }
   }
 }

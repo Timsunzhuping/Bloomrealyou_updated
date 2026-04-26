@@ -233,5 +233,276 @@
       "expired": "Expired",
       "converted_to_order": "Converted to order"
     }
+  },
+  "shared": {
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {page} of {total}",
+      "range": "{start}–{end} of {total}"
+    }
+  },
+  "products": {
+    "listHeading": "Products",
+    "listSubtitle": "Catalog products available for storefront and customizer.",
+    "empty": "No products match this filter yet.",
+    "actions": {
+      "create": "New product",
+      "backToList": "Back to products"
+    },
+    "filter": {
+      "search": "Search",
+      "searchPlaceholder": "Slug, name or tag",
+      "category": "Category",
+      "allCategories": "All categories",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "apply": "Apply"
+    },
+    "table": {
+      "name": "Name",
+      "slug": "Slug",
+      "category": "Category",
+      "status": "Status",
+      "basePrice": "Base price",
+      "variants": "Variants",
+      "updated": "Updated"
+    },
+    "statusLabels": {
+      "draft": "Draft",
+      "active": "Active",
+      "archived": "Archived",
+      "discontinued": "Discontinued"
+    },
+    "createHeading": "New product",
+    "createSubtitle": "Define the product, then add variants, print areas and tiered prices.",
+    "editHeading": "Edit product",
+    "form": {
+      "slug": "Slug (kebab-case)",
+      "category": "Category",
+      "status": "Status",
+      "name": "Name",
+      "description": "Description",
+      "basePrice": "Base price (cents)",
+      "basePriceHint": "Lowest variant price in minor units (e.g. 1999 = $19.99).",
+      "supportedPrintMethods": "Supported print methods",
+      "productionLeadDays": "Production lead days",
+      "tags": "Tags",
+      "tagsHint": "Comma-separated.",
+      "images": "Gallery images",
+      "imagesHint": "Add product mockups (PNG/JPG/WEBP/SVG).",
+      "seoSection": "SEO",
+      "seoTitle": "SEO title",
+      "seoDescription": "SEO description",
+      "save": "Save product",
+      "saving": "Saving…"
+    },
+    "variants": {
+      "heading": "Variants",
+      "empty": "No variants yet.",
+      "active": "active",
+      "inactive": "inactive",
+      "sku": "SKU",
+      "color": "Color",
+      "size": "Size",
+      "material": "Material",
+      "unitPrice": "Unit price (cents)",
+      "add": "Add variant",
+      "remove": "Remove variant"
+    },
+    "printAreas": {
+      "heading": "Print areas",
+      "empty": "No print areas yet.",
+      "key": "Key (e.g. front)",
+      "label": "Label (EN)",
+      "add": "Add print area",
+      "remove": "Remove print area"
+    },
+    "priceTiers": {
+      "heading": "Price tiers",
+      "empty": "No price tiers yet.",
+      "minQty": "Min qty",
+      "maxQty": "Max qty (blank = ∞)",
+      "unitPrice": "Unit price (cents)",
+      "add": "Add tier",
+      "remove": "Remove tier"
+    },
+    "delete": {
+      "heading": "Delete product",
+      "body": "Removes the product, its variants, print areas and tiers. This cannot be undone.",
+      "cta": "Delete product",
+      "busy": "Deleting…",
+      "confirm": "Are you sure you want to delete this product?"
+    },
+    "detail": {
+      "lastUpdated": "Last updated {time}"
+    }
+  },
+  "templates": {
+    "listHeading": "Templates",
+    "listSubtitle": "Curated starting points for the customizer.",
+    "empty": "No templates match this filter.",
+    "actions": {
+      "create": "New template",
+      "backToList": "Back to templates"
+    },
+    "filter": {
+      "search": "Search",
+      "searchPlaceholder": "Name or tag",
+      "category": "Category",
+      "allCategories": "All categories",
+      "publish": "Publish",
+      "all": "All",
+      "apply": "Apply"
+    },
+    "table": {
+      "preview": "Preview",
+      "name": "Name",
+      "categories": "Categories",
+      "status": "Status",
+      "featured": "Featured",
+      "updated": "Updated"
+    },
+    "statusLabels": {
+      "published": "Published",
+      "unpublished": "Draft"
+    },
+    "createHeading": "New template",
+    "createSubtitle": "Upload a preview, paste design JSON and pick supported categories.",
+    "form": {
+      "name": "Name",
+      "descriptionEn": "Description (EN)",
+      "supportedCategories": "Supported categories",
+      "preview": "Preview image",
+      "designJson": "Design JSON",
+      "designJsonHint": "Paste the customizer payload that seeds this template.",
+      "editableFields": "Editable fields",
+      "editableFieldsHint": "Customer-facing inputs the customizer surfaces (name, color, etc.).",
+      "editableFieldsEmpty": "No editable fields yet.",
+      "fieldKey": "Key",
+      "fieldLabel": "Label (EN)",
+      "addField": "Add field",
+      "isFeatured": "Featured",
+      "isPublished": "Published",
+      "tags": "Tags (comma-separated)",
+      "save": "Save template",
+      "saving": "Saving…"
+    },
+    "delete": {
+      "heading": "Delete template",
+      "body": "Removes the template and unhides any references to it. This cannot be undone.",
+      "cta": "Delete template",
+      "busy": "Deleting…",
+      "confirm": "Are you sure you want to delete this template?"
+    }
+  },
+  "orders": {
+    "listHeading": "Orders",
+    "listSubtitle": "Latest orders, newest first.",
+    "empty": "No orders match this filter.",
+    "filter": {
+      "search": "Search",
+      "searchPlaceholder": "Order number or email",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "flaggedOnly": "Flagged only",
+      "apply": "Apply"
+    },
+    "table": {
+      "orderNumber": "Order #",
+      "customer": "Customer",
+      "items": "Items",
+      "total": "Total",
+      "status": "Status",
+      "placedAt": "Placed"
+    },
+    "statusLabels": {
+      "pending": "Pending",
+      "pending_payment": "Pending payment",
+      "paid": "Paid",
+      "design_review": "Design review",
+      "design_approved": "Design approved",
+      "production_assigned": "Production assigned",
+      "in_production": "In production",
+      "quality_inspection": "QA",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded",
+      "exception": "Exception"
+    },
+    "actions": {
+      "backToList": "Back to orders"
+    },
+    "detail": {
+      "items": "Line items",
+      "product": "Product",
+      "quantity": "Qty",
+      "unitPrice": "Unit price",
+      "lineTotal": "Line total",
+      "assets": "Assets",
+      "preview": "Preview",
+      "productionFile": "Production file",
+      "totals": "Totals",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "discount": "Discount",
+      "total": "Total",
+      "shippingAddress": "Shipping address",
+      "customerNote": "Customer note",
+      "internalNotes": "Internal notes",
+      "noInternalNotes": "No internal notes yet.",
+      "addNote": "Add an internal note",
+      "notePlaceholder": "Internal context, exceptions, follow-ups…",
+      "appendNote": "Append note",
+      "statusActions": "Status & flags",
+      "status": "Status",
+      "statusNote": "Status change note",
+      "statusNotePlaceholder": "Optional — appended as an internal note.",
+      "flagException": "Flag this order as an exception",
+      "saveStatus": "Save status",
+      "saving": "Saving…",
+      "flagged": "Flagged"
+    }
+  },
+  "designReviews": {
+    "heading": "Design reviews",
+    "subtitle": "Approve, reject, or request revisions on customer-submitted designs.",
+    "empty": "No designs match this filter.",
+    "filter": {
+      "status": "Status",
+      "apply": "Apply"
+    },
+    "statusLabels": {
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "revision_requested": "Revision requested"
+    },
+    "designJson": "Design JSON",
+    "validation": "Validation result",
+    "reviewerNotes": "Reviewer note",
+    "productionFile": "Production file",
+    "finalised": "This design is finalised — no further actions are available.",
+    "busy": "Submitting…",
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "requestRevision": "Request revision"
+    },
+    "approve": {
+      "note": "Optional approval note (audit only)"
+    },
+    "reject": {
+      "reason": "Reason (shown to customer)",
+      "note": "Internal note"
+    },
+    "revision": {
+      "message": "What needs to change (sent to customer)",
+      "note": "Internal note"
+    }
   }
 }

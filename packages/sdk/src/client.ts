@@ -1,6 +1,10 @@
 import { AccountClient } from './account.js';
 import { AdminAuthClient } from './admin-auth.js';
 import { AdminDashboardClient } from './admin-dashboard.js';
+import { AdminDesignReviewsClient } from './admin-design-reviews.js';
+import { AdminOrdersClient } from './admin-orders.js';
+import { AdminProductsClient } from './admin-products.js';
+import { AdminTemplatesClient } from './admin-templates.js';
 import { AIClient } from './ai.js';
 import { CartClient } from './cart.js';
 import { CustomizationsClient } from './customizations.js';
@@ -91,6 +95,10 @@ export class ApiClient {
   readonly adminQuotes: AdminQuotesClient;
   readonly adminAuth: AdminAuthClient;
   readonly adminDashboard: AdminDashboardClient;
+  readonly adminProducts: AdminProductsClient;
+  readonly adminTemplates: AdminTemplatesClient;
+  readonly adminOrders: AdminOrdersClient;
+  readonly adminDesignReviews: AdminDesignReviewsClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -112,6 +120,10 @@ export class ApiClient {
     this.adminQuotes = new AdminQuotesClient(this);
     this.adminAuth = new AdminAuthClient(this);
     this.adminDashboard = new AdminDashboardClient(this);
+    this.adminProducts = new AdminProductsClient(this);
+    this.adminTemplates = new AdminTemplatesClient(this);
+    this.adminOrders = new AdminOrdersClient(this);
+    this.adminDesignReviews = new AdminDesignReviewsClient(this);
   }
 
   /** Set / clear the admin bearer token. Cleared on logout. */

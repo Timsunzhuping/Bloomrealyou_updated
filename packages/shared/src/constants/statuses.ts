@@ -7,7 +7,13 @@
 export const PRODUCT_STATUSES = ['draft', 'active', 'archived', 'discontinued'] as const;
 export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
 
-export const DESIGN_STATUSES = ['draft', 'submitted', 'approved', 'rejected'] as const;
+export const DESIGN_STATUSES = [
+  'draft',
+  'submitted',
+  'approved',
+  'rejected',
+  'revision_requested',
+] as const;
 export type DesignStatus = (typeof DESIGN_STATUSES)[number];
 
 export const CART_STATUSES = ['active', 'abandoned', 'converted', 'expired'] as const;
