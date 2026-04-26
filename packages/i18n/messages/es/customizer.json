@@ -102,9 +102,25 @@
     }
   },
   "ai": {
+    "panelTitle": "Asistente de diseño con IA",
+    "panelSubtitle": "Describe el escenario y la IA sugerirá eslóganes, colores y layouts.",
+    "scenarioLabel": "Describe el escenario",
+    "scenarioPlaceholder": "Ej.: conferencia tech en Dubái para una startup de IA",
+    "generate": "Obtener sugerencias",
+    "generating": "Pensando…",
+    "fallback": "La IA no está disponible — tus herramientas manuales siguen funcionando.",
+    "slogansHeading": "Eslóganes",
+    "ideasHeading": "Ideas de diseño",
+    "layoutsHeading": "Layouts",
+    "applySlogan": "Aplicar",
+    "applyLayout": "Aplicar layout",
+    "copy": "Copiar",
+    "copied": "Copiado",
     "generateSlogan": "Generar eslogan",
     "improveDesign": "Mejorar diseño",
-    "tryGiftBundle": "Sugerir pack de regalo"
+    "tryGiftBundle": "Sugerir pack de regalo",
+    "ideaPalette": "Paleta",
+    "ideaProducts": "Productos"
   },
   "warnings": {
     "outsideSafeArea": "La capa sale del área segura — puede recortarse en producción.",

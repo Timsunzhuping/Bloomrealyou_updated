@@ -102,9 +102,25 @@
     }
   },
   "ai": {
+    "panelTitle": "AI design assistant",
+    "panelSubtitle": "Describe your scenario and we'll suggest slogans, colours and layouts.",
+    "scenarioLabel": "Describe the scenario",
+    "scenarioPlaceholder": "e.g. Tech conference in Dubai for an AI startup",
+    "generate": "Get suggestions",
+    "generating": "Thinking…",
+    "fallback": "AI is unavailable right now — your manual tools still work.",
+    "slogansHeading": "Slogans",
+    "ideasHeading": "Design ideas",
+    "layoutsHeading": "Layouts",
+    "applySlogan": "Apply",
+    "applyLayout": "Apply layout",
+    "copy": "Copy",
+    "copied": "Copied",
     "generateSlogan": "Generate slogan",
     "improveDesign": "Improve design",
-    "tryGiftBundle": "Suggest gift bundle"
+    "tryGiftBundle": "Suggest gift bundle",
+    "ideaPalette": "Palette",
+    "ideaProducts": "Products"
   },
   "warnings": {
     "outsideSafeArea": "Layer extends past the safe area — it may be trimmed in production.",

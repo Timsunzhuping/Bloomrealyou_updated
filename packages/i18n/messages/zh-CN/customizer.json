@@ -102,9 +102,25 @@
     }
   },
   "ai": {
+    "panelTitle": "AI 设计助手",
+    "panelSubtitle": "描述场景，AI 会推荐 slogan、配色与版式。",
+    "scenarioLabel": "请描述使用场景",
+    "scenarioPlaceholder": "例如：迪拜的 AI 初创公司科技峰会",
+    "generate": "生成建议",
+    "generating": "思考中…",
+    "fallback": "AI 暂时不可用 — 手动工具不受影响。",
+    "slogansHeading": "Slogan",
+    "ideasHeading": "设计建议",
+    "layoutsHeading": "布局建议",
+    "applySlogan": "应用",
+    "applyLayout": "应用布局",
+    "copy": "复制",
+    "copied": "已复制",
     "generateSlogan": "生成 Slogan",
     "improveDesign": "优化设计",
-    "tryGiftBundle": "推荐礼品组合"
+    "tryGiftBundle": "推荐礼品组合",
+    "ideaPalette": "配色",
+    "ideaProducts": "适用品类"
   },
   "warnings": {
     "outsideSafeArea": "图层超出安全区，生产时可能被裁切。",

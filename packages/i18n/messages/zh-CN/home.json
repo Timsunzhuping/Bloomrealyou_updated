@@ -20,7 +20,10 @@
   "ai": {
     "heading": "AI 设计助手",
     "subtitle": "几秒生成 slogan、版面与品牌一致的图形。",
-    "cta": "试用 AI 助手"
+    "cta": "试用 AI 助手",
+    "inputLabel": "描述您要做的内容",
+    "inputPlaceholder": "例如：迪拜的 AI 初创公司科技峰会",
+    "submit": "获取 AI 灵感"
   },
   "corporate": {
     "heading": "企业礼品与团队周边",

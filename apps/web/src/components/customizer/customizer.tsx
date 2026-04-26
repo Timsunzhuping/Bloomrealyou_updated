@@ -19,6 +19,7 @@ import * as React from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { getClientApi } from '@/lib/client-api';
 
+import { CustomizerAIPanel } from './ai-panel';
 import { CustomizerBottomBar } from './bottom-bar';
 import type { CanvasStageHandle } from './canvas-stage';
 import {
@@ -62,6 +63,8 @@ export interface CustomizerProps {
   initialVariantId?: string;
   /** When set, hydrate the customizer from the persisted design. */
   initialDesignId?: string;
+  /** Optional scenario string prefilled into the AI panel from ?ai=. */
+  initialAiScenario?: string;
 }
 
 /** Snapshot embedded inside designJson for store geometry — survives loadDesignJson(). */
@@ -76,6 +79,7 @@ export function Customizer({
   printAreas,
   initialVariantId,
   initialDesignId,
+  initialAiScenario,
 }: CustomizerProps): JSX.Element {
   const t = useTranslations('customizer');
   const tTopBar = useTranslations('customizer.topBar');
@@ -90,7 +94,9 @@ export function Customizer({
   const toDesignJson = useCustomizerStore((s) => s.toDesignJson);
   const loadDesignJson = useCustomizerStore((s) => s.loadDesignJson);
 
-  const [activePanel, setActivePanel] = React.useState<LeftPanel>('layers');
+  const [activePanel, setActivePanel] = React.useState<LeftPanel>(
+    initialAiScenario ? 'ai' : 'layers',
+  );
   const [quantity, setQuantity] = React.useState(1);
   const [toast, setToast] = React.useState<string | null>(null);
   const [savedDesignId, setSavedDesignId] = React.useState<string | null>(
@@ -430,7 +436,10 @@ export function Customizer({
             uploadInputId="customizer-file-input"
           />
           <div className="hidden border-e bg-background md:block md:max-h-[calc(100vh-12rem)] md:overflow-y-auto">
-            <CustomizerLeftPanelContent active={activePanel} />
+            <CustomizerLeftPanelContent
+              active={activePanel}
+              aiSlot={<CustomizerAIPanel locale={locale} initialScenario={initialAiScenario} />}
+            />
           </div>
         </div>
 

@@ -13,6 +13,7 @@ import {
 import { Bot, Building2, Globe, Sparkles, Truck, Zap } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+import { HomeAIPrompt } from '@/components/home/home-ai-prompt';
 import { Link } from '@/i18n/navigation';
 
 import type { Metadata } from 'next';
@@ -126,16 +127,9 @@ export default async function HomePage({ params }: HomePageProps): Promise<JSX.E
         ]}
       />
 
-      {/* AI Assistant placeholder */}
+      {/* AI Assistant — submits deep into the customizer with a seeded scenario. */}
       <section className="grid gap-4 rounded-2xl border bg-gradient-to-br from-accent/10 to-primary/5 p-8 md:grid-cols-[2fr_1fr] md:items-center md:gap-8 md:p-12">
-        <div className="space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent">AI</p>
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">{t('ai.heading')}</h2>
-          <p className="max-w-xl text-muted-foreground">{t('ai.subtitle')}</p>
-          <Button asChild className="mt-2">
-            <Link href="/customize/classic-cotton-tee?ai=1">{t('ai.cta')}</Link>
-          </Button>
-        </div>
+        <HomeAIPrompt />
         <div className="grid h-48 place-items-center rounded-xl bg-background/60">
           <Sparkles className="h-12 w-12 text-accent" aria-hidden="true" />
         </div>

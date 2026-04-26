@@ -1,4 +1,5 @@
 import { AccountClient } from './account.js';
+import { AIClient } from './ai.js';
 import { CartClient } from './cart.js';
 import { CustomizationsClient } from './customizations.js';
 import { OrdersClient } from './orders.js';
@@ -77,6 +78,7 @@ export class ApiClient {
   readonly orders: OrdersClient;
   readonly payments: PaymentsClient;
   readonly account: AccountClient;
+  readonly ai: AIClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -91,6 +93,7 @@ export class ApiClient {
     this.orders = new OrdersClient(this);
     this.payments = new PaymentsClient(this);
     this.account = new AccountClient(this);
+    this.ai = new AIClient(this);
   }
 
   /** Low-level helper with shared error handling. */

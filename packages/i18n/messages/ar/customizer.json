@@ -102,9 +102,25 @@
     }
   },
   "ai": {
+    "panelTitle": "مساعد التصميم بالذكاء الاصطناعي",
+    "panelSubtitle": "صف السيناريو وسيقترح المساعد شعارات وألوان وتخطيطات.",
+    "scenarioLabel": "صف السيناريو",
+    "scenarioPlaceholder": "مثال: مؤتمر تقني في دبي لشركة ناشئة في الذكاء الاصطناعي",
+    "generate": "احصل على اقتراحات",
+    "generating": "جارٍ التفكير…",
+    "fallback": "الذكاء الاصطناعي غير متاح حالياً — الأدوات اليدوية تعمل بشكل طبيعي.",
+    "slogansHeading": "الشعارات",
+    "ideasHeading": "أفكار التصميم",
+    "layoutsHeading": "التخطيطات",
+    "applySlogan": "تطبيق",
+    "applyLayout": "تطبيق التخطيط",
+    "copy": "نسخ",
+    "copied": "تم النسخ",
     "generateSlogan": "اقترح شعاراً",
     "improveDesign": "تحسين التصميم",
-    "tryGiftBundle": "اقترح حزمة هدايا"
+    "tryGiftBundle": "اقترح حزمة هدايا",
+    "ideaPalette": "اللوحة اللونية",
+    "ideaProducts": "المنتجات"
   },
   "warnings": {
     "outsideSafeArea": "الطبقة خارج المنطقة الآمنة — قد يتم قصها في الإنتاج.",

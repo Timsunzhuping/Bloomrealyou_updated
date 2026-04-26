@@ -20,7 +20,10 @@
   "ai": {
     "heading": "AI design assistant",
     "subtitle": "Generate slogans, layouts and on-brand artwork in seconds.",
-    "cta": "Try the AI assistant"
+    "cta": "Try the AI assistant",
+    "inputLabel": "Describe what you're making",
+    "inputPlaceholder": "e.g. Tech conference in Dubai for an AI startup",
+    "submit": "Get AI ideas"
   },
   "corporate": {
     "heading": "Corporate gifts and merchandise",

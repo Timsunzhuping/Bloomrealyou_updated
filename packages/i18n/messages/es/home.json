@@ -20,7 +20,10 @@
   "ai": {
     "heading": "Asistente de diseño con IA",
     "subtitle": "Genera lemas, layouts y arte alineado con tu marca en segundos.",
-    "cta": "Probar el asistente"
+    "cta": "Probar el asistente",
+    "inputLabel": "Describe lo que quieres crear",
+    "inputPlaceholder": "Ej.: conferencia tech en Dubái para una startup de IA",
+    "submit": "Pedir ideas a la IA"
   },
   "corporate": {
     "heading": "Regalos y merchandising corporativo",

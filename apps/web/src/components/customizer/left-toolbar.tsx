@@ -87,7 +87,13 @@ export function CustomizerLeftToolbar({
 }
 
 /** Empty-state list for the active left panel sub-content. */
-export function CustomizerLeftPanelContent({ active }: { active: LeftPanel }): JSX.Element | null {
+export function CustomizerLeftPanelContent({
+  active,
+  aiSlot,
+}: {
+  active: LeftPanel;
+  aiSlot?: React.ReactNode;
+}): JSX.Element | null {
   const t = useTranslations('customizer');
   const layers = useCustomizerStore((s) => s.layers);
   const selectedLayerId = useCustomizerStore((s) => s.selectedLayerId);
@@ -103,7 +109,7 @@ export function CustomizerLeftPanelContent({ active }: { active: LeftPanel }): J
     );
   }
   if (active === 'ai') {
-    return <p className="px-3 py-2 text-xs text-muted-foreground">{t('panels.aiPlaceholder')}</p>;
+    return <>{aiSlot ?? <p className="px-3 py-2 text-xs text-muted-foreground">{t('panels.aiPlaceholder')}</p>}</>;
   }
   if (active === 'upload') {
     return <p className="px-3 py-2 text-xs text-muted-foreground">{t('upload.accepted')}</p>;
