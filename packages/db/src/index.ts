@@ -1,18 +1,32 @@
 /**
- * Single shared Prisma client. Apps should import from this package rather than
- * instantiating their own Prisma client to ensure connection pooling stays sane.
+ * Typed Prisma client singleton for the platform.
  *
- * NOTE: We intentionally type the export as `unknown`-shaped here in WP-00
- * because the Prisma client is generated at build time. Apps that consume this
- * after running `pnpm --filter @custom-merch/db prisma:generate` get full types
- * via `@prisma/client`.
+ * Apps/api (and anyone else needing direct DB access) imports the shared
+ * client from here so connection pooling stays sane and a single client
+ * instance can be reused across hot-reloads in dev.
  */
+import { PrismaClient } from '@prisma/client';
 
-let cachedClient: unknown = null;
+// Re-export the entire Prisma namespace + types for downstream consumers.
+export * from '@prisma/client';
 
-export async function getPrismaClient(): Promise<unknown> {
-  if (cachedClient) return cachedClient;
-  const mod = (await import('@prisma/client')) as { PrismaClient: new () => unknown };
-  cachedClient = new mod.PrismaClient();
-  return cachedClient;
+declare global {
+  // eslint-disable-next-line no-var
+  var __customMerchPrisma__: PrismaClient | undefined;
 }
+
+/**
+ * Returns a process-wide PrismaClient instance.
+ * In dev, hot-reloads reuse the cached instance to avoid exhausting connections.
+ */
+export function getPrismaClient(): PrismaClient {
+  if (!globalThis.__customMerchPrisma__) {
+    globalThis.__customMerchPrisma__ = new PrismaClient({
+      log: process.env.NODE_ENV === 'development' ? ['warn', 'error'] : ['error'],
+    });
+  }
+  return globalThis.__customMerchPrisma__;
+}
+
+/** Convenience shared instance — equivalent to calling {@link getPrismaClient}. */
+export const prisma: PrismaClient = getPrismaClient();

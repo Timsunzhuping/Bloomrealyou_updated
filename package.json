@@ -16,7 +16,13 @@
     "test": "turbo run test",
     "clean": "turbo run clean && rimraf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "db:generate": "pnpm --filter @custom-merch/db db:generate",
+    "db:migrate": "pnpm --filter @custom-merch/db db:migrate",
+    "db:migrate:deploy": "pnpm --filter @custom-merch/db db:migrate:deploy",
+    "db:seed": "pnpm --filter @custom-merch/db db:seed",
+    "db:studio": "pnpm --filter @custom-merch/db db:studio",
+    "db:reset": "pnpm --filter @custom-merch/db db:reset"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",

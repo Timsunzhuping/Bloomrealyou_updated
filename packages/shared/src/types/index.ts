@@ -11,3 +11,4 @@ export * from './rfq';
 export * from './quote';
 export * from './audit';
 export * from './notification';
+export * from './ai';
