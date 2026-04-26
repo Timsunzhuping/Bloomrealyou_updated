@@ -7,7 +7,27 @@
     "preview": "Preview",
     "addToCart": "Add to cart",
     "draftSaved": "Design saved locally",
-    "exportJson": "Export JSON"
+    "exportJson": "Export JSON",
+    "saving": "Saving design…",
+    "savedRemote": "Design saved",
+    "saveFailed": "Could not save design",
+    "validating": "Checking design…",
+    "validationFailed": "Design has errors that must be fixed",
+    "validationWarnings": "Design has warnings — review before continuing",
+    "addedToCart": "Added to cart"
+  },
+  "validation": {
+    "design_empty": "Design has no layers yet — add text or upload an image.",
+    "preview_missing": "Preview image has not been generated.",
+    "object_outside_safe_area": "A layer extends past the safe area.",
+    "object_outside_print_area": "A layer is outside the printable area.",
+    "image_low_resolution": "Image resolution is below 150 DPI.",
+    "image_unsupported_format": "Image format is not supported for production.",
+    "text_too_small": "Text is below 12px and may be unreadable.",
+    "text_empty": "Text layer has no content.",
+    "errorsTitle": "Errors",
+    "warningsTitle": "Warnings",
+    "continueAnyway": "Continue anyway"
   },
   "tools": {
     "addText": "Add text",

@@ -1,14 +1,21 @@
 'use client';
 
 import { formatCurrency, type Locale } from '@custom-merch/i18n';
+import { ApiError } from '@custom-merch/sdk';
 import type {
+  CustomerDesignDto,
   Product,
   ProductPrintArea,
   ProductVariant,
+  ValidationCode,
+  ValidationIssue,
+  ValidationResult,
 } from '@custom-merch/shared';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
+
+import { getClientApi } from '@/lib/client-api';
 
 import { CustomizerBottomBar } from './bottom-bar';
 import type { CanvasStageHandle } from './canvas-stage';
@@ -51,7 +58,14 @@ export interface CustomizerProps {
   printAreas: ProductPrintArea[];
   /** Optional pre-selected variant id from the URL query. */
   initialVariantId?: string;
+  /** When set, hydrate the customizer from the persisted design. */
+  initialDesignId?: string;
 }
+
+/** Snapshot embedded inside designJson for store geometry — survives loadDesignJson(). */
+type SerializableSnapshot = ReturnType<typeof useCustomizerStore.getState>['toDesignJson'] extends () => infer R
+  ? R
+  : never;
 
 export function Customizer({
   locale,
@@ -59,19 +73,31 @@ export function Customizer({
   variants,
   printAreas,
   initialVariantId,
+  initialDesignId,
 }: CustomizerProps): JSX.Element {
   const t = useTranslations('customizer');
+  const tTopBar = useTranslations('customizer.topBar');
   const tWarn = useTranslations('customizer.warnings');
+  const tValidation = useTranslations('customizer.validation');
 
   const setContext = useCustomizerStore((s) => s.setContext);
   const reset = useCustomizerStore((s) => s.reset);
   const addText = useCustomizerStore((s) => s.addText);
   const addImage = useCustomizerStore((s) => s.addImage);
   const toDesignJson = useCustomizerStore((s) => s.toDesignJson);
+  const loadDesignJson = useCustomizerStore((s) => s.loadDesignJson);
 
   const [activePanel, setActivePanel] = React.useState<LeftPanel>('layers');
   const [quantity, setQuantity] = React.useState(1);
   const [toast, setToast] = React.useState<string | null>(null);
+  const [savedDesignId, setSavedDesignId] = React.useState<string | null>(
+    initialDesignId ?? null,
+  );
+  const [isWorking, setIsWorking] = React.useState(false);
+  const [validationModal, setValidationModal] = React.useState<
+    | { result: ValidationResult; onConfirm: () => void; canConfirm: boolean }
+    | null
+  >(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const stageRef = React.useRef<CanvasStageHandle>(null);
   const [containerWidth, setContainerWidth] = React.useState(640);
@@ -92,6 +118,27 @@ export function Customizer({
     return () => reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.id]);
+
+  // Hydrate from server when ?designId= is supplied.
+  React.useEffect(() => {
+    if (!initialDesignId) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const dto = await getClientApi().customizations.get(initialDesignId);
+        if (cancelled) return;
+        loadDesignJson(dto.designJson as unknown as SerializableSnapshot);
+        setSavedDesignId(dto.id);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[customizer] could not load design', (err as Error).message);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialDesignId]);
 
   // Track container width so the stage can scale responsively.
   React.useEffect(() => {
@@ -131,24 +178,67 @@ export function Customizer({
     [addImage, tWarn],
   );
 
-  const handleSave = React.useCallback(() => {
-    const json = toDesignJson();
+  /** Captures a preview from the stage (data URL). */
+  const captureDataUrl = React.useCallback((): string | null => {
+    return stageRef.current?.exportPreview(2) ?? null;
+  }, []);
+
+  const persist = React.useCallback(
+    async (existingId: string | null): Promise<CustomerDesignDto | null> => {
+      const json = toDesignJson();
+      const previewDataUrl = captureDataUrl() ?? undefined;
+      const api = getClientApi();
+      try {
+        if (existingId) {
+          return await api.customizations.patch(existingId, {
+            designJson: json as unknown as Record<string, unknown>,
+            previewDataUrl,
+          });
+        }
+        return await api.customizations.create({
+          productId: product.id,
+          variantId: json.variantId,
+          name: localizedName,
+          designJson: json as unknown as Record<string, unknown>,
+          previewDataUrl,
+        });
+      } catch (err) {
+        const status = err instanceof ApiError ? err.status : -1;
+        // eslint-disable-next-line no-console
+        console.warn('[customizer] save failed', status, (err as Error).message);
+        return null;
+      }
+    },
+    [captureDataUrl, localizedName, product.id, toDesignJson],
+  );
+
+  const handleSave = React.useCallback(async () => {
+    setIsWorking(true);
+    setToast(tTopBar('saving'));
+    // Always keep a local-storage backup as well.
     try {
       window.localStorage.setItem(
         `cmp:design:${product.slug}`,
-        JSON.stringify(json),
+        JSON.stringify(toDesignJson()),
       );
-      setToast(t('topBar.draftSaved'));
     } catch {
-      // localStorage unavailable — fall back to console for the MVP.
-      // eslint-disable-next-line no-console
-      console.warn('[customizer] localStorage unavailable, design not persisted');
+      /* localStorage unavailable */
     }
-  }, [product.slug, t, toDesignJson]);
 
-  const handlePreview = React.useCallback(() => {
-    const dataUrl = stageRef.current?.exportPreview(2);
+    const dto = await persist(savedDesignId);
+    if (dto) {
+      setSavedDesignId(dto.id);
+      setToast(tTopBar('savedRemote'));
+    } else {
+      setToast(tTopBar('draftSaved'));
+    }
+    setIsWorking(false);
+  }, [persist, product.slug, savedDesignId, tTopBar, toDesignJson]);
+
+  const handlePreview = React.useCallback(async () => {
+    const dataUrl = captureDataUrl();
     if (!dataUrl) return;
+    // Open immediately for the user; concurrently push to API for persistence.
     const w = window.open();
     if (w) {
       w.document.title = localizedName;
@@ -158,15 +248,88 @@ export function Customizer({
       img.style.maxWidth = '100%';
       w.document.body.appendChild(img);
     }
-  }, [localizedName]);
 
-  const handleAddToCart = React.useCallback(() => {
-    const json = toDesignJson();
-    // Cart wiring lands in WP-09. For now we surface confirmation + console.
-    // eslint-disable-next-line no-console
-    console.info('[customizer] add-to-cart payload', { quantity, design: json });
-    setToast(t('topBar.draftSaved'));
-  }, [quantity, t, toDesignJson]);
+    let designId = savedDesignId;
+    if (!designId) {
+      const dto = await persist(null);
+      designId = dto?.id ?? null;
+      if (designId) setSavedDesignId(designId);
+    }
+    if (designId) {
+      try {
+        await getClientApi().customizations.renderPreview(designId, {
+          previewDataUrl: dataUrl,
+        });
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[customizer] render-preview failed', (err as Error).message);
+      }
+    }
+  }, [captureDataUrl, localizedName, persist, savedDesignId]);
+
+  const handleAddToCart = React.useCallback(async () => {
+    setIsWorking(true);
+    setToast(tTopBar('validating'));
+
+    let designId = savedDesignId;
+    if (!designId) {
+      const dto = await persist(null);
+      designId = dto?.id ?? null;
+      if (designId) setSavedDesignId(designId);
+    }
+
+    if (!designId) {
+      setToast(tTopBar('saveFailed'));
+      setIsWorking(false);
+      return;
+    }
+
+    let result: ValidationResult;
+    try {
+      result = await getClientApi().customizations.validate(designId, {});
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[customizer] validation failed', (err as Error).message);
+      setToast(tTopBar('saveFailed'));
+      setIsWorking(false);
+      return;
+    }
+
+    setIsWorking(false);
+
+    if (!result.ok) {
+      setToast(tTopBar('validationFailed'));
+      setValidationModal({ result, onConfirm: () => undefined, canConfirm: false });
+      return;
+    }
+    if (result.warnings.length > 0) {
+      setToast(tTopBar('validationWarnings'));
+      setValidationModal({
+        result,
+        canConfirm: true,
+        onConfirm: () => {
+          setValidationModal(null);
+          finalizeAddToCart(designId, result);
+        },
+      });
+      return;
+    }
+    finalizeAddToCart(designId, result);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [persist, savedDesignId, tTopBar]);
+
+  const finalizeAddToCart = React.useCallback(
+    (designId: string, validation: ValidationResult): void => {
+      // eslint-disable-next-line no-console
+      console.info('[customizer] add-to-cart payload', {
+        quantity,
+        designId,
+        validation,
+      });
+      setToast(tTopBar('addedToCart'));
+    },
+    [quantity, tTopBar],
+  );
 
   const totalCents = product.basePrice.amountMinor * quantity;
   const totalLabel = formatCurrency(
@@ -222,6 +385,98 @@ export function Customizer({
         leadDays={product.productionLeadDays}
         onAddToCart={handleAddToCart}
       />
+
+      {validationModal && (
+        <ValidationModal
+          result={validationModal.result}
+          canConfirm={validationModal.canConfirm}
+          onConfirm={validationModal.onConfirm}
+          onDismiss={() => setValidationModal(null)}
+          tValidation={tValidation}
+        />
+      )}
+
+      {isWorking && <span className="sr-only">{tTopBar('saving')}</span>}
+    </div>
+  );
+}
+
+interface ValidationModalProps {
+  result: ValidationResult;
+  canConfirm: boolean;
+  onConfirm: () => void;
+  onDismiss: () => void;
+  tValidation: ReturnType<typeof useTranslations>;
+}
+
+function ValidationModal({
+  result,
+  canConfirm,
+  onConfirm,
+  onDismiss,
+  tValidation,
+}: ValidationModalProps): JSX.Element {
+  const issueLabel = (issue: ValidationIssue): string => {
+    try {
+      return tValidation(issue.code as ValidationCode);
+    } catch {
+      return issue.message;
+    }
+  };
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4"
+    >
+      <div className="w-full max-w-md space-y-4 rounded-lg border bg-background p-6 shadow-lg">
+        {result.errors.length > 0 && (
+          <section>
+            <h3 className="text-sm font-semibold text-destructive">
+              {tValidation('errorsTitle')} ({result.errors.length})
+            </h3>
+            <ul className="mt-1 space-y-1 text-sm">
+              {result.errors.map((e, i) => (
+                <li key={i} className="text-foreground">
+                  • {issueLabel(e)}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {result.warnings.length > 0 && (
+          <section>
+            <h3 className="text-sm font-semibold text-warning-foreground">
+              {tValidation('warningsTitle')} ({result.warnings.length})
+            </h3>
+            <ul className="mt-1 space-y-1 text-sm">
+              {result.warnings.map((w, i) => (
+                <li key={i} className="text-muted-foreground">
+                  • {issueLabel(w)}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        <div className="flex justify-end gap-2 pt-2">
+          <button
+            type="button"
+            onClick={onDismiss}
+            className="rounded-md border px-3 py-1.5 text-sm hover:bg-accent"
+          >
+            ✕
+          </button>
+          {canConfirm && (
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              {tValidation('continueAnyway')}
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

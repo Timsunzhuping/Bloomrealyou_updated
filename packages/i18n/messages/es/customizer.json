@@ -7,7 +7,27 @@
     "preview": "Vista previa",
     "addToCart": "Añadir al carrito",
     "draftSaved": "Diseño guardado localmente",
-    "exportJson": "Exportar JSON"
+    "exportJson": "Exportar JSON",
+    "saving": "Guardando diseño…",
+    "savedRemote": "Diseño guardado",
+    "saveFailed": "No se pudo guardar el diseño",
+    "validating": "Validando diseño…",
+    "validationFailed": "El diseño tiene errores por corregir",
+    "validationWarnings": "Hay advertencias — revísalas antes de continuar",
+    "addedToCart": "Añadido al carrito"
+  },
+  "validation": {
+    "design_empty": "El diseño está vacío — añade texto o imagen.",
+    "preview_missing": "Aún no se ha generado la vista previa.",
+    "object_outside_safe_area": "Una capa sale del área segura.",
+    "object_outside_print_area": "Una capa está fuera del área imprimible.",
+    "image_low_resolution": "La resolución de la imagen es inferior a 150 DPI.",
+    "image_unsupported_format": "Formato de imagen no soportado para producción.",
+    "text_too_small": "El texto es menor a 12 px y puede ser ilegible.",
+    "text_empty": "La capa de texto está vacía.",
+    "errorsTitle": "Errores",
+    "warningsTitle": "Advertencias",
+    "continueAnyway": "Continuar igualmente"
   },
   "tools": {
     "addText": "Añadir texto",

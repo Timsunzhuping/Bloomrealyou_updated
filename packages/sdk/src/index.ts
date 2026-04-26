@@ -10,3 +10,4 @@ export {
   type ListProductsParams,
   type ListProductsResponse,
 } from './products.js';
+export { CustomizationsClient } from './customizations.js';

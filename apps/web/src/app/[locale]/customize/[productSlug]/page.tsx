@@ -9,7 +9,7 @@ import type { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ locale: string; productSlug: string }>;
-  searchParams: Promise<{ variant?: string }>;
+  searchParams: Promise<{ variant?: string; designId?: string }>;
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -27,7 +27,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function CustomizePage(props: Props): Promise<JSX.Element> {
   const { locale: rawLocale, productSlug } = await props.params;
-  const { variant } = await props.searchParams;
+  const { variant, designId } = await props.searchParams;
   const locale: Locale = isSupportedLocale(rawLocale) ? rawLocale : 'en';
   setRequestLocale(locale);
 
@@ -41,6 +41,7 @@ export default async function CustomizePage(props: Props): Promise<JSX.Element> 
       variants={bundle.variants}
       printAreas={bundle.printAreas}
       initialVariantId={variant}
+      initialDesignId={designId}
     />
   );
 }

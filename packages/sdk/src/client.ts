@@ -1,3 +1,4 @@
+import { CustomizationsClient } from './customizations.js';
 import { ProductsClient } from './products.js';
 
 import type { HealthResponse } from './types.js';
@@ -34,6 +35,7 @@ export class ApiClient {
   private readonly nextOptions?: ApiClientOptions['next'];
 
   readonly products: ProductsClient;
+  readonly customizations: CustomizationsClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -41,6 +43,7 @@ export class ApiClient {
     this.defaultHeaders = { 'content-type': 'application/json', ...options.headers };
     this.nextOptions = options.next;
     this.products = new ProductsClient(this);
+    this.customizations = new CustomizationsClient(this);
   }
 
   /** Low-level GET helper with shared error handling. */

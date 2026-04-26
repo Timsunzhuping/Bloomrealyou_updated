@@ -7,7 +7,27 @@
     "preview": "预览",
     "addToCart": "加入购物车",
     "draftSaved": "设计已保存到本地",
-    "exportJson": "导出 JSON"
+    "exportJson": "导出 JSON",
+    "saving": "正在保存…",
+    "savedRemote": "设计已保存",
+    "saveFailed": "保存失败",
+    "validating": "正在校验设计…",
+    "validationFailed": "设计存在必须修复的错误",
+    "validationWarnings": "设计存在警告 — 继续前请确认",
+    "addedToCart": "已加入购物车"
+  },
+  "validation": {
+    "design_empty": "设计为空 — 请添加文字或图片。",
+    "preview_missing": "尚未生成预览图。",
+    "object_outside_safe_area": "图层超出安全区。",
+    "object_outside_print_area": "图层位于可印刷区域之外。",
+    "image_low_resolution": "图片分辨率低于 150 DPI。",
+    "image_unsupported_format": "该图片格式不支持生产。",
+    "text_too_small": "文字字号小于 12px，可能不易识别。",
+    "text_empty": "文字图层为空。",
+    "errorsTitle": "错误",
+    "warningsTitle": "警告",
+    "continueAnyway": "仍然继续"
   },
   "tools": {
     "addText": "添加文字",

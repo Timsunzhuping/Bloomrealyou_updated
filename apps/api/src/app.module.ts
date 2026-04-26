@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { CustomizationsModule } from './customizations/customizations.module';
 import { HealthModule } from './health/health.module';
 import { ProductsModule } from './products/products.module';
 
@@ -9,6 +10,7 @@ import { ProductsModule } from './products/products.module';
     ConfigModule.forRoot({ isGlobal: true, cache: true }),
     HealthModule,
     ProductsModule,
+    CustomizationsModule,
   ],
 })
 export class AppModule {}

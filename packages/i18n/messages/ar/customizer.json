@@ -7,7 +7,27 @@
     "preview": "معاينة",
     "addToCart": "أضف إلى السلة",
     "draftSaved": "تم حفظ التصميم محلياً",
-    "exportJson": "تصدير JSON"
+    "exportJson": "تصدير JSON",
+    "saving": "جارٍ حفظ التصميم…",
+    "savedRemote": "تم حفظ التصميم",
+    "saveFailed": "تعذّر حفظ التصميم",
+    "validating": "جارٍ التحقق من التصميم…",
+    "validationFailed": "التصميم يحتوي على أخطاء يجب إصلاحها",
+    "validationWarnings": "يوجد تحذيرات — راجعها قبل المتابعة",
+    "addedToCart": "أضيف إلى السلة"
+  },
+  "validation": {
+    "design_empty": "التصميم فارغ — أضف نصاً أو صورة.",
+    "preview_missing": "لم يتم إنشاء معاينة بعد.",
+    "object_outside_safe_area": "طبقة تخرج عن المنطقة الآمنة.",
+    "object_outside_print_area": "طبقة خارج منطقة الطباعة.",
+    "image_low_resolution": "دقة الصورة أقل من 150 DPI.",
+    "image_unsupported_format": "صيغة الصورة غير مدعومة للإنتاج.",
+    "text_too_small": "حجم النص أقل من 12 بكسل وقد يصعب قراءته.",
+    "text_empty": "طبقة النص فارغة.",
+    "errorsTitle": "أخطاء",
+    "warningsTitle": "تحذيرات",
+    "continueAnyway": "المتابعة على أي حال"
   },
   "tools": {
     "addText": "إضافة نص",
