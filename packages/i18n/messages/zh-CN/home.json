@@ -1,13 +1,49 @@
 {
+  "metaTitle": "定制商品平台 — 一站式设计、报价与发货",
+  "metaDescription": "AI 驱动的定制 T 恤、卫衣、马克杯、帽子、托特包和贴纸平台。提供阶梯报价、RFQ 流程与全球履约。",
   "hero": {
+    "eyebrow": "面向全球团队",
     "title": "定制周边，轻松搞定",
     "subtitle": "在 AI 协作工作室中完成设计、报价与履约，适配任意规模订单。",
     "ctaPrimary": "浏览商品",
     "ctaSecondary": "试用在线定制"
   },
+  "primaryCtas": {
+    "startDesigning": "立即设计",
+    "uploadLogo": "上传 Logo",
+    "requestBulkQuote": "提交批量询价"
+  },
   "categories": {
     "heading": "按品类选购",
     "subtitle": "从日常 T 恤到企业礼品组合，一站搞定。"
+  },
+  "ai": {
+    "heading": "AI 设计助手",
+    "subtitle": "几秒生成 slogan、版面与品牌一致的图形。",
+    "cta": "试用 AI 助手"
+  },
+  "corporate": {
+    "heading": "企业礼品与团队周边",
+    "subtitle": "面向 50+ 订单提供阶梯报价、RFQ 流程和专属客户经理。",
+    "ctaPrimary": "了解企业方案",
+    "ctaSecondary": "提交询价"
+  },
+  "templates": {
+    "heading": "热门模板",
+    "subtitle": "从精选模板出发，几分钟完成定制。",
+    "items": {
+      "techConference": "科技峰会",
+      "birthdayGift": "生日礼物",
+      "teamShirt": "团队 T 恤",
+      "holidayGift": "节日礼物",
+      "corporateEvent": "企业活动"
+    }
+  },
+  "trustBar": {
+    "global": "已发往 100+ 国家",
+    "speed": "平均 5 天生产",
+    "quality": "通过 ISO-9001 审核",
+    "support": "7×24 多语种支持"
   },
   "features": {
     "heading": "团队为何选择我们",
@@ -22,6 +58,17 @@
     "fulfilment": {
       "title": "全球履约",
       "body": "美欧亚 POD 合作伙伴，缩短交付周期。"
+    }
+  },
+  "faq": {
+    "heading": "常见问题",
+    "items": {
+      "q1": "下单后多久能发货？",
+      "a1": "稿件确认后大多数商品 5 个工作日内发货，贴纸 3 天发货。",
+      "q2": "企业批量是否有折扣？",
+      "a2": "是的，50+ 订单可提交 RFQ，销售将在 1 个工作日内回复。",
+      "q3": "可以提供自有设计稿吗？",
+      "a3": "完全可以。可在定制器中上传 PNG、SVG、AI 或 PDF，或随询价一并附上。"
     }
   }
 }

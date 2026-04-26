@@ -4,7 +4,95 @@
     "subtitle": "浏览可定制的商品目录。",
     "empty": "没有符合筛选条件的商品。",
     "sortBy": "排序方式",
-    "filterBy": "筛选"
+    "filterBy": "筛选",
+    "metaTitle": "全部定制商品",
+    "metaDescription": "浏览可定制的 T 恤、卫衣、马克杯、帽子、托特包和贴纸 — 一站完成设计、报价与发货。"
+  },
+  "filters": {
+    "category": "品类",
+    "color": "颜色",
+    "priceRange": "价格区间",
+    "printMethod": "印刷工艺",
+    "reset": "清除筛选"
+  },
+  "sortOptions": {
+    "popular": "最受欢迎",
+    "priceAsc": "价格从低到高",
+    "priceDesc": "价格从高到低",
+    "newest": "最新上架"
+  },
+  "colors": {
+    "black": "黑色",
+    "white": "白色",
+    "navy": "藏青",
+    "red": "红色",
+    "forest": "森林绿"
+  },
+  "printMethods": {
+    "dtg": "数码直喷 (DTG)",
+    "screen_printing": "丝网印刷",
+    "embroidery": "刺绣",
+    "heat_transfer": "热转印",
+    "uv_printing": "UV 打印",
+    "sublimation": "热升华"
+  },
+  "categories": {
+    "t-shirts": {
+      "name": "定制 T 恤",
+      "tagline": "柔软棉质，随时印刷。",
+      "metaTitle": "定制 T 恤 — 在线设计与下单",
+      "metaDescription": "用全彩或丝网印刷工艺定制 T 恤，提供阶梯报价、多种尺码与全球履约。",
+      "seoBlurb": "高级棉、有机棉与运动版型，可承载全彩或丝网印刷设计。"
+    },
+    "hoodies": {
+      "name": "定制卫衣",
+      "tagline": "重磅卫衣，可绣可印。",
+      "metaTitle": "定制卫衣 — 在线设计与下单",
+      "metaDescription": "套头与拉链卫衣可定制刺绣、丝网印刷或数码直喷工艺。",
+      "seoBlurb": "套头、拉链与短款剪裁，适合高端品牌与团队制服。"
+    },
+    "mugs": {
+      "name": "定制马克杯",
+      "tagline": "陶瓷、搪瓷、不锈钢可全环绕印刷。",
+      "metaTitle": "定制马克杯 — 在线设计与下单",
+      "metaDescription": "陶瓷、搪瓷、不锈钢全环绕印刷马克杯，办公或活动赠品的理想选择。",
+      "seoBlurb": "陶瓷咖啡杯、保温杯和搪瓷露营杯，全环绕印刷。"
+    },
+    "hats": {
+      "name": "定制帽子",
+      "tagline": "适合街头和团队周边的刺绣帽。",
+      "metaTitle": "定制帽子 — 在线设计与下单",
+      "metaDescription": "六片帽、老爹帽、Snapback 可调节帽款，定制刺绣或热转印。",
+      "seoBlurb": "六片硬顶帽、柔顶老爹帽与平檐 Snapback，可刺绣或热转印。"
+    },
+    "tote-bags": {
+      "name": "定制托特包",
+      "tagline": "活动和零售的帆布与有机棉托特包。",
+      "metaTitle": "定制托特包 — 在线设计与下单",
+      "metaDescription": "为活动、零售与品牌赠品定制帆布、有机棉与可折叠托特包。",
+      "seoBlurb": "重磅帆布、有机棉与可折叠托特包，适合活动与零售。"
+    },
+    "stickers": {
+      "name": "定制贴纸",
+      "tagline": "刀模、透明与全息贴纸。",
+      "metaTitle": "定制贴纸 — 在线设计与下单",
+      "metaDescription": "防水刀模切割、透明 PET 和全息贴纸，尺寸与数量任选。",
+      "seoBlurb": "高级乙烯刀模、透明 PET 与全息贴纸 — 防水可机洗。"
+    }
+  },
+  "categoryPage": {
+    "resultsCount": "共 {count} 件商品",
+    "primaryCta": "立即定制",
+    "bulkQuoteCta": "提交批量询价",
+    "faqHeading": "常见问题",
+    "faqItems": {
+      "q1": "最低起订量是多少？",
+      "a1": "零售订单 1 件起，24+ 件可享阶梯报价。",
+      "q2": "生产周期多长？",
+      "a2": "稿件确认后开始生产，每个商品页都标注了交期。",
+      "q3": "下单前能看到电子样稿吗？",
+      "a3": "可以 — 每张订单都包含电子样稿，您可以确认或修改。"
+    }
   },
   "detail": {
     "selectColor": "选择颜色",
@@ -12,15 +100,58 @@
     "selectQuantity": "选择数量",
     "addToCart": "加入购物车",
     "customize": "立即定制",
-    "productionLeadDays": "生产周期：{days} 个工作日",
-    "fromPrice": "起价 {price}"
-  },
-  "categories": {
-    "t-shirts": "T 恤",
-    "hoodies": "卫衣",
-    "mugs": "马克杯",
-    "hats": "帽子",
-    "tote-bags": "托特包",
-    "stickers": "贴纸"
+    "requestBulkQuote": "提交批量询价",
+    "fromPrice": "起价",
+    "perUnit": "每件",
+    "productionLeadDays": "生产周期：稿件确认后 {days} 个工作日",
+    "shippingLead": "物流：3–7 个工作日，因地区而异",
+    "supportedPrintMethods": "支持的印刷工艺",
+    "printAreas": "印刷区域",
+    "priceTiersHeading": "阶梯报价",
+    "priceTiers": {
+      "minQty": "{min}+ 件",
+      "minMaxQty": "{min}–{max} 件",
+      "unitPrice": "{price} / 件"
+    },
+    "tabs": {
+      "details": "商品详情",
+      "files": "文件要求",
+      "shipping": "物流与退换",
+      "faq": "常见问题"
+    },
+    "fileRequirements": {
+      "heading": "稿件文件要求",
+      "items": {
+        "format": "支持格式：PNG、SVG、AI、PDF（推荐矢量）。",
+        "resolution": "位图至少 300 DPI。",
+        "color": "CMYK 或 sRGB 色彩配置，必要时透明背景。",
+        "size": "单文件不超过 25 MB。"
+      }
+    },
+    "shippingPolicy": {
+      "heading": "物流与退换",
+      "items": {
+        "shipping": "DHL、FedEx 与本地末端配送的碳中和物流。",
+        "tracking": "实时追踪与配送通知。",
+        "returns": "定制商品不支持无理由退款，但生产瑕疵全额负责。",
+        "contact": "签收 14 天内可联系客服反馈质量问题。"
+      }
+    },
+    "faq": {
+      "heading": "常见问题",
+      "items": {
+        "q1": "下单前需要先做设计吗？",
+        "a1": "不需要 — 可以先浏览商品，再点击立即定制进入定制器。",
+        "q2": "可以保存设计稍后再来吗？",
+        "a2": "可以，登录后即可在账户中保存设计。",
+        "q3": "可以索取样品吗？",
+        "a3": "认证企业账户可索取样品订单，提交 RFQ 即可。"
+      }
+    },
+    "metaTitleTemplate": "{name} — 定制商品平台",
+    "breadcrumbs": {
+      "home": "首页",
+      "products": "商品"
+    }
   }
 }

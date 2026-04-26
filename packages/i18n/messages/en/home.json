@@ -1,13 +1,49 @@
 {
+  "metaTitle": "Custom Merch Platform — design, price and ship custom products",
+  "metaDescription": "AI-powered platform for custom T-shirts, hoodies, mugs, hats, tote bags and stickers. Volume pricing, RFQ workflow, and global fulfillment.",
   "hero": {
+    "eyebrow": "Built for global teams",
     "title": "Custom merchandise, made effortless",
     "subtitle": "Design, price, and fulfil custom products at any scale with our AI-assisted studio.",
     "ctaPrimary": "Browse products",
     "ctaSecondary": "Try the designer"
   },
+  "primaryCtas": {
+    "startDesigning": "Start designing",
+    "uploadLogo": "Upload your logo",
+    "requestBulkQuote": "Request a bulk quote"
+  },
   "categories": {
     "heading": "Shop by category",
     "subtitle": "From everyday tees to corporate gift bundles."
+  },
+  "ai": {
+    "heading": "AI design assistant",
+    "subtitle": "Generate slogans, layouts and on-brand artwork in seconds.",
+    "cta": "Try the AI assistant"
+  },
+  "corporate": {
+    "heading": "Corporate gifts and merchandise",
+    "subtitle": "Volume pricing, RFQ workflow, and dedicated account management for orders 50+.",
+    "ctaPrimary": "Explore for business",
+    "ctaSecondary": "Request a quote"
+  },
+  "templates": {
+    "heading": "Trending templates",
+    "subtitle": "Start from a curated template and customize in minutes.",
+    "items": {
+      "techConference": "Tech conference",
+      "birthdayGift": "Birthday gift",
+      "teamShirt": "Team shirt",
+      "holidayGift": "Holiday gift",
+      "corporateEvent": "Corporate event"
+    }
+  },
+  "trustBar": {
+    "global": "100+ countries shipped",
+    "speed": "Avg 5-day production",
+    "quality": "ISO-9001 supplier audits",
+    "support": "24/7 multilingual support"
   },
   "features": {
     "heading": "Why teams choose us",
@@ -22,6 +58,17 @@
     "fulfilment": {
       "title": "Global fulfilment",
       "body": "POD partners across the US, EU, and Asia keep lead times short."
+    }
+  },
+  "faq": {
+    "heading": "Frequently asked questions",
+    "items": {
+      "q1": "How fast can my order ship?",
+      "a1": "Most products ship within 5 business days after artwork approval. Stickers ship in 3 days.",
+      "q2": "Do you support corporate volume discounts?",
+      "a2": "Yes — submit an RFQ for orders of 50+ units and our sales team will reply within one business day.",
+      "q3": "Can I bring my own design files?",
+      "a3": "Absolutely. Upload PNG, SVG, AI or PDF directly in the customizer or attach them to an RFQ."
     }
   }
 }

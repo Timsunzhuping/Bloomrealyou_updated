@@ -4,23 +4,154 @@
     "subtitle": "Browse our customisable catalog.",
     "empty": "No products match these filters.",
     "sortBy": "Sort by",
-    "filterBy": "Filter by"
+    "filterBy": "Filter by",
+    "metaTitle": "All custom products",
+    "metaDescription": "Browse customizable T-shirts, hoodies, mugs, hats, tote bags and stickers — designed, priced and shipped on a single platform."
+  },
+  "filters": {
+    "category": "Category",
+    "color": "Color",
+    "priceRange": "Price range",
+    "printMethod": "Print method",
+    "reset": "Reset all"
+  },
+  "sortOptions": {
+    "popular": "Most popular",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "newest": "Newest"
+  },
+  "colors": {
+    "black": "Black",
+    "white": "White",
+    "navy": "Navy",
+    "red": "Red",
+    "forest": "Forest"
+  },
+  "printMethods": {
+    "dtg": "Direct-to-garment",
+    "screen_printing": "Screen printing",
+    "embroidery": "Embroidery",
+    "heat_transfer": "Heat transfer",
+    "uv_printing": "UV printing",
+    "sublimation": "Sublimation"
+  },
+  "categories": {
+    "t-shirts": {
+      "name": "Custom T-Shirts",
+      "tagline": "Soft, ready-to-print everyday tees.",
+      "metaTitle": "Custom T-shirts — design and order online",
+      "metaDescription": "Design custom T-shirts with full-color or screen-printed artwork. Volume tiers, multiple sizes, and global fulfilment.",
+      "seoBlurb": "Premium cotton, organic and athletic options ready for full-color or screen-printed designs."
+    },
+    "hoodies": {
+      "name": "Custom Hoodies",
+      "tagline": "Heavyweight hoodies with embroidery or print.",
+      "metaTitle": "Custom hoodies — design and order online",
+      "metaDescription": "Customise pullover and zip-up hoodies with embroidery, screen-printing or direct-to-garment.",
+      "seoBlurb": "Pullover, zip-up and cropped silhouettes built for premium branding and team uniforms."
+    },
+    "mugs": {
+      "name": "Custom Mugs",
+      "tagline": "Wrap-around prints on ceramic, enamel and steel.",
+      "metaTitle": "Custom mugs — design and order online",
+      "metaDescription": "Design wrap-around printed mugs in ceramic, enamel and stainless steel — perfect office and event giveaways.",
+      "seoBlurb": "Ceramic coffee mugs, insulated tumblers and enamel camp mugs with full wrap-around print."
+    },
+    "hats": {
+      "name": "Custom Hats",
+      "tagline": "Embroidered caps for streetwear and team merch.",
+      "metaTitle": "Custom hats and caps — design and order online",
+      "metaDescription": "Embroidered 6-panel caps, dad hats and snapbacks with adjustable closures.",
+      "seoBlurb": "Six-panel structured caps, soft dad hats and flat-bill snapbacks ready for embroidery or heat transfer."
+    },
+    "tote-bags": {
+      "name": "Custom Tote Bags",
+      "tagline": "Canvas and organic-cotton totes for events and retail.",
+      "metaTitle": "Custom tote bags — design and order online",
+      "metaDescription": "Design custom canvas, organic and foldable totes for events, retail and brand giveaways.",
+      "seoBlurb": "Heavyweight canvas, organic cotton and lightweight foldable totes for events and retail."
+    },
+    "stickers": {
+      "name": "Custom Stickers",
+      "tagline": "Die-cut, transparent and holographic stickers.",
+      "metaTitle": "Custom stickers — design and order online",
+      "metaDescription": "Order weather-proof die-cut, transparent and holographic stickers in any size and quantity.",
+      "seoBlurb": "Premium die-cut vinyl, transparent PET and holographic stickers — weather-proof and dishwasher-safe."
+    }
+  },
+  "categoryPage": {
+    "resultsCount": "{count} products",
+    "primaryCta": "Customize now",
+    "bulkQuoteCta": "Request bulk quote",
+    "faqHeading": "Frequently asked questions",
+    "faqItems": {
+      "q1": "What is the minimum order quantity?",
+      "a1": "1 unit for retail and 24+ units for volume tier pricing.",
+      "q2": "How long does production take?",
+      "a2": "Production starts after artwork approval and finishes within the lead time on each product page.",
+      "q3": "Can I see a digital proof before production?",
+      "a3": "Yes — every order includes a digital mockup that you can approve or revise."
+    }
   },
   "detail": {
     "selectColor": "Select color",
     "selectSize": "Select size",
     "selectQuantity": "Select quantity",
     "addToCart": "Add to cart",
-    "customize": "Customize",
-    "productionLeadDays": "Production lead time: {days} business days",
-    "fromPrice": "From {price}"
-  },
-  "categories": {
-    "t-shirts": "T-Shirts",
-    "hoodies": "Hoodies",
-    "mugs": "Mugs",
-    "hats": "Hats",
-    "tote-bags": "Tote Bags",
-    "stickers": "Stickers"
+    "customize": "Customize now",
+    "requestBulkQuote": "Request bulk quote",
+    "fromPrice": "From",
+    "perUnit": "per unit",
+    "productionLeadDays": "Production: {days} business days after approval",
+    "shippingLead": "Shipping: 3–7 business days depending on destination",
+    "supportedPrintMethods": "Supported print methods",
+    "printAreas": "Print areas",
+    "priceTiersHeading": "Volume pricing",
+    "priceTiers": {
+      "minQty": "{min}+ units",
+      "minMaxQty": "{min}–{max} units",
+      "unitPrice": "{price} / unit"
+    },
+    "tabs": {
+      "details": "Details",
+      "files": "File requirements",
+      "shipping": "Shipping & returns",
+      "faq": "FAQ"
+    },
+    "fileRequirements": {
+      "heading": "Artwork file requirements",
+      "items": {
+        "format": "Accepted formats: PNG, SVG, AI, PDF (vector preferred).",
+        "resolution": "Raster files at 300 DPI minimum.",
+        "color": "CMYK or sRGB color profile, transparent background where applicable.",
+        "size": "Maximum 25 MB per file."
+      }
+    },
+    "shippingPolicy": {
+      "heading": "Shipping & returns",
+      "items": {
+        "shipping": "Carbon-neutral shipping with DHL, FedEx and local last-mile partners.",
+        "tracking": "Real-time tracking and delivery notifications.",
+        "returns": "Custom-printed goods are non-refundable but production defects are fully covered.",
+        "contact": "Contact support within 14 days of delivery for any quality issues."
+      }
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "items": {
+        "q1": "Do I need to design before ordering?",
+        "a1": "No — you can browse products first, then click Customize to open the designer.",
+        "q2": "Can I save my design and come back later?",
+        "a2": "Yes, signed-in customers can save designs to their account.",
+        "q3": "Are samples available?",
+        "a3": "Sample orders are available for verified business accounts. Submit an RFQ to get started."
+      }
+    },
+    "metaTitleTemplate": "{name} — Custom Merch Platform",
+    "breadcrumbs": {
+      "home": "Home",
+      "products": "Products"
+    }
   }
 }
