@@ -22,6 +22,8 @@ interface CreateInput {
 @Injectable()
 export class CustomizationsRepository {
   private readonly designs = new Map<string, CustomerDesignDto>();
+  /** designId -> ownerSessionId. Anonymous-user scoping for the MVP. */
+  private readonly designSession = new Map<string, string>();
 
   create(input: CreateInput): CustomerDesignDto {
     const now = new Date().toISOString();
@@ -80,5 +82,21 @@ export class CustomizationsRepository {
 
   list(): CustomerDesignDto[] {
     return Array.from(this.designs.values());
+  }
+
+  /** Track ownership for the anonymous-user model. */
+  setSession(designId: string, sessionId: string): void {
+    this.designSession.set(designId, sessionId);
+  }
+
+  /** List designs owned by a given anonymous session, newest first. */
+  listForSession(sessionId: string): CustomerDesignDto[] {
+    const ids = Array.from(this.designSession.entries())
+      .filter(([, owner]) => owner === sessionId)
+      .map(([designId]) => designId);
+    return ids
+      .map((id) => this.designs.get(id))
+      .filter((d): d is CustomerDesignDto => !!d)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
 }

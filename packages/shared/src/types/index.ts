@@ -18,3 +18,4 @@ export * from './pricing';
 export * from './cart-dto';
 export * from './order-dto';
 export * from './payment-dto';
+export * from './account-dto';

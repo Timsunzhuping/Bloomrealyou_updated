@@ -1,20 +1,130 @@
 {
   "title": "حسابك",
+  "metaTitle": "الحساب",
+  "metaDescription": "اعرض طلبات المنتجات المخصصة والتصاميم والعروض والعناوين.",
   "tabs": {
     "overview": "نظرة عامة",
     "orders": "الطلبات",
     "designs": "التصاميم",
     "addresses": "العناوين",
-    "settings": "الإعدادات"
+    "quotes": "العروض",
+    "settings": "الإعدادات",
+    "profile": "الملف الشخصي"
+  },
+  "overview": {
+    "heading": "أهلاً بعودتك",
+    "ordersHint": "اعرض وتتبّع جميع طلباتك.",
+    "designsHint": "تابع تصاميمك من حيث توقفت.",
+    "addressesHint": "أدر عناوين الشحن والفوترة.",
+    "quotesHint": "تابع العروض والاعتمادات للشركات."
   },
   "orders": {
     "empty": "لم تقم بأي طلبات بعد.",
-    "viewDetails": "عرض التفاصيل"
+    "viewDetails": "عرض التفاصيل",
+    "tableHeaders": {
+      "orderNumber": "الطلب",
+      "placed": "تاريخ الطلب",
+      "status": "الحالة",
+      "total": "الإجمالي"
+    },
+    "detail": {
+      "back": "العودة إلى الطلبات",
+      "shippingAddress": "عنوان الشحن",
+      "billingAddress": "عنوان الفاتورة",
+      "shippingMethod": "طريقة الشحن",
+      "paymentStatus": "حالة الدفع",
+      "trackingNumber": "رقم التتبع",
+      "trackingPending": "سيظهر رقم التتبع عند الشحن.",
+      "openTracking": "تتبّع الشحنة",
+      "items": "المنتجات",
+      "preview": "معاينة التصميم",
+      "quantity": "الكمية",
+      "unitPrice": "سعر الوحدة",
+      "lineTotal": "إجمالي السطر",
+      "totals": "المجاميع"
+    },
+    "timeline": {
+      "heading": "خط زمن الطلب",
+      "placed": "تم تقديم الطلب",
+      "payment_confirmed": "تأكيد الدفع",
+      "design_review": "مراجعة التصميم",
+      "in_production": "قيد الإنتاج",
+      "shipped": "تم الشحن",
+      "delivered": "تم التسليم"
+    },
+    "status": {
+      "pending": "معلّق",
+      "pending_payment": "بانتظار الدفع",
+      "paid": "مدفوع",
+      "design_review": "مراجعة التصميم",
+      "design_approved": "تم اعتماد التصميم",
+      "production_assigned": "تم جدولة الإنتاج",
+      "in_production": "قيد الإنتاج",
+      "quality_inspection": "فحص الجودة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التسليم",
+      "completed": "مكتمل",
+      "cancelled": "ملغى",
+      "refunded": "مسترد",
+      "exception": "يحتاج اهتماماً"
+    }
   },
   "designs": {
     "empty": "لم تحفظ أي تصميم بعد.",
     "edit": "تعديل التصميم",
-    "duplicate": "تكرار"
+    "duplicate": "تكرار",
+    "reorder": "إعادة الطلب",
+    "reordering": "جارٍ الإضافة إلى السلة…",
+    "addedToCart": "أضيف إلى السلة",
+    "reorderFailed": "تعذّر إضافة التصميم إلى السلة.",
+    "savedAt": "تم الحفظ في {date}"
+  },
+  "quotes": {
+    "empty": "لا توجد عروض بعد — أرسل طلب RFQ للبدء.",
+    "newRfq": "اطلب عرض سعر",
+    "tableHeaders": {
+      "quoteNumber": "العرض",
+      "status": "الحالة",
+      "total": "الإجمالي",
+      "validUntil": "صالح حتى"
+    }
+  },
+  "addresses": {
+    "empty": "لا توجد عناوين محفوظة.",
+    "addNew": "إضافة عنوان",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "defaultShipping": "افتراضي للشحن",
+    "defaultBilling": "افتراضي للفوترة",
+    "form": {
+      "label": "تسمية (المنزل، المكتب…)",
+      "fullName": "الاسم الكامل",
+      "company": "الشركة",
+      "addressLine1": "العنوان السطر 1",
+      "addressLine2": "العنوان السطر 2",
+      "city": "المدينة",
+      "state": "المنطقة",
+      "postalCode": "الرمز البريدي",
+      "country": "رمز الدولة (ISO-2)",
+      "phone": "الهاتف",
+      "isDefaultShipping": "اجعله افتراضياً للشحن",
+      "isDefaultBilling": "اجعله افتراضياً للفوترة",
+      "save": "حفظ العنوان",
+      "saving": "جارٍ الحفظ…",
+      "cancel": "إلغاء"
+    },
+    "savedToast": "تم حفظ العنوان"
+  },
+  "profile": {
+    "heading": "الملف الشخصي",
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "language": "اللغة المفضلة",
+    "marketingOptIn": "أرسل لي الجديد والعروض",
+    "save": "حفظ التعديلات",
+    "saving": "جارٍ الحفظ…",
+    "saved": "تم تحديث الملف"
   },
   "settings": {
     "language": "اللغة",

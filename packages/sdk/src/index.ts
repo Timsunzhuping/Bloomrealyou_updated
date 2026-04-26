@@ -16,3 +16,4 @@ export { PricingClient } from './pricing.js';
 export { CartClient } from './cart.js';
 export { OrdersClient } from './orders.js';
 export { PaymentsClient } from './payments.js';
+export { AccountClient } from './account.js';

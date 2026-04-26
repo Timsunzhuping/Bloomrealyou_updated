@@ -34,4 +34,11 @@ export class OrdersRepository {
     this.orders.set(id, updated);
     return updated;
   }
+
+  /** List orders placed under a given anonymous cart session, newest first. */
+  listForSession(sessionId: string): OrderDto[] {
+    return Array.from(this.orders.values())
+      .filter((o) => o.cartSessionId === sessionId)
+      .sort((a, b) => b.placedAt.localeCompare(a.placedAt));
+  }
 }

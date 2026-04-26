@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Headers,
   HttpCode,
   Param,
   Patch,
@@ -22,16 +23,23 @@ import {
   UpdateCustomerDesignBody,
   ValidateDesignBody,
 } from './customizations.dto';
+import { CustomizationsRepository } from './customizations.repository';
 import { CustomizationsService } from './customizations.service';
 
 @Controller('customizations')
 export class CustomizationsController {
-  constructor(private readonly service: CustomizationsService) {}
+  constructor(
+    private readonly service: CustomizationsService,
+    private readonly repo: CustomizationsRepository,
+  ) {}
 
   /** POST /customizations */
   @Post()
-  create(@Body() body: CreateCustomerDesignBody): Promise<CustomerDesignDto> {
-    return this.service.create({
+  async create(
+    @Body() body: CreateCustomerDesignBody,
+    @Headers('x-cart-session') sessionId: string | undefined,
+  ): Promise<CustomerDesignDto> {
+    const dto = await this.service.create({
       productId: body.productId,
       variantId: body.variantId,
       templateId: body.templateId,
@@ -41,6 +49,8 @@ export class CustomizationsController {
       ownerUserId: body.ownerUserId,
       organizationId: body.organizationId,
     });
+    if (sessionId) this.repo.setSession(dto.id, sessionId);
+    return dto;
   }
 
   /** GET /customizations/:id */

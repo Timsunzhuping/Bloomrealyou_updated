@@ -1,20 +1,130 @@
 {
   "title": "Tu cuenta",
+  "metaTitle": "Cuenta",
+  "metaDescription": "Consulta tus pedidos personalizados, diseños, presupuestos y direcciones.",
   "tabs": {
     "overview": "Resumen",
     "orders": "Pedidos",
     "designs": "Diseños",
     "addresses": "Direcciones",
-    "settings": "Ajustes"
+    "quotes": "Presupuestos",
+    "settings": "Ajustes",
+    "profile": "Perfil"
+  },
+  "overview": {
+    "heading": "Bienvenido de nuevo",
+    "ordersHint": "Consulta y rastrea tus pedidos.",
+    "designsHint": "Continúa tus diseños desde donde los dejaste.",
+    "addressesHint": "Gestiona tus direcciones de envío y facturación.",
+    "quotesHint": "Sigue presupuestos y aprobaciones corporativas."
   },
   "orders": {
     "empty": "Aún no has realizado ningún pedido.",
-    "viewDetails": "Ver detalles"
+    "viewDetails": "Ver detalles",
+    "tableHeaders": {
+      "orderNumber": "Pedido",
+      "placed": "Realizado",
+      "status": "Estado",
+      "total": "Total"
+    },
+    "detail": {
+      "back": "Volver a pedidos",
+      "shippingAddress": "Dirección de envío",
+      "billingAddress": "Dirección de facturación",
+      "shippingMethod": "Método de envío",
+      "paymentStatus": "Estado del pago",
+      "trackingNumber": "Número de seguimiento",
+      "trackingPending": "El número de seguimiento aparecerá tras el envío.",
+      "openTracking": "Rastrear envío",
+      "items": "Artículos",
+      "preview": "Vista previa del diseño",
+      "quantity": "Cant.",
+      "unitPrice": "Precio unitario",
+      "lineTotal": "Total línea",
+      "totals": "Totales"
+    },
+    "timeline": {
+      "heading": "Cronología del pedido",
+      "placed": "Pedido realizado",
+      "payment_confirmed": "Pago confirmado",
+      "design_review": "Revisión del diseño",
+      "in_production": "En producción",
+      "shipped": "Enviado",
+      "delivered": "Entregado"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "pending_payment": "Esperando pago",
+      "paid": "Pagado",
+      "design_review": "Revisión del diseño",
+      "design_approved": "Diseño aprobado",
+      "production_assigned": "Producción asignada",
+      "in_production": "En producción",
+      "quality_inspection": "Control de calidad",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "refunded": "Reembolsado",
+      "exception": "Requiere atención"
+    }
   },
   "designs": {
     "empty": "Aún no has guardado ningún diseño.",
     "edit": "Editar diseño",
-    "duplicate": "Duplicar"
+    "duplicate": "Duplicar",
+    "reorder": "Volver a pedir",
+    "reordering": "Añadiendo al carrito…",
+    "addedToCart": "Añadido al carrito",
+    "reorderFailed": "No se pudo añadir el diseño al carrito.",
+    "savedAt": "Guardado {date}"
+  },
+  "quotes": {
+    "empty": "Sin presupuestos aún — envía un RFQ para empezar.",
+    "newRfq": "Solicitar presupuesto",
+    "tableHeaders": {
+      "quoteNumber": "Presupuesto",
+      "status": "Estado",
+      "total": "Total",
+      "validUntil": "Válido hasta"
+    }
+  },
+  "addresses": {
+    "empty": "No tienes direcciones guardadas.",
+    "addNew": "Añadir dirección",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "defaultShipping": "Envío por defecto",
+    "defaultBilling": "Facturación por defecto",
+    "form": {
+      "label": "Etiqueta (Casa, Oficina…)",
+      "fullName": "Nombre completo",
+      "company": "Empresa",
+      "addressLine1": "Dirección 1",
+      "addressLine2": "Dirección 2",
+      "city": "Ciudad",
+      "state": "Provincia",
+      "postalCode": "Código postal",
+      "country": "País (ISO-2)",
+      "phone": "Teléfono",
+      "isDefaultShipping": "Usar como envío por defecto",
+      "isDefaultBilling": "Usar como facturación por defecto",
+      "save": "Guardar dirección",
+      "saving": "Guardando…",
+      "cancel": "Cancelar"
+    },
+    "savedToast": "Dirección guardada"
+  },
+  "profile": {
+    "heading": "Perfil",
+    "fullName": "Nombre completo",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "language": "Idioma preferido",
+    "marketingOptIn": "Quiero novedades y ofertas",
+    "save": "Guardar cambios",
+    "saving": "Guardando…",
+    "saved": "Perfil actualizado"
   },
   "settings": {
     "language": "Idioma",
