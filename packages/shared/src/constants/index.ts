@@ -1,19 +1,11 @@
-/** Catalog of base product categories sold on the platform. */
-export const PRODUCT_CATEGORIES = [
-  't-shirt',
-  'hoodie',
-  'mug',
-  'hat',
-  'tote-bag',
-  'sticker',
-] as const;
+export * from './locales';
+export * from './currencies';
+export * from './product-categories';
+export * from './print-methods';
+export * from './roles';
+export * from './statuses';
 
-export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
-
-/** Default platform currency. */
-export const DEFAULT_CURRENCY = 'USD';
-
-/** Logical names for adapter-based external services. Implementations live in apps/api. */
+/** Logical names for adapter-based external services. */
 export const EXTERNAL_SERVICE_NAMES = {
   PAYMENT: 'PaymentProvider',
   AI: 'AIProvider',
