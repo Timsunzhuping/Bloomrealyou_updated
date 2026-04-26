@@ -18,3 +18,5 @@ export { OrdersClient } from './orders.js';
 export { PaymentsClient } from './payments.js';
 export { AccountClient } from './account.js';
 export { AIClient } from './ai.js';
+export { AdminRFQsClient, RFQsClient } from './rfqs.js';
+export { AdminQuotesClient } from './quotes.js';

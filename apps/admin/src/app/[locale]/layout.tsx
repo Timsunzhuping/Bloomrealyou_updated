@@ -59,6 +59,8 @@ export default async function AdminLocaleLayout(props: LocaleLayoutProps): Promi
               </Link>
               <nav className="flex items-center gap-4 text-sm">
                 <Link href="/dashboard">{t('nav.dashboard')}</Link>
+                <Link href="/rfqs">{t('nav.rfqs')}</Link>
+                <Link href="/quotes">{t('nav.quotes')}</Link>
                 <Link href="/products">{t('nav.products')}</Link>
                 <Link href="/orders">{t('nav.orders')}</Link>
                 <LanguageSwitcher />

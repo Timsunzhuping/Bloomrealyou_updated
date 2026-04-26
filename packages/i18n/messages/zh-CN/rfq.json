@@ -1,26 +1,260 @@
 {
+  "metaTitle": "企业礼品与批量定制 — 立即询价",
+  "metaDescription": "企业入职礼盒、展会赠品、客户答谢与团队服饰一站式定制。提交 RFQ，销售将于 1 个工作日内回复。",
   "title": "提交询价",
-  "subtitle": "告诉我们您的项目需求，销售团队会在 1 个工作日内回复。",
+  "subtitle": "告诉我们您的项目细节，销售团队会在 1 个工作日内回复。",
+  "corporate": {
+    "metaTitle": "企业礼品计划 — 全品牌定制礼盒",
+    "metaDescription": "面向 50+ 团队的入职、客户答谢、活动场景定制礼品。",
+    "hero": {
+      "eyebrow": "面向 50+ 团队",
+      "title": "更有温度的企业礼品计划",
+      "subtitle": "从入职欢迎包到节日礼盒，打造员工与客户都喜爱的品牌礼品，我们负责生产到全球派送。",
+      "ctaPrimary": "立即询价",
+      "ctaSecondary": "浏览批量商品"
+    },
+    "scenarios": {
+      "heading": "覆盖每一个企业场景",
+      "subtitle": "选择起点，我们为您定制品牌与预算。",
+      "items": {
+        "welcomeKit": {
+          "title": "员工欢迎礼盒",
+          "body": "入职第一天：T 恤、马克杯、贴纸与亲笔欢迎卡。"
+        },
+        "tradeShow": {
+          "title": "展会赠品",
+          "body": "高质感 swag，经得住长途飞行与忙碌展位。"
+        },
+        "teamApparel": {
+          "title": "团队服饰",
+          "body": "卫衣与 T 恤，支持尺码套餐、刺绣与分队定制。"
+        },
+        "clientGifts": {
+          "title": "客户答谢礼盒",
+          "body": "续约、里程碑与客户团队感谢专用礼盒。"
+        },
+        "eventMerch": {
+          "title": "活动周边",
+          "body": "大会、黑客松、Off-site 套装，含定制包装。"
+        }
+      }
+    },
+    "bundles": {
+      "heading": "热门套装",
+      "subtitle": "200+ 全球团队都在用的精选组合。",
+      "items": {
+        "essentials": {
+          "title": "品牌基础包",
+          "body": "T 恤 + 帽子 + 陶瓷马克杯。",
+          "products": "T 恤 · 帽子 · 马克杯"
+        },
+        "fieldKit": {
+          "title": "外勤套装",
+          "body": "卫衣 + 托特包 + 品牌贴纸。",
+          "products": "卫衣 · 托特包 · 贴纸"
+        },
+        "premiumBox": {
+          "title": "高端礼盒",
+          "body": "卫衣、马克杯与贴纸，定制礼盒含手写卡片。",
+          "products": "企业礼盒"
+        }
+      }
+    },
+    "process": {
+      "heading": "企业订单流程",
+      "subtitle": "从立项到送达只需五步。",
+      "steps": {
+        "uploadLogo": "上传品牌 Logo",
+        "getQuote": "1 个工作日内出阶梯报价",
+        "sample": "实物或数字样品确认",
+        "production": "全程质检的批量生产",
+        "delivery": "全球派送 — 支持 DDP"
+      }
+    },
+    "trustBar": {
+      "global": "已发往 100+ 国家",
+      "speed": "平均 5 天生产",
+      "quality": "ISO-9001 认证工厂",
+      "support": "7×24 多语种客户经理"
+    },
+    "faq": {
+      "heading": "常见问题",
+      "items": {
+        "minOrder": {
+          "q": "起订量是多少？",
+          "a": "大多数商品起订量为 50 件；新客户的小批量试产可单独沟通。"
+        },
+        "leadTime": {
+          "q": "1000 件大概多久可以交付？",
+          "a": "样品确认后标准交期 10 个工作日，加急计划可在 5 天内出货。"
+        },
+        "art": {
+          "q": "可以帮我重绘或矢量化 Logo 吗？",
+          "a": "可以，我们的设计团队会免费提供印刷可用的源文件。"
+        },
+        "shipping": {
+          "q": "能处理国际运输与清关吗？",
+          "a": "支持从美/欧/亚枢纽 DDP 到达，并提供合并发票方便财务对账。"
+        }
+      }
+    },
+    "cta": {
+      "heading": "准备开启下一个项目？",
+      "subtitle": "提交 RFQ — 真人销售会在 1 个工作日内回复。",
+      "button": "立即询价"
+    }
+  },
+  "bulk": {
+    "metaTitle": "批量订单 — 全品类阶梯报价",
+    "metaDescription": "服饰、杯具、配件、贴纸阶梯报价，含样品确认与全球派送。",
+    "hero": {
+      "eyebrow": "数量优惠",
+      "title": "数量越大，价格越好",
+      "subtitle": "阶梯单价、500+ 起免费样品、专属生产经理一站到位。",
+      "ctaPrimary": "提交批量询价",
+      "ctaSecondary": "查看阶梯价格"
+    },
+    "tiers": {
+      "heading": "阶梯价格",
+      "subtitle": "起步参考单价，实际价格视印刷工艺与 SKU 组合而定。",
+      "columns": {
+        "tier": "数量",
+        "tee": "T 恤",
+        "hoodie": "卫衣",
+        "mug": "马克杯",
+        "tote": "托特包",
+        "sticker": "贴纸"
+      },
+      "rows": {
+        "t50": "50–99",
+        "t100": "100–249",
+        "t250": "250–499",
+        "t500": "500–999",
+        "t1000": "1000+"
+      }
+    },
+    "highlights": {
+      "heading": "我们提供什么",
+      "items": {
+        "sampling": {
+          "title": "500+ 免费样品",
+          "body": "投产前先寄送实物样品确认。"
+        },
+        "art": {
+          "title": "免费稿件准备",
+          "body": "矢量化、配色与生产源文件全部包含。"
+        },
+        "manager": {
+          "title": "专属经理",
+          "body": "全程一个对接人。"
+        },
+        "delivery": {
+          "title": "全球派送",
+          "body": "支持从美/欧/亚发出的 DDP 派送。"
+        }
+      }
+    },
+    "faq": {
+      "heading": "批量订单常见问题",
+      "items": {
+        "minimum": {
+          "q": "批量起订量是多少？",
+          "a": "50 件起享批量价，250+ 解锁更多折扣。"
+        },
+        "mix": {
+          "q": "可以混色混码吗？",
+          "a": "可以 — 同 SKU 内自由混色混码不影响价格。"
+        },
+        "split": {
+          "q": "支持多地址分发吗？",
+          "a": "支持。下单时提供地址清单，其余由我们处理。"
+        }
+      }
+    },
+    "cta": {
+      "heading": "请告诉我们您的数量",
+      "subtitle": "把 SKU、数量与目标时间发给我们，1 个工作日内反馈阶梯报价。",
+      "button": "提交批量询价"
+    }
+  },
   "form": {
+    "title": "请描述您的项目",
+    "subtitle": "标 * 为必填",
     "company": "公司",
+    "companyName": "公司名称",
     "contactName": "联系人",
     "contactEmail": "邮箱",
+    "email": "邮箱",
     "contactPhone": "电话",
-    "items": "需求条目",
-    "addItem": "新增条目",
-    "removeItem": "移除",
+    "phone": "电话",
+    "country": "国家/地区(ISO-2 代码)",
+    "productCategories": "商品品类",
+    "estimatedQuantity": "预计数量",
+    "targetDeliveryDate": "期望交付日期",
+    "budgetRange": "预算范围(整个项目)",
+    "logoFile": "品牌 Logo (PNG / JPG / SVG / PDF)",
+    "logoFileHint": "最大 5 MB，我们会准备印刷可用的源文件。",
+    "needSample": "我希望投产前先收到实物样品",
+    "note": "备注",
+    "notePlaceholder": "任何需要我们了解的事：工艺、包装、截止日期…",
+    "items": "项目",
+    "addItem": "添加项目",
+    "removeItem": "删除",
     "description": "描述",
     "quantity": "数量",
     "preferredPrintMethod": "首选印刷工艺",
-    "targetUnitPrice": "期望单价",
-    "requiredBy": "期望交期",
-    "notes": "补充说明",
+    "targetUnitPrice": "目标单价",
+    "requiredBy": "需求时间",
+    "notes": "备注",
     "attachments": "附件",
-    "submit": "提交询价"
+    "submit": "提交询价",
+    "submitting": "提交中…",
+    "errors": {
+      "generic": "提交失败,请稍后重试。",
+      "missing": "请填写所有必填字段。",
+      "logoSize": "Logo 文件过大(最大 5 MB)。",
+      "logoType": "Logo 必须为 PNG / JPG / SVG / PDF。"
+    }
+  },
+  "budgetRanges": {
+    "under_1k": "1,000 美元以下",
+    "1k_5k": "1,000–5,000 美元",
+    "5k_20k": "5,000–20,000 美元",
+    "20k_50k": "20,000–50,000 美元",
+    "50k_plus": "50,000 美元以上",
+    "unspecified": "暂未确定"
+  },
+  "categoryLabels": {
+    "t-shirts": "T 恤",
+    "hoodies": "卫衣",
+    "mugs": "马克杯",
+    "hats": "帽子",
+    "tote-bags": "托特包",
+    "stickers": "贴纸"
   },
   "submitted": {
-    "title": "已收到您的询价",
-    "body": "我们已分配销售跟进，确认邮件即将送达您的邮箱。",
-    "rfqNumber": "询价编号：{number}"
+    "title": "已收到您的请求",
+    "body": "已分配销售对接人，稍后将收到确认邮件。",
+    "rfqNumber": "RFQ 编号：{number}",
+    "next": "下一步",
+    "step1": "销售将在 1 个工作日内审阅您的需求。",
+    "step2": "根据 SKU 与数量发送阶梯报价。",
+    "step3": "样品确认(可选)并启动生产。"
+  },
+  "success": {
+    "title": "感谢提交，已成功接收",
+    "subtitle": "我们正在处理，1 个工作日内会有真人回复。",
+    "ctaHome": "返回首页",
+    "ctaCorporate": "了解企业礼品"
+  },
+  "statusLabels": {
+    "submitted": "已提交",
+    "sales_reviewing": "销售审阅中",
+    "supplier_quoting": "供应商报价中",
+    "quote_sent": "报价已发送",
+    "customer_accepted": "客户已接受",
+    "customer_rejected": "客户已拒绝",
+    "converted_to_order": "已转为订单",
+    "closed": "已关闭"
   }
 }

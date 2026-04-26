@@ -6,6 +6,8 @@ import { OrdersClient } from './orders.js';
 import { PaymentsClient } from './payments.js';
 import { PricingClient } from './pricing.js';
 import { ProductsClient } from './products.js';
+import { AdminQuotesClient } from './quotes.js';
+import { AdminRFQsClient, RFQsClient } from './rfqs.js';
 
 import type { HealthResponse } from './types.js';
 
@@ -79,6 +81,9 @@ export class ApiClient {
   readonly payments: PaymentsClient;
   readonly account: AccountClient;
   readonly ai: AIClient;
+  readonly rfqs: RFQsClient;
+  readonly adminRfqs: AdminRFQsClient;
+  readonly adminQuotes: AdminQuotesClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -94,6 +99,9 @@ export class ApiClient {
     this.payments = new PaymentsClient(this);
     this.account = new AccountClient(this);
     this.ai = new AIClient(this);
+    this.rfqs = new RFQsClient(this);
+    this.adminRfqs = new AdminRFQsClient(this);
+    this.adminQuotes = new AdminQuotesClient(this);
   }
 
   /** Low-level helper with shared error handling. */

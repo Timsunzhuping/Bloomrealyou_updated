@@ -64,12 +64,13 @@ export type ShipmentStatus = (typeof SHIPMENT_STATUSES)[number];
 
 export const RFQ_STATUSES = [
   'submitted',
-  'under_review',
-  'quoted',
-  'won',
-  'lost',
-  'expired',
-  'cancelled',
+  'sales_reviewing',
+  'supplier_quoting',
+  'quote_sent',
+  'customer_accepted',
+  'customer_rejected',
+  'converted_to_order',
+  'closed',
 ] as const;
 export type RFQStatus = (typeof RFQ_STATUSES)[number];
 
@@ -79,7 +80,7 @@ export const QUOTE_STATUSES = [
   'accepted',
   'rejected',
   'expired',
-  'revised',
+  'converted_to_order',
 ] as const;
 export type QuoteStatus = (typeof QUOTE_STATUSES)[number];
 
