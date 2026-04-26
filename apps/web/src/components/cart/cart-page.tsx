@@ -244,8 +244,8 @@ export function CartPageClient({ locale }: Props): JSX.Element {
             </p>
           )}
           <div className="flex flex-col gap-2 pt-2">
-            <Button size="lg" disabled>
-              {t('actions.checkout')}
+            <Button asChild size="lg">
+              <Link href="/checkout">{t('actions.checkout')}</Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/products">{t('actions.continueShopping')}</Link>
