@@ -1,3 +1,4 @@
+import type { PaymentProviderName } from '../contracts/payment-provider';
 import type { PaymentStatus } from '../constants/statuses';
 
 import type { Brand, IsoDateString, Money, Timestamps } from './common';
@@ -5,13 +6,10 @@ import type { OrderId } from './order';
 
 export type PaymentId = Brand<string, 'PaymentId'>;
 
-/** Adapter-neutral payment provider identifier. */
-export type PaymentProvider = 'stripe' | 'paypal' | 'manual_invoice';
-
 export interface Payment extends Timestamps {
   id: PaymentId;
   orderId: OrderId;
-  provider: PaymentProvider;
+  provider: PaymentProviderName;
   /** External provider reference (e.g. Stripe PaymentIntent id). */
   providerReference: string;
   status: PaymentStatus;

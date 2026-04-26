@@ -15,12 +15,19 @@ export type CartStatus = (typeof CART_STATUSES)[number];
 
 export const ORDER_STATUSES = [
   'pending',
+  'pending_payment',
   'paid',
+  'design_review',
+  'design_approved',
+  'production_assigned',
   'in_production',
+  'quality_inspection',
   'shipped',
   'delivered',
+  'completed',
   'cancelled',
   'refunded',
+  'exception',
 ] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 

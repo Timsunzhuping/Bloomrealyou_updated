@@ -10,6 +10,6 @@ import { CustomizationsService } from './customizations.service';
   imports: [FilesModule],
   controllers: [CustomizationsController],
   providers: [CustomizationsRepository, CustomizationsService],
-  exports: [CustomizationsService],
+  exports: [CustomizationsService, CustomizationsRepository],
 })
 export class CustomizationsModule {}

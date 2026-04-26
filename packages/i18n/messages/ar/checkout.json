@@ -1,34 +1,70 @@
 {
   "title": "الدفع",
+  "metaTitle": "الدفع",
+  "metaDescription": "أكمل طلب المنتجات المخصصة في صفحة واحدة: الشحن والدفع والتأكيد.",
   "steps": {
     "shipping": "الشحن",
     "payment": "الدفع",
     "review": "المراجعة"
   },
+  "contact": {
+    "heading": "بيانات التواصل",
+    "email": "البريد الإلكتروني"
+  },
   "shipping": {
     "heading": "إلى أين نشحن؟",
     "name": "الاسم الكامل",
+    "company": "الشركة",
     "addressLine1": "العنوان السطر 1",
     "addressLine2": "العنوان السطر 2",
     "city": "المدينة",
     "state": "المنطقة",
     "postalCode": "الرمز البريدي",
-    "country": "الدولة",
-    "saveDefault": "احفظه كعنوان افتراضي"
+    "country": "رمز الدولة (ISO-2)",
+    "phone": "الهاتف",
+    "saveDefault": "احفظه كعنوان افتراضي",
+    "method": {
+      "heading": "طريقة الشحن",
+      "standard": "قياسي (5–7 أيام عمل)",
+      "express": "سريع (3–5 أيام عمل)",
+      "rush": "مستعجل (1–2 يوم عمل)"
+    }
+  },
+  "billing": {
+    "heading": "عنوان الفاتورة",
+    "sameAsShipping": "نفس عنوان الشحن"
   },
   "payment": {
     "heading": "طريقة الدفع",
     "card": "بطاقة ائتمان / خصم",
     "paypal": "PayPal",
-    "invoice": "فاتورة يدوية"
+    "invoice": "فاتورة يدوية (B2B)",
+    "stripeNotConfigured": "Stripe في وضع تجريبي — إرسال الطلب يحاكي نجاح الدفع.",
+    "processing": "جاري معالجة الدفع…",
+    "submit": "ادفع الآن",
+    "errorTitle": "تعذّر إكمال الدفع",
+    "errorBody": "يرجى مراجعة البيانات وإعادة المحاولة."
   },
   "review": {
     "heading": "راجع وقدّم الطلب",
-    "placeOrder": "تقديم الطلب"
+    "placeOrder": "تقديم الطلب",
+    "creatingOrder": "جاري إنشاء طلبك…"
   },
   "thanks": {
     "title": "شكراً على طلبك",
     "body": "أرسلنا تأكيداً إلى {email}.",
-    "trackOrder": "تتبع الطلب"
+    "orderNumber": "رقم الطلب: {number}",
+    "trackOrder": "عرض تفاصيل الطلب",
+    "continueShopping": "متابعة التسوق"
+  },
+  "cancelled": {
+    "title": "تم إلغاء الدفع",
+    "body": "لم يكتمل الدفع، وسلتك لا تزال محفوظة.",
+    "back": "العودة إلى الدفع"
+  },
+  "errors": {
+    "cartEmpty": "سلتك فارغة.",
+    "missingFields": "يرجى إكمال جميع الحقول المطلوبة.",
+    "createFailed": "تعذّر إنشاء الطلب. حاول مرة أخرى."
   }
 }
