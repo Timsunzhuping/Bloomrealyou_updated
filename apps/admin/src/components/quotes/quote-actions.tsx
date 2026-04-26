@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 import { useRouter } from '@/i18n/navigation';
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface Props {
   quoteId: string;
@@ -50,9 +51,8 @@ export function QuoteActions({
     setSavingStatus(true);
     setStatusError(null);
     try {
-      const res = await fetch(`${apiBaseUrl}/admin/quotes/${quoteId}`, {
+      const res = await adminFetch(apiBaseUrl, `/admin/quotes/${quoteId}`, {
         method: 'PATCH',
-        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ status }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -70,9 +70,8 @@ export function QuoteActions({
     setConvertedNumber(null);
     setConverting(true);
     try {
-      const res = await fetch(`${apiBaseUrl}/admin/quotes/${quoteId}/convert-to-order`, {
+      const res = await adminFetch(apiBaseUrl, `/admin/quotes/${quoteId}/convert-to-order`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           shippingAddress: { ...shipping, country: shipping.country.toUpperCase() },
           shippingMethod,

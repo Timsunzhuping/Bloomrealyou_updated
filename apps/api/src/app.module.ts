@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AccountModule } from './account/account.module';
+import { AdminAuthModule } from './admin-auth/admin-auth.module';
+import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AIModule } from './ai/ai.module';
 import { CartModule } from './cart/cart.module';
 import { CustomizationsModule } from './customizations/customizations.module';
@@ -27,6 +29,8 @@ import { RFQsModule } from './rfqs/rfqs.module';
     AIModule,
     RFQsModule,
     QuotesModule,
+    AdminAuthModule,
+    AdminDashboardModule,
   ],
 })
 export class AppModule {}

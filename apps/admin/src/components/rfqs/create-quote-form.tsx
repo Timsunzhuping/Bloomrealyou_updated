@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 import { useRouter } from '@/i18n/navigation';
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface Props {
   rfqId: string;
@@ -77,9 +78,8 @@ export function CreateQuoteForm({ rfqId, apiBaseUrl }: Props): JSX.Element {
 
     setSaving(true);
     try {
-      const res = await fetch(`${apiBaseUrl}/admin/rfqs/${rfqId}/quotes`, {
+      const res = await adminFetch(apiBaseUrl, `/admin/rfqs/${rfqId}/quotes`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           currency: 'USD',
           items: cleanItems,

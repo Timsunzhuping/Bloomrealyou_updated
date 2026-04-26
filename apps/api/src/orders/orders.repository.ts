@@ -41,4 +41,11 @@ export class OrdersRepository {
       .filter((o) => o.cartSessionId === sessionId)
       .sort((a, b) => b.placedAt.localeCompare(a.placedAt));
   }
+
+  /** All orders, newest first. Used by admin dashboards / reports. */
+  listAll(): OrderDto[] {
+    return Array.from(this.orders.values()).sort((a, b) =>
+      b.placedAt.localeCompare(a.placedAt),
+    );
+  }
 }

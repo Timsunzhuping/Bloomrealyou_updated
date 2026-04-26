@@ -1,8 +1,8 @@
 import { isSupportedLocale, type Locale } from '@custom-merch/i18n';
 import {
-  RFQ_STATUSES,
-  type RfqDto,
-  type RFQStatus,
+  QUOTE_STATUSES,
+  type QuoteDto,
+  type QuoteStatus,
 } from '@custom-merch/shared';
 import {
   Badge,
@@ -25,23 +25,23 @@ interface PageProps {
   searchParams: Promise<{ status?: string }>;
 }
 
-export default async function AdminRFQsPage({ params, searchParams }: PageProps): Promise<JSX.Element> {
+export default async function AdminQuotesPage({ params, searchParams }: PageProps): Promise<JSX.Element> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isSupportedLocale(rawLocale) ? rawLocale : 'en';
   setRequestLocale(locale);
 
   const { status } = await searchParams;
-  const statusFilter = (RFQ_STATUSES as readonly string[]).includes(status ?? '')
-    ? (status as RFQStatus)
+  const statusFilter = (QUOTE_STATUSES as readonly string[]).includes(status ?? '')
+    ? (status as QuoteStatus)
     : undefined;
 
   const t = await getTranslations('admin');
-  const tRfq = await getTranslations('rfq');
 
-  let rows: RfqDto[] = [];
+  let rows: QuoteDto[] = [];
   let fetchError: string | null = null;
   try {
-    const result = await getAdminApi().adminRfqs.list({ status: statusFilter });
+    const api = await getAdminApi();
+    const result = await api.adminQuotes.list({ status: statusFilter });
     rows = result.items;
   } catch (e) {
     fetchError = (e as Error).message;
@@ -50,13 +50,13 @@ export default async function AdminRFQsPage({ params, searchParams }: PageProps)
   return (
     <section className="space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">{t('rfqs.listHeading')}</h1>
-        <p className="text-muted-foreground">{t('rfqs.listSubtitle')}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('quotes.listHeading')}</h1>
+        <p className="text-muted-foreground">{t('quotes.listSubtitle')}</p>
       </header>
 
       <form className="flex flex-wrap items-center gap-3 rounded-md border bg-muted/30 p-3 text-sm">
         <label htmlFor="status" className="font-medium">
-          {t('rfqs.filterLabel')}
+          {t('quotes.filterLabel')}
         </label>
         <select
           id="status"
@@ -64,10 +64,10 @@ export default async function AdminRFQsPage({ params, searchParams }: PageProps)
           defaultValue={statusFilter ?? ''}
           className="rounded border border-input bg-background px-2 py-1 text-sm"
         >
-          <option value="">{t('rfqs.filterAll')}</option>
-          {RFQ_STATUSES.map((s) => (
+          <option value="">{t('quotes.filterAll')}</option>
+          {QUOTE_STATUSES.map((s) => (
             <option key={s} value={s}>
-              {tRfq(`statusLabels.${s}`)}
+              {t(`quotes.statusLabels.${s}`)}
             </option>
           ))}
         </select>
@@ -88,7 +88,7 @@ export default async function AdminRFQsPage({ params, searchParams }: PageProps)
       {rows.length === 0 ? (
         <Card>
           <CardContent className="py-10 text-center text-sm text-muted-foreground">
-            {t('rfqs.empty')}
+            {t('quotes.empty')}
           </CardContent>
         </Card>
       ) : (
@@ -96,34 +96,38 @@ export default async function AdminRFQsPage({ params, searchParams }: PageProps)
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t('rfqs.table.rfqNumber')}</TableHead>
-                <TableHead>{t('rfqs.table.company')}</TableHead>
-                <TableHead>{t('rfqs.table.contact')}</TableHead>
-                <TableHead>{t('rfqs.table.country')}</TableHead>
-                <TableHead className="text-end">{t('rfqs.table.qty')}</TableHead>
-                <TableHead>{t('rfqs.table.budget')}</TableHead>
-                <TableHead>{t('rfqs.table.status')}</TableHead>
-                <TableHead>{t('rfqs.table.submittedAt')}</TableHead>
+                <TableHead>{t('quotes.table.quoteNumber')}</TableHead>
+                <TableHead>{t('quotes.table.rfq')}</TableHead>
+                <TableHead>{t('quotes.table.customer')}</TableHead>
+                <TableHead className="text-end">{t('quotes.table.items')}</TableHead>
+                <TableHead className="text-end">{t('quotes.table.total')}</TableHead>
+                <TableHead>{t('quotes.table.status')}</TableHead>
+                <TableHead>{t('quotes.table.createdAt')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.map((rfq) => (
-                <TableRow key={rfq.id} className="cursor-pointer">
+              {rows.map((q) => (
+                <TableRow key={q.id}>
                   <TableCell className="font-medium">
-                    <Link href={`/rfqs/${rfq.id}`}>{rfq.rfqNumber}</Link>
+                    <Link href={`/quotes/${q.id}`}>{q.quoteNumber}</Link>
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {q.rfqId ? (
+                      <Link href={`/rfqs/${q.rfqId}`}>{q.rfqId.slice(0, 8)}…</Link>
+                    ) : (
+                      '—'
+                    )}
+                  </TableCell>
+                  <TableCell>{q.customerName} · {q.companyName}</TableCell>
+                  <TableCell className="text-end tabular-nums">{q.items.length}</TableCell>
+                  <TableCell className="text-end tabular-nums">
+                    {(q.total.amountMinor / 100).toFixed(2)} {q.total.currency}
                   </TableCell>
                   <TableCell>
-                    <Link href={`/rfqs/${rfq.id}`}>{rfq.companyName}</Link>
-                  </TableCell>
-                  <TableCell>{rfq.contactName}</TableCell>
-                  <TableCell>{rfq.country}</TableCell>
-                  <TableCell className="text-end tabular-nums">{rfq.estimatedQuantity}</TableCell>
-                  <TableCell>{tRfq(`budgetRanges.${rfq.budgetRange}`)}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{tRfq(`statusLabels.${rfq.status}`)}</Badge>
+                    <Badge variant="secondary">{t(`quotes.statusLabels.${q.status}`)}</Badge>
                   </TableCell>
                   <TableCell className="text-xs text-muted-foreground">
-                    {new Date(rfq.submittedAt).toLocaleString(locale)}
+                    {new Date(q.createdAt).toLocaleString(locale)}
                   </TableCell>
                 </TableRow>
               ))}

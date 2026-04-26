@@ -1,4 +1,6 @@
 import { AccountClient } from './account.js';
+import { AdminAuthClient } from './admin-auth.js';
+import { AdminDashboardClient } from './admin-dashboard.js';
 import { AIClient } from './ai.js';
 import { CartClient } from './cart.js';
 import { CustomizationsClient } from './customizations.js';
@@ -45,6 +47,8 @@ export interface ApiClientOptions {
   next?: { revalidate?: number | false; tags?: string[] };
   /** Storage adapter for the anonymous cart session id. */
   sessionStorage?: SessionStorage;
+  /** Optional pre-existing admin bearer token (e.g. read from a cookie). */
+  adminToken?: string | null;
 }
 
 export class ApiError extends Error {
@@ -72,6 +76,7 @@ export class ApiClient {
   private readonly defaultHeaders: Record<string, string>;
   private readonly nextOptions?: ApiClientOptions['next'];
   private readonly session: SessionStorage;
+  private adminToken: string | null;
 
   readonly products: ProductsClient;
   readonly customizations: CustomizationsClient;
@@ -84,6 +89,8 @@ export class ApiClient {
   readonly rfqs: RFQsClient;
   readonly adminRfqs: AdminRFQsClient;
   readonly adminQuotes: AdminQuotesClient;
+  readonly adminAuth: AdminAuthClient;
+  readonly adminDashboard: AdminDashboardClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -91,6 +98,7 @@ export class ApiClient {
     this.defaultHeaders = { 'content-type': 'application/json', ...options.headers };
     this.nextOptions = options.next;
     this.session = options.sessionStorage ?? new MemorySessionStorage();
+    this.adminToken = options.adminToken ?? null;
     this.products = new ProductsClient(this);
     this.customizations = new CustomizationsClient(this);
     this.pricing = new PricingClient(this);
@@ -102,6 +110,17 @@ export class ApiClient {
     this.rfqs = new RFQsClient(this);
     this.adminRfqs = new AdminRFQsClient(this);
     this.adminQuotes = new AdminQuotesClient(this);
+    this.adminAuth = new AdminAuthClient(this);
+    this.adminDashboard = new AdminDashboardClient(this);
+  }
+
+  /** Set / clear the admin bearer token. Cleared on logout. */
+  setAdminToken(token: string | null): void {
+    this.adminToken = token;
+  }
+
+  getAdminToken(): string | null {
+    return this.adminToken;
   }
 
   /** Low-level helper with shared error handling. */
@@ -119,6 +138,7 @@ export class ApiClient {
     const sessionId = this.session.get();
     const headers: Record<string, string> = { ...this.defaultHeaders };
     if (sessionId) headers[CART_SESSION_HEADER] = sessionId;
+    if (this.adminToken) headers['authorization'] = `Bearer ${this.adminToken}`;
     if (init.headers) {
       for (const [k, v] of Object.entries(init.headers as Record<string, string>)) {
         headers[k] = v;

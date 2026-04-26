@@ -40,16 +40,17 @@ export default async function AdminRFQDetailPage({ params }: PageProps): Promise
   const t = await getTranslations('admin');
   const tRfq = await getTranslations('rfq');
 
+  const api = await getAdminApi();
   let rfq: RfqDto;
   try {
-    rfq = await getAdminApi().adminRfqs.get(id);
+    rfq = await api.adminRfqs.get(id);
   } catch {
     notFound();
   }
 
   let quotes: QuoteDto[] = [];
   try {
-    const result = await getAdminApi().adminQuotes.list({ rfqId: id });
+    const result = await api.adminQuotes.list({ rfqId: id });
     quotes = result.items;
   } catch {
     // best-effort; the page still works without the quote list.

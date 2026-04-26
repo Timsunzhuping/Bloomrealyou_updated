@@ -3,9 +3,13 @@
   "nav": {
     "dashboard": "Panel",
     "products": "Productos",
+    "templates": "Plantillas",
     "orders": "Pedidos",
+    "designReviews": "Revisiones de diseño",
     "customers": "Clientes",
     "suppliers": "Proveedores",
+    "productionJobs": "Trabajos de producción",
+    "shipments": "Envíos",
     "production": "Producción",
     "rfqs": "RFQs",
     "quotes": "Presupuestos",
@@ -13,19 +17,110 @@
     "finance": "Finanzas",
     "settings": "Ajustes"
   },
+  "navGroups": {
+    "overview": "Resumen",
+    "commerce": "Comercio",
+    "production": "Producción",
+    "salesOps": "Ventas",
+    "system": "Sistema"
+  },
+  "shell": {
+    "skipToContent": "Ir al contenido",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "stub": "Este módulo es parte del andamio del WP-13. La función completa llega en un paquete posterior.",
+    "comingSoon": "Próximamente"
+  },
+  "userMenu": {
+    "signedInAs": "Sesión iniciada como",
+    "role": "Rol",
+    "logout": "Cerrar sesión",
+    "loggingOut": "Cerrando sesión…"
+  },
+  "breadcrumb": {
+    "home": "Admin"
+  },
+  "roleLabels": {
+    "admin": "Administrador",
+    "sales": "Ventas",
+    "designer": "Diseñador",
+    "production_manager": "Jefe de producción",
+    "finance": "Finanzas",
+    "supplier_user": "Proveedor"
+  },
   "dashboard": {
     "heading": "Resumen",
     "subtitle": "Vista operativa de hoy.",
+    "refresh": "Actualizar",
+    "lastUpdated": "Última actualización {time}",
+    "loading": "Cargando panel…",
+    "loadError": "No pudimos cargar los datos.",
     "kpi": {
       "ordersToday": "Pedidos hoy",
-      "revenueToday": "Ingresos hoy",
+      "gmvToday": "GMV hoy",
+      "designsPendingReview": "Diseños pendientes",
+      "ordersPendingProduction": "Pedidos en cola",
+      "ordersInProduction": "Pedidos en producción",
+      "ordersPendingShipment": "Pedidos por enviar",
+      "ordersExceptions": "Pedidos con incidencias",
+      "rfqsOpen": "RFQs abiertas",
       "openRfqs": "RFQs abiertas",
+      "revenueToday": "Ingresos hoy",
       "productionJobsInFlight": "Trabajos en producción"
+    },
+    "charts": {
+      "ordersTrend": "Tendencia de pedidos (14 días)",
+      "ordersTrendPlaceholder": "Los gráficos llegan en un paquete posterior.",
+      "fulfilmentMix": "Mix de fulfilment",
+      "fulfilmentMixPlaceholder": "Los gráficos llegan en un paquete posterior."
     }
   },
   "auth": {
     "signInHeading": "Inicia sesión en el back-office",
-    "signInCta": "Iniciar sesión"
+    "signInSubtitle": "Usa una cuenta sembrada (p. ej. admin@bloomrealyou.com / admin123).",
+    "emailLabel": "Correo",
+    "passwordLabel": "Contraseña",
+    "signInCta": "Iniciar sesión",
+    "signingIn": "Iniciando sesión…",
+    "errorInvalidCredentials": "Correo o contraseña inválidos.",
+    "errorGeneric": "No pudimos iniciar sesión. Inténtalo de nuevo.",
+    "redirectNotice": "Redirigiendo…",
+    "demoTitle": "Cuentas de demo",
+    "demoHint": "Elige un rol para previsualizar el back-office. Las contraseñas son solo para el MVP."
+  },
+  "stubs": {
+    "products": {
+      "heading": "Productos",
+      "body": "Gestión de catálogo: alta, archivado y precios."
+    },
+    "templates": {
+      "heading": "Plantillas",
+      "body": "Plantillas curadas para el customizer."
+    },
+    "orders": {
+      "heading": "Pedidos",
+      "body": "Operaciones de pedido: transiciones, incidencias, reembolsos."
+    },
+    "designReviews": {
+      "heading": "Revisiones de diseño",
+      "body": "Cola de revisión de diseños del cliente."
+    },
+    "suppliers": {
+      "heading": "Proveedores",
+      "body": "Cuentas, capacidades y onboarding de proveedores."
+    },
+    "productionJobs": {
+      "heading": "Trabajos de producción",
+      "body": "Tablero de producción de todos los trabajos asignados."
+    },
+    "shipments": {
+      "heading": "Envíos",
+      "body": "Ciclo de envío, etiquetas y excepciones."
+    },
+    "settings": {
+      "heading": "Ajustes",
+      "body": "Cuenta, facturación, integraciones y configuración."
+    }
   },
   "rfqs": {
     "listHeading": "Solicitudes de presupuesto",

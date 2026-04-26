@@ -43,7 +43,8 @@ export default async function AdminQuoteDetailPage({ params }: PageProps): Promi
 
   let quote: QuoteDto;
   try {
-    quote = await getAdminApi().adminQuotes.get(id);
+    const api = await getAdminApi();
+    quote = await api.adminQuotes.get(id);
   } catch {
     notFound();
   }

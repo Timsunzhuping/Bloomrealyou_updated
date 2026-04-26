@@ -22,3 +22,4 @@ export * from './account-dto';
 export * from './ai-dto';
 export * from './rfq-dto';
 export * from './quote-dto';
+export * from './admin-dto';

@@ -3,9 +3,13 @@
   "nav": {
     "dashboard": "اللوحة",
     "products": "المنتجات",
+    "templates": "القوالب",
     "orders": "الطلبات",
+    "designReviews": "مراجعات التصميم",
     "customers": "العملاء",
     "suppliers": "الموردون",
+    "productionJobs": "مهام الإنتاج",
+    "shipments": "الشحنات",
     "production": "الإنتاج",
     "rfqs": "طلبات عروض الأسعار",
     "quotes": "العروض",
@@ -13,19 +17,110 @@
     "finance": "المالية",
     "settings": "الإعدادات"
   },
+  "navGroups": {
+    "overview": "نظرة عامة",
+    "commerce": "التجارة",
+    "production": "الإنتاج",
+    "salesOps": "المبيعات",
+    "system": "النظام"
+  },
+  "shell": {
+    "skipToContent": "تخطّي إلى المحتوى",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "stub": "هذه الوحدة جزء من إطار WP-13؛ ستصل الميزة الكاملة في حزمة لاحقة.",
+    "comingSoon": "قريبًا"
+  },
+  "userMenu": {
+    "signedInAs": "مسجَّل الدخول باسم",
+    "role": "الدور",
+    "logout": "تسجيل الخروج",
+    "loggingOut": "جارٍ الخروج…"
+  },
+  "breadcrumb": {
+    "home": "الإدارة"
+  },
+  "roleLabels": {
+    "admin": "مسؤول المنصة",
+    "sales": "المبيعات",
+    "designer": "المصمّم",
+    "production_manager": "مدير الإنتاج",
+    "finance": "المالية",
+    "supplier_user": "حساب مورّد"
+  },
   "dashboard": {
     "heading": "نظرة عامة",
-    "subtitle": "صورة سريعة لعمليات اليوم.",
+    "subtitle": "لقطة عمليات اليوم.",
+    "refresh": "تحديث",
+    "lastUpdated": "آخر تحديث {time}",
+    "loading": "جارٍ التحميل…",
+    "loadError": "تعذّر تحميل بيانات اللوحة.",
     "kpi": {
       "ordersToday": "طلبات اليوم",
-      "revenueToday": "إيرادات اليوم",
+      "gmvToday": "إجمالي مبيعات اليوم",
+      "designsPendingReview": "تصاميم بانتظار المراجعة",
+      "ordersPendingProduction": "طلبات بانتظار الإنتاج",
+      "ordersInProduction": "طلبات قيد الإنتاج",
+      "ordersPendingShipment": "طلبات بانتظار الشحن",
+      "ordersExceptions": "طلبات استثنائية",
+      "rfqsOpen": "طلبات أسعار مفتوحة",
       "openRfqs": "طلبات أسعار مفتوحة",
+      "revenueToday": "إيرادات اليوم",
       "productionJobsInFlight": "مهام قيد الإنتاج"
+    },
+    "charts": {
+      "ordersTrend": "اتجاه الطلبات (14 يومًا)",
+      "ordersTrendPlaceholder": "ستتوفّر الرسوم في حزمة لاحقة.",
+      "fulfilmentMix": "تكوين الشحن",
+      "fulfilmentMixPlaceholder": "ستتوفّر الرسوم في حزمة لاحقة."
     }
   },
   "auth": {
-    "signInHeading": "تسجيل الدخول إلى وحدة الإدارة",
-    "signInCta": "تسجيل الدخول"
+    "signInHeading": "تسجيل الدخول إلى الواجهة الإدارية",
+    "signInSubtitle": "استخدم أحد الحسابات المُهيّأة (مثل admin@bloomrealyou.com / admin123).",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "signInCta": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول…",
+    "errorInvalidCredentials": "بريد أو كلمة مرور غير صحيحة.",
+    "errorGeneric": "تعذّر تسجيل الدخول. حاول مجدّدًا.",
+    "redirectNotice": "جارٍ التحويل…",
+    "demoTitle": "حسابات تجريبية",
+    "demoHint": "اختر دورًا لمعاينة الواجهة الإدارية. كلمات المرور للعرض فقط."
+  },
+  "stubs": {
+    "products": {
+      "heading": "المنتجات",
+      "body": "إدارة كتالوج المنتجات: إنشاء، أرشفة، تسعير."
+    },
+    "templates": {
+      "heading": "القوالب",
+      "body": "قوالب تصميم منسّقة لمكوّن التخصيص."
+    },
+    "orders": {
+      "heading": "الطلبات",
+      "body": "عمليات الطلب: تحويل الحالات والاستثناءات والاسترداد."
+    },
+    "designReviews": {
+      "heading": "مراجعات التصميم",
+      "body": "قائمة مراجعة التصاميم المرسلة من العملاء."
+    },
+    "suppliers": {
+      "heading": "الموردون",
+      "body": "إدارة حسابات الموردين وقدراتهم وحالة الانضمام."
+    },
+    "productionJobs": {
+      "heading": "مهام الإنتاج",
+      "body": "لوحة الإنتاج لجميع المهام المسنَدة."
+    },
+    "shipments": {
+      "heading": "الشحنات",
+      "body": "دورة حياة الشحن وإنشاء الملصقات والاستثناءات."
+    },
+    "settings": {
+      "heading": "الإعدادات",
+      "body": "الحساب والفوترة والتكاملات وإعدادات المنصة."
+    }
   },
   "rfqs": {
     "listHeading": "طلبات عروض الأسعار",

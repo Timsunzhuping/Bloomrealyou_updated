@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
 import { useRouter } from '@/i18n/navigation';
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface Props {
   rfqId: string;
@@ -26,9 +27,8 @@ export function StatusUpdateForm({ rfqId, currentStatus, apiBaseUrl }: Props): J
     setSaving(true);
     setError(null);
     try {
-      const res = await fetch(`${apiBaseUrl}/admin/rfqs/${rfqId}/status`, {
+      const res = await adminFetch(apiBaseUrl, `/admin/rfqs/${rfqId}/status`, {
         method: 'PATCH',
-        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ status }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);

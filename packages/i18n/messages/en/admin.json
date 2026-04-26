@@ -3,9 +3,13 @@
   "nav": {
     "dashboard": "Dashboard",
     "products": "Products",
+    "templates": "Templates",
     "orders": "Orders",
+    "designReviews": "Design reviews",
     "customers": "Customers",
     "suppliers": "Suppliers",
+    "productionJobs": "Production jobs",
+    "shipments": "Shipments",
     "production": "Production",
     "rfqs": "RFQs",
     "quotes": "Quotes",
@@ -13,19 +17,110 @@
     "finance": "Finance",
     "settings": "Settings"
   },
+  "navGroups": {
+    "overview": "Overview",
+    "commerce": "Commerce",
+    "production": "Production",
+    "salesOps": "Sales ops",
+    "system": "System"
+  },
+  "shell": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "stub": "This section is part of WP-13's framework scaffold. The full feature ships in a follow-up work package.",
+    "comingSoon": "Coming soon"
+  },
+  "userMenu": {
+    "signedInAs": "Signed in as",
+    "role": "Role",
+    "logout": "Log out",
+    "loggingOut": "Logging out…"
+  },
+  "breadcrumb": {
+    "home": "Admin"
+  },
+  "roleLabels": {
+    "admin": "Platform admin",
+    "sales": "Sales",
+    "designer": "Designer",
+    "production_manager": "Production manager",
+    "finance": "Finance",
+    "supplier_user": "Supplier"
+  },
   "dashboard": {
     "heading": "Overview",
     "subtitle": "Operational snapshot for today.",
+    "refresh": "Refresh",
+    "lastUpdated": "Last updated {time}",
+    "loading": "Loading dashboard…",
+    "loadError": "Couldn't load dashboard data.",
     "kpi": {
       "ordersToday": "Orders today",
-      "revenueToday": "Revenue today",
+      "gmvToday": "GMV today",
+      "designsPendingReview": "Designs pending review",
+      "ordersPendingProduction": "Orders pending production",
+      "ordersInProduction": "Orders in production",
+      "ordersPendingShipment": "Orders awaiting shipment",
+      "ordersExceptions": "Exception orders",
+      "rfqsOpen": "Open RFQs",
       "openRfqs": "Open RFQs",
+      "revenueToday": "Revenue today",
       "productionJobsInFlight": "Jobs in production"
+    },
+    "charts": {
+      "ordersTrend": "Orders trend (last 14 days)",
+      "ordersTrendPlaceholder": "Charts ship in a follow-up work package.",
+      "fulfilmentMix": "Fulfilment mix",
+      "fulfilmentMixPlaceholder": "Charts ship in a follow-up work package."
     }
   },
   "auth": {
     "signInHeading": "Sign in to the back office",
-    "signInCta": "Sign in"
+    "signInSubtitle": "Use one of the seeded accounts (e.g. admin@bloomrealyou.com / admin123).",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "signInCta": "Sign in",
+    "signingIn": "Signing in…",
+    "errorInvalidCredentials": "Invalid email or password.",
+    "errorGeneric": "Couldn't sign in. Please try again.",
+    "redirectNotice": "Redirecting…",
+    "demoTitle": "Demo accounts",
+    "demoHint": "Pick any role to preview the back-office. Passwords are listed below for the MVP only."
+  },
+  "stubs": {
+    "products": {
+      "heading": "Products",
+      "body": "Product catalogue management — create, archive, and price SKUs."
+    },
+    "templates": {
+      "heading": "Templates",
+      "body": "Curated design templates exposed to the customizer."
+    },
+    "orders": {
+      "heading": "Orders",
+      "body": "Order operations — status transitions, exceptions, refunds."
+    },
+    "designReviews": {
+      "heading": "Design reviews",
+      "body": "Review queue for customer-submitted designs awaiting approval."
+    },
+    "suppliers": {
+      "heading": "Suppliers",
+      "body": "Manage supplier accounts, capabilities and onboarding state."
+    },
+    "productionJobs": {
+      "heading": "Production jobs",
+      "body": "Live production board across all assigned jobs."
+    },
+    "shipments": {
+      "heading": "Shipments",
+      "body": "Shipment lifecycle, label creation and carrier exceptions."
+    },
+    "settings": {
+      "heading": "Settings",
+      "body": "Account, billing, integrations and platform configuration."
+    }
   },
   "rfqs": {
     "listHeading": "Requests for quote",

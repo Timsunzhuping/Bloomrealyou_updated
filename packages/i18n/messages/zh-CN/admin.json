@@ -3,9 +3,13 @@
   "nav": {
     "dashboard": "概览",
     "products": "商品",
+    "templates": "设计模板",
     "orders": "订单",
+    "designReviews": "设计审核",
     "customers": "客户",
     "suppliers": "供应商",
+    "productionJobs": "生产任务",
+    "shipments": "物流发货",
     "production": "生产",
     "rfqs": "询价",
     "quotes": "报价",
@@ -13,19 +17,110 @@
     "finance": "财务",
     "settings": "系统设置"
   },
+  "navGroups": {
+    "overview": "概览",
+    "commerce": "交易",
+    "production": "生产",
+    "salesOps": "销售运营",
+    "system": "系统"
+  },
+  "shell": {
+    "skipToContent": "跳到主内容",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "stub": "本模块属于 WP-13 框架占位,完整功能将在后续工作包交付。",
+    "comingSoon": "即将上线"
+  },
+  "userMenu": {
+    "signedInAs": "登录账号",
+    "role": "角色",
+    "logout": "退出登录",
+    "loggingOut": "退出中…"
+  },
+  "breadcrumb": {
+    "home": "后台"
+  },
+  "roleLabels": {
+    "admin": "平台管理员",
+    "sales": "销售",
+    "designer": "设计师",
+    "production_manager": "生产经理",
+    "finance": "财务",
+    "supplier_user": "供应商账号"
+  },
   "dashboard": {
     "heading": "运营总览",
     "subtitle": "今日运营快照。",
+    "refresh": "刷新",
+    "lastUpdated": "最后更新 {time}",
+    "loading": "加载中…",
+    "loadError": "无法加载概览数据。",
     "kpi": {
       "ordersToday": "今日订单",
-      "revenueToday": "今日营收",
+      "gmvToday": "今日 GMV",
+      "designsPendingReview": "待审核设计",
+      "ordersPendingProduction": "待生产订单",
+      "ordersInProduction": "生产中订单",
+      "ordersPendingShipment": "待发货订单",
+      "ordersExceptions": "异常订单",
+      "rfqsOpen": "待处理询价",
       "openRfqs": "待处理询价",
+      "revenueToday": "今日营收",
       "productionJobsInFlight": "生产中任务"
+    },
+    "charts": {
+      "ordersTrend": "订单趋势(近 14 天)",
+      "ordersTrendPlaceholder": "图表将在后续工作包交付。",
+      "fulfilmentMix": "履约结构",
+      "fulfilmentMixPlaceholder": "图表将在后续工作包交付。"
     }
   },
   "auth": {
     "signInHeading": "登录后台",
-    "signInCta": "登录"
+    "signInSubtitle": "可使用预置账号(如 admin@bloomrealyou.com / admin123)。",
+    "emailLabel": "邮箱",
+    "passwordLabel": "密码",
+    "signInCta": "登录",
+    "signingIn": "登录中…",
+    "errorInvalidCredentials": "邮箱或密码错误。",
+    "errorGeneric": "登录失败,请稍后重试。",
+    "redirectNotice": "正在跳转…",
+    "demoTitle": "演示账号",
+    "demoHint": "选择任意角色预览后台,密码仅供 MVP 演示。"
+  },
+  "stubs": {
+    "products": {
+      "heading": "商品",
+      "body": "商品目录管理:新建、上下架、定价。"
+    },
+    "templates": {
+      "heading": "设计模板",
+      "body": "面向定制器的精选设计模板。"
+    },
+    "orders": {
+      "heading": "订单",
+      "body": "订单运营:状态流转、异常、退款。"
+    },
+    "designReviews": {
+      "heading": "设计审核",
+      "body": "客户提交的设计审核队列。"
+    },
+    "suppliers": {
+      "heading": "供应商",
+      "body": "供应商账号、能力与入驻状态管理。"
+    },
+    "productionJobs": {
+      "heading": "生产任务",
+      "body": "全部已分配生产任务的看板。"
+    },
+    "shipments": {
+      "heading": "物流发货",
+      "body": "发货生命周期、面单与异常处理。"
+    },
+    "settings": {
+      "heading": "系统设置",
+      "body": "账号、财务、集成与平台配置。"
+    }
   },
   "rfqs": {
     "listHeading": "询价单",
