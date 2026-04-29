@@ -12,6 +12,7 @@ import type {
 
 import { AuditLogsRepository } from '../audit-logs/audit-logs.repository';
 import { CustomizationsRepository } from '../customizations/customizations.repository';
+import { OrderProgressService } from '../notifications/order-progress.service';
 import { OrdersRepository } from '../orders/orders.repository';
 
 interface ListFilter {
@@ -26,6 +27,7 @@ export class AdminDesignReviewsService {
     private readonly customizations: CustomizationsRepository,
     private readonly orders: OrdersRepository,
     private readonly audit: AuditLogsRepository,
+    private readonly progress: OrderProgressService,
   ) {}
 
   list(filter: ListFilter = {}): { items: AdminDesignReviewDto[]; total: number; page: number; pageSize: number } {
@@ -54,6 +56,7 @@ export class AdminDesignReviewsService {
       if (order && order.status === 'design_review') {
         this.orders.setStatus(order.id, 'design_approved');
       }
+      this.progress.notify(updated.linkedOrderId, 'design_approved');
     }
     const auditLog = this.audit.append({
       actorUserId: actor.id,
@@ -110,6 +113,11 @@ export class AdminDesignReviewsService {
       payload: { message: input.message, note: input.note, type: 'revision_requested' },
       summary: `requested revision on design ${updated.name}`,
     });
+    if (updated.linkedOrderId) {
+      this.progress.notify(updated.linkedOrderId, 'design_revision_required', {
+        extra: { revisionMessage: input.message },
+      });
+    }
     return { design: updated, auditLogId: auditLog.id, newStatus: 'revision_requested' };
   }
 

@@ -9,6 +9,7 @@ import type {
   WebhookEvent,
 } from '@custom-merch/shared';
 
+import { OrderProgressService } from '../notifications/order-progress.service';
 import { OrdersService } from '../orders/orders.service';
 
 import { PaymentsRepository } from './payments.repository';
@@ -23,6 +24,7 @@ export class PaymentsService {
     private readonly providers: Record<PaymentProviderName, PaymentProvider>,
     private readonly repo: PaymentsRepository,
     private readonly orders: OrdersService,
+    private readonly progress: OrderProgressService,
   ) {}
 
   async createIntent(input: { orderId: string; provider?: PaymentProviderName }): Promise<CreatePaymentIntentResult> {
@@ -108,6 +110,11 @@ export class PaymentsService {
       if (order.items.some((i) => i.customizationId)) {
         this.orders.setStatus(payment.orderId, 'design_review');
       }
+      this.progress.notify(payment.orderId, 'payment_succeeded', {
+        extra: {
+          totalFormatted: `${payment.amount.currency} ${(payment.amount.amountMinor / 100).toFixed(2)}`,
+        },
+      });
     } else if (event.kind === 'payment_failed') {
       this.repo.save({
         ...payment,

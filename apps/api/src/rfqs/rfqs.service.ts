@@ -9,6 +9,7 @@ import {
   type StorageProvider,
 } from '@custom-merch/shared';
 
+import { NotificationDispatcher } from '../notifications/notification-dispatcher.service';
 import { STORAGE_PROVIDER } from '../storage/storage.tokens';
 
 import { RFQsRepository } from './rfqs.repository';
@@ -40,6 +41,7 @@ export class RFQsService {
   constructor(
     private readonly repo: RFQsRepository,
     @Inject(STORAGE_PROVIDER) private readonly storage: StorageProvider,
+    private readonly dispatcher: NotificationDispatcher,
   ) {}
 
   async create(input: CreateRFQInput): Promise<RfqDto> {
@@ -95,6 +97,20 @@ export class RFQsService {
 
     this.repo.save(rfq);
     this.log.log(`rfq created ${rfqNumber} (id=${id}, qty=${rfq.estimatedQuantity})`);
+    if (rfq.email) {
+      this.dispatcher.enqueue({
+        to: rfq.email,
+        templateKey: 'rfq.confirmation',
+        locale: rfq.locale,
+        subject: `We received your RFQ ${rfq.rfqNumber}`,
+        rfqId: rfq.id,
+        data: {
+          contactName: rfq.contactName,
+          rfqNumber: rfq.rfqNumber,
+          slaHours: 24,
+        },
+      });
+    }
     return rfq;
   }
 

@@ -164,6 +164,114 @@ export const NOTIFICATION_TEMPLATES: Registry = {
       `مرحبًا {{supplierName}}،\n\nتم إسناد مهمة إنتاج جديدة {{jobNumber}} (الطلب {{orderNumber}}) إليك.\nيرجى تأكيد الإسناد عبر بوّابة المورد في أقرب وقت.\n\n— Bloomrealyou Operations`,
     ),
   },
+  'user.welcome': {
+    en: T(
+      'Welcome to Bloomrealyou, {{firstName}}',
+      `Hi {{firstName}},\n\nWelcome to Bloomrealyou! Your account is ready and you can start designing custom merch right away.\n\nIf you ever need help, just reply to this email.\n\n— Bloomrealyou`,
+    ),
+    'zh-CN': T(
+      '{{firstName}},欢迎加入 Bloomrealyou',
+      `您好 {{firstName}},\n\n欢迎加入 Bloomrealyou!您的账户已经就绪,现在就可以开始定制属于自己的商品。\n\n有任何问题,直接回复这封邮件即可。\n\n— Bloomrealyou`,
+    ),
+    es: T(
+      'Bienvenido a Bloomrealyou, {{firstName}}',
+      `Hola {{firstName}},\n\n¡Bienvenido a Bloomrealyou! Tu cuenta está lista y ya puedes empezar a diseñar productos personalizados.\n\nSi necesitas ayuda, responde a este correo.\n\n— Bloomrealyou`,
+    ),
+    ar: T(
+      'مرحبًا بك في Bloomrealyou يا {{firstName}}',
+      `مرحبًا {{firstName}}،\n\nأهلًا بك في Bloomrealyou! حسابك جاهز ويمكنك البدء في تصميم منتجاتك المخصّصة الآن.\n\nإذا احتجت أي مساعدة فقط رد على هذه الرسالة.\n\n— Bloomrealyou`,
+    ),
+  },
+  'order.confirmation': {
+    en: T(
+      'We received your order {{orderNumber}}',
+      `Hi,\n\nThanks for your order! We received {{orderNumber}} and are preparing it for production.\n\nTotal: {{totalFormatted}}\nItems: {{itemCount}}\n\nTrack progress: {{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+    'zh-CN': T(
+      '订单 {{orderNumber}} 已收到',
+      `您好,\n\n感谢下单!我们已收到订单 {{orderNumber}},正在为您准备生产。\n\n总计:{{totalFormatted}}\n商品数量:{{itemCount}}\n\n查看进度:{{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+    es: T(
+      'Recibimos tu pedido {{orderNumber}}',
+      `Hola,\n\n¡Gracias por tu pedido! Recibimos {{orderNumber}} y lo estamos preparando para producción.\n\nTotal: {{totalFormatted}}\nArtículos: {{itemCount}}\n\nSigue el progreso: {{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+    ar: T(
+      'تم استلام طلبك {{orderNumber}}',
+      `مرحبًا،\n\nشكرًا لطلبك! استلمنا {{orderNumber}} ونقوم بتجهيزه للإنتاج.\n\nالإجمالي: {{totalFormatted}}\nعدد المنتجات: {{itemCount}}\n\nتتبع التقدم: {{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+  },
+  'order.payment_confirmation': {
+    en: T(
+      'Payment received for {{orderNumber}}',
+      `Hi,\n\nWe've received your payment of {{totalFormatted}} for order {{orderNumber}}. A receipt is attached for your records.\n\nWe'll email you again the moment your order ships.\n\n— Bloomrealyou`,
+    ),
+    'zh-CN': T(
+      '已收到订单 {{orderNumber}} 的付款',
+      `您好,\n\n我们已收到订单 {{orderNumber}} 的付款 {{totalFormatted}}。收据已附在邮件中以备查阅。\n\n商品发货时我们会再次通知您。\n\n— Bloomrealyou`,
+    ),
+    es: T(
+      'Pago recibido para {{orderNumber}}',
+      `Hola,\n\nHemos recibido tu pago de {{totalFormatted}} por el pedido {{orderNumber}}. Adjuntamos el recibo para tus registros.\n\nTe escribiremos en cuanto el pedido se envíe.\n\n— Bloomrealyou`,
+    ),
+    ar: T(
+      'تم استلام الدفعة الخاصة بالطلب {{orderNumber}}',
+      `مرحبًا،\n\nاستلمنا دفعتك بمبلغ {{totalFormatted}} للطلب {{orderNumber}}. الإيصال مرفق لسجلاتك.\n\nسنبلغك حالما يتم شحن الطلب.\n\n— Bloomrealyou`,
+    ),
+  },
+  'order.design_revision_required': {
+    en: T(
+      'We need a small change to your design for {{orderNumber}}',
+      `Hi,\n\nOur design team reviewed your artwork for {{orderNumber}} and asked for a small revision before we move it to production.\n\nReviewer note: {{revisionMessage}}\n\nUpload a new version: {{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+    'zh-CN': T(
+      '订单 {{orderNumber}} 的设计需要调整',
+      `您好,\n\n我们的设计团队审核了订单 {{orderNumber}} 的稿件,需要您先修改后再进入生产。\n\n审核备注:{{revisionMessage}}\n\n上传新版本:{{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+    es: T(
+      'Necesitamos un cambio en el diseño de {{orderNumber}}',
+      `Hola,\n\nNuestro equipo de diseño revisó el arte para {{orderNumber}} y pide una pequeña corrección antes de pasarlo a producción.\n\nNota del revisor: {{revisionMessage}}\n\nSube una nueva versión: {{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+    ar: T(
+      'نحتاج تعديلًا بسيطًا على تصميم الطلب {{orderNumber}}',
+      `مرحبًا،\n\nراجع فريق التصميم لدينا تصميمك لطلب {{orderNumber}} ويطلب تعديلًا بسيطًا قبل بدء الإنتاج.\n\nملاحظة المراجع: {{revisionMessage}}\n\nارفع نسخة جديدة: {{trackingPagePath}}\n\n— Bloomrealyou`,
+    ),
+  },
+  'rfq.confirmation': {
+    en: T(
+      'We received your RFQ {{rfqNumber}}',
+      `Hi {{contactName}},\n\nThanks for your interest! We received your request for quote {{rfqNumber}} and our team will get back to you with pricing within {{slaHours}} business hours.\n\n— Bloomrealyou`,
+    ),
+    'zh-CN': T(
+      '我们已收到您的询价 {{rfqNumber}}',
+      `您好 {{contactName}},\n\n感谢您的关注!我们已收到询价单 {{rfqNumber}},团队将在 {{slaHours}} 个工作小时内回复价格方案。\n\n— Bloomrealyou`,
+    ),
+    es: T(
+      'Recibimos tu solicitud de presupuesto {{rfqNumber}}',
+      `Hola {{contactName}},\n\n¡Gracias por tu interés! Recibimos la RFQ {{rfqNumber}} y nuestro equipo te enviará una cotización dentro de {{slaHours}} horas hábiles.\n\n— Bloomrealyou`,
+    ),
+    ar: T(
+      'استلمنا طلب عرض السعر {{rfqNumber}}',
+      `مرحبًا {{contactName}}،\n\nشكرًا لاهتمامك! استلمنا طلب عرض السعر {{rfqNumber}}، وسيقوم فريقنا بالرد عليك بالتسعير خلال {{slaHours}} ساعة عمل.\n\n— Bloomrealyou`,
+    ),
+  },
+  'quote.ready': {
+    en: T(
+      'Your quote {{quoteNumber}} is ready',
+      `Hi {{contactName}},\n\nGood news — quote {{quoteNumber}} for RFQ {{rfqNumber}} is ready.\nTotal: {{totalFormatted}}\nValid until: {{validUntil}}\n\nView the full quote: {{quoteUrl}}\n\n— Bloomrealyou Sales`,
+    ),
+    'zh-CN': T(
+      '报价 {{quoteNumber}} 已生成',
+      `您好 {{contactName}},\n\n好消息 — 询价单 {{rfqNumber}} 对应的报价 {{quoteNumber}} 已生成。\n总价:{{totalFormatted}}\n有效期至:{{validUntil}}\n\n查看完整报价:{{quoteUrl}}\n\n— Bloomrealyou 销售`,
+    ),
+    es: T(
+      'Tu cotización {{quoteNumber}} está lista',
+      `Hola {{contactName}},\n\n¡Buenas noticias! La cotización {{quoteNumber}} para la RFQ {{rfqNumber}} ya está lista.\nTotal: {{totalFormatted}}\nVálida hasta: {{validUntil}}\n\nVer cotización completa: {{quoteUrl}}\n\n— Equipo Comercial Bloomrealyou`,
+    ),
+    ar: T(
+      'عرض الأسعار {{quoteNumber}} جاهز',
+      `مرحبًا {{contactName}}،\n\nأخبار سارة — عرض الأسعار {{quoteNumber}} الخاص بطلب {{rfqNumber}} جاهز.\nالإجمالي: {{totalFormatted}}\nصالح حتى: {{validUntil}}\n\nاطلع على العرض الكامل: {{quoteUrl}}\n\n— فريق المبيعات في Bloomrealyou`,
+    ),
+  },
   'test.echo': {
     en: T(
       'Test message ({{templateKey}})',

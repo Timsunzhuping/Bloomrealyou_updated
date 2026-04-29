@@ -15,6 +15,7 @@ import {
 
 import { CartService } from '../cart/cart.service';
 import { CustomizationsRepository } from '../customizations/customizations.repository';
+import { NotificationDispatcher } from '../notifications/notification-dispatcher.service';
 import { OrdersRepository } from '../orders/orders.repository';
 
 import { AccountRepository } from './account.repository';
@@ -44,6 +45,7 @@ export class AccountService {
     private readonly orders: OrdersRepository,
     private readonly designs: CustomizationsRepository,
     private readonly carts: CartService,
+    private readonly dispatcher: NotificationDispatcher,
   ) {}
 
   // -- Profile -----------------------------------------------------------
@@ -53,7 +55,21 @@ export class AccountService {
   }
 
   updateProfile(sessionId: string, patch: Partial<AccountProfileDto>): AccountProfileDto {
-    return this.account.updateProfile(sessionId, patch);
+    const previous = this.account.ensureProfile(sessionId);
+    const next = this.account.updateProfile(sessionId, patch);
+    // First-time email set is the closest thing to "user registration" in
+    // the anonymous-session MVP — fire the welcome email exactly once.
+    if (!previous.email && next.email) {
+      const firstName = (next.fullName ?? next.email).split(/\s+/)[0];
+      this.dispatcher.enqueue({
+        to: next.email,
+        templateKey: 'user.welcome',
+        locale: next.locale,
+        subject: `Welcome to Bloomrealyou, ${firstName}`,
+        data: { firstName },
+      });
+    }
+    return next;
   }
 
   // -- Addresses ---------------------------------------------------------

@@ -6,6 +6,8 @@ import type { NotificationProvider } from '@custom-merch/shared';
 import { AdminAuthModule } from '../admin-auth/admin-auth.module';
 import { OrdersModule } from '../orders/orders.module';
 
+import { NotificationDispatcher } from './notification-dispatcher.service';
+import { NotificationLogRepository } from './notification-log.repository';
 import { AdminNotificationsController } from './notifications.controller';
 import { NOTIFICATION_PROVIDER } from './notification.tokens';
 import { OrderProgressService } from './order-progress.service';
@@ -84,7 +86,17 @@ const notificationProviderFactory: Provider<NotificationProvider> = {
 @Module({
   imports: [ConfigModule, OrdersModule, AdminAuthModule],
   controllers: [AdminNotificationsController],
-  providers: [notificationProviderFactory, OrderProgressService],
-  exports: [NOTIFICATION_PROVIDER, OrderProgressService],
+  providers: [
+    notificationProviderFactory,
+    NotificationLogRepository,
+    NotificationDispatcher,
+    OrderProgressService,
+  ],
+  exports: [
+    NOTIFICATION_PROVIDER,
+    NotificationDispatcher,
+    NotificationLogRepository,
+    OrderProgressService,
+  ],
 })
 export class NotificationsModule {}

@@ -959,12 +959,23 @@ model NotificationLog {
   /// Variables interpolated into the template at send time.
   variables         Json?
   status            NotificationStatus  @default(pending)
+  /// Subject line used for this send (denormalised so admins can search logs without re-resolving the template).
+  subject           String?
+  /// Provider that ultimately delivered (or attempted) the message ("mock"/"sendgrid"/"ses"/...).
+  provider          String?
   providerMessageId String?
   attemptCount      Int                 @default(0)
   sentAt            DateTime?
   deliveredAt       DateTime?
   failedAt          DateTime?
   failureReason     String?
+
+  /// Optional foreign-key context columns. Stored as text to avoid coupling to
+  /// the lifecycle of the related entity — a deleted order should never erase
+  /// its audit trail of past notifications.
+  orderId String? @db.Uuid
+  rfqId   String? @db.Uuid
+  quoteId String? @db.Uuid
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -974,6 +985,9 @@ model NotificationLog {
   @@index([recipientUserId])
   @@index([status])
   @@index([templateKey])
+  @@index([orderId])
+  @@index([rfqId])
+  @@index([quoteId])
   @@map("notification_logs")
 }
 

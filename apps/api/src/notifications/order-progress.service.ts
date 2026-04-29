@@ -1,18 +1,20 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 import type {
   AdminProductionJobDto,
   AdminShipmentDto,
   AdminSupplierDto,
-  NotificationProvider,
   OrderDto,
 } from '@custom-merch/shared';
 
 import { OrdersRepository } from '../orders/orders.repository';
 
-import { NOTIFICATION_PROVIDER } from './notification.tokens';
+import { NotificationDispatcher } from './notification-dispatcher.service';
 
 export type OrderMilestone =
+  | 'order_created'
+  | 'payment_succeeded'
+  | 'design_revision_required'
   | 'design_approved'
   | 'production_assigned'
   | 'production_started'
@@ -51,7 +53,7 @@ export class OrderProgressService {
 
   constructor(
     private readonly orders: OrdersRepository,
-    @Inject(NOTIFICATION_PROVIDER) private readonly notifier: NotificationProvider,
+    private readonly dispatcher: NotificationDispatcher,
   ) {}
 
   /**
@@ -68,6 +70,33 @@ export class OrderProgressService {
     const recipients: Array<{ to: string; templateKey: string; subject: string }> = [];
 
     switch (milestone) {
+      case 'order_created':
+        if (order.customerEmail) {
+          recipients.push({
+            to: order.customerEmail,
+            templateKey: 'order.confirmation',
+            subject: `We received your order ${order.orderNumber}`,
+          });
+        }
+        break;
+      case 'payment_succeeded':
+        if (order.customerEmail) {
+          recipients.push({
+            to: order.customerEmail,
+            templateKey: 'order.payment_confirmation',
+            subject: `Payment received for ${order.orderNumber}`,
+          });
+        }
+        break;
+      case 'design_revision_required':
+        if (order.customerEmail) {
+          recipients.push({
+            to: order.customerEmail,
+            templateKey: 'order.design_revision_required',
+            subject: `We need a small change to your design for ${order.orderNumber}`,
+          });
+        }
+        break;
       case 'design_approved':
         if (order.customerEmail) {
           recipients.push({
@@ -135,33 +164,17 @@ export class OrderProgressService {
 
     const data = this.buildPayload(order, milestone, ctx);
     for (const r of recipients) {
-      void this.send(r.to, r.templateKey, r.subject, order.locale, data, milestone);
+      this.dispatcher.enqueue({
+        to: r.to,
+        channel: 'email',
+        templateKey: r.templateKey,
+        locale: order.locale,
+        subject: r.subject,
+        data,
+        orderId: order.id,
+      });
     }
     return recipients.map((r) => r.to);
-  }
-
-  private async send(
-    to: string,
-    templateKey: string,
-    subject: string,
-    locale: OrderDto['locale'],
-    data: Record<string, unknown>,
-    milestone: OrderMilestone,
-  ): Promise<void> {
-    try {
-      await this.notifier.send({
-        to,
-        channel: 'email',
-        templateKey,
-        locale,
-        subject,
-        data,
-      });
-    } catch (e) {
-      this.log.warn(
-        `${milestone} notification to ${to} (${templateKey}) failed: ${(e as Error).message}`,
-      );
-    }
   }
 
   private buildPayload(

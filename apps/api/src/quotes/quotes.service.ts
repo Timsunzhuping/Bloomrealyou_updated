@@ -16,6 +16,7 @@ import {
   type UpdateQuoteInput,
 } from '@custom-merch/shared';
 
+import { NotificationDispatcher } from '../notifications/notification-dispatcher.service';
 import { OrdersService } from '../orders/orders.service';
 import { RFQsService } from '../rfqs/rfqs.service';
 
@@ -31,6 +32,7 @@ export class QuotesService {
     private readonly repo: QuotesRepository,
     private readonly rfqs: RFQsService,
     private readonly orders: OrdersService,
+    private readonly dispatcher: NotificationDispatcher,
   ) {}
 
   /** Create a quote attached to an RFQ. The RFQ is moved to `quote_sent` … wait, no — */
@@ -97,6 +99,7 @@ export class QuotesService {
 
     if (input.status === 'sent' && updated.rfqId) {
       this.rfqs.setStatus(updated.rfqId, 'quote_sent');
+      this.notifyQuoteReady(updated);
     }
     if (input.status === 'accepted' && updated.rfqId) {
       this.rfqs.setStatus(updated.rfqId, 'customer_accepted');
@@ -106,6 +109,35 @@ export class QuotesService {
     }
 
     return updated;
+  }
+
+  /** Fire `quote.ready` once a quote transitions into `sent`. */
+  private notifyQuoteReady(quote: QuoteDto): void {
+    if (!quote.customerEmail) return;
+    let rfqNumber: string | null = null;
+    if (quote.rfqId) {
+      try {
+        rfqNumber = this.rfqs.get(quote.rfqId).rfqNumber;
+      } catch {
+        rfqNumber = null;
+      }
+    }
+    this.dispatcher.enqueue({
+      to: quote.customerEmail,
+      templateKey: 'quote.ready',
+      locale: quote.locale,
+      subject: `Your quote ${quote.quoteNumber} is ready`,
+      quoteId: quote.id,
+      rfqId: quote.rfqId ?? undefined,
+      data: {
+        contactName: quote.customerName,
+        quoteNumber: quote.quoteNumber,
+        rfqNumber: rfqNumber ?? '',
+        totalFormatted: `${quote.currency} ${(quote.total.amountMinor / 100).toFixed(2)}`,
+        validUntil: quote.validUntil ?? '',
+        quoteUrl: `/account/quotes/${quote.quoteNumber}`,
+      },
+    });
   }
 
   convertToOrder(id: string, input: ConvertQuoteToOrderInput): OrderDto {

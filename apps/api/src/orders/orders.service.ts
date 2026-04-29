@@ -15,6 +15,7 @@ import {
 
 import { CartRepository } from '../cart/cart.repository';
 import { CustomizationsRepository } from '../customizations/customizations.repository';
+import { OrderProgressService } from '../notifications/order-progress.service';
 
 import { OrdersRepository } from './orders.repository';
 
@@ -26,6 +27,7 @@ export class OrdersService {
     private readonly orders: OrdersRepository,
     private readonly carts: CartRepository,
     private readonly customizations: CustomizationsRepository,
+    private readonly progress: OrderProgressService,
   ) {}
 
   /** Create an order from a cart session. */
@@ -102,6 +104,9 @@ export class OrdersService {
     this.log.log(`order created ${orderNumber} (id=${orderId}, items=${items.length})`);
     // Empty the cart so a refresh doesn't replay the line items.
     this.carts.replaceItems(input.cartSessionId, []);
+    this.progress.notify(orderId, 'order_created', {
+      extra: { itemCount: items.length, totalFormatted: formatMoney(order.total) },
+    });
     return order;
   }
 
@@ -183,6 +188,14 @@ export class OrdersService {
 
     this.orders.save(order);
     this.log.log(`order created from quote ${quote.quoteNumber} (id=${orderId})`);
+    this.progress.notify(orderId, 'order_created', {
+      extra: { itemCount: items.length, totalFormatted: formatMoney(order.total) },
+    });
     return order;
   }
+}
+
+function formatMoney(money: { amountMinor: number; currency: string }): string {
+  const major = (money.amountMinor / 100).toFixed(2);
+  return `${money.currency} ${major}`;
 }

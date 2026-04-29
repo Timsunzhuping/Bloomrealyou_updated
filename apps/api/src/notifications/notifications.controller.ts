@@ -4,6 +4,7 @@ import {
   Get,
   Inject,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -21,6 +22,11 @@ import { ADMIN_USER_REQ_KEY } from '../admin-auth/admin-auth.tokens';
 import { AdminBearerGuard } from '../admin-auth/admin-bearer.guard';
 import { RequirePermission } from '../admin-auth/admin-permissions.decorator';
 
+import {
+  NotificationLogRepository,
+  type NotificationLogEntry,
+  type NotificationLogStatus,
+} from './notification-log.repository';
 import { NOTIFICATION_PROVIDER } from './notification.tokens';
 import { NOTIFICATION_TEMPLATES, renderTemplate, resolveTemplate } from './templates';
 
@@ -74,6 +80,7 @@ interface TestSendResult {
 export class AdminNotificationsController {
   constructor(
     @Inject(NOTIFICATION_PROVIDER) private readonly notifier: NotificationProvider,
+    private readonly logs: NotificationLogRepository,
   ) {}
 
   @Get('templates')
@@ -86,6 +93,27 @@ export class AdminNotificationsController {
         enSubject: byLocale.en.subject,
       }),
     );
+    return { items };
+  }
+
+  @Get('logs')
+  @RequirePermission('settings.read')
+  listLogs(
+    @Query('status') status?: string,
+    @Query('templateKey') templateKey?: string,
+    @Query('orderId') orderId?: string,
+    @Query('rfqId') rfqId?: string,
+    @Query('quoteId') quoteId?: string,
+    @Query('limit') limit?: string,
+  ): { items: NotificationLogEntry[] } {
+    const items = this.logs.list({
+      status: status as NotificationLogStatus | undefined,
+      templateKey,
+      orderId,
+      rfqId,
+      quoteId,
+      limit: limit ? Math.min(Number(limit) || 100, 500) : 100,
+    });
     return { items };
   }
 
