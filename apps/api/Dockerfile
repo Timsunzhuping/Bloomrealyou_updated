@@ -39,8 +39,9 @@ WORKDIR /app
 ENV NODE_ENV=production \
     PNPM_HOME=/pnpm \
     PATH=/pnpm:$PATH \
-    API_HOST=0.0.0.0 \
-    API_PORT=4000
+    API_HOST=0.0.0.0
+# Default API_PORT (overridden by $PORT on Render / Heroku / Fly).
+ENV API_PORT=4000
 RUN corepack enable && apk add --no-cache openssl tini
 
 # Copy lockfile + workspace metadata so pnpm can install only prod deps.
@@ -63,5 +64,5 @@ EXPOSE 4000
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "apps/api/dist/main.js"]
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget -qO- http://127.0.0.1:${API_PORT}/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget -qO- "http://127.0.0.1:${PORT:-${API_PORT:-4000}}/health" || exit 1

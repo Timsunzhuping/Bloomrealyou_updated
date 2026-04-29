@@ -51,7 +51,8 @@ async function bootstrap(): Promise<void> {
   );
   app.setGlobalPrefix(process.env.API_GLOBAL_PREFIX ?? '');
 
-  const port = Number(process.env.API_PORT ?? 4000);
+  // PORT is injected by Render / Heroku / Fly; API_PORT is our own override.
+  const port = Number(process.env.PORT ?? process.env.API_PORT ?? 4000);
   const host = process.env.API_HOST ?? '0.0.0.0';
   await app.listen(port, host);
   // eslint-disable-next-line no-console

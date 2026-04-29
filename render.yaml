@@ -1,0 +1,100 @@
+# =============================================================================
+# Bloomrealyou — Render Blueprint
+#
+# Apply via Render Dashboard → "New" → "Blueprint" → select this repo.
+# Render reads this file from the default branch and provisions:
+#
+#   1. A Postgres database (free tier, 90-day retention)
+#   2. The NestJS API as a Docker web service
+#
+# Frontend (apps/web + apps/admin) is deployed to Vercel — see
+# docs/deploy-vercel-render.md for the matching Vercel setup.
+#
+# After the blueprint applies you'll need to fill in the secret env vars
+# marked `sync: false` from the Render dashboard:
+#   - JWT_SECRET (run `openssl rand -hex 32`)
+#   - STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET (optional for MVP demo)
+#   - SENDGRID_API_KEY (optional; mock notifier works fine without)
+#
+# Update API_CORS_ORIGINS once you know your Vercel URLs and re-deploy.
+# =============================================================================
+
+databases:
+  - name: bloomrealyou-postgres
+    databaseName: bloomrealyou
+    user: bloomrealyou
+    plan: free
+    postgresMajorVersion: 16
+
+services:
+  - type: web
+    name: bloomrealyou-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_PORT
+        value: 4000
+      - key: API_HOST
+        value: 0.0.0.0
+
+      # Database — connection string is bound automatically from the db above.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bloomrealyou-postgres
+          property: connectionString
+
+      # Free tier doesn't include Redis. The platform falls back to the
+      # in-memory idempotency store and the in-memory notifications queue;
+      # both are MVP-safe with a single replica.
+      - key: IDEMPOTENCY_STORE_BACKEND
+        value: in-memory
+      - key: NOTIFICATIONS_QUEUE_DRIVER
+        value: in-memory
+
+      # Defaults to the mock provider which logs sent emails to stdout.
+      # Render's log viewer surfaces them so you can verify trigger sites
+      # without configuring SendGrid.
+      - key: NOTIFICATION_PROVIDER
+        value: mock
+      - key: SHIPPING_PROVIDER
+        value: mock
+      - key: AI_PROVIDER
+        value: mock
+
+      # Stripe — set to production-real values from the Render dashboard.
+      # Until that happens, the payments flow degrades to the mock provider.
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: STRIPE_WEBHOOK_REQUIRE_SIGNATURE
+        value: 'false'
+
+      # CORS — fill in once Vercel hands you the URLs.
+      # Format: comma-separated list, e.g.
+      # https://bloomrealyou-web.vercel.app,https://bloomrealyou-admin.vercel.app
+      - key: API_CORS_ORIGINS
+        sync: false
+
+      - key: JWT_SECRET
+        generateValue: true
+
+      - key: API_RATE_LIMIT_BURST
+        value: '120'
+      - key: API_RATE_LIMIT_REFILL_PER_SEC
+        value: '10'
+
+      # The API_URL is what other services / Stripe webhooks use to reach
+      # this service. Render injects RENDER_EXTERNAL_URL automatically.
+      - key: API_URL
+        fromService:
+          type: web
+          name: bloomrealyou-api
+          property: host
