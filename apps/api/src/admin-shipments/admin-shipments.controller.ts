@@ -23,6 +23,7 @@ import { RequirePermission } from '../admin-auth/admin-permissions.decorator';
 
 import { CreateShipmentBody, UpdateShipmentBody } from './admin-shipments.dto';
 import { AdminShipmentsService } from './admin-shipments.service';
+import { ShippingSyncService } from './shipping-sync.service';
 
 interface ReqWithAdmin {
   [ADMIN_USER_REQ_KEY]?: AdminUserDto;
@@ -37,7 +38,10 @@ function actor(req: ReqWithAdmin): AdminUserDto {
 @Controller('admin/shipments')
 @UseGuards(AdminBearerGuard)
 export class AdminShipmentsController {
-  constructor(private readonly service: AdminShipmentsService) {}
+  constructor(
+    private readonly service: AdminShipmentsService,
+    private readonly sync: ShippingSyncService,
+  ) {}
 
   @Get()
   @RequirePermission('shipments.read')
@@ -79,6 +83,19 @@ export class AdminShipmentsController {
     @Req() req: ReqWithAdmin,
   ): AdminShipmentDto {
     return this.service.update(id, body, actor(req));
+  }
+
+  /** POST /admin/shipments/:id/sync-tracking — pull a fresh tracking event
+   *  from the active ShippingProvider (mock by default, EasyPost when
+   *  EASYPOST_API_KEY is set) and persist any status change. */
+  @Post(':id/sync-tracking')
+  @RequirePermission('shipments.write')
+  @HttpCode(200)
+  syncTracking(
+    @Param('id') id: string,
+    @Req() req: ReqWithAdmin,
+  ): Promise<AdminShipmentDto> {
+    return this.sync.syncOne(id, actor(req));
   }
 }
 

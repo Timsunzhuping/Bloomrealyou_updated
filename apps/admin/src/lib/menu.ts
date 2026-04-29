@@ -1,6 +1,7 @@
 import {
   hasAdminPermission,
   type AdminPermission,
+  type AdminRole,
   type AdminUserDto,
 } from '@custom-merch/shared';
 
@@ -11,6 +12,9 @@ export interface AdminMenuItem {
   labelKey: string;
   /** RBAC gate — items with permissions the user lacks are hidden. */
   permission: AdminPermission;
+  /** Optional role allow-list. When set, only listed roles see the item even
+   *  if their permissions would otherwise grant access. */
+  roles?: AdminRole[];
   /** lucide-react icon name. The shell maps this to the actual component. */
   icon:
     | 'gauge'
@@ -80,6 +84,18 @@ export const ADMIN_MENU_GROUPS: AdminMenuGroup[] = [
     ],
   },
   {
+    labelKey: 'supplier',
+    items: [
+      {
+        href: '/supplier-portal',
+        labelKey: 'supplierPortal',
+        permission: 'production-jobs.read',
+        roles: ['supplier_user'],
+        icon: 'factory',
+      },
+    ],
+  },
+  {
     labelKey: 'system',
     items: [
       { href: '/settings', labelKey: 'settings', permission: 'settings.read', icon: 'settings' },
@@ -87,13 +103,17 @@ export const ADMIN_MENU_GROUPS: AdminMenuGroup[] = [
   },
 ];
 
-/** Filter the menu config against the current user's permissions. */
+/** Filter the menu config against the current user's permissions and role. */
 export function visibleMenuGroups(user: AdminUserDto | null): AdminMenuGroup[] {
   if (!user) return [];
   return ADMIN_MENU_GROUPS
     .map((group) => ({
       ...group,
-      items: group.items.filter((item) => hasAdminPermission(user.permissions, item.permission)),
+      items: group.items.filter(
+        (item) =>
+          hasAdminPermission(user.permissions, item.permission) &&
+          (!item.roles || item.roles.includes(user.role)),
+      ),
     }))
     .filter((group) => group.items.length > 0);
 }

@@ -8,6 +8,7 @@ import { AdminProductsClient } from './admin-products.js';
 import { AdminShipmentsClient, OrderTrackingClient } from './admin-shipments.js';
 import { AdminSuppliersClient } from './admin-suppliers.js';
 import { AdminTemplatesClient } from './admin-templates.js';
+import { SupplierPortalClient } from './supplier-portal.js';
 import { AIClient } from './ai.js';
 import { CartClient } from './cart.js';
 import { CustomizationsClient } from './customizations.js';
@@ -106,6 +107,7 @@ export class ApiClient {
   readonly adminProduction: AdminProductionClient;
   readonly adminShipments: AdminShipmentsClient;
   readonly tracking: OrderTrackingClient;
+  readonly supplierPortal: SupplierPortalClient;
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/$/, '');
@@ -135,6 +137,7 @@ export class ApiClient {
     this.adminProduction = new AdminProductionClient(this);
     this.adminShipments = new AdminShipmentsClient(this);
     this.tracking = new OrderTrackingClient(this);
+    this.supplierPortal = new SupplierPortalClient(this);
   }
 
   /** Set / clear the admin bearer token. Cleared on logout. */

@@ -3,10 +3,15 @@ import { randomUUID } from 'node:crypto';
 
 import type { AppendAuditLogInput, AuditLogDto } from '@custom-merch/shared';
 
+import { tryPersistAuditLog } from './audit-logs.prisma-sink';
+
 /**
  * Append-only in-memory audit log. Mirrors the shape of the future
  * `audit_logs` table — every back-office mutation hits this so
  * `who-did-what-when` is always reconstructable.
+ *
+ * When `DATABASE_URL` is set the sink dual-writes each entry to the Prisma
+ * `audit_logs` table; failures are logged but never block the request.
  */
 @Injectable()
 export class AuditLogsRepository {
@@ -25,6 +30,7 @@ export class AuditLogsRepository {
       occurredAt: new Date().toISOString(),
     };
     this.entries.push(entry);
+    tryPersistAuditLog(entry);
     return entry;
   }
 

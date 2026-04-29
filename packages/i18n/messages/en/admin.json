@@ -15,13 +15,15 @@
     "quotes": "Quotes",
     "designs": "Designs",
     "finance": "Finance",
-    "settings": "Settings"
+    "settings": "Settings",
+    "supplierPortal": "My production jobs"
   },
   "navGroups": {
     "overview": "Overview",
     "commerce": "Commerce",
     "production": "Production",
     "salesOps": "Sales ops",
+    "supplier": "Supplier portal",
     "system": "System"
   },
   "shell": {
@@ -718,7 +720,22 @@
       "status": "Status",
       "notes": "Notes",
       "save": "Save shipment",
-      "saving": "Saving…"
+      "saving": "Saving…",
+      "syncTracking": "Sync tracking"
+    }
+  },
+  "supplierPortal": {
+    "heading": "My production jobs",
+    "subtitle": "Confirm assignments, mark jobs in production, and upload QC results.",
+    "empty": "Nothing assigned to you yet.",
+    "backToList": "Back to my jobs",
+    "actions": {
+      "confirm": "Confirm assignment",
+      "start": "Mark as in production"
+    },
+    "qc": {
+      "heading": "Upload QC result",
+      "body": "Upload a photo or PDF of the QC sheet so the back-office can sign off."
     }
   }
 }

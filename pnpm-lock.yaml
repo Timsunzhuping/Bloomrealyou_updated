@@ -105,6 +105,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.700.0
         version: 3.1037.0
+      '@custom-merch/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@custom-merch/shared':
         specifier: workspace:*
         version: link:../../packages/shared

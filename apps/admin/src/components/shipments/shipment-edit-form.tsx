@@ -2,6 +2,7 @@
 
 import { SHIPMENT_STATUSES, type AdminShipmentDto, type ShipmentStatus } from '@custom-merch/shared';
 import { Button, Input } from '@custom-merch/ui';
+import { RefreshCw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
@@ -134,9 +135,37 @@ export function ShipmentEditForm({ shipment, apiBaseUrl }: Props): JSX.Element {
           {error}
         </p>
       )}
-      <Button type="submit" size="sm" disabled={busy}>
-        {busy ? t('shipments.detail.saving') : t('shipments.detail.save')}
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        <Button type="submit" size="sm" disabled={busy}>
+          {busy ? t('shipments.detail.saving') : t('shipments.detail.save')}
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={busy || !shipment.trackingNumber}
+          onClick={async () => {
+            setBusy(true);
+            setError(null);
+            try {
+              const res = await adminFetch(
+                apiBaseUrl,
+                `/admin/shipments/${shipment.id}/sync-tracking`,
+                { method: 'POST' },
+              );
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              router.refresh();
+            } catch (e) {
+              setError((e as Error).message);
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          <RefreshCw className="me-2 h-4 w-4" aria-hidden="true" />
+          {t('shipments.detail.syncTracking')}
+        </Button>
+      </div>
     </form>
   );
 }

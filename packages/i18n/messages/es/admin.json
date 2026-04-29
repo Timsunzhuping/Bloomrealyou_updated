@@ -15,13 +15,15 @@
     "quotes": "Presupuestos",
     "designs": "Diseños",
     "finance": "Finanzas",
-    "settings": "Ajustes"
+    "settings": "Ajustes",
+    "supplierPortal": "Mis trabajos de producción"
   },
   "navGroups": {
     "overview": "Resumen",
     "commerce": "Comercio",
     "production": "Producción",
     "salesOps": "Ventas",
+    "supplier": "Portal del proveedor",
     "system": "Sistema"
   },
   "shell": {
@@ -711,7 +713,22 @@
       "status": "Estado",
       "notes": "Notas",
       "save": "Guardar envío",
-      "saving": "Guardando…"
+      "saving": "Guardando…",
+      "syncTracking": "Sincronizar tracking"
+    }
+  },
+  "supplierPortal": {
+    "heading": "Mis trabajos de producción",
+    "subtitle": "Confirma asignaciones, marca trabajos en producción y sube los resultados de QC.",
+    "empty": "No tienes trabajos asignados todavía.",
+    "backToList": "Volver a mis trabajos",
+    "actions": {
+      "confirm": "Confirmar asignación",
+      "start": "Marcar en producción"
+    },
+    "qc": {
+      "heading": "Subir resultado de QC",
+      "body": "Sube una foto o PDF del control de calidad."
     }
   }
 }

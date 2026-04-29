@@ -53,6 +53,14 @@ export class AdminShipmentsClient {
       body: JSON.stringify(input),
     });
   }
+
+  /** Pull a fresh tracking event from the active ShippingProvider. */
+  async syncTracking(id: string): Promise<AdminShipmentDto> {
+    return this.api.request<AdminShipmentDto>(
+      `/admin/shipments/${encodeURIComponent(id)}/sync-tracking`,
+      { method: 'POST' },
+    );
+  }
 }
 
 /** Anonymous customer-facing tracking. Reuses the orders namespace so the

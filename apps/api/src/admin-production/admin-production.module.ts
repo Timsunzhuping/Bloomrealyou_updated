@@ -8,10 +8,11 @@ import { StorageModule } from '../storage/storage.module';
 import { AdminProductionController } from './admin-production.controller';
 import { AdminProductionRepository } from './admin-production.repository';
 import { AdminProductionService } from './admin-production.service';
+import { SupplierPortalController } from './supplier-portal.controller';
 
 @Module({
   imports: [AdminAuthModule, AdminSuppliersModule, OrdersModule, StorageModule],
-  controllers: [AdminProductionController],
+  controllers: [AdminProductionController, SupplierPortalController],
   providers: [AdminProductionRepository, AdminProductionService],
   exports: [AdminProductionRepository, AdminProductionService],
 })

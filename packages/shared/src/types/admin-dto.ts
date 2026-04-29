@@ -110,6 +110,9 @@ export interface AdminUserDto {
   permissions: AdminPermission[];
   locale: Locale;
   avatarUrl?: string | null;
+  /** When `role === 'supplier_user'`, links the account to a supplier record so
+   *  the supplier portal can scope all reads/writes to that supplier's jobs. */
+  supplierId?: string | null;
   createdAt: string;
 }
 

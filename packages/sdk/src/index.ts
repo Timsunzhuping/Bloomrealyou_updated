@@ -47,3 +47,7 @@ export {
   OrderTrackingClient,
   type AdminShipmentListResponse,
 } from './admin-shipments.js';
+export {
+  SupplierPortalClient,
+  type SupplierPortalListResponse,
+} from './supplier-portal.js';

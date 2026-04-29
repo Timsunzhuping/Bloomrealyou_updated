@@ -18,6 +18,8 @@ interface StoredAdminUser {
   role: AdminRole;
   locale: Locale;
   avatarUrl?: string | null;
+  /** When `role === 'supplier_user'`, the supplier they belong to. */
+  supplierId?: string | null;
   createdAt: string;
 }
 
@@ -49,13 +51,16 @@ export class AdminUsersRepository {
       fullName: string;
       role: AdminRole;
       locale: Locale;
+      supplierId?: string;
     }> = [
       { email: 'admin@bloomrealyou.com', password: 'admin123', fullName: 'Platform Admin', role: 'admin', locale: 'en' },
       { email: 'sales@bloomrealyou.com', password: 'sales123', fullName: 'Sam Sales', role: 'sales', locale: 'en' },
       { email: 'designer@bloomrealyou.com', password: 'designer123', fullName: 'Dana Designer', role: 'designer', locale: 'en' },
       { email: 'pm@bloomrealyou.com', password: 'pm123', fullName: 'Pat Production', role: 'production_manager', locale: 'en' },
       { email: 'finance@bloomrealyou.com', password: 'finance123', fullName: 'Fin Finance', role: 'finance', locale: 'en' },
-      { email: 'supplier@bloomrealyou.com', password: 'supplier123', fullName: 'Si Supplier', role: 'supplier_user', locale: 'en' },
+      // The supplier-portal demo user is bound to the seeded Brightline supplier
+      // record; production seeds will read this association from the DB.
+      { email: 'supplier@bloomrealyou.com', password: 'supplier123', fullName: 'Si Supplier', role: 'supplier_user', locale: 'en', supplierId: 'sup_brightline' },
     ];
     for (const seed of seeds) {
       const salt = randomBytes(8).toString('hex');
@@ -66,6 +71,7 @@ export class AdminUsersRepository {
         fullName: seed.fullName,
         role: seed.role,
         locale: seed.locale,
+        supplierId: seed.supplierId,
       });
     }
   }
@@ -78,6 +84,7 @@ export class AdminUsersRepository {
     role: AdminRole;
     locale: Locale;
     avatarUrl?: string | null;
+    supplierId?: string | null;
   }): StoredAdminUser {
     const user: StoredAdminUser = {
       id: randomUUID(),
@@ -88,6 +95,7 @@ export class AdminUsersRepository {
       role: input.role,
       locale: input.locale,
       avatarUrl: input.avatarUrl ?? null,
+      supplierId: input.supplierId ?? null,
       createdAt: new Date().toISOString(),
     };
     this.users.set(user.id, user);
@@ -138,6 +146,7 @@ export class AdminUsersRepository {
       permissions: permissionsForRole(user.role),
       locale: user.locale,
       avatarUrl: user.avatarUrl ?? null,
+      supplierId: user.supplierId ?? null,
       createdAt: user.createdAt,
     };
   }

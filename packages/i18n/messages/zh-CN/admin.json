@@ -15,13 +15,15 @@
     "quotes": "报价",
     "designs": "设计审核",
     "finance": "财务",
-    "settings": "系统设置"
+    "settings": "系统设置",
+    "supplierPortal": "我的生产任务"
   },
   "navGroups": {
     "overview": "概览",
     "commerce": "交易",
     "production": "生产",
     "salesOps": "销售运营",
+    "supplier": "供应商门户",
     "system": "系统"
   },
   "shell": {
@@ -711,7 +713,22 @@
       "status": "状态",
       "notes": "备注",
       "save": "保存物流",
-      "saving": "保存中…"
+      "saving": "保存中…",
+      "syncTracking": "同步物流状态"
+    }
+  },
+  "supplierPortal": {
+    "heading": "我的生产任务",
+    "subtitle": "确认分配、标记开工、上传质检结果。",
+    "empty": "暂无分配给你的生产任务。",
+    "backToList": "返回任务列表",
+    "actions": {
+      "confirm": "确认接单",
+      "start": "开始生产"
+    },
+    "qc": {
+      "heading": "上传质检结果",
+      "body": "上传质检照片或 PDF,后台会基于此完成验收。"
     }
   }
 }
