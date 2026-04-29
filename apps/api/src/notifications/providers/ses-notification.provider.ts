@@ -2,8 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { createHash, createHmac, randomUUID } from 'node:crypto';
 
 import type {
+  NotificationBatchResult,
   NotificationProvider,
   NotificationResult,
+  SendBatchNotificationInput,
   SendNotificationInput,
 } from '@custom-merch/shared';
 
@@ -83,6 +85,114 @@ export class SesNotificationProvider implements NotificationProvider {
       simulated: false,
     };
   }
+
+  /**
+   * SES v2 supports up to 50 recipients per `SendBulkEmail` request. We chunk
+   * larger inputs and merge results. Per-recipient errors come back in the
+   * response's `BulkEmailEntryResults[]` and are mapped 1:1 onto our
+   * `results` array.
+   */
+  async sendBatch(input: SendBatchNotificationInput): Promise<NotificationBatchResult> {
+    if (input.channel !== 'email') {
+      throw new Error(`SES only supports email; got channel=${input.channel}`);
+    }
+    const templateName = this.templates[input.templateKey];
+    const acceptedAt = new Date().toISOString();
+    const results: NotificationBatchResult['results'] = [];
+
+    if (!templateName) {
+      this.log.warn(`No SES template configured for ${input.templateKey} — skipping batch`);
+      for (const _r of input.recipients) {
+        results.push({ id: `unsent_${randomUUID().slice(0, 8)}`, acceptedAt, simulated: true });
+      }
+      return {
+        batchId: `ses-batch-skipped_${randomUUID().slice(0, 8)}`,
+        acceptedAt,
+        results,
+        simulated: true,
+      };
+    }
+
+    const host = `email.${this.region}.amazonaws.com`;
+    const path = '/v2/email/outbound-bulk-emails';
+    const chunks = chunkBy(input.recipients, MAX_BULK_RECIPIENTS);
+
+    for (const chunk of chunks) {
+      const payload = JSON.stringify({
+        FromEmailAddress: this.fromEmail,
+        DefaultContent: {
+          Template: {
+            TemplateName: templateName,
+            TemplateData: JSON.stringify(input.commonData ?? {}),
+          },
+        },
+        BulkEmailEntries: chunk.map((r) => ({
+          Destination: { ToAddresses: [r.to] },
+          ReplacementEmailContent: {
+            ReplacementTemplate: {
+              ReplacementTemplateData: JSON.stringify(r.data ?? {}),
+            },
+          },
+        })),
+      });
+
+      const signed = sigV4Sign({
+        accessKeyId: this.accessKeyId,
+        secretAccessKey: this.secretAccessKey,
+        region: this.region,
+        service: 'ses',
+        method: 'POST',
+        host,
+        path,
+        payload,
+      });
+
+      try {
+        const res = await fetch(`https://${host}${path}`, {
+          method: 'POST',
+          headers: signed.headers,
+          body: payload,
+        });
+        if (!res.ok) {
+          const text = await res.text().catch(() => '<no body>');
+          for (const r of chunk) results.push({ to: r.to, error: `SES ${res.status}: ${text.slice(0, 120)}` });
+          continue;
+        }
+        const body = (await res.json()) as { BulkEmailEntryResults?: Array<{ MessageId?: string; Status?: string; Error?: string }> };
+        const entries = body.BulkEmailEntryResults ?? [];
+        for (let i = 0; i < chunk.length; i += 1) {
+          const entry = entries[i];
+          if (entry?.Status && entry.Status !== 'SUCCESS') {
+            results.push({ to: chunk[i]!.to, error: `${entry.Status}: ${entry.Error ?? 'unknown'}` });
+          } else {
+            results.push({
+              id: entry?.MessageId ?? `ses-batch_${randomUUID().slice(0, 8)}`,
+              acceptedAt,
+              simulated: false,
+            });
+          }
+        }
+      } catch (e) {
+        for (const r of chunk) results.push({ to: r.to, error: (e as Error).message });
+      }
+    }
+
+    return {
+      batchId: `ses-batch_${randomUUID().slice(0, 8)}`,
+      acceptedAt,
+      results,
+      simulated: false,
+    };
+  }
+}
+
+const MAX_BULK_RECIPIENTS = 50;
+
+function chunkBy<T>(items: T[], size: number): T[][] {
+  if (items.length <= size) return [items];
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
 }
 
 interface SignInput {

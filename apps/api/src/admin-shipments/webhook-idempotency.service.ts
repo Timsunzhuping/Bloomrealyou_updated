@@ -1,53 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { IDEMPOTENCY_STORE } from '../_lib/idempotency-store.tokens';
+import type { IdempotencyStore } from '../_lib/idempotency-store';
 
 /**
- * In-memory dedup for webhook deliveries.
+ * Thin webhook-scoped wrapper over the active {@link IdempotencyStore}.
  *
  * Carriers retry aggressively. Each event carries a stable `(provider, key)`
  * pair (EasyPost: `result.id` + `tracker.updated_at`; 17track: `number` +
  * `latest_event.time_iso`; Shippo: `event_object_id` + `transmitted_at`).
- * The first call to `claim()` for that key returns `true`; later calls
- * return `false` and the controller short-circuits with a 200 OK so the
- * carrier stops retrying.
+ * The first call to `claim()` wins; later calls are dropped with 200 OK so
+ * the carrier stops retrying.
  *
- * The cache is bounded to 5 000 entries with FIFO eviction so a sustained
- * burst can't run the process out of memory. Once we move to Redis (or just
- * Postgres) this becomes a `WHERE event_key NOT IN ...` check; the public
- * surface stays the same.
+ * The actual storage is provided by Nest DI — single-instance deployments
+ * use the in-memory implementation (default), multi-instance deployments
+ * set `IDEMPOTENCY_STORE=redis` and inject the Redis-backed adapter.
  */
 @Injectable()
 export class WebhookIdempotencyService {
-  private readonly seen = new Map<string, number>();
-  private readonly maxEntries = 5000;
+  constructor(@Inject(IDEMPOTENCY_STORE) private readonly store: IdempotencyStore) {}
 
-  /**
-   * Returns `true` when this event hasn't been seen, `false` for duplicates.
-   * Mutating call: a `true` result reserves the slot for `ttlMs`.
-   */
-  claim(key: string, ttlMs = 24 * 60 * 60 * 1000): boolean {
-    const now = Date.now();
-    const expiry = this.seen.get(key);
-    if (expiry && expiry > now) return false;
-
-    this.seen.set(key, now + ttlMs);
-    if (this.seen.size > this.maxEntries) {
-      // Drop the oldest entry. Maps preserve insertion order so the first key
-      // is the oldest (or its TTL expired, in which case we'd skip it on next
-      // probe anyway).
-      const oldestKey = this.seen.keys().next().value;
-      if (oldestKey) this.seen.delete(oldestKey);
-    }
-    return true;
+  async claim(key: string, ttlMs?: number): Promise<boolean> {
+    return this.store.claim(key, ttlMs);
   }
 
-  /** Test helper. */
-  clear(): void {
-    this.seen.clear();
+  async has(key: string): Promise<boolean> {
+    return this.store.has(key);
   }
 
-  /** Inspect — returns true when the key is currently held. */
-  has(key: string): boolean {
-    const expiry = this.seen.get(key);
-    return Boolean(expiry && expiry > Date.now());
+  /** Friendly diagnostic for boot logs. */
+  backendName(): string {
+    return this.store.name;
   }
 }

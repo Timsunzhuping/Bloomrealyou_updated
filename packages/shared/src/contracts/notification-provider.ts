@@ -16,6 +16,13 @@ import type { NotificationChannel } from '../types/notification';
 export interface NotificationProvider {
   readonly name: NotificationProviderName;
   send(input: SendNotificationInput): Promise<NotificationResult>;
+  /**
+   * Optional batch sender. Implementations that don't override this fall back
+   * to N parallel `send()` calls — handy for MVP / mock providers but real
+   * providers (SendGrid, SES) override to use their bulk endpoints which are
+   * an order of magnitude cheaper for shipment-batch notifications.
+   */
+  sendBatch?(input: SendBatchNotificationInput): Promise<NotificationBatchResult>;
 }
 
 export type NotificationProviderName = 'mock' | 'sendgrid' | 'ses' | 'postmark';
@@ -39,5 +46,34 @@ export interface NotificationResult {
   id: string;
   acceptedAt: string;
   /** When the provider performs no real send (mock / disabled), this is true. */
+  simulated: boolean;
+}
+
+export interface SendBatchNotificationInput {
+  /** Per-recipient overrides. Each entry produces one message. */
+  recipients: Array<{
+    to: string;
+    /** Recipient-specific template variables, merged on top of `commonData`. */
+    data?: Record<string, unknown>;
+    /** Per-recipient subject (rare; defaults to the batch subject). */
+    subject?: string;
+  }>;
+  channel: NotificationChannel;
+  templateKey: string;
+  locale?: Locale;
+  /** Variables shared by every recipient (e.g. campaign name). */
+  commonData?: Record<string, unknown>;
+  /** Default subject for every recipient. Per-recipient subjects override it. */
+  subject?: string;
+}
+
+export interface NotificationBatchResult {
+  /** Provider-side batch id, when available. Synthetic ids are common for
+   *  per-message senders that we sequenced ourselves. */
+  batchId: string;
+  acceptedAt: string;
+  /** Per-recipient outcomes, in input order. Failed entries carry an error. */
+  results: Array<NotificationResult | { error: string; to: string }>;
+  /** True when no real network call was made (mock / disabled). */
   simulated: boolean;
 }

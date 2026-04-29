@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 
 import type {
   AdminProductionJobDto,
@@ -7,7 +7,10 @@ import type {
   ProductionJobStatus,
 } from '@custom-merch/shared';
 
-import { tryPersistProductionJob } from './admin-production.prisma-sink';
+import {
+  primeProductionJobsFromPrisma,
+  tryPersistProductionJob,
+} from './admin-production.prisma-sink';
 
 interface ListFilter {
   q?: string;
@@ -19,9 +22,34 @@ interface ListFilter {
 }
 
 @Injectable()
-export class AdminProductionRepository {
+export class AdminProductionRepository implements OnModuleInit {
+  private readonly log = new Logger(AdminProductionRepository.name);
   private readonly jobs = new Map<string, AdminProductionJobDto>();
   private readonly byNumber = new Map<string, string>();
+
+  /**
+   * If Prisma is configured, replace the empty Map with whatever the
+   * relational store holds. Without a DB, the repo stays empty (the service
+   * lazily creates jobs on demand).
+   */
+  async onModuleInit(): Promise<void> {
+    const rows = await primeProductionJobsFromPrisma();
+    if (rows) {
+      this.jobs.clear();
+      this.byNumber.clear();
+      for (const j of rows) {
+        this.jobs.set(j.id, j);
+        this.byNumber.set(j.jobNumber, j.id);
+      }
+      this.log.log(`primed ${rows.length} production jobs from Prisma`);
+    }
+  }
+
+  /** Test-only — drop in-memory state so tests start clean. */
+  __resetForTests(): void {
+    this.jobs.clear();
+    this.byNumber.clear();
+  }
 
   list(filter: ListFilter = {}): {
     items: AdminProductionJobDto[];

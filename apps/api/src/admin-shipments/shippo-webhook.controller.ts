@@ -7,6 +7,7 @@ import {
   Logger,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHmac, timingSafeEqual } from 'node:crypto';
@@ -18,6 +19,7 @@ import { OrdersRepository } from '../orders/orders.repository';
 
 import { AdminShipmentsRepository } from './admin-shipments.repository';
 import { WebhookIdempotencyService } from './webhook-idempotency.service';
+import { WebhookRateLimiterGuard } from './webhook-rate-limiter.guard';
 import { applyTrackingUpdate, mapShippoStatus } from './webhook-shared';
 
 interface RequestWithRawBody {
@@ -34,6 +36,7 @@ interface RequestWithRawBody {
  * tracker update don't double-process.
  */
 @Controller('webhooks/shippo')
+@UseGuards(WebhookRateLimiterGuard)
 export class ShippoWebhookController {
   private readonly log = new Logger(ShippoWebhookController.name);
 
@@ -59,7 +62,7 @@ export class ShippoWebhookController {
     }
 
     const key = `shippo:${body.event_object_id ?? data.tracking_number}:${body.transmitted_at ?? data.tracking_status?.status_date ?? ''}`;
-    if (!this.idempotency.claim(key)) {
+    if (!(await this.idempotency.claim(key))) {
       this.log.log(`Dedup hit for ${key}`);
       return { ok: true, deduped: true };
     }

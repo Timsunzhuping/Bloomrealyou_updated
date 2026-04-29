@@ -23,6 +23,7 @@ import { ShippingSyncService } from './shipping-sync.service';
 import { SHIPPING_PROVIDER } from './shipping.tokens';
 import { ShippoWebhookController } from './shippo-webhook.controller';
 import { WebhookIdempotencyService } from './webhook-idempotency.service';
+import { WebhookRateLimiterGuard } from './webhook-rate-limiter.guard';
 
 const log = new Logger('AdminShippingModule');
 
@@ -93,6 +94,7 @@ const shippingProviderFactory: Provider<ShippingProvider> = {
     AdminShipmentsService,
     ShippingSyncService,
     WebhookIdempotencyService,
+    WebhookRateLimiterGuard,
     shippingProviderFactory,
   ],
   exports: [AdminShipmentsService, AdminShipmentsRepository, ShippingSyncService, SHIPPING_PROVIDER],

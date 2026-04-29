@@ -738,5 +738,23 @@
       "heading": "Upload QC result",
       "body": "Upload a photo or PDF of the QC sheet so the back-office can sign off."
     }
+  },
+  "settings": {
+    "heading": "Settings",
+    "notifications": {
+      "heading": "Notification templates",
+      "subtitle": "Send a test email through the active provider to verify the template renders correctly in each locale.",
+      "testSendHeading": "Send a test email",
+      "to": "Recipient",
+      "locale": "Locale",
+      "template": "Template",
+      "sendTest": "Send test",
+      "sending": "Sending…",
+      "provider": "Provider",
+      "simulated": "simulated",
+      "subjectPreview": "Subject preview",
+      "bodyPreview": "Body preview",
+      "templatesEmpty": "No templates registered."
+    }
   }
 }

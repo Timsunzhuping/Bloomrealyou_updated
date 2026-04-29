@@ -731,5 +731,23 @@
       "heading": "Subir resultado de QC",
       "body": "Sube una foto o PDF del control de calidad."
     }
+  },
+  "settings": {
+    "heading": "Configuración",
+    "notifications": {
+      "heading": "Plantillas de notificación",
+      "subtitle": "Envía un correo de prueba a través del proveedor activo para verificar que la plantilla se renderiza correctamente en cada idioma.",
+      "testSendHeading": "Enviar correo de prueba",
+      "to": "Destinatario",
+      "locale": "Idioma",
+      "template": "Plantilla",
+      "sendTest": "Enviar prueba",
+      "sending": "Enviando…",
+      "provider": "Proveedor",
+      "simulated": "simulado",
+      "subjectPreview": "Vista previa del asunto",
+      "bodyPreview": "Vista previa del cuerpo",
+      "templatesEmpty": "No hay plantillas registradas."
+    }
   }
 }

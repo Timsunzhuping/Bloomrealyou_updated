@@ -1,6 +1,12 @@
-import type { AdminProductionJobDto, ProductionJobStatus } from '@custom-merch/shared';
+import type {
+  AdminProductionJobDto,
+  PrintMethod,
+  ProductionJobAttachment,
+  ProductionJobNote,
+  ProductionJobStatus,
+} from '@custom-merch/shared';
 
-import { runIfPrismaAvailable } from '../_lib/prisma-sink';
+import { readIfPrismaAvailable, runIfPrismaAvailable } from '../_lib/prisma-sink';
 
 /**
  * Dual-write production jobs to Prisma when `DATABASE_URL` is set.
@@ -51,6 +57,81 @@ export function tryPersistProductionJob(entity: AdminProductionJobDto): void {
       },
     }),
   );
+}
+
+/**
+ * Prime the production-job cache from Prisma at boot. The DB stores the
+ * legacy WP-02 status enum; we round-trip the runtime status under
+ * `metadata.runtimeStatus` so reload preserves the new vocabulary exactly.
+ */
+export async function primeProductionJobsFromPrisma(): Promise<
+  AdminProductionJobDto[] | null
+> {
+  return readIfPrismaAvailable('productionJob:prime', async (client) => {
+    const rows = (await client.productionJob.findMany({
+      include: { order: { select: { orderNumber: true } } },
+    })) as PrismaProductionJobRow[];
+    return rows.map(rowToJob);
+  });
+}
+
+interface PrismaProductionJobRow {
+  id: string;
+  jobNumber: string;
+  orderId: string;
+  supplierId: string | null;
+  printMethod: string;
+  status: string;
+  quantity: number;
+  currency: string;
+  supplierCostAmountMinor: number | null;
+  expectedReadyAt: Date | null;
+  startedAt: Date | null;
+  completedAt: Date | null;
+  qcNotes: string | null;
+  failureReason: string | null;
+  metadata: Record<string, unknown> | null;
+  createdAt: Date;
+  updatedAt: Date;
+  order?: { orderNumber?: string };
+}
+
+function rowToJob(row: PrismaProductionJobRow): AdminProductionJobDto {
+  const meta = (row.metadata ?? {}) as {
+    runtimeStatus?: ProductionJobStatus;
+    orderItemIds?: string[];
+    qcAttachments?: ProductionJobAttachment[];
+    internalNotes?: ProductionJobNote[];
+    supplierName?: string | null;
+  };
+  const supplierCost =
+    row.supplierCostAmountMinor != null
+      ? { amountMinor: row.supplierCostAmountMinor, currency: row.currency as 'USD' }
+      : null;
+  return {
+    id: row.id,
+    jobNumber: row.jobNumber,
+    orderId: row.orderId,
+    orderNumber: row.order?.orderNumber ?? '',
+    orderItemIds: meta.orderItemIds ?? [],
+    supplierId: row.supplierId,
+    supplierName: meta.supplierName ?? null,
+    productId: null,
+    variantId: null,
+    printMethod: row.printMethod as PrintMethod,
+    quantity: row.quantity,
+    status: meta.runtimeStatus ?? (row.status as ProductionJobStatus),
+    supplierCost,
+    expectedReadyAt: row.expectedReadyAt?.toISOString() ?? null,
+    startedAt: row.startedAt?.toISOString() ?? null,
+    completedAt: row.completedAt?.toISOString() ?? null,
+    qcNotes: row.qcNotes,
+    qcAttachments: meta.qcAttachments ?? [],
+    failureReason: row.failureReason,
+    internalNotes: meta.internalNotes ?? [],
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
+  };
 }
 
 function toLegacyStatus(status: ProductionJobStatus): string {

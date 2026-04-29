@@ -3,8 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import type { NotificationProvider } from '@custom-merch/shared';
 
+import { AdminAuthModule } from '../admin-auth/admin-auth.module';
 import { OrdersModule } from '../orders/orders.module';
 
+import { AdminNotificationsController } from './notifications.controller';
 import { NOTIFICATION_PROVIDER } from './notification.tokens';
 import { OrderProgressService } from './order-progress.service';
 import { MockNotificationProvider } from './providers/mock-notification.provider';
@@ -80,7 +82,8 @@ const notificationProviderFactory: Provider<NotificationProvider> = {
 
 @Global()
 @Module({
-  imports: [ConfigModule, OrdersModule],
+  imports: [ConfigModule, OrdersModule, AdminAuthModule],
+  controllers: [AdminNotificationsController],
   providers: [notificationProviderFactory, OrderProgressService],
   exports: [NOTIFICATION_PROVIDER, OrderProgressService],
 })

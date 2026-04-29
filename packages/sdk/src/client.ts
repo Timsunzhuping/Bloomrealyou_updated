@@ -2,6 +2,7 @@ import { AccountClient } from './account.js';
 import { AdminAuthClient } from './admin-auth.js';
 import { AdminDashboardClient } from './admin-dashboard.js';
 import { AdminDesignReviewsClient } from './admin-design-reviews.js';
+import { AdminNotificationsClient } from './admin-notifications.js';
 import { AdminOrdersClient } from './admin-orders.js';
 import { AdminProductionClient } from './admin-production.js';
 import { AdminProductsClient } from './admin-products.js';
@@ -103,6 +104,7 @@ export class ApiClient {
   readonly adminTemplates: AdminTemplatesClient;
   readonly adminOrders: AdminOrdersClient;
   readonly adminDesignReviews: AdminDesignReviewsClient;
+  readonly adminNotifications: AdminNotificationsClient;
   readonly adminSuppliers: AdminSuppliersClient;
   readonly adminProduction: AdminProductionClient;
   readonly adminShipments: AdminShipmentsClient;
@@ -133,6 +135,7 @@ export class ApiClient {
     this.adminTemplates = new AdminTemplatesClient(this);
     this.adminOrders = new AdminOrdersClient(this);
     this.adminDesignReviews = new AdminDesignReviewsClient(this);
+    this.adminNotifications = new AdminNotificationsClient(this);
     this.adminSuppliers = new AdminSuppliersClient(this);
     this.adminProduction = new AdminProductionClient(this);
     this.adminShipments = new AdminShipmentsClient(this);

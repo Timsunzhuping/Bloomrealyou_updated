@@ -731,5 +731,23 @@
       "heading": "上传质检结果",
       "body": "上传质检照片或 PDF,后台会基于此完成验收。"
     }
+  },
+  "settings": {
+    "heading": "系统设置",
+    "notifications": {
+      "heading": "通知模板",
+      "subtitle": "通过当前通知服务发送一封测试邮件,验证模板在每个语种下的渲染效果。",
+      "testSendHeading": "发送测试邮件",
+      "to": "收件人",
+      "locale": "语言",
+      "template": "模板",
+      "sendTest": "发送测试",
+      "sending": "发送中…",
+      "provider": "通知服务",
+      "simulated": "模拟",
+      "subjectPreview": "主题预览",
+      "bodyPreview": "正文预览",
+      "templatesEmpty": "暂无可用模板。"
+    }
   }
 }

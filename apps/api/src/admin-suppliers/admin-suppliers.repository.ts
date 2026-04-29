@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import type {
@@ -9,6 +9,8 @@ import type {
 } from '@custom-merch/shared';
 
 import {
+  primeMappingsFromPrisma,
+  primeSuppliersFromPrisma,
   tryDeleteSupplier,
   tryPersistMapping,
   tryPersistSupplier,
@@ -38,12 +40,41 @@ interface MappingListFilter {
  * nothing for the in-memory MVP.
  */
 @Injectable()
-export class AdminSuppliersRepository {
+export class AdminSuppliersRepository implements OnModuleInit {
+  private readonly log = new Logger(AdminSuppliersRepository.name);
   private readonly suppliers = new Map<string, AdminSupplierDto>();
   private readonly mappings = new Map<string, AdminSupplierProductMappingDto>();
 
   constructor() {
     this.seed();
+  }
+
+  /**
+   * On boot, if Prisma is configured, replace the demo seed with whatever the
+   * relational store holds. Falls back to the seed (already loaded by the
+   * constructor) when Prisma is absent or empty-but-unreachable.
+   */
+  async onModuleInit(): Promise<void> {
+    const [suppliers, mappings] = await Promise.all([
+      primeSuppliersFromPrisma(),
+      primeMappingsFromPrisma(),
+    ]);
+    if (suppliers) {
+      this.suppliers.clear();
+      for (const s of suppliers) this.suppliers.set(s.id, s);
+      this.log.log(`primed ${suppliers.length} suppliers from Prisma`);
+    }
+    if (mappings) {
+      this.mappings.clear();
+      for (const m of mappings) this.mappings.set(m.id, m);
+      this.log.log(`primed ${mappings.length} mappings from Prisma`);
+    }
+  }
+
+  /** Test-only — bypasses constructor seed and lets tests start from clean. */
+  __resetForTests(): void {
+    this.suppliers.clear();
+    this.mappings.clear();
   }
 
   // ── suppliers ────────────────────────────────────────────────────────

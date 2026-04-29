@@ -6,6 +6,7 @@ import {
   HttpCode,
   Logger,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHash } from 'node:crypto';
@@ -17,6 +18,7 @@ import { OrdersRepository } from '../orders/orders.repository';
 
 import { AdminShipmentsRepository } from './admin-shipments.repository';
 import { WebhookIdempotencyService } from './webhook-idempotency.service';
+import { WebhookRateLimiterGuard } from './webhook-rate-limiter.guard';
 import { applyTrackingUpdate, mapSeventeentrackStatus } from './webhook-shared';
 
 /**
@@ -28,6 +30,7 @@ import { applyTrackingUpdate, mapSeventeentrackStatus } from './webhook-shared';
  * record), `data.track_info.latest_event.time_iso` for ordering.
  */
 @Controller('webhooks/17track')
+@UseGuards(WebhookRateLimiterGuard)
 export class SeventeentrackWebhookController {
   private readonly log = new Logger(SeventeentrackWebhookController.name);
 
@@ -54,7 +57,7 @@ export class SeventeentrackWebhookController {
     const lastEvent = data.track_info?.latest_event;
     const eventTime = lastEvent?.time_iso ?? lastEvent?.time_utc ?? '';
     const key = `17track:${data.number}:${eventTime}`;
-    if (!this.idempotency.claim(key)) {
+    if (!(await this.idempotency.claim(key))) {
       this.log.log(`Dedup hit for ${key}`);
       return { ok: true, deduped: true };
     }

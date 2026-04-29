@@ -7,6 +7,7 @@ import {
   Logger,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHmac, timingSafeEqual } from 'node:crypto';
@@ -18,6 +19,7 @@ import { OrdersRepository } from '../orders/orders.repository';
 
 import { AdminShipmentsRepository } from './admin-shipments.repository';
 import { WebhookIdempotencyService } from './webhook-idempotency.service';
+import { WebhookRateLimiterGuard } from './webhook-rate-limiter.guard';
 import { applyTrackingUpdate, mapEasyPostStatus } from './webhook-shared';
 
 interface RequestWithRawBody {
@@ -52,6 +54,7 @@ interface EasyPostTracker {
  * `(tracker_id, updated_at)` so EasyPost retries don't replay state changes.
  */
 @Controller('webhooks/easypost')
+@UseGuards(WebhookRateLimiterGuard)
 export class EasyPostWebhookController {
   private readonly log = new Logger(EasyPostWebhookController.name);
 
@@ -80,7 +83,7 @@ export class EasyPostWebhookController {
     // same `id` + `updated_at` until it sees a 2xx; reject duplicates here so
     // a slow downstream operation doesn't end up processed twice.
     const key = `easypost:${tracker.id ?? tracker.tracking_code}:${tracker.updated_at ?? ''}`;
-    if (!this.idempotency.claim(key)) {
+    if (!(await this.idempotency.claim(key))) {
       this.log.log(`Dedup hit for ${key}`);
       return { ok: true, deduped: true };
     }

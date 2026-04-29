@@ -51,3 +51,8 @@ export {
   SupplierPortalClient,
   type SupplierPortalListResponse,
 } from './supplier-portal.js';
+export {
+  AdminNotificationsClient,
+  type AdminNotificationTemplate,
+  type AdminTestSendResult,
+} from './admin-notifications.js';

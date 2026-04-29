@@ -64,7 +64,38 @@ export function runIfPrismaAvailable(
   })();
 }
 
+/**
+ * Read counterpart to {@link runIfPrismaAvailable}. Resolves with the result
+ * of `fn(client)` when Prisma is available, or `null` when it isn't (or when
+ * the operation throws). Used by repositories that prime their in-memory
+ * cache from the relational store at boot, making the DB the source of truth
+ * across restarts while keeping per-request reads fast.
+ */
+export async function readIfPrismaAvailable<T>(
+  label: string,
+  fn: (client: PrismaLike) => Promise<T>,
+): Promise<T | null> {
+  const client = await loadPrismaClient();
+  if (!client) return null;
+  try {
+    return await fn(client);
+  } catch (e) {
+    log.warn(`Prisma read failed for ${label}: ${(e as Error).message}`);
+    return null;
+  }
+}
+
 /** Test helper — drops the cached client so a future call re-probes. */
 export function __resetPrismaSinkForTests(): void {
   cachedClient = undefined;
+}
+
+/**
+ * Test helper — installs a synthetic Prisma client so unit tests can exercise
+ * the prime-from-Prisma code path without booting Postgres. Pair with
+ * {@link __resetPrismaSinkForTests} in `afterEach` to keep tests hermetic.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function __setPrismaClientForTests(client: any): void {
+  cachedClient = client;
 }

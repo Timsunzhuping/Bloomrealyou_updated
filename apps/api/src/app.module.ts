@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { PlatformInfraModule } from './_lib/platform-infra.module';
 import { AccountModule } from './account/account.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
@@ -27,6 +28,7 @@ import { RFQsModule } from './rfqs/rfqs.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, cache: true }),
+    PlatformInfraModule,
     AuditLogsModule,
     NotificationsModule,
     HealthModule,
