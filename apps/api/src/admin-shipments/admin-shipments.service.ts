@@ -12,6 +12,7 @@ import type {
 
 import { AdminProductionRepository } from '../admin-production/admin-production.repository';
 import { AuditLogsRepository } from '../audit-logs/audit-logs.repository';
+import { OrderProgressService } from '../notifications/order-progress.service';
 import { OrdersRepository } from '../orders/orders.repository';
 
 import { AdminShipmentsRepository } from './admin-shipments.repository';
@@ -33,6 +34,7 @@ export class AdminShipmentsService {
     private readonly orders: OrdersRepository,
     private readonly production: AdminProductionRepository,
     private readonly audit: AuditLogsRepository,
+    private readonly progress: OrderProgressService,
   ) {}
 
   list(filter: { q?: string; status?: string; orderId?: string; page?: number; pageSize?: number }) {
@@ -55,7 +57,7 @@ export class AdminShipmentsService {
     const order = this.orders.get(body.orderId);
     if (!order) throw new NotFoundException(`Order not found: ${body.orderId}`);
 
-    const id = `shp_${randomUUID().slice(0, 8)}`;
+    const id = randomUUID();
     const now = new Date().toISOString();
     const currency = (body.currency ?? order.total.currency) as Currency;
     const shippingCost =
@@ -115,6 +117,12 @@ export class AdminShipmentsService {
       },
       summary: `created shipment ${shipment.shipmentNumber} for ${order.orderNumber}`,
     });
+
+    // Tell the customer their parcel is on the way (only when we already have
+    // a tracking number; otherwise the email would be premature).
+    if (shipment.trackingNumber) {
+      this.progress.notify(order.id, 'shipment_created', { shipment });
+    }
     return shipment;
   }
 
@@ -163,6 +171,15 @@ export class AdminShipmentsService {
       payload: { keys: Object.keys(patch), from: previousStatus, to: body.status ?? previousStatus },
       summary: `updated shipment ${updated.shipmentNumber}`,
     });
+
+    // Customer-facing milestones — only fire when the status really changed.
+    if (body.status && body.status !== previousStatus) {
+      if (body.status === 'in_transit' || body.status === 'out_for_delivery') {
+        this.progress.notify(updated.orderId, 'shipment_created', { shipment: updated });
+      } else if (body.status === 'delivered') {
+        this.progress.notify(updated.orderId, 'shipment_delivered', { shipment: updated });
+      }
+    }
     return updated;
   }
 

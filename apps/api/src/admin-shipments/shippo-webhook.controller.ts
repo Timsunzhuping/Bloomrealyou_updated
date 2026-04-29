@@ -18,42 +18,24 @@ import { OrdersRepository } from '../orders/orders.repository';
 
 import { AdminShipmentsRepository } from './admin-shipments.repository';
 import { WebhookIdempotencyService } from './webhook-idempotency.service';
-import { applyTrackingUpdate, mapEasyPostStatus } from './webhook-shared';
+import { applyTrackingUpdate, mapShippoStatus } from './webhook-shared';
 
 interface RequestWithRawBody {
   rawBody?: Buffer;
   headers: Record<string, string | string[] | undefined>;
 }
 
-interface EasyPostWebhookEnvelope {
-  description?: string;
-  result?: EasyPostTracker;
-}
-
-interface EasyPostTracker {
-  id?: string;
-  tracking_code?: string;
-  carrier?: string;
-  status?: string;
-  est_delivery_date?: string | null;
-  updated_at?: string;
-  tracking_details?: Array<{
-    status?: string;
-    message?: string;
-    datetime?: string;
-  }>;
-}
-
 /**
- * Anonymous EasyPost webhook receiver.
+ * Shippo ({@link https://goshippo.com/docs/webhooks}) push receiver.
  *
- * `X-Hmac-Signature` is hex-encoded HMAC-SHA-256 of the raw body using
- * `EASYPOST_WEBHOOK_SECRET`. The {@link WebhookIdempotencyService} dedups by
- * `(tracker_id, updated_at)` so EasyPost retries don't replay state changes.
+ * Shippo signs each event with `X-Shippo-Signature` = hex HMAC-SHA-256 of
+ * the raw body using the webhook secret. The dedup key combines the
+ * `event_object_id` with `transmitted_at` so retried events for the same
+ * tracker update don't double-process.
  */
-@Controller('webhooks/easypost')
-export class EasyPostWebhookController {
-  private readonly log = new Logger(EasyPostWebhookController.name);
+@Controller('webhooks/shippo')
+export class ShippoWebhookController {
+  private readonly log = new Logger(ShippoWebhookController.name);
 
   constructor(
     private readonly config: ConfigService,
@@ -66,32 +48,29 @@ export class EasyPostWebhookController {
   @Post()
   @HttpCode(200)
   async handle(
-    @Body() body: EasyPostWebhookEnvelope,
+    @Body() body: ShippoEnvelope,
     @Req() req: RequestWithRawBody,
   ): Promise<{ ok: true; updatedShipmentId?: string; deduped?: true }> {
     this.verifySignature(req);
 
-    const tracker = body.result;
-    if (!tracker?.tracking_code) {
-      throw new BadRequestException('Missing tracker.tracking_code');
+    const data = body.data;
+    if (!data?.tracking_number) {
+      throw new BadRequestException('Missing data.tracking_number');
     }
 
-    // Idempotency. EasyPost retries the same tracker.updated event with the
-    // same `id` + `updated_at` until it sees a 2xx; reject duplicates here so
-    // a slow downstream operation doesn't end up processed twice.
-    const key = `easypost:${tracker.id ?? tracker.tracking_code}:${tracker.updated_at ?? ''}`;
+    const key = `shippo:${body.event_object_id ?? data.tracking_number}:${body.transmitted_at ?? data.tracking_status?.status_date ?? ''}`;
     if (!this.idempotency.claim(key)) {
       this.log.log(`Dedup hit for ${key}`);
       return { ok: true, deduped: true };
     }
 
-    const update = normalize(tracker);
+    const update = normalize(data);
     if (!update) return { ok: true };
 
     const updatedShipmentId = applyTrackingUpdate({
-      source: 'easypost',
-      trackingNumber: tracker.tracking_code,
-      carrier: tracker.carrier,
+      source: 'shippo',
+      trackingNumber: data.tracking_number,
+      carrier: data.carrier ?? null,
       update,
       shipments: this.shipments,
       orders: this.orders,
@@ -102,12 +81,12 @@ export class EasyPostWebhookController {
   }
 
   private verifySignature(req: RequestWithRawBody): void {
-    const secret = this.config.get<string>('EASYPOST_WEBHOOK_SECRET');
+    const secret = this.config.get<string>('SHIPPO_WEBHOOK_SECRET');
     if (!secret) {
-      this.log.warn('EASYPOST_WEBHOOK_SECRET not set — skipping signature verification');
+      this.log.warn('SHIPPO_WEBHOOK_SECRET not set — skipping signature verification');
       return;
     }
-    const headerValue = req.headers['x-hmac-signature'];
+    const headerValue = req.headers['x-shippo-signature'];
     const signature = Array.isArray(headerValue) ? headerValue[0] : headerValue;
     if (!signature || !req.rawBody) {
       throw new ForbiddenException('Missing webhook signature');
@@ -121,19 +100,35 @@ export class EasyPostWebhookController {
   }
 }
 
-function normalize(tracker: EasyPostTracker): ShipmentTrackingUpdate | null {
-  const lastEvent = tracker.tracking_details?.[tracker.tracking_details.length - 1];
+interface ShippoEnvelope {
+  event?: string;
+  event_object_id?: string;
+  transmitted_at?: string;
+  data?: {
+    tracking_number?: string;
+    carrier?: string | null;
+    eta?: string | null;
+    tracking_status?: {
+      status?: string;
+      status_date?: string;
+      status_details?: string;
+    };
+  };
+}
+
+function normalize(
+  data: NonNullable<ShippoEnvelope['data']>,
+): ShipmentTrackingUpdate | null {
+  if (!data.tracking_number) return null;
+  const status = mapShippoStatus(data.tracking_status?.status);
   const occurredAt =
-    lastEvent?.datetime ?? tracker.updated_at ?? new Date().toISOString();
-  const status = mapEasyPostStatus(tracker.status);
+    data.tracking_status?.status_date ?? new Date().toISOString();
   const out: ShipmentTrackingUpdate = {
     status,
     occurredAt: new Date(occurredAt).toISOString(),
-    description: lastEvent?.message,
+    description: data.tracking_status?.status_details,
   };
   if (status === 'delivered') out.deliveredAt = out.occurredAt;
-  if (tracker.est_delivery_date) {
-    out.estimatedDeliveryAt = new Date(tracker.est_delivery_date).toISOString();
-  }
+  if (data.eta) out.estimatedDeliveryAt = new Date(data.eta).toISOString();
   return out;
 }

@@ -86,6 +86,8 @@ enum DesignStatus {
   submitted
   approved
   rejected
+  /// WP-14 — admin requested customer-side revision.
+  revision_requested
 
   @@map("design_status")
 }
@@ -140,12 +142,24 @@ enum SupplierStatus {
 }
 
 enum ProductionJobStatus {
+  /// Legacy WP-02 values, kept for backwards compat with existing rows.
   queued
-  assigned
   in_progress
   quality_check
   completed
   failed
+
+  /// WP-15 vocabulary — preferred for new rows.
+  created
+  assigned
+  supplier_confirmed
+  in_production
+  qc_pending
+  qc_passed
+  qc_failed
+  ready_to_ship
+  shipped
+  cancelled
 
   @@map("production_job_status")
 }

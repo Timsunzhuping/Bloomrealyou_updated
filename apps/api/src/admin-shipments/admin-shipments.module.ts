@@ -18,8 +18,11 @@ import { EasyPostShippingProvider } from './providers/easypost-shipping.provider
 import { MockShippingProvider } from './providers/mock-shipping.provider';
 import { SeventeentrackShippingProvider } from './providers/seventeentrack-shipping.provider';
 import { ShippoShippingProvider } from './providers/shippo-shipping.provider';
+import { SeventeentrackWebhookController } from './seventeentrack-webhook.controller';
 import { ShippingSyncService } from './shipping-sync.service';
 import { SHIPPING_PROVIDER } from './shipping.tokens';
+import { ShippoWebhookController } from './shippo-webhook.controller';
+import { WebhookIdempotencyService } from './webhook-idempotency.service';
 
 const log = new Logger('AdminShippingModule');
 
@@ -78,11 +81,18 @@ const shippingProviderFactory: Provider<ShippingProvider> = {
 
 @Module({
   imports: [ConfigModule, AdminAuthModule, AdminProductionModule, OrdersModule],
-  controllers: [AdminShipmentsController, CustomerTrackingController, EasyPostWebhookController],
+  controllers: [
+    AdminShipmentsController,
+    CustomerTrackingController,
+    EasyPostWebhookController,
+    SeventeentrackWebhookController,
+    ShippoWebhookController,
+  ],
   providers: [
     AdminShipmentsRepository,
     AdminShipmentsService,
     ShippingSyncService,
+    WebhookIdempotencyService,
     shippingProviderFactory,
   ],
   exports: [AdminShipmentsService, AdminShipmentsRepository, ShippingSyncService, SHIPPING_PROVIDER],

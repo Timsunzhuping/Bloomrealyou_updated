@@ -52,7 +52,10 @@ export class AdminSuppliersService {
   }
 
   create(body: CreateSupplierBody, actor: AdminUserDto): AdminSupplierDto {
-    const id = `sup_${randomUUID().slice(0, 8)}`;
+    // Plain UUID so the row is acceptable to Prisma's `@db.Uuid` columns when
+    // DATABASE_URL is configured. Seeded demo IDs keep their `sup_*` prefixes
+    // for back-office screenshots / docs and never hit Prisma anyway.
+    const id = randomUUID();
     const now = new Date().toISOString();
     const dto: AdminSupplierDto = {
       id,
@@ -155,7 +158,7 @@ export class AdminSuppliersService {
       throw new BadRequestException('minOrderQuantity must be reachable within a week of capacity');
     }
     const currency = (body.currency ?? 'USD') as Currency;
-    const id = `map_${randomUUID().slice(0, 8)}`;
+    const id = randomUUID();
     const now = new Date().toISOString();
     const dto: AdminSupplierProductMappingDto = {
       id,
