@@ -11,12 +11,15 @@ export type AuditAction =
   | 'soft_delete'
   | 'restore'
   | 'login'
+  | 'login_failed'
   | 'logout'
   | 'role_change'
   | 'status_change'
   | 'export'
   | 'approve'
-  | 'reject';
+  | 'reject'
+  | 'assign'
+  | 'refund';
 
 /**
  * Append-only audit record. Every back-office mutation MUST emit one of these

@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 
+import { ApiRateLimiterGuard } from './_lib/api-rate-limiter.guard';
 import { PlatformInfraModule } from './_lib/platform-infra.module';
 import { AccountModule } from './account/account.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
@@ -51,6 +53,11 @@ import { RFQsModule } from './rfqs/rfqs.module';
     AdminSuppliersModule,
     AdminProductionModule,
     AdminShippingModule,
+  ],
+  providers: [
+    // Front-of-the-pipeline per-IP token bucket. Tunable via env; webhook
+    // controllers stack their own stricter guard on top.
+    { provide: APP_GUARD, useClass: ApiRateLimiterGuard },
   ],
 })
 export class AppModule {}

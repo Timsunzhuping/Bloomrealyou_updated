@@ -924,7 +924,12 @@ model QuoteItem {
 model AuditLog {
   id          String      @id @default(uuid()) @db.Uuid
   actorUserId String?     @db.Uuid
+  /// Role the actor held at the time of the action (denormalised so future
+  /// permission changes don't rewrite history).
+  actorRole   String?
   actorIp     String?
+  /// User-Agent header captured at request time.
+  userAgent   String?
   entityType  String
   entityId    String
   action      AuditAction

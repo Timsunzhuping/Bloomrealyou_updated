@@ -9,30 +9,14 @@ import {
   type StorageProvider,
 } from '@custom-merch/shared';
 
+import { parseAllowedDataUrl } from '../_lib/file-upload';
 import { NotificationDispatcher } from '../notifications/notification-dispatcher.service';
 import { STORAGE_PROVIDER } from '../storage/storage.tokens';
 
 import { RFQsRepository } from './rfqs.repository';
 
-const RFQ_LOGO_MIMES = new Set([
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-  'image/svg+xml',
-  'application/pdf',
-]);
-
-interface DataUrlParts {
-  mime: string;
-  buffer: Buffer;
-}
-
-function parseDataUrl(dataUrl: string): DataUrlParts | null {
-  const match = /^data:([^;,]+);base64,(.+)$/.exec(dataUrl);
-  if (!match) return null;
-  const [, mime, base64] = match as unknown as [string, string, string];
-  return { mime, buffer: Buffer.from(base64, 'base64') };
-}
+/** RFQ logo cap: 4 MB (smaller than the global 8 MB so the inbox stays light). */
+const RFQ_LOGO_MAX_BYTES = 4 * 1024 * 1024;
 
 @Injectable()
 export class RFQsService {
@@ -52,21 +36,18 @@ export class RFQsService {
     let logoFileUrl: string | null = null;
     let logoFileName: string | null = null;
     if (input.logoDataUrl) {
-      const parts = parseDataUrl(input.logoDataUrl);
-      if (parts && RFQ_LOGO_MIMES.has(parts.mime)) {
-        const ext = mimeToExt(parts.mime);
-        const safeName = (input.logoFileName ?? `logo.${ext}`).replace(/[^A-Za-z0-9._-]/g, '_');
-        const result = await this.storage.putObject({
-          key: `rfqs/${id}/${safeName}`,
-          body: parts.buffer,
-          contentType: parts.mime,
-          cacheControl: 'private, max-age=300',
-        });
-        logoFileUrl = result.url;
-        logoFileName = safeName;
-      } else {
-        this.log.warn(`rfq ${rfqNumber}: ignoring unsupported logo upload (mime=${parts?.mime ?? 'unknown'})`);
-      }
+      // Throws BadRequest on bad mime / oversize / SVG with embedded scripts.
+      const validated = parseAllowedDataUrl(input.logoDataUrl, { maxBytes: RFQ_LOGO_MAX_BYTES });
+      const ext = mimeToExt(validated.mime);
+      const safeName = (input.logoFileName ?? `logo.${ext}`).replace(/[^A-Za-z0-9._-]/g, '_');
+      const result = await this.storage.putObject({
+        key: `rfqs/${id}/${safeName}`,
+        body: validated.buffer,
+        contentType: validated.mime,
+        cacheControl: 'private, max-age=300',
+      });
+      logoFileUrl = result.url;
+      logoFileName = safeName;
     }
 
     const rfq: RfqDto = {

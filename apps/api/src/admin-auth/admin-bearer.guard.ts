@@ -12,7 +12,7 @@ import {
   type AdminPermission,
 } from '@custom-merch/shared';
 
-import { ADMIN_USER_REQ_KEY } from './admin-auth.tokens';
+import { ADMIN_AUDIT_CONTEXT_KEY, ADMIN_USER_REQ_KEY } from './admin-auth.tokens';
 import { ADMIN_PERMISSION_KEY } from './admin-permissions.decorator';
 import { AdminUsersRepository } from './admin-users.repository';
 
@@ -59,7 +59,15 @@ export class AdminBearerGuard implements CanActivate {
       }
     }
 
-    req[ADMIN_USER_REQ_KEY] = this.users.toDto(user);
+    const dto = this.users.toDto(user);
+    req[ADMIN_USER_REQ_KEY] = dto;
+    req[ADMIN_AUDIT_CONTEXT_KEY] = {
+      actorUserId: dto.id,
+      actorName: dto.fullName,
+      actorRole: dto.role,
+      ipAddress: extractIp(req),
+      userAgent: readHeader(req, 'user-agent'),
+    };
     return true;
   }
 }
@@ -72,4 +80,25 @@ function readToken(req: RequestLike): string | null {
   const direct = req.headers['x-admin-token'];
   if (typeof direct === 'string' && direct.length > 0) return direct;
   return null;
+}
+
+function readHeader(req: RequestLike, name: string): string | null {
+  const value = req.headers[name];
+  if (Array.isArray(value)) return value[0] ?? null;
+  if (typeof value === 'string') return value;
+  return null;
+}
+
+/**
+ * Extract the real client IP. Honours `X-Forwarded-For` (taking the first
+ * entry — that's the original client when standard reverse-proxy chains
+ * append) and falls back to `req.ip` / `socket.remoteAddress`. Returns
+ * `null` when nothing is available so callers know it's truly unknown.
+ */
+function extractIp(req: RequestLike): string | null {
+  const xff = readHeader(req, 'x-forwarded-for');
+  if (xff) return xff.split(',')[0]?.trim() ?? null;
+  const r = req as RequestLike & { ip?: string; socket?: { remoteAddress?: string } };
+  if (typeof r.ip === 'string' && r.ip.length > 0) return r.ip;
+  return r.socket?.remoteAddress ?? null;
 }

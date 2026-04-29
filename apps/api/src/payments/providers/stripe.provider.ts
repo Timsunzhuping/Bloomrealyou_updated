@@ -63,7 +63,20 @@ export class StripeProvider implements PaymentProvider {
         this.options.webhookSecret,
       );
     } else {
-      this.log.warn('STRIPE_WEBHOOK_SECRET missing — accepting event without signature');
+      // Production deployments MUST verify — refuse unsigned events outright.
+      // Dev / CI without a configured secret still accepts the body so local
+      // smoke tests work, but logs loudly so the warning is visible.
+      const productionLike =
+        process.env.NODE_ENV === 'production' ||
+        process.env.STRIPE_WEBHOOK_REQUIRE_SIGNATURE === 'true';
+      if (productionLike) {
+        throw new Error(
+          'Stripe webhook signature verification is required (set STRIPE_WEBHOOK_SECRET)',
+        );
+      }
+      this.log.warn(
+        'STRIPE_WEBHOOK_SECRET missing — accepting event without signature (dev-only)',
+      );
       const body = typeof input.rawBody === 'string' ? input.rawBody : input.rawBody.toString('utf8');
       event = JSON.parse(body) as Stripe.Event;
     }
