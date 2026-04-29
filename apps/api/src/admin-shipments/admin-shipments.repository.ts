@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import type { AdminShipmentDto, ShipmentStatus } from '@custom-merch/shared';
 
+import { tryPersistShipment } from './admin-shipments.prisma-sink';
+
 interface ListFilter {
   q?: string;
   status?: ShipmentStatus;
@@ -49,6 +51,7 @@ export class AdminShipmentsRepository {
 
   save(shipment: AdminShipmentDto): AdminShipmentDto {
     this.shipments.set(shipment.id, shipment);
+    tryPersistShipment(shipment);
     return shipment;
   }
 
@@ -64,6 +67,7 @@ export class AdminShipmentsRepository {
       updatedAt: new Date().toISOString(),
     };
     this.shipments.set(id, next);
+    tryPersistShipment(next);
     return next;
   }
 

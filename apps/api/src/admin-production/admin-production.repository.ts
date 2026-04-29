@@ -7,6 +7,8 @@ import type {
   ProductionJobStatus,
 } from '@custom-merch/shared';
 
+import { tryPersistProductionJob } from './admin-production.prisma-sink';
+
 interface ListFilter {
   q?: string;
   status?: ProductionJobStatus;
@@ -58,6 +60,7 @@ export class AdminProductionRepository {
   save(job: AdminProductionJobDto): AdminProductionJobDto {
     this.jobs.set(job.id, job);
     this.byNumber.set(job.jobNumber, job.id);
+    tryPersistProductionJob(job);
     return job;
   }
 
@@ -73,6 +76,7 @@ export class AdminProductionRepository {
       updatedAt: new Date().toISOString(),
     };
     this.jobs.set(id, next);
+    tryPersistProductionJob(next);
     return next;
   }
 

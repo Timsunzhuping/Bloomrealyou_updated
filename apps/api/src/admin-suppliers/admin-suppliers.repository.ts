@@ -8,6 +8,12 @@ import type {
   SupplierStatus,
 } from '@custom-merch/shared';
 
+import {
+  tryDeleteSupplier,
+  tryPersistMapping,
+  tryPersistSupplier,
+} from './admin-suppliers.prisma-sink';
+
 interface ListFilter {
   q?: string;
   country?: string;
@@ -80,6 +86,7 @@ export class AdminSuppliersRepository {
 
   saveSupplier(supplier: AdminSupplierDto): AdminSupplierDto {
     this.suppliers.set(supplier.id, supplier);
+    tryPersistSupplier(supplier);
     return supplier;
   }
 
@@ -94,6 +101,7 @@ export class AdminSuppliersRepository {
       updatedAt: new Date().toISOString(),
     };
     this.suppliers.set(id, next);
+    tryPersistSupplier(next);
     return next;
   }
 
@@ -102,7 +110,9 @@ export class AdminSuppliersRepository {
     for (const [mid, m] of this.mappings.entries()) {
       if (m.supplierId === id) this.mappings.delete(mid);
     }
-    return this.suppliers.delete(id);
+    const removed = this.suppliers.delete(id);
+    if (removed) tryDeleteSupplier(id);
+    return removed;
   }
 
   /** All suppliers; consumed by the recommendation service. */
@@ -139,6 +149,7 @@ export class AdminSuppliersRepository {
 
   saveMapping(mapping: AdminSupplierProductMappingDto): AdminSupplierProductMappingDto {
     this.mappings.set(mapping.id, mapping);
+    tryPersistMapping(mapping);
     return mapping;
   }
 
@@ -156,6 +167,7 @@ export class AdminSuppliersRepository {
       updatedAt: new Date().toISOString(),
     };
     this.mappings.set(id, next);
+    tryPersistMapping(next);
     return next;
   }
 

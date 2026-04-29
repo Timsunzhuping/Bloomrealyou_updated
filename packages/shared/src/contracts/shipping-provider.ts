@@ -17,7 +17,7 @@ import type { ShipmentStatus } from '../constants/statuses';
  * ShippingService.
  */
 export interface ShippingProvider {
-  readonly name: 'mock' | 'easypost' | '17track' | 'shippo';
+  readonly name: ShippingProviderName;
   /**
    * Read the latest carrier event for a shipment. Implementations MUST tolerate
    * unknown carrier / tracking values (return null) and MUST NOT throw on
@@ -51,4 +51,4 @@ export interface ShipmentTrackingUpdate {
 }
 
 /** Logical name of the active shipping provider. */
-export type ShippingProviderName = ShippingProvider['name'];
+export type ShippingProviderName = 'mock' | 'easypost' | '17track' | 'shippo';

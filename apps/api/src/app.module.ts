@@ -14,6 +14,7 @@ import { AdminTemplatesModule } from './admin-templates/admin-templates.module';
 import { AIModule } from './ai/ai.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
 import { CartModule } from './cart/cart.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { CustomizationsModule } from './customizations/customizations.module';
 import { HealthModule } from './health/health.module';
 import { OrdersModule } from './orders/orders.module';
@@ -27,6 +28,7 @@ import { RFQsModule } from './rfqs/rfqs.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true, cache: true }),
     AuditLogsModule,
+    NotificationsModule,
     HealthModule,
     ProductsModule,
     CustomizationsModule,

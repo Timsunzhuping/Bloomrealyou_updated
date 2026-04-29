@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import {
@@ -6,6 +6,7 @@ import {
   type AdminProductionJobDto,
   type AdminUserDto,
   type Currency,
+  type NotificationProvider,
   type ProductionJobAttachment,
   type ProductionJobNote,
   type ProductionJobStatus,
@@ -15,6 +16,7 @@ import {
 import { AuditLogsRepository } from '../audit-logs/audit-logs.repository';
 import { OrdersRepository } from '../orders/orders.repository';
 import { AdminSuppliersRepository } from '../admin-suppliers/admin-suppliers.repository';
+import { NOTIFICATION_PROVIDER } from '../notifications/notification.tokens';
 import { STORAGE_PROVIDER } from '../storage/storage.tokens';
 
 import { AdminProductionRepository } from './admin-production.repository';
@@ -46,12 +48,15 @@ function parseDataUrl(dataUrl: string): DataUrlParts | null {
 
 @Injectable()
 export class AdminProductionService {
+  private readonly notifyLog = new Logger('AdminProductionService.notify');
+
   constructor(
     private readonly repo: AdminProductionRepository,
     private readonly orders: OrdersRepository,
     private readonly suppliers: AdminSuppliersRepository,
     private readonly audit: AuditLogsRepository,
     @Inject(STORAGE_PROVIDER) private readonly storage: StorageProvider,
+    @Inject(NOTIFICATION_PROVIDER) private readonly notifier: NotificationProvider,
   ) {}
 
   list(filter: {
@@ -309,6 +314,45 @@ export class AdminProductionService {
     if (body.passed) {
       this.orders.setStatus(updated.orderId, 'quality_inspection');
     }
+
+    void this.notifyCustomerOfQc(updated, body.passed, body.failureReason);
     return updated;
+  }
+
+  /**
+   * Fire-and-forget customer notification on QC events. Looks up the order's
+   * customerEmail; skips silently when missing (anonymous checkout flow may
+   * leave it null). Errors are logged but never bubble up to the supplier-
+   * facing endpoint — a flaky email service shouldn't block a QC upload.
+   */
+  private async notifyCustomerOfQc(
+    job: AdminProductionJobDto,
+    passed: boolean,
+    failureReason: string | undefined,
+  ): Promise<void> {
+    const order = this.orders.get(job.orderId);
+    if (!order?.customerEmail) return;
+    try {
+      await this.notifier.send({
+        to: order.customerEmail,
+        channel: 'email',
+        templateKey: passed ? 'order.qc_passed' : 'order.qc_failed',
+        locale: order.locale,
+        subject: passed
+          ? `Your order ${order.orderNumber} cleared quality control`
+          : `Your order ${order.orderNumber} needs attention`,
+        data: {
+          orderNumber: order.orderNumber,
+          jobNumber: job.jobNumber,
+          quantity: job.quantity,
+          failureReason: failureReason ?? null,
+          trackingUrlSuffix: `/orders/${order.orderNumber}`,
+        },
+      });
+    } catch (err) {
+      this.notifyLog.warn(
+        `QC notification failed for ${order.orderNumber}: ${(err as Error).message}`,
+      );
+    }
   }
 }

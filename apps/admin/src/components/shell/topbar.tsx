@@ -5,6 +5,7 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { Link } from '@/i18n/navigation';
 
 import { Breadcrumb } from './breadcrumb';
+import { MobileBackButton } from './mobile-back-button';
 import { MobileSidebar } from './mobile-sidebar';
 import { UserMenu } from './user-menu';
 
@@ -21,11 +22,14 @@ export async function Topbar({ user, apiBaseUrl }: Props): Promise<JSX.Element> 
     <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">
       <div className="flex h-14 items-center gap-3 px-4">
         <MobileSidebar user={user} />
-        <Link href="/dashboard" className="font-semibold">
+        <Link href="/dashboard" className="hidden font-semibold sm:inline-block">
           {tApp('name')} · {t('title')}
         </Link>
         <div className="hidden flex-1 md:block">
           <Breadcrumb />
+        </div>
+        <div className="md:hidden">
+          <MobileBackButton />
         </div>
         <div className="ms-auto flex items-center gap-2">
           <LanguageSwitcher />
