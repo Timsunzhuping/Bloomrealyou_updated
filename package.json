@@ -1,0 +1,45 @@
+{
+  "name": "custom-merch-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered Custom Products & Corporate Merchandise Platform",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:e2e": "cd tests/e2e && pnpm install && pnpm test",
+    "clean": "turbo run clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "db:generate": "pnpm --filter @custom-merch/db db:generate",
+    "db:migrate": "pnpm --filter @custom-merch/db db:migrate",
+    "db:migrate:deploy": "pnpm --filter @custom-merch/db db:migrate:deploy",
+    "db:seed": "pnpm --filter @custom-merch/db db:seed",
+    "db:studio": "pnpm --filter @custom-merch/db db:studio",
+    "db:reset": "pnpm --filter @custom-merch/db db:reset"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "turbo": "^2.3.3",
+    "typescript": "^5.5.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma",
+      "unrs-resolver"
+    ]
+  }
+}

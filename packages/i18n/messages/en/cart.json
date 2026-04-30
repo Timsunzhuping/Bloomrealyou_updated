@@ -1,0 +1,43 @@
+{
+  "title": "Cart",
+  "metaTitle": "Shopping cart",
+  "metaDescription": "Review your custom items, update quantities, and continue to checkout.",
+  "empty": {
+    "title": "Your cart is empty",
+    "body": "Add products from the catalog or save a design to get started.",
+    "cta": "Browse products"
+  },
+  "summary": {
+    "heading": "Order summary",
+    "itemCount": "{count} items",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "tax": "Tax",
+    "total": "Total",
+    "promoCode": "Promo code",
+    "applyPromoCode": "Apply",
+    "estimatedDelivery": "Estimated delivery: {days} business days"
+  },
+  "item": {
+    "quantity": "Quantity",
+    "remove": "Remove",
+    "designLabel": "Custom design",
+    "variantLabel": "Variant",
+    "printMethod": "Print method",
+    "printAreas": "Print areas",
+    "unitPrice": "Unit price",
+    "lineTotal": "Line total",
+    "noDesign": "No design attached",
+    "previewAlt": "Custom design preview",
+    "skuLabel": "SKU"
+  },
+  "actions": {
+    "continueShopping": "Continue shopping",
+    "checkout": "Proceed to checkout",
+    "saving": "Updating…",
+    "removed": "Item removed",
+    "added": "Added to cart",
+    "saveFailed": "Could not update cart"
+  },
+  "checkoutCta": "Proceed to checkout"
+}

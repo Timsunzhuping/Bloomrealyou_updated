@@ -1,0 +1,141 @@
+{
+  "title": "Designer",
+  "metaTitleTemplate": "Customize {name}",
+  "topBar": {
+    "back": "Back to product",
+    "saveDraft": "Save design",
+    "preview": "Preview",
+    "addToCart": "Add to cart",
+    "draftSaved": "Design saved locally",
+    "exportJson": "Export JSON",
+    "saving": "Saving design…",
+    "savedRemote": "Design saved",
+    "saveFailed": "Could not save design",
+    "validating": "Checking design…",
+    "validationFailed": "Design has errors that must be fixed",
+    "validationWarnings": "Design has warnings — review before continuing",
+    "addedToCart": "Added to cart"
+  },
+  "validation": {
+    "design_empty": "Design has no layers yet — add text or upload an image.",
+    "preview_missing": "Preview image has not been generated.",
+    "object_outside_safe_area": "A layer extends past the safe area.",
+    "object_outside_print_area": "A layer is outside the printable area.",
+    "image_low_resolution": "Image resolution is below 150 DPI.",
+    "image_unsupported_format": "Image format is not supported for production.",
+    "text_too_small": "Text is below 12px and may be unreadable.",
+    "text_empty": "Text layer has no content.",
+    "errorsTitle": "Errors",
+    "warningsTitle": "Warnings",
+    "continueAnyway": "Continue anyway"
+  },
+  "tools": {
+    "addText": "Add text",
+    "addImage": "Upload image",
+    "addShape": "Add shape",
+    "templates": "Templates",
+    "ai": "AI design",
+    "layers": "Layers",
+    "undo": "Undo",
+    "redo": "Redo",
+    "saveDesign": "Save design",
+    "preview": "Preview"
+  },
+  "panels": {
+    "layers": "Layers",
+    "properties": "Properties",
+    "printAreas": "Print area",
+    "ai": "AI assistant",
+    "selectObjectHint": "Select an object to edit its properties.",
+    "templatesPlaceholder": "Templates coming soon.",
+    "aiPlaceholder": "AI design assistant launches in a future update."
+  },
+  "printAreas": {
+    "front": "Front",
+    "back": "Back",
+    "left_sleeve": "Left sleeve",
+    "right_sleeve": "Right sleeve",
+    "wrap": "Wrap-around",
+    "face": "Face",
+    "cuff": "Cuff"
+  },
+  "layer": {
+    "delete": "Delete layer",
+    "duplicate": "Duplicate layer",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "moveUp": "Bring forward",
+    "moveDown": "Send backward",
+    "show": "Show",
+    "hide": "Hide",
+    "empty": "No layers yet — add text or upload an image to start.",
+    "textLabel": "Text",
+    "imageLabel": "Image"
+  },
+  "properties": {
+    "text": {
+      "content": "Text content",
+      "fontFamily": "Font",
+      "fontSize": "Size",
+      "fontWeight": "Weight",
+      "color": "Color",
+      "textAlign": "Alignment",
+      "alignLeft": "Left",
+      "alignCenter": "Center",
+      "alignRight": "Right"
+    },
+    "image": {
+      "filename": "Filename",
+      "width": "Width",
+      "height": "Height"
+    },
+    "shared": {
+      "position": "Position",
+      "x": "X",
+      "y": "Y",
+      "rotation": "Rotation",
+      "opacity": "Opacity",
+      "lock": "Lock object",
+      "delete": "Delete object",
+      "bringForward": "Bring forward",
+      "sendBackward": "Send backward"
+    }
+  },
+  "ai": {
+    "panelTitle": "AI design assistant",
+    "panelSubtitle": "Describe your scenario and we'll suggest slogans, colours and layouts.",
+    "scenarioLabel": "Describe the scenario",
+    "scenarioPlaceholder": "e.g. Tech conference in Dubai for an AI startup",
+    "generate": "Get suggestions",
+    "generating": "Thinking…",
+    "fallback": "AI is unavailable right now — your manual tools still work.",
+    "slogansHeading": "Slogans",
+    "ideasHeading": "Design ideas",
+    "layoutsHeading": "Layouts",
+    "applySlogan": "Apply",
+    "applyLayout": "Apply layout",
+    "copy": "Copy",
+    "copied": "Copied",
+    "generateSlogan": "Generate slogan",
+    "improveDesign": "Improve design",
+    "tryGiftBundle": "Suggest gift bundle",
+    "ideaPalette": "Palette",
+    "ideaProducts": "Products"
+  },
+  "warnings": {
+    "outsideSafeArea": "Layer extends past the safe area — it may be trimmed in production.",
+    "lowResolution": "Image resolution is below 300 DPI — print quality may be reduced.",
+    "fileTooLarge": "File too large. Maximum 25 MB per image."
+  },
+  "bottomBar": {
+    "quantity": "Quantity",
+    "estimatedDelivery": "Estimated delivery",
+    "deliveryWindow": "{days} business days",
+    "addToCart": "Add to cart",
+    "currentPrice": "Estimated total"
+  },
+  "upload": {
+    "accepted": "Accepted: PNG, JPG, SVG up to 25 MB",
+    "newText": "Your text"
+  }
+}

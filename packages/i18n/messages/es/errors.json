@@ -1,0 +1,26 @@
+{
+  "generic": "Algo salió mal. Inténtalo de nuevo.",
+  "network": "Error de red. Comprueba tu conexión.",
+  "unauthorized": "No tienes permisos para hacer esto.",
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "La página que buscas no existe.",
+    "backHome": "Ir al inicio"
+  },
+  "forbidden": {
+    "title": "Acceso denegado",
+    "body": "Tu cuenta no tiene permisos para ver esta página. Si crees que es un error, pide al administrador que te asigne el rol adecuado.",
+    "backDashboard": "Volver al panel"
+  },
+  "unauthorizedPage": {
+    "title": "Inicia sesión",
+    "body": "Tu sesión ha expirado o no has iniciado sesión. Vuelve a iniciar sesión para continuar.",
+    "signIn": "Iniciar sesión"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "emailInvalid": "Introduce un correo válido",
+    "minLength": "Debe tener al menos {min} caracteres",
+    "maxLength": "Debe tener como máximo {max} caracteres"
+  }
+}

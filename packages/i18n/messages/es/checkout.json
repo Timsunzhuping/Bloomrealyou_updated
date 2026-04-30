@@ -1,0 +1,70 @@
+{
+  "title": "Pago",
+  "metaTitle": "Pago",
+  "metaDescription": "Completa tu pedido personalizado en una sola página: envío, pago y confirmación.",
+  "steps": {
+    "shipping": "Envío",
+    "payment": "Pago",
+    "review": "Revisar"
+  },
+  "contact": {
+    "heading": "Contacto",
+    "email": "Correo electrónico"
+  },
+  "shipping": {
+    "heading": "¿A dónde lo enviamos?",
+    "name": "Nombre completo",
+    "company": "Empresa",
+    "addressLine1": "Dirección 1",
+    "addressLine2": "Dirección 2",
+    "city": "Ciudad",
+    "state": "Provincia",
+    "postalCode": "Código postal",
+    "country": "País (ISO-2)",
+    "phone": "Teléfono",
+    "saveDefault": "Guardar como dirección predeterminada",
+    "method": {
+      "heading": "Método de envío",
+      "standard": "Estándar (5–7 días laborables)",
+      "express": "Express (3–5 días laborables)",
+      "rush": "Urgente (1–2 días laborables)"
+    }
+  },
+  "billing": {
+    "heading": "Dirección de facturación",
+    "sameAsShipping": "Igual que el envío"
+  },
+  "payment": {
+    "heading": "Método de pago",
+    "card": "Tarjeta de crédito / débito",
+    "paypal": "PayPal",
+    "invoice": "Factura manual (B2B)",
+    "stripeNotConfigured": "Stripe en modo demo — al enviar se simula un pago aprobado.",
+    "processing": "Procesando pago…",
+    "submit": "Pagar ahora",
+    "errorTitle": "El pago no se pudo completar",
+    "errorBody": "Revisa los datos e inténtalo de nuevo."
+  },
+  "review": {
+    "heading": "Revisar y realizar pedido",
+    "placeOrder": "Realizar pedido",
+    "creatingOrder": "Creando tu pedido…"
+  },
+  "thanks": {
+    "title": "Gracias por tu pedido",
+    "body": "Hemos enviado una confirmación a {email}.",
+    "orderNumber": "Número de pedido: {number}",
+    "trackOrder": "Ver pedido",
+    "continueShopping": "Seguir comprando"
+  },
+  "cancelled": {
+    "title": "Pago cancelado",
+    "body": "Tu pago no se completó. El carrito sigue guardado.",
+    "back": "Volver al pago"
+  },
+  "errors": {
+    "cartEmpty": "Tu carrito está vacío.",
+    "missingFields": "Completa todos los campos requeridos.",
+    "createFailed": "No se pudo crear el pedido. Inténtalo de nuevo."
+  }
+}

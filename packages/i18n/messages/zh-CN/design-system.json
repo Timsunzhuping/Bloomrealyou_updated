@@ -1,0 +1,188 @@
+{
+  "title": "设计系统",
+  "subtitle": "前台和后台共享的基础组件展示。",
+  "sections": {
+    "buttons": "按钮",
+    "form": "表单字段",
+    "selection": "选择控件",
+    "feedback": "反馈",
+    "overlay": "浮层",
+    "navigation": "导航",
+    "data": "数据展示",
+    "ecommerce": "电商",
+    "marketing": "营销",
+    "states": "状态"
+  },
+  "buttons": {
+    "primary": "主操作",
+    "secondary": "次操作",
+    "outline": "边框",
+    "ghost": "透明",
+    "destructive": "危险"
+  },
+  "form": {
+    "emailLabel": "邮箱",
+    "emailPlaceholder": "you@example.com",
+    "emailDescription": "我们不会泄露您的邮箱。",
+    "messageLabel": "留言",
+    "messagePlaceholder": "需要什么帮助？",
+    "rolesLabel": "角色",
+    "marketingLabel": "订阅最新消息",
+    "subscribeYes": "好，订阅",
+    "subscribeNo": "暂不订阅"
+  },
+  "feedback": {
+    "successBadge": "已激活",
+    "warningBadge": "待审核",
+    "errorTitle": "无法加载设计",
+    "errorBody": "请稍后再试。",
+    "loadingLabel": "加载设计中",
+    "emptyTitle": "暂无保存的设计",
+    "emptyBody": "在定制器中保存的设计会出现在这里。",
+    "emptyCta": "去定制"
+  },
+  "overlay": {
+    "openDialog": "打开对话框",
+    "openDrawer": "打开抽屉",
+    "dialogTitle": "确认操作",
+    "dialogBody": "这是一个 Dialog 组件示例。",
+    "dialogConfirm": "确认",
+    "dialogCancel": "取消",
+    "dialogClose": "关闭",
+    "drawerTitle": "示例抽屉",
+    "drawerBody": "抽屉从右侧滑入。"
+  },
+  "navigation": {
+    "tabs": {
+      "overview": "总览",
+      "details": "详情",
+      "reviews": "评价"
+    },
+    "tabContent": {
+      "overview": "总览页内容。",
+      "details": "详情属性内容。",
+      "reviews": "客户评价内容。"
+    },
+    "breadcrumbs": {
+      "home": "首页",
+      "category": "T 恤",
+      "product": "高级棉质 T 恤"
+    },
+    "paginationLabels": {
+      "nav": "分页导航",
+      "previous": "上一页",
+      "next": "下一页"
+    }
+  },
+  "data": {
+    "tableCaption": "近期订单（演示数据）",
+    "tableHeaders": {
+      "order": "订单号",
+      "customer": "客户",
+      "status": "状态",
+      "total": "金额"
+    }
+  },
+  "ecommerce": {
+    "productName": "高级棉质 T 恤",
+    "fromPrice": "起价",
+    "addToCart": "加入购物车",
+    "quantity": "数量",
+    "decrement": "减少",
+    "increment": "增加",
+    "uploadTitle": "上传设计稿",
+    "uploadDescription": "支持 PNG、SVG、AI 格式，单文件不超过 25MB。",
+    "uploadBrowse": "选择文件",
+    "uploadAria": "上传设计稿",
+    "filterReset": "清除筛选",
+    "sortLabel": "排序方式",
+    "sortOptions": {
+      "popular": "最受欢迎",
+      "priceAsc": "价格从低到高",
+      "priceDesc": "价格从高到低",
+      "newest": "最新上架"
+    }
+  },
+  "marketing": {
+    "heroEyebrow": "为全球团队打造",
+    "heroTitle": "几分钟搞定定制商品的设计、报价与生产。",
+    "heroBody": "统一平台将设计稿变成已发货的商品，覆盖全球。",
+    "heroPrimary": "浏览商品",
+    "heroSecondary": "联系销售",
+    "trust": {
+      "global": "已发往 100+ 国家",
+      "speed": "平均 5 天生产",
+      "quality": "通过 ISO-9001 审核",
+      "support": "7×24 多语种支持"
+    },
+    "corporateEyebrow": "面向企业",
+    "corporateTitle": "无需 Excel，团队周边一站搞定。",
+    "corporateBody": "面向 50+ 订单提供阶梯报价、RFQ 流程和专属客户经理。",
+    "corporateBullets": {
+      "rfq": "60 秒内提交询价",
+      "templates": "可复用设计模板",
+      "billing": "Net-30 月结开票",
+      "logistics": "整车物流统筹"
+    },
+    "corporateCta": "提交询价",
+    "corporateSecondary": "下载能力手册",
+    "ctaEyebrow": "立即开始",
+    "ctaTitle": "免费试用 AI 设计助手。",
+    "ctaBody": "无需信用卡，发货后再升级。",
+    "ctaPrimary": "打开定制器",
+    "ctaSecondary": "查看报价",
+    "faqHeading": "常见问题",
+    "faqItems": {
+      "q1": "通常生产周期是多久？",
+      "a1": "稿件确认后大多数商品 5 个工作日内发货。",
+      "q2": "企业批量是否有折扣？",
+      "a2": "是的，50+ 订单可提交 RFQ，销售将在 1 个工作日内回复。",
+      "q3": "是否支持自定义设计？",
+      "a3": "完全支持。2D 定制器支持多印刷区域内的文字、图片与图形图层。"
+    },
+    "testimonials": {
+      "quote1": "我们在 7 个国家的团队都通过同一个后台拿到了周边，速度难以置信。",
+      "author1": "Maya Lin",
+      "role1": "Acme 品牌负责人",
+      "quote2": "RFQ 流程让采购团队节省了一整周的来回沟通。",
+      "author2": "Jordan Reyes",
+      "role2": "FreshLabs 采购经理"
+    }
+  },
+  "states": {
+    "imagesAlt": "服装样机示例",
+    "thumbnailListLabel": "商品图缩略图",
+    "categoryName": "T 恤",
+    "categoryDescription": "柔软棉质，可印刷。"
+  },
+  "switchers": {
+    "localeLabel": "语言",
+    "currencyLabel": "货币"
+  },
+  "badges": {
+    "new": "新品",
+    "bestseller": "热销",
+    "eco": "环保"
+  },
+  "footer": {
+    "company": {
+      "heading": "公司",
+      "about": "关于我们",
+      "press": "媒体报道",
+      "blog": "博客"
+    },
+    "support": {
+      "heading": "支持",
+      "help": "帮助中心",
+      "shipping": "物流配送",
+      "returns": "退换政策"
+    },
+    "legal": {
+      "heading": "法律",
+      "privacy": "隐私",
+      "terms": "条款",
+      "cookies": "Cookie"
+    },
+    "copyright": "© 定制商品平台"
+  }
+}

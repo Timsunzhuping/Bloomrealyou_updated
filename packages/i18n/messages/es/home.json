@@ -1,0 +1,77 @@
+{
+  "metaTitle": "Plataforma de Productos Personalizados — diseña, cotiza y envía",
+  "metaDescription": "Plataforma con IA para camisetas, sudaderas, tazas, gorras, bolsas y pegatinas personalizadas. Tramos por volumen, RFQ y entrega global.",
+  "hero": {
+    "eyebrow": "Hecho para equipos globales",
+    "title": "Merchandising personalizado, fácil de gestionar",
+    "subtitle": "Diseña, cotiza y entrega productos personalizados a cualquier escala con nuestro estudio asistido por IA.",
+    "ctaPrimary": "Ver productos",
+    "ctaSecondary": "Probar el diseñador"
+  },
+  "primaryCtas": {
+    "startDesigning": "Empieza a diseñar",
+    "uploadLogo": "Sube tu logo",
+    "requestBulkQuote": "Solicita un presupuesto"
+  },
+  "categories": {
+    "heading": "Comprar por categoría",
+    "subtitle": "Desde camisetas diarias hasta packs de regalo corporativo."
+  },
+  "ai": {
+    "heading": "Asistente de diseño con IA",
+    "subtitle": "Genera lemas, layouts y arte alineado con tu marca en segundos.",
+    "cta": "Probar el asistente",
+    "inputLabel": "Describe lo que quieres crear",
+    "inputPlaceholder": "Ej.: conferencia tech en Dubái para una startup de IA",
+    "submit": "Pedir ideas a la IA"
+  },
+  "corporate": {
+    "heading": "Regalos y merchandising corporativo",
+    "subtitle": "Precios por volumen, flujo de RFQ y account management para pedidos de 50+.",
+    "ctaPrimary": "Para empresas",
+    "ctaSecondary": "Solicitar presupuesto"
+  },
+  "templates": {
+    "heading": "Plantillas populares",
+    "subtitle": "Empieza desde una plantilla curada y personaliza en minutos.",
+    "items": {
+      "techConference": "Conferencia tech",
+      "birthdayGift": "Regalo de cumpleaños",
+      "teamShirt": "Camiseta de equipo",
+      "holidayGift": "Regalo navideño",
+      "corporateEvent": "Evento corporativo"
+    }
+  },
+  "trustBar": {
+    "global": "Envíos a 100+ países",
+    "speed": "Producción en 5 días",
+    "quality": "Auditorías ISO-9001",
+    "support": "Soporte 24/7 multilingüe"
+  },
+  "features": {
+    "heading": "Por qué los equipos nos eligen",
+    "ai": {
+      "title": "Asistente de diseño con IA",
+      "body": "Genera lemas, layouts y arte alineado con tu marca en segundos."
+    },
+    "pricing": {
+      "title": "Precios por volumen inteligentes",
+      "body": "Tramos por cantidad, recargos urgentes y envío automáticos."
+    },
+    "fulfilment": {
+      "title": "Logística global",
+      "body": "Socios POD en EE. UU., UE y Asia para mantener los plazos cortos."
+    }
+  },
+  "faq": {
+    "heading": "Preguntas frecuentes",
+    "items": {
+      "q1": "¿En cuánto tiempo se envía mi pedido?",
+      "a1": "La mayoría se envía en 5 días tras aprobar el arte. Las pegatinas en 3 días.",
+      "q2": "¿Hay descuentos por volumen empresarial?",
+      "a2": "Sí, envía un RFQ por 50+ unidades y responderemos en un día laborable.",
+      "q3": "¿Puedo subir mis propios archivos?",
+      "a3": "Sí, sube PNG, SVG, AI o PDF en el diseñador o adjúntalos al RFQ."
+    }
+  }
+}

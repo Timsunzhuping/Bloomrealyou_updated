@@ -1,0 +1,166 @@
+{
+  "title": "Your account",
+  "metaTitle": "Account",
+  "metaDescription": "View your custom merchandise orders, designs, quotes and addresses.",
+  "tabs": {
+    "overview": "Overview",
+    "orders": "Orders",
+    "designs": "Designs",
+    "addresses": "Addresses",
+    "quotes": "Quotes",
+    "settings": "Profile",
+    "profile": "Profile"
+  },
+  "overview": {
+    "heading": "Welcome back",
+    "ordersHint": "View and track all of your orders.",
+    "designsHint": "Pick up where you left off in the customizer.",
+    "addressesHint": "Manage saved shipping and billing addresses.",
+    "quotesHint": "Track corporate quotes and approvals."
+  },
+  "orders": {
+    "empty": "You haven't placed any orders yet.",
+    "viewDetails": "View details",
+    "tableHeaders": {
+      "orderNumber": "Order",
+      "placed": "Placed",
+      "status": "Status",
+      "total": "Total"
+    },
+    "detail": {
+      "back": "Back to orders",
+      "shippingAddress": "Shipping address",
+      "billingAddress": "Billing address",
+      "shippingMethod": "Shipping method",
+      "paymentStatus": "Payment status",
+      "trackingNumber": "Tracking number",
+      "trackingPending": "Tracking number will appear once the order ships.",
+      "openTracking": "Track shipment",
+      "items": "Items",
+      "preview": "Custom design preview",
+      "quantity": "Qty",
+      "unitPrice": "Unit price",
+      "lineTotal": "Line total",
+      "totals": "Totals"
+    },
+    "timeline": {
+      "heading": "Order timeline",
+      "placed": "Order placed",
+      "payment_confirmed": "Payment confirmed",
+      "design_review": "Design review",
+      "in_production": "In production",
+      "shipped": "Shipped",
+      "delivered": "Delivered"
+    },
+    "status": {
+      "pending": "Pending",
+      "pending_payment": "Awaiting payment",
+      "paid": "Paid",
+      "design_review": "Design review",
+      "design_approved": "Design approved",
+      "production_assigned": "Production scheduled",
+      "in_production": "In production",
+      "quality_inspection": "Quality check",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded",
+      "exception": "Needs attention"
+    }
+  },
+  "designs": {
+    "empty": "You haven't saved any designs yet.",
+    "edit": "Edit design",
+    "duplicate": "Duplicate",
+    "reorder": "Reorder",
+    "reordering": "Adding to cart…",
+    "addedToCart": "Added to cart",
+    "reorderFailed": "Could not add this design to the cart.",
+    "savedAt": "Saved {date}"
+  },
+  "quotes": {
+    "empty": "No quotes yet — submit an RFQ to get started.",
+    "newRfq": "Request a quote",
+    "tableHeaders": {
+      "quoteNumber": "Quote",
+      "status": "Status",
+      "total": "Total",
+      "validUntil": "Valid until"
+    }
+  },
+  "addresses": {
+    "empty": "No saved addresses yet.",
+    "addNew": "Add address",
+    "edit": "Edit",
+    "delete": "Delete",
+    "defaultShipping": "Default shipping",
+    "defaultBilling": "Default billing",
+    "form": {
+      "label": "Label (e.g. Home, Office)",
+      "fullName": "Full name",
+      "company": "Company",
+      "addressLine1": "Address line 1",
+      "addressLine2": "Address line 2",
+      "city": "City",
+      "state": "State / region",
+      "postalCode": "Postal code",
+      "country": "Country (ISO-2)",
+      "phone": "Phone",
+      "isDefaultShipping": "Use as default shipping",
+      "isDefaultBilling": "Use as default billing",
+      "save": "Save address",
+      "saving": "Saving…",
+      "cancel": "Cancel"
+    },
+    "savedToast": "Address saved"
+  },
+  "profile": {
+    "heading": "Profile",
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "language": "Preferred language",
+    "marketingOptIn": "Send me product updates and offers",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Profile updated"
+  },
+  "settings": {
+    "language": "Language",
+    "currency": "Currency",
+    "notifications": "Notifications",
+    "deleteAccount": "Delete account"
+  },
+  "tracking": {
+    "heading": "Shipment tracking",
+    "emptyForStatus": "No shipments yet — your order is currently {status}.",
+    "lastUpdated": "Last updated {time}",
+    "noCarrier": "Carrier pending",
+    "trackingNumber": "Tracking number",
+    "shippingMethod": "Method",
+    "shippedAt": "Shipped",
+    "deliveredAt": "Delivered",
+    "estimated": "Est.",
+    "status": {
+      "pending": "Pending",
+      "label_created": "Label created",
+      "in_transit": "In transit",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "failed": "Failed"
+    },
+    "orderStatus": {
+      "pending_payment": "pending payment",
+      "paid": "paid",
+      "design_review": "in design review",
+      "design_approved": "design approved",
+      "in_production": "in production",
+      "quality_inspection": "in quality control",
+      "shipped": "shipped",
+      "delivered": "delivered",
+      "completed": "completed"
+    }
+  }
+}

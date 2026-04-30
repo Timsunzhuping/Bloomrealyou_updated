@@ -1,0 +1,1033 @@
+// =============================================================================
+// Custom Merch Platform — Prisma schema (WP-02)
+// =============================================================================
+// PostgreSQL 16. UUID primary keys, snake_case table names, paired
+// (currency, *AmountMinor) money columns, JSONB for flexible payloads.
+// =============================================================================
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// Enums
+// =============================================================================
+
+enum UserRole {
+  customer
+  admin
+  sales
+  designer
+  production_manager
+  finance
+  supplier_user
+
+  @@map("user_role")
+}
+
+enum Locale {
+  en
+  zh_CN @map("zh-CN")
+  es
+  ar
+
+  @@map("locale")
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  AED
+  CNY
+
+  @@map("currency")
+}
+
+enum ProductCategory {
+  t_shirts  @map("t-shirts")
+  hoodies
+  mugs
+  hats
+  tote_bags @map("tote-bags")
+  stickers
+
+  @@map("product_category")
+}
+
+enum PrintMethod {
+  dtg
+  screen_printing
+  embroidery
+  heat_transfer
+  uv_printing
+  sublimation
+
+  @@map("print_method")
+}
+
+enum ProductStatus {
+  draft
+  active
+  archived
+  discontinued
+
+  @@map("product_status")
+}
+
+enum DesignStatus {
+  draft
+  submitted
+  approved
+  rejected
+  /// WP-14 — admin requested customer-side revision.
+  revision_requested
+
+  @@map("design_status")
+}
+
+enum CartStatus {
+  active
+  abandoned
+  converted
+  expired
+
+  @@map("cart_status")
+}
+
+enum OrderStatus {
+  pending
+  paid
+  in_production
+  shipped
+  delivered
+  cancelled
+  refunded
+
+  @@map("order_status")
+}
+
+enum PaymentStatus {
+  pending
+  authorized
+  succeeded
+  failed
+  refunded
+  partially_refunded
+
+  @@map("payment_status")
+}
+
+enum PaymentProvider {
+  stripe
+  paypal
+  manual_invoice
+
+  @@map("payment_provider")
+}
+
+enum SupplierStatus {
+  active
+  inactive
+  suspended
+  onboarding
+
+  @@map("supplier_status")
+}
+
+enum ProductionJobStatus {
+  /// Legacy WP-02 values, kept for backwards compat with existing rows.
+  queued
+  in_progress
+  quality_check
+  completed
+  failed
+
+  /// WP-15 vocabulary — preferred for new rows.
+  created
+  assigned
+  supplier_confirmed
+  in_production
+  qc_pending
+  qc_passed
+  qc_failed
+  ready_to_ship
+  shipped
+  cancelled
+
+  @@map("production_job_status")
+}
+
+enum ShipmentStatus {
+  pending
+  label_created
+  in_transit
+  out_for_delivery
+  delivered
+  returned
+  failed
+
+  @@map("shipment_status")
+}
+
+enum RFQStatus {
+  submitted
+  under_review
+  quoted
+  won
+  lost
+  expired
+  cancelled
+
+  @@map("rfq_status")
+}
+
+enum QuoteStatus {
+  draft
+  sent
+  accepted
+  rejected
+  expired
+  revised
+
+  @@map("quote_status")
+}
+
+enum NotificationStatus {
+  pending
+  sent
+  delivered
+  failed
+  bounced
+
+  @@map("notification_status")
+}
+
+enum NotificationChannel {
+  email
+  sms
+  in_app
+  webhook
+
+  @@map("notification_channel")
+}
+
+enum AuditAction {
+  create
+  update
+  delete
+  soft_delete
+  restore
+  login
+  logout
+  role_change
+  status_change
+  export
+  approve
+  reject
+
+  @@map("audit_action")
+}
+
+enum AIRequestStatus {
+  success
+  failed
+  rate_limited
+  timeout
+
+  @@map("ai_request_status")
+}
+
+// =============================================================================
+// Identity
+// =============================================================================
+
+model Organization {
+  id                     String  @id @default(uuid()) @db.Uuid
+  name                   String
+  legalName              String?
+  taxId                  String?
+  website                String?
+  industry               String?
+  accountManagerId       String? @db.Uuid
+  netPaymentTermsDays    Int?
+  defaultBillingAddress  Json?
+  defaultShippingAddress Json?
+  notes                  String?
+  isActive               Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  accountManager User?            @relation("OrgAccountManager", fields: [accountManagerId], references: [id])
+  members        User[]           @relation("OrgMembers")
+  carts          Cart[]
+  orders         Order[]
+  rfqs           RFQ[]
+  quotes         Quote[]
+  designs        CustomerDesign[]
+
+  @@index([accountManagerId])
+  @@map("organizations")
+}
+
+model User {
+  id                     String    @id @default(uuid()) @db.Uuid
+  email                  String    @unique
+  emailVerifiedAt        DateTime?
+  passwordHash           String?
+  fullName               String
+  phone                  String?
+  locale                 Locale    @default(en)
+  role                   UserRole  @default(customer)
+  organizationId         String?   @db.Uuid
+  defaultShippingAddress Json?
+  defaultBillingAddress  Json?
+  metadata               Json?
+  lastLoginAt            DateTime?
+  isActive               Boolean   @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  organization    Organization?     @relation("OrgMembers", fields: [organizationId], references: [id])
+  managedOrgs     Organization[]    @relation("OrgAccountManager")
+  designs         CustomerDesign[]  @relation("DesignOwner")
+  reviewedDesigns CustomerDesign[]  @relation("DesignReviewer")
+  carts           Cart[]
+  orders          Order[]           @relation("OrderCustomer")
+  rfqsSubmitted   RFQ[]             @relation("RfqRequester")
+  rfqsAssigned    RFQ[]             @relation("RfqAssignee")
+  quotesAuthored  Quote[]           @relation("QuoteAuthor")
+  quotesReceived  Quote[]           @relation("QuoteCustomer")
+  auditLogs       AuditLog[]
+  notifications   NotificationLog[]
+  aiRequestLogs   AIRequestLog[]
+
+  @@index([organizationId])
+  @@index([role])
+  @@map("users")
+}
+
+// =============================================================================
+// Catalog
+// =============================================================================
+
+model Product {
+  id                    String          @id @default(uuid()) @db.Uuid
+  slug                  String          @unique
+  category              ProductCategory
+  status                ProductStatus   @default(draft)
+  /// Localised name, e.g. { en: "Premium Cotton Tee", "zh-CN": "..." }
+  name                  Json
+  /// Localised marketing description.
+  description           Json
+  /// Decoration methods explicitly enabled at the product level.
+  supportedPrintMethods PrintMethod[]
+  /// Mockup / hero / gallery image URLs.
+  gallery               Json
+  currency              Currency        @default(USD)
+  basePriceAmountMinor  Int
+  tags                  String[]
+  productionLeadDays    Int             @default(7)
+  metadata              Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  variants         ProductVariant[]
+  printAreas       ProductPrintArea[]
+  priceTiers       ProductPriceTier[]
+  templates        CustomizationTemplate[]
+  designs          CustomerDesign[]
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+  supplierMappings SupplierProductMapping[]
+  rfqItems         RFQItem[]
+  quoteItems       QuoteItem[]
+
+  @@index([category])
+  @@index([status])
+  @@map("products")
+}
+
+model ProductVariant {
+  id               String   @id @default(uuid()) @db.Uuid
+  productId        String   @db.Uuid
+  sku              String   @unique
+  /// Free-form attributes: { color, size, material, ... }
+  attributes       Json
+  currency         Currency @default(USD)
+  priceAmountMinor Int
+  weightGrams      Int?
+  isActive         Boolean  @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product          Product                  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+  supplierMappings SupplierProductMapping[]
+  designs          CustomerDesign[]
+  rfqItems         RFQItem[]
+  quoteItems       QuoteItem[]
+
+  @@index([productId])
+  @@map("product_variants")
+}
+
+model ProductPrintArea {
+  id                  String        @id @default(uuid()) @db.Uuid
+  productId           String        @db.Uuid
+  /// Stable key referenced by designs and templates (e.g. "front", "back").
+  key                 String
+  /// Localised label.
+  label               Json
+  widthPx             Int
+  heightPx            Int
+  mockupOffsetXPx     Int           @default(0)
+  mockupOffsetYPx     Int           @default(0)
+  allowedPrintMethods PrintMethod[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, key])
+  @@index([productId])
+  @@map("product_print_areas")
+}
+
+model ProductPriceTier {
+  id                   String       @id @default(uuid()) @db.Uuid
+  productId            String       @db.Uuid
+  minQuantity          Int
+  /// Inclusive upper bound; null = open-ended.
+  maxQuantity          Int?
+  currency             Currency     @default(USD)
+  unitPriceAmountMinor Int
+  printMethod          PrintMethod?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, minQuantity])
+  @@map("product_price_tiers")
+}
+
+// =============================================================================
+// Customization (designs + templates)
+// =============================================================================
+
+model CustomizationTemplate {
+  id                      String   @id @default(uuid()) @db.Uuid
+  slug                    String   @unique
+  name                    String
+  description             String?
+  productId               String   @db.Uuid
+  applicablePrintAreaKeys String[]
+  previewImageUrl         String
+  /// Schema-versioned design JSON used as the seed when a customer picks
+  /// this template. See DesignJson type in @custom-merch/shared.
+  designJson              Json
+  isPublic                Boolean  @default(true)
+  tags                    String[]
+  metadata                Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("customization_templates")
+}
+
+model CustomerDesign {
+  id               String       @id @default(uuid()) @db.Uuid
+  ownerUserId      String       @db.Uuid
+  organizationId   String?      @db.Uuid
+  productId        String       @db.Uuid
+  variantId        String?      @db.Uuid
+  name             String
+  status           DesignStatus @default(draft)
+  designJson       Json
+  previewImageUrl  String?
+  reviewerNotes    String?
+  reviewedByUserId String?      @db.Uuid
+  reviewedAt       DateTime?
+  /// Validation results from server-side print-readiness checks.
+  validationResult Json?
+  metadata         Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner        User            @relation("DesignOwner", fields: [ownerUserId], references: [id])
+  reviewer     User?           @relation("DesignReviewer", fields: [reviewedByUserId], references: [id])
+  organization Organization?   @relation(fields: [organizationId], references: [id])
+  product      Product         @relation(fields: [productId], references: [id])
+  variant      ProductVariant? @relation(fields: [variantId], references: [id])
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+
+  @@index([ownerUserId])
+  @@index([productId])
+  @@index([status])
+  @@map("customer_designs")
+}
+
+// =============================================================================
+// Commerce: cart, order, payment
+// =============================================================================
+
+model Cart {
+  id                  String     @id @default(uuid()) @db.Uuid
+  userId              String?    @db.Uuid
+  organizationId      String?    @db.Uuid
+  status              CartStatus @default(active)
+  currency            Currency   @default(USD)
+  subtotalAmountMinor Int        @default(0)
+  shippingAmountMinor Int        @default(0)
+  taxAmountMinor      Int        @default(0)
+  totalAmountMinor    Int        @default(0)
+  promoCode           String?
+  itemCount           Int        @default(0)
+  expiresAt           DateTime?
+  metadata            Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User?         @relation(fields: [userId], references: [id])
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  items        CartItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("carts")
+}
+
+model CartItem {
+  id                   String   @id @default(uuid()) @db.Uuid
+  cartId               String   @db.Uuid
+  productId            String   @db.Uuid
+  variantId            String   @db.Uuid
+  designId             String?  @db.Uuid
+  quantity             Int
+  currency             Currency @default(USD)
+  unitPriceAmountMinor Int
+  lineTotalAmountMinor Int
+  customizations       Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart    Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id])
+  variant ProductVariant  @relation(fields: [variantId], references: [id])
+  design  CustomerDesign? @relation(fields: [designId], references: [id])
+
+  @@index([cartId])
+  @@map("cart_items")
+}
+
+model Order {
+  id             String      @id @default(uuid()) @db.Uuid
+  orderNumber    String      @unique
+  customerUserId String      @db.Uuid
+  organizationId String?     @db.Uuid
+  status         OrderStatus @default(pending)
+  locale         Locale      @default(en)
+  currency       Currency    @default(USD)
+
+  subtotalAmountMinor Int  @default(0)
+  shippingAmountMinor Int  @default(0)
+  taxAmountMinor      Int  @default(0)
+  discountAmountMinor Int  @default(0)
+  totalAmountMinor    Int  @default(0)
+  rushFeeAmountMinor  Int?
+
+  shippingAddress Json
+  billingAddress  Json
+  promoCode       String?
+  customerNotes   String?
+  internalNotes   String?
+  metadata        Json?
+
+  /// Origin records: a quote and/or RFQ that produced this order.
+  sourceQuoteId String? @db.Uuid
+  sourceRfqId   String? @db.Uuid
+
+  placedAt    DateTime  @default(now())
+  cancelledAt DateTime?
+  refundedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customer       User            @relation("OrderCustomer", fields: [customerUserId], references: [id])
+  organization   Organization?   @relation(fields: [organizationId], references: [id])
+  sourceQuote    Quote?          @relation("QuoteOrders", fields: [sourceQuoteId], references: [id])
+  sourceRfq      RFQ?            @relation("RfqOrders", fields: [sourceRfqId], references: [id])
+  items          OrderItem[]
+  payments       Payment[]
+  productionJobs ProductionJob[]
+  shipments      Shipment[]
+
+  @@index([customerUserId])
+  @@index([organizationId])
+  @@index([status])
+  @@index([sourceRfqId])
+  @@index([sourceQuoteId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                   String   @id @default(uuid()) @db.Uuid
+  orderId              String   @db.Uuid
+  productId            String   @db.Uuid
+  variantId            String   @db.Uuid
+  designId             String?  @db.Uuid
+  /// Snapshot of product / variant at order placement.
+  productNameSnapshot  String
+  variantSkuSnapshot   String
+  /// Frozen design payload (so later edits to the design don't change history).
+  designJsonSnapshot   Json?
+  quantity             Int
+  currency             Currency @default(USD)
+  unitPriceAmountMinor Int
+  lineTotalAmountMinor Int
+  customizations       Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order              Order                    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product            Product                  @relation(fields: [productId], references: [id])
+  variant            ProductVariant           @relation(fields: [variantId], references: [id])
+  design             CustomerDesign?          @relation(fields: [designId], references: [id])
+  productionJobItems ProductionJobOrderItem[]
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model Payment {
+  id                  String          @id @default(uuid()) @db.Uuid
+  orderId             String          @db.Uuid
+  provider            PaymentProvider
+  providerReference   String
+  status              PaymentStatus   @default(pending)
+  currency            Currency        @default(USD)
+  amountMinor         Int
+  refundedAmountMinor Int             @default(0)
+  providerMetadata    Json?
+  authorizedAt        DateTime?
+  capturedAt          DateTime?
+  failedAt            DateTime?
+  failureCode         String?
+  failureMessage      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([provider, providerReference])
+  @@map("payments")
+}
+
+// =============================================================================
+// Supply chain
+// =============================================================================
+
+model Supplier {
+  id           String         @id @default(uuid()) @db.Uuid
+  name         String         @unique
+  contactEmail String
+  contactPhone String?
+  status       SupplierStatus @default(active)
+  capabilities PrintMethod[]
+  countryCode  String
+  address      Json?
+  avgLeadDays  Int            @default(7)
+  qualityScore Int?
+  notes        String?
+  metadata     Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productMappings SupplierProductMapping[]
+  productionJobs  ProductionJob[]
+
+  @@index([status])
+  @@map("suppliers")
+}
+
+model SupplierProductMapping {
+  id                  String      @id @default(uuid()) @db.Uuid
+  supplierId          String      @db.Uuid
+  productId           String      @db.Uuid
+  variantId           String?     @db.Uuid
+  printMethod         PrintMethod
+  currency            Currency    @default(USD)
+  unitCostAmountMinor Int
+  minOrderQuantity    Int         @default(1)
+  dailyCapacity       Int?
+  leadDays            Int?
+  isActive            Boolean     @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  supplier Supplier        @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  product  Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variant  ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@unique([supplierId, productId, variantId, printMethod])
+  @@index([supplierId])
+  @@index([productId])
+  @@map("supplier_product_mappings")
+}
+
+model ProductionJob {
+  id                      String              @id @default(uuid()) @db.Uuid
+  jobNumber               String              @unique
+  orderId                 String              @db.Uuid
+  supplierId              String?             @db.Uuid
+  printMethod             PrintMethod
+  status                  ProductionJobStatus @default(queued)
+  quantity                Int
+  currency                Currency            @default(USD)
+  supplierCostAmountMinor Int?
+  expectedReadyAt         DateTime?
+  startedAt               DateTime?
+  completedAt             DateTime?
+  qcNotes                 String?
+  failureReason           String?
+  metadata                Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order      Order                    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  supplier   Supplier?                @relation(fields: [supplierId], references: [id])
+  orderItems ProductionJobOrderItem[]
+  shipments  ShipmentProductionJob[]
+
+  @@index([orderId])
+  @@index([supplierId])
+  @@index([status])
+  @@map("production_jobs")
+}
+
+/// Many-to-many between ProductionJob and OrderItem (a job can group items
+/// going to the same supplier; an item can split across multiple jobs).
+model ProductionJobOrderItem {
+  productionJobId String @db.Uuid
+  orderItemId     String @db.Uuid
+
+  productionJob ProductionJob @relation(fields: [productionJobId], references: [id], onDelete: Cascade)
+  orderItem     OrderItem     @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+
+  @@id([productionJobId, orderItemId])
+  @@map("production_job_order_items")
+}
+
+model Shipment {
+  id                      String         @id @default(uuid()) @db.Uuid
+  orderId                 String         @db.Uuid
+  carrier                 String
+  serviceLevel            String?
+  trackingNumber          String?
+  trackingUrl             String?
+  status                  ShipmentStatus @default(pending)
+  currency                Currency       @default(USD)
+  shippingCostAmountMinor Int?
+  packageWeightGrams      Int?
+  shippedAt               DateTime?
+  estimatedDeliveryAt     DateTime?
+  deliveredAt             DateTime?
+  metadata                Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order          Order                   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productionJobs ShipmentProductionJob[]
+
+  @@index([orderId])
+  @@index([status])
+  @@map("shipments")
+}
+
+/// Many-to-many between Shipment and ProductionJob.
+model ShipmentProductionJob {
+  shipmentId      String @db.Uuid
+  productionJobId String @db.Uuid
+
+  shipment      Shipment      @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  productionJob ProductionJob @relation(fields: [productionJobId], references: [id], onDelete: Cascade)
+
+  @@id([shipmentId, productionJobId])
+  @@map("shipment_production_jobs")
+}
+
+// =============================================================================
+// B2B: RFQ + Quote
+// =============================================================================
+
+model RFQ {
+  id                  String    @id @default(uuid()) @db.Uuid
+  rfqNumber           String    @unique
+  requesterUserId     String?   @db.Uuid
+  organizationId      String?   @db.Uuid
+  guestEmail          String?
+  guestName           String?
+  guestCompany        String?
+  status              RFQStatus @default(submitted)
+  locale              Locale    @default(en)
+  requiredBy          DateTime?
+  notes               String?
+  shippingAddress     Json?
+  attachmentUrls      String[]
+  assignedSalesUserId String?   @db.Uuid
+  submittedAt         DateTime  @default(now())
+  reviewedAt          DateTime?
+  metadata            Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  requester     User?         @relation("RfqRequester", fields: [requesterUserId], references: [id])
+  organization  Organization? @relation(fields: [organizationId], references: [id])
+  assignedSales User?         @relation("RfqAssignee", fields: [assignedSalesUserId], references: [id])
+  items         RFQItem[]
+  quotes        Quote[]
+  orders        Order[]       @relation("RfqOrders")
+
+  @@index([requesterUserId])
+  @@index([organizationId])
+  @@index([status])
+  @@map("rfqs")
+}
+
+model RFQItem {
+  id                   String       @id @default(uuid()) @db.Uuid
+  rfqId                String       @db.Uuid
+  productId            String?      @db.Uuid
+  variantId            String?      @db.Uuid
+  description          String
+  quantity             Int
+  preferredPrintMethod PrintMethod?
+  targetUnitPriceText  String?
+  attachmentUrls       String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rfq     RFQ             @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  product Product?        @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@index([rfqId])
+  @@map("rfq_items")
+}
+
+model Quote {
+  id             String      @id @default(uuid()) @db.Uuid
+  quoteNumber    String      @unique
+  rfqId          String?     @db.Uuid
+  customerUserId String?     @db.Uuid
+  organizationId String?     @db.Uuid
+  authorUserId   String      @db.Uuid
+  status         QuoteStatus @default(draft)
+  currency       Currency    @default(USD)
+
+  subtotalAmountMinor Int  @default(0)
+  shippingAmountMinor Int  @default(0)
+  taxAmountMinor      Int  @default(0)
+  discountAmountMinor Int  @default(0)
+  totalAmountMinor    Int  @default(0)
+  rushFeeAmountMinor  Int?
+
+  validUntil    DateTime?
+  termsText     String?
+  internalNotes String?
+  sentAt        DateTime?
+  acceptedAt    DateTime?
+  rejectedAt    DateTime?
+  metadata      Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rfq          RFQ?          @relation(fields: [rfqId], references: [id])
+  customer     User?         @relation("QuoteCustomer", fields: [customerUserId], references: [id])
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  author       User          @relation("QuoteAuthor", fields: [authorUserId], references: [id])
+  items        QuoteItem[]
+  orders       Order[]       @relation("QuoteOrders")
+
+  @@index([rfqId])
+  @@index([customerUserId])
+  @@index([authorUserId])
+  @@index([status])
+  @@map("quotes")
+}
+
+model QuoteItem {
+  id                   String       @id @default(uuid()) @db.Uuid
+  quoteId              String       @db.Uuid
+  productId            String?      @db.Uuid
+  variantId            String?      @db.Uuid
+  description          String
+  printMethod          PrintMethod?
+  quantity             Int
+  currency             Currency     @default(USD)
+  unitPriceAmountMinor Int
+  lineTotalAmountMinor Int
+  notes                String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quote   Quote           @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  product Product?        @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+
+  @@index([quoteId])
+  @@map("quote_items")
+}
+
+// =============================================================================
+// Observability: audit, notifications, AI
+// =============================================================================
+
+model AuditLog {
+  id          String      @id @default(uuid()) @db.Uuid
+  actorUserId String?     @db.Uuid
+  /// Role the actor held at the time of the action (denormalised so future
+  /// permission changes don't rewrite history).
+  actorRole   String?
+  actorIp     String?
+  /// User-Agent header captured at request time.
+  userAgent   String?
+  entityType  String
+  entityId    String
+  action      AuditAction
+  /// State snapshot prior to mutation.
+  before      Json?
+  /// State snapshot after mutation.
+  after       Json?
+  /// Free-form context (request id, summary, etc.).
+  metadata    Json?
+  summary     String?
+  occurredAt  DateTime    @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  actor User? @relation(fields: [actorUserId], references: [id])
+
+  @@index([entityType, entityId])
+  @@index([actorUserId])
+  @@index([action])
+  @@index([occurredAt])
+  @@map("audit_logs")
+}
+
+model NotificationLog {
+  id                String              @id @default(uuid()) @db.Uuid
+  recipientUserId   String?             @db.Uuid
+  recipientAddress  String
+  channel           NotificationChannel @default(email)
+  templateKey       String
+  locale            Locale              @default(en)
+  /// Variables interpolated into the template at send time.
+  variables         Json?
+  status            NotificationStatus  @default(pending)
+  /// Subject line used for this send (denormalised so admins can search logs without re-resolving the template).
+  subject           String?
+  /// Provider that ultimately delivered (or attempted) the message ("mock"/"sendgrid"/"ses"/...).
+  provider          String?
+  providerMessageId String?
+  attemptCount      Int                 @default(0)
+  sentAt            DateTime?
+  deliveredAt       DateTime?
+  failedAt          DateTime?
+  failureReason     String?
+
+  /// Optional foreign-key context columns. Stored as text to avoid coupling to
+  /// the lifecycle of the related entity — a deleted order should never erase
+  /// its audit trail of past notifications.
+  orderId String? @db.Uuid
+  rfqId   String? @db.Uuid
+  quoteId String? @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  recipient User? @relation(fields: [recipientUserId], references: [id])
+
+  @@index([recipientUserId])
+  @@index([status])
+  @@index([templateKey])
+  @@index([orderId])
+  @@index([rfqId])
+  @@index([quoteId])
+  @@map("notification_logs")
+}
+
+model AIRequestLog {
+  id               String          @id @default(uuid()) @db.Uuid
+  userId           String?         @db.Uuid
+  feature          String
+  provider         String
+  model            String?
+  locale           Locale?
+  status           AIRequestStatus
+  /// Input prompt + parameters (JSON).
+  request          Json
+  /// Provider response payload (JSON).
+  response         Json?
+  promptTokens     Int?
+  completionTokens Int?
+  totalTokens      Int?
+  currency         Currency?
+  costAmountMinor  Int?
+  latencyMs        Int?
+  errorCode        String?
+  errorMessage     String?
+  correlationId    String?
+  entityRef        String?
+  occurredAt       DateTime        @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([feature])
+  @@index([status])
+  @@index([occurredAt])
+  @@map("ai_request_logs")
+}

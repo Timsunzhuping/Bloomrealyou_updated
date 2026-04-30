@@ -1,0 +1,157 @@
+{
+  "list": {
+    "title": "Productos",
+    "subtitle": "Explora nuestro catálogo personalizable.",
+    "empty": "No hay productos para estos filtros.",
+    "sortBy": "Ordenar por",
+    "filterBy": "Filtrar por",
+    "metaTitle": "Todos los productos personalizados",
+    "metaDescription": "Explora camisetas, sudaderas, tazas, gorras, bolsas y pegatinas personalizables — diseño, precio y envío en una sola plataforma."
+  },
+  "filters": {
+    "category": "Categoría",
+    "color": "Color",
+    "priceRange": "Rango de precio",
+    "printMethod": "Método de impresión",
+    "reset": "Restablecer todo"
+  },
+  "sortOptions": {
+    "popular": "Más populares",
+    "priceAsc": "Precio: menor a mayor",
+    "priceDesc": "Precio: mayor a menor",
+    "newest": "Más recientes"
+  },
+  "colors": {
+    "black": "Negro",
+    "white": "Blanco",
+    "navy": "Azul marino",
+    "red": "Rojo",
+    "forest": "Verde bosque"
+  },
+  "printMethods": {
+    "dtg": "Direct-to-garment",
+    "screen_printing": "Serigrafía",
+    "embroidery": "Bordado",
+    "heat_transfer": "Transfer térmico",
+    "uv_printing": "Impresión UV",
+    "sublimation": "Sublimación"
+  },
+  "categories": {
+    "t-shirts": {
+      "name": "Camisetas personalizadas",
+      "tagline": "Camisetas suaves, listas para imprimir.",
+      "metaTitle": "Camisetas personalizadas — diseña y pide online",
+      "metaDescription": "Diseña camisetas personalizadas a todo color o serigrafía con tramos por volumen y entrega global.",
+      "seoBlurb": "Algodón premium, orgánico y deportivo listo para impresión a todo color o serigrafía."
+    },
+    "hoodies": {
+      "name": "Sudaderas personalizadas",
+      "tagline": "Sudaderas pesadas con bordado o impresión.",
+      "metaTitle": "Sudaderas personalizadas — diseña y pide online",
+      "metaDescription": "Personaliza sudaderas pullover y con cremallera con bordado, serigrafía o DTG.",
+      "seoBlurb": "Pullover, con cremallera y cropped, ideales para uniformes premium."
+    },
+    "mugs": {
+      "name": "Tazas personalizadas",
+      "tagline": "Impresión envolvente en cerámica, esmalte y acero.",
+      "metaTitle": "Tazas personalizadas — diseña y pide online",
+      "metaDescription": "Diseña tazas con impresión envolvente en cerámica, esmalte y acero — perfectas para oficinas y eventos.",
+      "seoBlurb": "Tazas de cerámica, tumblers aislados y tazas de camping con impresión envolvente."
+    },
+    "hats": {
+      "name": "Gorras personalizadas",
+      "tagline": "Gorras bordadas para streetwear y equipos.",
+      "metaTitle": "Gorras personalizadas — diseña y pide online",
+      "metaDescription": "Gorras de 6 paneles, dad hats y snapbacks ajustables con bordado o transfer térmico.",
+      "seoBlurb": "Gorras estructuradas de 6 paneles, dad hats suaves y snapbacks de visera plana."
+    },
+    "tote-bags": {
+      "name": "Bolsas tote personalizadas",
+      "tagline": "Bolsas de lona y algodón orgánico para eventos y retail.",
+      "metaTitle": "Bolsas tote personalizadas — diseña y pide online",
+      "metaDescription": "Diseña tote bags de lona, orgánicas y plegables para eventos, retail y giveaways.",
+      "seoBlurb": "Lona pesada, algodón orgánico y bolsas plegables ligeras."
+    },
+    "stickers": {
+      "name": "Pegatinas personalizadas",
+      "tagline": "Pegatinas troqueladas, transparentes y holográficas.",
+      "metaTitle": "Pegatinas personalizadas — diseña y pide online",
+      "metaDescription": "Pegatinas resistentes al agua, troqueladas, transparentes y holográficas en cualquier tamaño.",
+      "seoBlurb": "Vinilo premium troquelado, PET transparente y holográfico — resistente al agua."
+    }
+  },
+  "categoryPage": {
+    "resultsCount": "{count} productos",
+    "primaryCta": "Personalizar ahora",
+    "bulkQuoteCta": "Pedir presupuesto",
+    "faqHeading": "Preguntas frecuentes",
+    "faqItems": {
+      "q1": "¿Cuál es el pedido mínimo?",
+      "a1": "1 unidad para retail y 24+ para precios por volumen.",
+      "q2": "¿Cuánto tarda la producción?",
+      "a2": "Comienza tras aprobar el arte y respeta el plazo indicado en cada producto.",
+      "q3": "¿Puedo ver una prueba antes?",
+      "a3": "Sí — cada pedido incluye un mockup digital para aprobar o revisar."
+    }
+  },
+  "detail": {
+    "selectColor": "Selecciona color",
+    "selectSize": "Selecciona talla",
+    "selectQuantity": "Selecciona cantidad",
+    "addToCart": "Añadir al carrito",
+    "customize": "Personalizar ahora",
+    "requestBulkQuote": "Solicitar presupuesto",
+    "fromPrice": "Desde",
+    "perUnit": "por unidad",
+    "productionLeadDays": "Producción: {days} días laborables tras aprobación",
+    "shippingLead": "Envío: 3–7 días laborables según destino",
+    "supportedPrintMethods": "Métodos de impresión soportados",
+    "printAreas": "Áreas de impresión",
+    "priceTiersHeading": "Precios por volumen",
+    "priceTiers": {
+      "minQty": "{min}+ unidades",
+      "minMaxQty": "{min}–{max} unidades",
+      "unitPrice": "{price} / unidad"
+    },
+    "tabs": {
+      "details": "Detalles",
+      "files": "Requisitos de archivo",
+      "shipping": "Envíos y devoluciones",
+      "faq": "FAQ"
+    },
+    "fileRequirements": {
+      "heading": "Requisitos del archivo",
+      "items": {
+        "format": "Formatos: PNG, SVG, AI, PDF (vector preferido).",
+        "resolution": "Mapa de bits a 300 DPI mínimo.",
+        "color": "Perfil CMYK o sRGB, fondo transparente cuando aplique.",
+        "size": "Máximo 25 MB por archivo."
+      }
+    },
+    "shippingPolicy": {
+      "heading": "Envíos y devoluciones",
+      "items": {
+        "shipping": "Envío carbon-neutral con DHL, FedEx y partners locales.",
+        "tracking": "Seguimiento en tiempo real y notificaciones.",
+        "returns": "Productos personalizados no reembolsables; defectos cubiertos.",
+        "contact": "Contacta soporte en 14 días tras la entrega para incidencias."
+      }
+    },
+    "faq": {
+      "heading": "Preguntas frecuentes",
+      "items": {
+        "q1": "¿Necesito diseñar antes de comprar?",
+        "a1": "No, puedes navegar primero y luego pulsar Personalizar.",
+        "q2": "¿Puedo guardar el diseño?",
+        "a2": "Sí, los usuarios registrados pueden guardarlos en la cuenta.",
+        "q3": "¿Hay muestras disponibles?",
+        "a3": "Disponibles para cuentas business verificadas. Envía un RFQ."
+      }
+    },
+    "metaTitleTemplate": "{name} — Plataforma de Productos Personalizados",
+    "breadcrumbs": {
+      "home": "Inicio",
+      "products": "Productos"
+    }
+  }
+}

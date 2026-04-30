@@ -1,0 +1,188 @@
+{
+  "title": "Design System",
+  "subtitle": "Foundational components used across the storefront and admin.",
+  "sections": {
+    "buttons": "Buttons",
+    "form": "Form fields",
+    "selection": "Selection controls",
+    "feedback": "Feedback",
+    "overlay": "Overlay",
+    "navigation": "Navigation",
+    "data": "Data display",
+    "ecommerce": "E-commerce",
+    "marketing": "Marketing",
+    "states": "States"
+  },
+  "buttons": {
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "outline": "Outline",
+    "ghost": "Ghost",
+    "destructive": "Destructive"
+  },
+  "form": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "emailDescription": "We'll never share your email.",
+    "messageLabel": "Message",
+    "messagePlaceholder": "How can we help?",
+    "rolesLabel": "Role",
+    "marketingLabel": "Subscribe to updates",
+    "subscribeYes": "Yes, send me updates",
+    "subscribeNo": "Maybe later"
+  },
+  "feedback": {
+    "successBadge": "Active",
+    "warningBadge": "Pending review",
+    "errorTitle": "Could not load designs",
+    "errorBody": "Please retry in a moment.",
+    "loadingLabel": "Loading designs",
+    "emptyTitle": "No saved designs",
+    "emptyBody": "Designs you save in the customizer will appear here.",
+    "emptyCta": "Open the designer"
+  },
+  "overlay": {
+    "openDialog": "Open dialog",
+    "openDrawer": "Open drawer",
+    "dialogTitle": "Confirm action",
+    "dialogBody": "This is a sample dialog showcasing the Dialog component.",
+    "dialogConfirm": "Confirm",
+    "dialogCancel": "Cancel",
+    "dialogClose": "Close",
+    "drawerTitle": "Sample drawer",
+    "drawerBody": "Drawer slides in from the trailing edge."
+  },
+  "navigation": {
+    "tabs": {
+      "overview": "Overview",
+      "details": "Details",
+      "reviews": "Reviews"
+    },
+    "tabContent": {
+      "overview": "High-level summary tab content.",
+      "details": "Detailed specs and attributes tab content.",
+      "reviews": "Customer reviews tab content."
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "category": "T-Shirts",
+      "product": "Premium Cotton Tee"
+    },
+    "paginationLabels": {
+      "nav": "Page navigation",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "data": {
+    "tableCaption": "Recent orders (mock data)",
+    "tableHeaders": {
+      "order": "Order",
+      "customer": "Customer",
+      "status": "Status",
+      "total": "Total"
+    }
+  },
+  "ecommerce": {
+    "productName": "Premium Cotton T-Shirt",
+    "fromPrice": "From",
+    "addToCart": "Add to cart",
+    "quantity": "Quantity",
+    "decrement": "Decrease",
+    "increment": "Increase",
+    "uploadTitle": "Upload your artwork",
+    "uploadDescription": "PNG, SVG, or AI files up to 25MB.",
+    "uploadBrowse": "Choose file",
+    "uploadAria": "Upload artwork file",
+    "filterReset": "Reset filters",
+    "sortLabel": "Sort by",
+    "sortOptions": {
+      "popular": "Most popular",
+      "priceAsc": "Price: low to high",
+      "priceDesc": "Price: high to low",
+      "newest": "Newest"
+    }
+  },
+  "marketing": {
+    "heroEyebrow": "Built for global teams",
+    "heroTitle": "Design, price, and produce custom merch in minutes.",
+    "heroBody": "Run on a unified platform that turns design files into shipped goods, anywhere in the world.",
+    "heroPrimary": "Browse products",
+    "heroSecondary": "Talk to sales",
+    "trust": {
+      "global": "100+ countries shipped",
+      "speed": "Avg 5-day production",
+      "quality": "ISO-9001 supplier audits",
+      "support": "24/7 multilingual support"
+    },
+    "corporateEyebrow": "For business",
+    "corporateTitle": "Outfit your team without the spreadsheet pain.",
+    "corporateBody": "Volume pricing, RFQ workflow, and dedicated account management for orders 50+.",
+    "corporateBullets": {
+      "rfq": "RFQ in under 60 seconds",
+      "templates": "Reusable design templates",
+      "billing": "Net-30 invoicing",
+      "logistics": "Bulk freight orchestration"
+    },
+    "corporateCta": "Request a quote",
+    "corporateSecondary": "Download capabilities deck",
+    "ctaEyebrow": "Get started",
+    "ctaTitle": "Try the AI design assistant for free.",
+    "ctaBody": "No credit card required. Upgrade once you ship.",
+    "ctaPrimary": "Open the designer",
+    "ctaSecondary": "View pricing",
+    "faqHeading": "Frequently asked questions",
+    "faqItems": {
+      "q1": "What's the typical production lead time?",
+      "a1": "Most products ship within 5 business days after artwork is approved.",
+      "q2": "Can we get a corporate volume discount?",
+      "a2": "Yes — submit an RFQ for orders of 50 or more units and our sales team will reply within one business day.",
+      "q3": "Do you support custom designs?",
+      "a3": "Absolutely. Our 2D customizer supports text, image, and shape layers across multiple print areas."
+    },
+    "testimonials": {
+      "quote1": "We outfitted our team in 7 countries from a single dashboard. The lead time was unreal.",
+      "author1": "Maya Lin",
+      "role1": "Head of Brand, Acme Co",
+      "quote2": "The RFQ flow saved our procurement team a week of back-and-forth.",
+      "author2": "Jordan Reyes",
+      "role2": "Procurement Manager, FreshLabs"
+    }
+  },
+  "states": {
+    "imagesAlt": "Sample apparel mockup",
+    "thumbnailListLabel": "Product image thumbnails",
+    "categoryName": "T-Shirts",
+    "categoryDescription": "Soft cotton, ready to print."
+  },
+  "switchers": {
+    "localeLabel": "Language",
+    "currencyLabel": "Currency"
+  },
+  "badges": {
+    "new": "New",
+    "bestseller": "Bestseller",
+    "eco": "Eco-friendly"
+  },
+  "footer": {
+    "company": {
+      "heading": "Company",
+      "about": "About",
+      "press": "Press",
+      "blog": "Blog"
+    },
+    "support": {
+      "heading": "Support",
+      "help": "Help center",
+      "shipping": "Shipping",
+      "returns": "Returns"
+    },
+    "legal": {
+      "heading": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies"
+    },
+    "copyright": "© Custom Merch Platform"
+  }
+}

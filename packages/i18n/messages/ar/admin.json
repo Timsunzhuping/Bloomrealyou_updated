@@ -1,0 +1,753 @@
+{
+  "title": "وحدة الإدارة",
+  "nav": {
+    "dashboard": "اللوحة",
+    "products": "المنتجات",
+    "templates": "القوالب",
+    "orders": "الطلبات",
+    "designReviews": "مراجعات التصميم",
+    "customers": "العملاء",
+    "suppliers": "الموردون",
+    "productionJobs": "مهام الإنتاج",
+    "shipments": "الشحنات",
+    "production": "الإنتاج",
+    "rfqs": "طلبات عروض الأسعار",
+    "quotes": "العروض",
+    "designs": "التصاميم",
+    "finance": "المالية",
+    "settings": "الإعدادات",
+    "supplierPortal": "مهامي الإنتاجية"
+  },
+  "navGroups": {
+    "overview": "نظرة عامة",
+    "commerce": "التجارة",
+    "production": "الإنتاج",
+    "salesOps": "المبيعات",
+    "supplier": "بوّابة المورد",
+    "system": "النظام"
+  },
+  "shell": {
+    "skipToContent": "تخطّي إلى المحتوى",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "back": "رجوع",
+    "stub": "هذه الوحدة جزء من إطار WP-13؛ ستصل الميزة الكاملة في حزمة لاحقة.",
+    "comingSoon": "قريبًا"
+  },
+  "userMenu": {
+    "signedInAs": "مسجَّل الدخول باسم",
+    "role": "الدور",
+    "logout": "تسجيل الخروج",
+    "loggingOut": "جارٍ الخروج…"
+  },
+  "breadcrumb": {
+    "home": "الإدارة"
+  },
+  "roleLabels": {
+    "admin": "مسؤول المنصة",
+    "sales": "المبيعات",
+    "designer": "المصمّم",
+    "production_manager": "مدير الإنتاج",
+    "finance": "المالية",
+    "supplier_user": "حساب مورّد"
+  },
+  "dashboard": {
+    "heading": "نظرة عامة",
+    "subtitle": "لقطة عمليات اليوم.",
+    "refresh": "تحديث",
+    "lastUpdated": "آخر تحديث {time}",
+    "loading": "جارٍ التحميل…",
+    "loadError": "تعذّر تحميل بيانات اللوحة.",
+    "kpi": {
+      "ordersToday": "طلبات اليوم",
+      "gmvToday": "إجمالي مبيعات اليوم",
+      "designsPendingReview": "تصاميم بانتظار المراجعة",
+      "ordersPendingProduction": "طلبات بانتظار الإنتاج",
+      "ordersInProduction": "طلبات قيد الإنتاج",
+      "ordersPendingShipment": "طلبات بانتظار الشحن",
+      "ordersExceptions": "طلبات استثنائية",
+      "rfqsOpen": "طلبات أسعار مفتوحة",
+      "openRfqs": "طلبات أسعار مفتوحة",
+      "revenueToday": "إيرادات اليوم",
+      "productionJobsInFlight": "مهام قيد الإنتاج"
+    },
+    "charts": {
+      "ordersTrend": "اتجاه الطلبات (14 يومًا)",
+      "ordersTrendPlaceholder": "ستتوفّر الرسوم في حزمة لاحقة.",
+      "fulfilmentMix": "تكوين الشحن",
+      "fulfilmentMixPlaceholder": "ستتوفّر الرسوم في حزمة لاحقة."
+    }
+  },
+  "auth": {
+    "signInHeading": "تسجيل الدخول إلى الواجهة الإدارية",
+    "signInSubtitle": "استخدم أحد الحسابات المُهيّأة (مثل admin@bloomrealyou.com / admin123).",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "signInCta": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول…",
+    "errorInvalidCredentials": "بريد أو كلمة مرور غير صحيحة.",
+    "errorGeneric": "تعذّر تسجيل الدخول. حاول مجدّدًا.",
+    "redirectNotice": "جارٍ التحويل…",
+    "demoTitle": "حسابات تجريبية",
+    "demoHint": "اختر دورًا لمعاينة الواجهة الإدارية. كلمات المرور للعرض فقط."
+  },
+  "stubs": {
+    "products": {
+      "heading": "المنتجات",
+      "body": "إدارة كتالوج المنتجات: إنشاء، أرشفة، تسعير."
+    },
+    "templates": {
+      "heading": "القوالب",
+      "body": "قوالب تصميم منسّقة لمكوّن التخصيص."
+    },
+    "orders": {
+      "heading": "الطلبات",
+      "body": "عمليات الطلب: تحويل الحالات والاستثناءات والاسترداد."
+    },
+    "designReviews": {
+      "heading": "مراجعات التصميم",
+      "body": "قائمة مراجعة التصاميم المرسلة من العملاء."
+    },
+    "suppliers": {
+      "heading": "الموردون",
+      "body": "إدارة حسابات الموردين وقدراتهم وحالة الانضمام."
+    },
+    "productionJobs": {
+      "heading": "مهام الإنتاج",
+      "body": "لوحة الإنتاج لجميع المهام المسنَدة."
+    },
+    "shipments": {
+      "heading": "الشحنات",
+      "body": "دورة حياة الشحن وإنشاء الملصقات والاستثناءات."
+    },
+    "settings": {
+      "heading": "الإعدادات",
+      "body": "الحساب والفوترة والتكاملات وإعدادات المنصة."
+    }
+  },
+  "rfqs": {
+    "listHeading": "طلبات عروض الأسعار",
+    "listSubtitle": "الأحدث أولاً.",
+    "filterLabel": "تصفية حسب الحالة",
+    "filterAll": "كل الحالات",
+    "empty": "لا توجد طلبات تطابق هذه التصفية.",
+    "table": {
+      "rfqNumber": "رقم RFQ",
+      "company": "الشركة",
+      "contact": "جهة الاتصال",
+      "country": "الدولة",
+      "qty": "الكمية",
+      "budget": "الميزانية",
+      "status": "الحالة",
+      "submittedAt": "تاريخ الإرسال"
+    },
+    "detail": {
+      "back": "عودة إلى القائمة",
+      "heading": "طلب {number}",
+      "company": "الشركة",
+      "contact": "جهة الاتصال",
+      "email": "البريد",
+      "phone": "الهاتف",
+      "country": "الدولة",
+      "categories": "الفئات",
+      "quantity": "الكمية التقديرية",
+      "delivery": "تاريخ التسليم المستهدف",
+      "budget": "نطاق الميزانية",
+      "needSample": "يطلب عيّنة",
+      "yes": "نعم",
+      "no": "لا",
+      "note": "ملاحظة العميل",
+      "logo": "الشعار المرفوع",
+      "noLogo": "لا يوجد شعار",
+      "downloadLogo": "تنزيل الشعار",
+      "status": "الحالة",
+      "updateStatus": "تحديث الحالة",
+      "saveStatus": "حفظ",
+      "createdQuotes": "العروض",
+      "noQuotes": "لم تُنشأ عروض بعد."
+    },
+    "createQuote": {
+      "heading": "إنشاء عرض سعر",
+      "addItem": "إضافة بند",
+      "removeItem": "إزالة",
+      "description": "الوصف",
+      "category": "الفئة",
+      "quantity": "الكمية",
+      "unitPrice": "سعر الوحدة (USD)",
+      "shipping": "الشحن (USD)",
+      "tax": "الضريبة (USD)",
+      "discount": "الخصم (USD)",
+      "validUntil": "صالح حتى",
+      "terms": "الشروط (للعميل)",
+      "internalNotes": "ملاحظات داخلية",
+      "submit": "حفظ المسودة",
+      "saving": "جارٍ الحفظ…",
+      "saved": "تم حفظ العرض كمسودة."
+    }
+  },
+  "quotes": {
+    "listHeading": "العروض",
+    "listSubtitle": "أحدث المسودات والعروض المرسلة.",
+    "filterLabel": "تصفية حسب الحالة",
+    "filterAll": "كل الحالات",
+    "empty": "لا توجد عروض تطابق هذه التصفية.",
+    "table": {
+      "quoteNumber": "رقم العرض",
+      "rfq": "الطلب",
+      "customer": "العميل",
+      "items": "البنود",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "createdAt": "تاريخ الإنشاء"
+    },
+    "detail": {
+      "back": "عودة إلى العروض",
+      "heading": "عرض {number}",
+      "items": "البنود",
+      "totals": "الإجماليات",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "validUntil": "صالح حتى",
+      "internalNotes": "ملاحظات داخلية",
+      "convertHeading": "تحويل إلى طلب",
+      "convertCta": "تحويل العرض إلى طلب",
+      "converting": "جارٍ التحويل…",
+      "converted": "تم إنشاء الطلب: {number}",
+      "shippingAddress": "عنوان الشحن",
+      "fullName": "الاسم الكامل",
+      "company": "الشركة",
+      "line1": "العنوان 1",
+      "line2": "العنوان 2",
+      "city": "المدينة",
+      "state": "الولاية / المنطقة",
+      "postalCode": "الرمز البريدي",
+      "country": "الدولة (ISO-2)",
+      "shippingMethod": "طريقة الشحن",
+      "noteSentToOrder": "ملاحظات الطلب"
+    },
+    "statusLabels": {
+      "draft": "مسودة",
+      "sent": "مُرسل",
+      "accepted": "مقبول",
+      "rejected": "مرفوض",
+      "expired": "منتهي",
+      "converted_to_order": "تحوّل إلى طلب"
+    }
+  },
+  "shared": {
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "pageOf": "صفحة {page} من {total}",
+      "range": "{start}–{end} من {total}"
+    }
+  },
+  "products": {
+    "listHeading": "المنتجات",
+    "listSubtitle": "منتجات الكتالوج المتاحة في المتجر ومُكوِّن التخصيص.",
+    "empty": "لا توجد منتجات تطابق هذه التصفية.",
+    "actions": {
+      "create": "منتج جديد",
+      "backToList": "العودة إلى المنتجات"
+    },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "Slug أو الاسم أو وسم",
+      "category": "الفئة",
+      "allCategories": "كل الفئات",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "name": "الاسم",
+      "slug": "Slug",
+      "category": "الفئة",
+      "status": "الحالة",
+      "basePrice": "السعر الأساسي",
+      "variants": "المتغيرات",
+      "updated": "آخر تحديث"
+    },
+    "statusLabels": {
+      "draft": "مسودة",
+      "active": "نشط",
+      "archived": "مؤرشف",
+      "discontinued": "متوقف"
+    },
+    "createHeading": "منتج جديد",
+    "createSubtitle": "عرّف المنتج ثم أضف المتغيرات ومناطق الطباعة وشرائح الأسعار.",
+    "editHeading": "تعديل المنتج",
+    "form": {
+      "slug": "Slug (kebab-case)",
+      "category": "الفئة",
+      "status": "الحالة",
+      "name": "الاسم",
+      "description": "الوصف",
+      "basePrice": "السعر الأساسي (سنت)",
+      "basePriceHint": "أقل سعر متغير بالوحدات الصغرى (1999 = 19.99 USD).",
+      "supportedPrintMethods": "طرق الطباعة المدعومة",
+      "productionLeadDays": "أيام الإنتاج",
+      "tags": "الوسوم",
+      "tagsHint": "افصل بفواصل.",
+      "images": "صور المعرض",
+      "imagesHint": "أضف صور المنتج (PNG/JPG/WEBP/SVG).",
+      "seoSection": "SEO",
+      "seoTitle": "عنوان SEO",
+      "seoDescription": "وصف SEO",
+      "save": "حفظ المنتج",
+      "saving": "جارٍ الحفظ…"
+    },
+    "variants": {
+      "heading": "المتغيرات",
+      "empty": "لا توجد متغيرات.",
+      "active": "نشط",
+      "inactive": "متوقف",
+      "sku": "SKU",
+      "color": "اللون",
+      "size": "المقاس",
+      "material": "الخامة",
+      "unitPrice": "سعر الوحدة (سنت)",
+      "add": "إضافة متغير",
+      "remove": "إزالة"
+    },
+    "printAreas": {
+      "heading": "مناطق الطباعة",
+      "empty": "لا توجد مناطق.",
+      "key": "Key (مثل front)",
+      "label": "التسمية (EN)",
+      "add": "إضافة منطقة",
+      "remove": "إزالة"
+    },
+    "priceTiers": {
+      "heading": "شرائح الأسعار",
+      "empty": "لا توجد شرائح.",
+      "minQty": "الحد الأدنى",
+      "maxQty": "الحد الأقصى (فارغ = ∞)",
+      "unitPrice": "سعر الوحدة (سنت)",
+      "add": "إضافة شريحة",
+      "remove": "إزالة"
+    },
+    "delete": {
+      "heading": "حذف المنتج",
+      "body": "يحذف المنتج وكل متغيراته ومناطقه وشرائحه. لا يمكن التراجع.",
+      "cta": "حذف المنتج",
+      "busy": "جارٍ الحذف…",
+      "confirm": "هل أنت متأكد من حذف هذا المنتج؟"
+    },
+    "detail": {
+      "lastUpdated": "آخر تحديث {time}"
+    }
+  },
+  "templates": {
+    "listHeading": "القوالب",
+    "listSubtitle": "نقاط بداية منسّقة لمكوّن التخصيص.",
+    "empty": "لا توجد قوالب تطابق هذه التصفية.",
+    "actions": {
+      "create": "قالب جديد",
+      "backToList": "العودة إلى القوالب"
+    },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "الاسم أو وسم",
+      "category": "الفئة",
+      "allCategories": "كل الفئات",
+      "publish": "النشر",
+      "all": "الكل",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "preview": "المعاينة",
+      "name": "الاسم",
+      "categories": "الفئات",
+      "status": "الحالة",
+      "featured": "مميَّز",
+      "updated": "آخر تحديث"
+    },
+    "statusLabels": {
+      "published": "منشور",
+      "unpublished": "مسودة"
+    },
+    "createHeading": "قالب جديد",
+    "createSubtitle": "ارفع صورة معاينة، الصق designJson واختر الفئات.",
+    "form": {
+      "name": "الاسم",
+      "descriptionEn": "الوصف (EN)",
+      "supportedCategories": "الفئات المدعومة",
+      "preview": "صورة المعاينة",
+      "designJson": "Design JSON",
+      "designJsonHint": "الصق حِمل التخصيص الذي يبدأ منه القالب.",
+      "editableFields": "الحقول القابلة للتعديل",
+      "editableFieldsHint": "حقول يكشفها التخصيص للعميل (اسم، لون...).",
+      "editableFieldsEmpty": "لا توجد حقول.",
+      "fieldKey": "Key",
+      "fieldLabel": "التسمية (EN)",
+      "addField": "إضافة حقل",
+      "isFeatured": "مميَّز",
+      "isPublished": "منشور",
+      "tags": "الوسوم (مفصولة بفواصل)",
+      "save": "حفظ القالب",
+      "saving": "جارٍ الحفظ…"
+    },
+    "delete": {
+      "heading": "حذف القالب",
+      "body": "يحذف القالب نهائيًا.",
+      "cta": "حذف القالب",
+      "busy": "جارٍ الحذف…",
+      "confirm": "هل أنت متأكد من الحذف؟"
+    }
+  },
+  "orders": {
+    "listHeading": "الطلبات",
+    "listSubtitle": "أحدث الطلبات أولاً.",
+    "empty": "لا توجد طلبات تطابق هذه التصفية.",
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "رقم الطلب أو البريد",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "flaggedOnly": "المعلَّمة فقط",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "orderNumber": "رقم الطلب",
+      "customer": "العميل",
+      "items": "البنود",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "placedAt": "تاريخ الطلب"
+    },
+    "statusLabels": {
+      "pending": "معلَّق",
+      "pending_payment": "بانتظار الدفع",
+      "paid": "مدفوع",
+      "design_review": "مراجعة التصميم",
+      "design_approved": "تمت الموافقة على التصميم",
+      "production_assigned": "تم إسناد الإنتاج",
+      "in_production": "قيد الإنتاج",
+      "quality_inspection": "جودة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التسليم",
+      "completed": "مكتمل",
+      "cancelled": "ملغى",
+      "refunded": "مردود",
+      "exception": "استثناء"
+    },
+    "actions": {
+      "backToList": "العودة إلى الطلبات"
+    },
+    "detail": {
+      "items": "بنود الطلب",
+      "product": "المنتج",
+      "quantity": "الكمية",
+      "unitPrice": "سعر الوحدة",
+      "lineTotal": "إجمالي السطر",
+      "assets": "الملفات",
+      "preview": "معاينة",
+      "productionFile": "ملف الإنتاج",
+      "totals": "الإجماليات",
+      "subtotal": "المجموع الفرعي",
+      "shipping": "الشحن",
+      "tax": "الضريبة",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "shippingAddress": "عنوان الشحن",
+      "customerNote": "ملاحظة العميل",
+      "internalNotes": "ملاحظات داخلية",
+      "noInternalNotes": "لا توجد ملاحظات داخلية بعد.",
+      "addNote": "إضافة ملاحظة داخلية",
+      "notePlaceholder": "سياق داخلي أو استثناء أو متابعة…",
+      "appendNote": "إضافة ملاحظة",
+      "statusActions": "الحالة والوسوم",
+      "status": "الحالة",
+      "statusNote": "ملاحظة تغيير الحالة",
+      "statusNotePlaceholder": "اختياري — تُضاف كملاحظة داخلية.",
+      "flagException": "وضع علامة استثناء على هذا الطلب",
+      "saveStatus": "حفظ الحالة",
+      "saving": "جارٍ الحفظ…",
+      "flagged": "موسوم"
+    }
+  },
+  "designReviews": {
+    "heading": "مراجعات التصميم",
+    "subtitle": "وافق أو ارفض أو اطلب تعديل التصاميم المُرسلة من العملاء.",
+    "empty": "لا توجد تصاميم تطابق هذه التصفية.",
+    "filter": {
+      "status": "الحالة",
+      "apply": "تطبيق"
+    },
+    "statusLabels": {
+      "draft": "مسودة",
+      "submitted": "بانتظار المراجعة",
+      "approved": "موافَق عليه",
+      "rejected": "مرفوض",
+      "revision_requested": "طُلب تعديل"
+    },
+    "designJson": "Design JSON",
+    "validation": "نتيجة التحقق",
+    "reviewerNotes": "ملاحظة المراجع",
+    "productionFile": "ملف الإنتاج",
+    "finalised": "هذا التصميم منتهٍ — لا توجد إجراءات إضافية.",
+    "busy": "جارٍ الإرسال…",
+    "actions": {
+      "approve": "موافقة",
+      "reject": "رفض",
+      "requestRevision": "طلب تعديل"
+    },
+    "approve": {
+      "note": "ملاحظة اختيارية (تدقيق فقط)"
+    },
+    "reject": {
+      "reason": "السبب (يظهر للعميل)",
+      "note": "ملاحظة داخلية"
+    },
+    "revision": {
+      "message": "ما يجب تعديله (يُرسل للعميل)",
+      "note": "ملاحظة داخلية"
+    }
+  },
+  "suppliers": {
+    "listHeading": "الموردون",
+    "listSubtitle": "إدارة شركاء الإنتاج وتعيينات منتجاتهم.",
+    "empty": "لا يوجد موردون مطابقون لهذه التصفية.",
+    "actions": { "create": "مورد جديد", "backToList": "العودة إلى الموردين" },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "الاسم أو البريد أو جهة الاتصال",
+      "country": "الدولة",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "category": "الفئة",
+      "allCategories": "كل الفئات",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "name": "الاسم",
+      "country": "الدولة",
+      "contact": "الاتصال",
+      "categories": "الفئات",
+      "print": "طرق الطباعة",
+      "moq": "الحد الأدنى",
+      "leadDays": "الأيام",
+      "qualityScore": "الجودة",
+      "status": "الحالة"
+    },
+    "statusLabels": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "suspended": "موقوف",
+      "onboarding": "قيد الانضمام"
+    },
+    "createHeading": "مورد جديد",
+    "createSubtitle": "بيانات الانضمام لمحرّك التوصيات.",
+    "form": {
+      "name": "اسم المورد",
+      "country": "الدولة (ISO-2)",
+      "region": "المنطقة",
+      "contactName": "جهة الاتصال الرئيسية",
+      "contactEmail": "البريد الإلكتروني",
+      "contactPhone": "الهاتف",
+      "minOrderQuantity": "الحد الأدنى للطلب",
+      "averageProductionDays": "متوسط أيام الإنتاج",
+      "qualityScore": "تقييم الجودة (0–100)",
+      "onTimeRate": "معدل الالتزام بالموعد",
+      "returnRate": "معدل المرتجعات",
+      "rateHint": "0–1 (مثلاً 0.95)",
+      "supportedCategories": "الفئات المدعومة",
+      "supportedPrintMethods": "طرق الطباعة المدعومة",
+      "supportsWhiteLabel": "يدعم العلامة البيضاء",
+      "supportsSample": "يدعم العينات",
+      "status": "الحالة",
+      "notes": "ملاحظات داخلية",
+      "save": "حفظ المورد",
+      "saving": "جارٍ الحفظ…"
+    },
+    "delete": {
+      "heading": "حذف المورد",
+      "body": "يحذف المورد وجميع تعيينات المنتجات. لا يمكن التراجع.",
+      "cta": "حذف المورد",
+      "busy": "جارٍ الحذف…",
+      "confirm": "هل أنت متأكد من حذف هذا المورد؟"
+    },
+    "mappings": {
+      "heading": "تعيينات المنتجات",
+      "empty": "لا توجد تعيينات.",
+      "productId": "معرف المنتج",
+      "variantId": "معرف المتغير (اختياري)",
+      "sku": "SKU المورد",
+      "costPrice": "سعر التكلفة (سنت)",
+      "productionDays": "أيام الإنتاج",
+      "minOrderQuantity": "الحد الأدنى",
+      "maxDailyCapacity": "السعة اليومية",
+      "add": "إضافة تعيين",
+      "saving": "جارٍ الحفظ…",
+      "disable": "تعطيل"
+    }
+  },
+  "productionJobs": {
+    "listHeading": "مهام الإنتاج",
+    "listSubtitle": "المهام النشطة عبر جميع الموردين.",
+    "empty": "لا توجد مهام تطابق هذه التصفية.",
+    "actions": { "backToList": "العودة إلى المهام" },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "رقم المهمة أو الطلب",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "jobNumber": "رقم المهمة",
+      "order": "الطلب",
+      "supplier": "المورد",
+      "printMethod": "الطريقة",
+      "quantity": "الكمية",
+      "status": "الحالة",
+      "updated": "آخر تحديث"
+    },
+    "statusLabels": {
+      "created": "تم الإنشاء",
+      "assigned": "مسنَدة",
+      "supplier_confirmed": "أكَّدها المورد",
+      "in_production": "قيد الإنتاج",
+      "qc_pending": "بانتظار الجودة",
+      "qc_passed": "اجتازت الجودة",
+      "qc_failed": "فشلت الجودة",
+      "ready_to_ship": "جاهزة للشحن",
+      "shipped": "تم الشحن",
+      "cancelled": "ملغاة"
+    },
+    "createFromOrder": {
+      "heading": "إنشاء مهمة إنتاج",
+      "body": "اختر بنود الطلب وطريقة الطباعة.",
+      "printMethod": "الطريقة",
+      "totalQty": "إجمالي الكمية",
+      "cta": "إنشاء المهمة",
+      "busy": "جارٍ الإنشاء…",
+      "created": "تم إنشاء المهمة {jobNumber}"
+    },
+    "detail": {
+      "summary": "ملخص المهمة",
+      "quantityLabel": "{count} وحدة",
+      "orderItems": "بنود الطلب",
+      "expectedReadyAt": "الجاهزية المتوقعة",
+      "startedAt": "البداية",
+      "completedAt": "الانتهاء",
+      "supplierCost": "تكلفة المورد",
+      "failureReason": "سبب الفشل",
+      "statusActions": "الحالة",
+      "status": "الحالة",
+      "statusNote": "ملاحظة (تدقيق)",
+      "saveStatus": "حفظ الحالة",
+      "assignHeading": "إسناد إلى مورد",
+      "supplier": "المورد",
+      "unitCost": "تكلفة الوحدة (سنت)",
+      "budgetUnitPrice": "أعلى سعر للوحدة (سنت)",
+      "recommend": "اقتراح",
+      "noRecommendations": "لا يوجد موردون مطابقون.",
+      "pick": "اختيار",
+      "assignCta": "إسناد",
+      "qcHeading": "ضبط الجودة",
+      "qcPass": "اعتمد كمقبول",
+      "qcFail": "اعتبره فاشلًا",
+      "qcNotes": "ملاحظات الجودة",
+      "qcFailureReason": "السبب (يظهر للعميل)",
+      "qcAttachment": "مرفق",
+      "qcUpload": "رفع نتيجة الجودة",
+      "qcArchive": "أرشيف الجودة",
+      "openAttachment": "فتح",
+      "createShipmentHeading": "إنشاء شحنة",
+      "carrier": "شركة الشحن",
+      "trackingNumber": "رقم التتبع",
+      "trackingUrl": "رابط التتبع",
+      "shippingCostCents": "تكلفة الشحن (سنت)",
+      "createShipment": "إنشاء شحنة",
+      "notes": "ملاحظات داخلية"
+    }
+  },
+  "shipments": {
+    "listHeading": "الشحنات",
+    "listSubtitle": "الطرود في الطريق إلى العميل.",
+    "empty": "لا توجد شحنات تطابق هذه التصفية.",
+    "actions": { "backToList": "العودة إلى الشحنات" },
+    "filter": {
+      "search": "بحث",
+      "searchPlaceholder": "رقم الشحنة أو الطلب أو التتبع",
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "apply": "تطبيق"
+    },
+    "table": {
+      "shipmentNumber": "رقم الشحنة",
+      "order": "الطلب",
+      "carrier": "شركة الشحن",
+      "tracking": "التتبع",
+      "status": "الحالة",
+      "shippedAt": "الشحن",
+      "deliveredAt": "التسليم"
+    },
+    "statusLabels": {
+      "pending": "بانتظار",
+      "label_created": "تم إنشاء الملصق",
+      "in_transit": "في الطريق",
+      "out_for_delivery": "خارج للتسليم",
+      "delivered": "تم التسليم",
+      "returned": "أُعيدت",
+      "failed": "فشل"
+    },
+    "detail": {
+      "summary": "ملخص الشحنة",
+      "editHeading": "تعديل الشحنة",
+      "carrier": "شركة الشحن",
+      "trackingNumber": "رقم التتبع",
+      "trackingUrl": "رابط التتبع",
+      "shippingMethod": "طريقة الشحن",
+      "shippingCost": "تكلفة الشحن",
+      "shippingCostCents": "التكلفة (سنت)",
+      "shippedAt": "الشحن",
+      "estimatedDeliveryAt": "التسليم المتوقع",
+      "deliveredAt": "التسليم",
+      "productionJobs": "المهام المرتبطة",
+      "weight": "وزن الطرد",
+      "status": "الحالة",
+      "notes": "ملاحظات",
+      "save": "حفظ الشحنة",
+      "saving": "جارٍ الحفظ…",
+      "syncTracking": "مزامنة التتبّع"
+    }
+  },
+  "supplierPortal": {
+    "heading": "مهامي الإنتاجية",
+    "subtitle": "تأكيد الإسناد، بدء الإنتاج، ورفع نتائج الجودة.",
+    "empty": "لا توجد مهام مسنَدة إليك بعد.",
+    "backToList": "العودة إلى مهامي",
+    "actions": {
+      "confirm": "تأكيد الإسناد",
+      "start": "بدء الإنتاج"
+    },
+    "qc": {
+      "heading": "رفع نتيجة الجودة",
+      "body": "ارفع صورة أو ملف PDF لورقة فحص الجودة."
+    }
+  },
+  "settings": {
+    "heading": "الإعدادات",
+    "notifications": {
+      "heading": "قوالب الإشعارات",
+      "subtitle": "أرسل بريدًا تجريبيًا عبر مزوّد الإشعارات النشط للتحقق من ظهور القالب بشكل صحيح في كل لغة.",
+      "testSendHeading": "إرسال بريد تجريبي",
+      "to": "المستلم",
+      "locale": "اللغة",
+      "template": "القالب",
+      "sendTest": "إرسال اختبار",
+      "sending": "جارٍ الإرسال…",
+      "provider": "المزوّد",
+      "simulated": "محاكاة",
+      "subjectPreview": "معاينة الموضوع",
+      "bodyPreview": "معاينة المحتوى",
+      "templatesEmpty": "لا توجد قوالب مسجلة."
+    }
+  }
+}

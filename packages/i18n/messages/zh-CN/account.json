@@ -1,0 +1,166 @@
+{
+  "title": "我的账户",
+  "metaTitle": "账户",
+  "metaDescription": "查看您的定制商品订单、设计、报价和地址。",
+  "tabs": {
+    "overview": "总览",
+    "orders": "订单",
+    "designs": "我的设计",
+    "addresses": "地址簿",
+    "quotes": "报价",
+    "settings": "账户设置",
+    "profile": "个人资料"
+  },
+  "overview": {
+    "heading": "欢迎回来",
+    "ordersHint": "查看并追踪所有订单。",
+    "designsHint": "回到上次的定制设计继续完善。",
+    "addressesHint": "管理已保存的收货和账单地址。",
+    "quotesHint": "查看企业报价与审批进度。"
+  },
+  "orders": {
+    "empty": "您还没有订单。",
+    "viewDetails": "查看详情",
+    "tableHeaders": {
+      "orderNumber": "订单号",
+      "placed": "下单时间",
+      "status": "状态",
+      "total": "金额"
+    },
+    "detail": {
+      "back": "返回订单列表",
+      "shippingAddress": "收货地址",
+      "billingAddress": "账单地址",
+      "shippingMethod": "配送方式",
+      "paymentStatus": "支付状态",
+      "trackingNumber": "物流单号",
+      "trackingPending": "发货后将显示物流单号。",
+      "openTracking": "跟踪物流",
+      "items": "商品",
+      "preview": "定制预览",
+      "quantity": "数量",
+      "unitPrice": "单价",
+      "lineTotal": "小计",
+      "totals": "金额合计"
+    },
+    "timeline": {
+      "heading": "订单时间线",
+      "placed": "已下单",
+      "payment_confirmed": "支付完成",
+      "design_review": "设计审核",
+      "in_production": "生产中",
+      "shipped": "已发货",
+      "delivered": "已送达"
+    },
+    "status": {
+      "pending": "待处理",
+      "pending_payment": "待支付",
+      "paid": "已支付",
+      "design_review": "设计审核",
+      "design_approved": "设计已通过",
+      "production_assigned": "已分配生产",
+      "in_production": "生产中",
+      "quality_inspection": "质检",
+      "shipped": "已发货",
+      "delivered": "已送达",
+      "completed": "已完成",
+      "cancelled": "已取消",
+      "refunded": "已退款",
+      "exception": "异常处理"
+    }
+  },
+  "designs": {
+    "empty": "您还没有保存任何设计。",
+    "edit": "继续编辑",
+    "duplicate": "复制设计",
+    "reorder": "再次下单",
+    "reordering": "加入购物车中…",
+    "addedToCart": "已加入购物车",
+    "reorderFailed": "无法将该设计加入购物车。",
+    "savedAt": "保存于 {date}"
+  },
+  "quotes": {
+    "empty": "暂无报价 — 提交询价开始。",
+    "newRfq": "提交询价",
+    "tableHeaders": {
+      "quoteNumber": "报价单",
+      "status": "状态",
+      "total": "金额",
+      "validUntil": "有效期"
+    }
+  },
+  "addresses": {
+    "empty": "暂无已保存地址。",
+    "addNew": "新增地址",
+    "edit": "编辑",
+    "delete": "删除",
+    "defaultShipping": "默认收货",
+    "defaultBilling": "默认账单",
+    "form": {
+      "label": "标签（如：家、办公室）",
+      "fullName": "姓名",
+      "company": "公司",
+      "addressLine1": "地址行 1",
+      "addressLine2": "地址行 2",
+      "city": "城市",
+      "state": "省 / 州",
+      "postalCode": "邮编",
+      "country": "国家代码（ISO-2）",
+      "phone": "电话",
+      "isDefaultShipping": "设为默认收货地址",
+      "isDefaultBilling": "设为默认账单地址",
+      "save": "保存地址",
+      "saving": "保存中…",
+      "cancel": "取消"
+    },
+    "savedToast": "地址已保存"
+  },
+  "profile": {
+    "heading": "个人资料",
+    "fullName": "姓名",
+    "email": "邮箱",
+    "phone": "电话",
+    "language": "首选语言",
+    "marketingOptIn": "接收新品和优惠通知",
+    "save": "保存修改",
+    "saving": "保存中…",
+    "saved": "资料已更新"
+  },
+  "settings": {
+    "language": "语言",
+    "currency": "货币",
+    "notifications": "通知偏好",
+    "deleteAccount": "注销账户"
+  },
+  "tracking": {
+    "heading": "物流追踪",
+    "emptyForStatus": "暂无物流记录 — 当前订单状态:{status}。",
+    "lastUpdated": "最后更新 {time}",
+    "noCarrier": "承运商待定",
+    "trackingNumber": "运单号",
+    "shippingMethod": "配送方式",
+    "shippedAt": "发货时间",
+    "deliveredAt": "送达时间",
+    "estimated": "预计",
+    "status": {
+      "pending": "待处理",
+      "label_created": "面单已创建",
+      "in_transit": "运输中",
+      "out_for_delivery": "派送中",
+      "delivered": "已送达",
+      "returned": "已退回",
+      "failed": "异常"
+    },
+    "orderStatus": {
+      "pending_payment": "待支付",
+      "paid": "已支付",
+      "design_review": "设计审核中",
+      "design_approved": "设计已通过",
+      "in_production": "生产中",
+      "quality_inspection": "质检中",
+      "shipped": "已发货",
+      "delivered": "已送达",
+      "completed": "已完成"
+    }
+  }
+}

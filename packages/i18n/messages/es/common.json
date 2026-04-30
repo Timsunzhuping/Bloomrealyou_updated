@@ -1,0 +1,54 @@
+{
+  "app": {
+    "name": "Plataforma de Productos Personalizados",
+    "tagline": "Productos personalizados y merchandising corporativo con IA"
+  },
+  "nav": {
+    "home": "Inicio",
+    "products": "Productos",
+    "designer": "Diseñador",
+    "business": "Para Empresas",
+    "account": "Cuenta",
+    "cart": "Carrito",
+    "signIn": "Iniciar sesión",
+    "signUp": "Crear cuenta",
+    "signOut": "Cerrar sesión"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "retry": "Reintentar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "submit": "Enviar",
+    "confirm": "Confirmar",
+    "learnMore": "Saber más"
+  },
+  "form": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "fullName": "Nombre completo",
+    "phone": "Teléfono",
+    "company": "Empresa",
+    "country": "País",
+    "required": "Obligatorio",
+    "optional": "Opcional"
+  },
+  "states": {
+    "loading": "Cargando...",
+    "empty": "Aún no hay nada aquí",
+    "error": "Ha ocurrido un error"
+  },
+  "languageSwitcher": {
+    "label": "Idioma",
+    "en": "English",
+    "zh-CN": "简体中文",
+    "es": "Español",
+    "ar": "العربية"
+  }
+}

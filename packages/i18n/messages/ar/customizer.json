@@ -1,0 +1,141 @@
+{
+  "title": "المصمم",
+  "metaTitleTemplate": "تخصيص {name}",
+  "topBar": {
+    "back": "العودة إلى المنتج",
+    "saveDraft": "حفظ التصميم",
+    "preview": "معاينة",
+    "addToCart": "أضف إلى السلة",
+    "draftSaved": "تم حفظ التصميم محلياً",
+    "exportJson": "تصدير JSON",
+    "saving": "جارٍ حفظ التصميم…",
+    "savedRemote": "تم حفظ التصميم",
+    "saveFailed": "تعذّر حفظ التصميم",
+    "validating": "جارٍ التحقق من التصميم…",
+    "validationFailed": "التصميم يحتوي على أخطاء يجب إصلاحها",
+    "validationWarnings": "يوجد تحذيرات — راجعها قبل المتابعة",
+    "addedToCart": "أضيف إلى السلة"
+  },
+  "validation": {
+    "design_empty": "التصميم فارغ — أضف نصاً أو صورة.",
+    "preview_missing": "لم يتم إنشاء معاينة بعد.",
+    "object_outside_safe_area": "طبقة تخرج عن المنطقة الآمنة.",
+    "object_outside_print_area": "طبقة خارج منطقة الطباعة.",
+    "image_low_resolution": "دقة الصورة أقل من 150 DPI.",
+    "image_unsupported_format": "صيغة الصورة غير مدعومة للإنتاج.",
+    "text_too_small": "حجم النص أقل من 12 بكسل وقد يصعب قراءته.",
+    "text_empty": "طبقة النص فارغة.",
+    "errorsTitle": "أخطاء",
+    "warningsTitle": "تحذيرات",
+    "continueAnyway": "المتابعة على أي حال"
+  },
+  "tools": {
+    "addText": "إضافة نص",
+    "addImage": "رفع صورة",
+    "addShape": "إضافة شكل",
+    "templates": "القوالب",
+    "ai": "تصميم بالذكاء الاصطناعي",
+    "layers": "الطبقات",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "saveDesign": "حفظ التصميم",
+    "preview": "معاينة"
+  },
+  "panels": {
+    "layers": "الطبقات",
+    "properties": "الخصائص",
+    "printAreas": "منطقة الطباعة",
+    "ai": "مساعد الذكاء الاصطناعي",
+    "selectObjectHint": "اختر عنصراً لتعديل خصائصه.",
+    "templatesPlaceholder": "القوالب قادمة قريباً.",
+    "aiPlaceholder": "ينطلق مساعد الذكاء الاصطناعي في تحديث لاحق."
+  },
+  "printAreas": {
+    "front": "الأمام",
+    "back": "الخلف",
+    "left_sleeve": "الكم الأيسر",
+    "right_sleeve": "الكم الأيمن",
+    "wrap": "الغلاف",
+    "face": "الواجهة",
+    "cuff": "الحافة"
+  },
+  "layer": {
+    "delete": "حذف الطبقة",
+    "duplicate": "تكرار الطبقة",
+    "lock": "قفل",
+    "unlock": "فتح القفل",
+    "moveUp": "إحضار للأمام",
+    "moveDown": "إرسال للخلف",
+    "show": "إظهار",
+    "hide": "إخفاء",
+    "empty": "لا توجد طبقات — أضف نصاً أو ارفع صورة للبدء.",
+    "textLabel": "نص",
+    "imageLabel": "صورة"
+  },
+  "properties": {
+    "text": {
+      "content": "محتوى النص",
+      "fontFamily": "الخط",
+      "fontSize": "الحجم",
+      "fontWeight": "الوزن",
+      "color": "اللون",
+      "textAlign": "المحاذاة",
+      "alignLeft": "يسار",
+      "alignCenter": "وسط",
+      "alignRight": "يمين"
+    },
+    "image": {
+      "filename": "اسم الملف",
+      "width": "العرض",
+      "height": "الارتفاع"
+    },
+    "shared": {
+      "position": "الموضع",
+      "x": "X",
+      "y": "Y",
+      "rotation": "الدوران",
+      "opacity": "الشفافية",
+      "lock": "قفل الكائن",
+      "delete": "حذف الكائن",
+      "bringForward": "إحضار للأمام",
+      "sendBackward": "إرسال للخلف"
+    }
+  },
+  "ai": {
+    "panelTitle": "مساعد التصميم بالذكاء الاصطناعي",
+    "panelSubtitle": "صف السيناريو وسيقترح المساعد شعارات وألوان وتخطيطات.",
+    "scenarioLabel": "صف السيناريو",
+    "scenarioPlaceholder": "مثال: مؤتمر تقني في دبي لشركة ناشئة في الذكاء الاصطناعي",
+    "generate": "احصل على اقتراحات",
+    "generating": "جارٍ التفكير…",
+    "fallback": "الذكاء الاصطناعي غير متاح حالياً — الأدوات اليدوية تعمل بشكل طبيعي.",
+    "slogansHeading": "الشعارات",
+    "ideasHeading": "أفكار التصميم",
+    "layoutsHeading": "التخطيطات",
+    "applySlogan": "تطبيق",
+    "applyLayout": "تطبيق التخطيط",
+    "copy": "نسخ",
+    "copied": "تم النسخ",
+    "generateSlogan": "اقترح شعاراً",
+    "improveDesign": "تحسين التصميم",
+    "tryGiftBundle": "اقترح حزمة هدايا",
+    "ideaPalette": "اللوحة اللونية",
+    "ideaProducts": "المنتجات"
+  },
+  "warnings": {
+    "outsideSafeArea": "الطبقة خارج المنطقة الآمنة — قد يتم قصها في الإنتاج.",
+    "lowResolution": "دقة الصورة أقل من 300 DPI — قد تنخفض جودة الطباعة.",
+    "fileTooLarge": "الملف كبير جداً. الحد الأقصى 25 ميجابايت لكل صورة."
+  },
+  "bottomBar": {
+    "quantity": "الكمية",
+    "estimatedDelivery": "التسليم المتوقع",
+    "deliveryWindow": "{days} يوم عمل",
+    "addToCart": "أضف إلى السلة",
+    "currentPrice": "الإجمالي المقدر"
+  },
+  "upload": {
+    "accepted": "يقبل PNG وJPG وSVG حتى 25 ميجابايت",
+    "newText": "النص الخاص بك"
+  }
+}

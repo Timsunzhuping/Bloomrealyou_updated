@@ -1,0 +1,9 @@
+{
+  "extends": "@custom-merch/config/typescript/react-library.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
+}

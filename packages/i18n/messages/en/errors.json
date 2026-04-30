@@ -1,0 +1,26 @@
+{
+  "generic": "Something went wrong. Please try again.",
+  "network": "Network error. Please check your connection.",
+  "unauthorized": "You don't have permission to do that.",
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you were looking for doesn't exist.",
+    "backHome": "Go to home"
+  },
+  "forbidden": {
+    "title": "Access denied",
+    "body": "Your account doesn't have permission to view this page. If you think that's wrong, ask your platform admin to grant the right role.",
+    "backDashboard": "Back to dashboard"
+  },
+  "unauthorizedPage": {
+    "title": "Sign in required",
+    "body": "Your session has expired or you're not signed in. Please log in again to continue.",
+    "signIn": "Sign in"
+  },
+  "validation": {
+    "required": "This field is required",
+    "emailInvalid": "Please enter a valid email",
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Must be at most {max} characters"
+  }
+}

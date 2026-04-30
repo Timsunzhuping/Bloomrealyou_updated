@@ -1,0 +1,260 @@
+{
+  "metaTitle": "Regalos corporativos y pedidos a granel — solicita un presupuesto",
+  "metaDescription": "Merchandising premium para kits de bienvenida, ferias, regalos a clientes y ropa de equipo. Envía un RFQ y recibirás respuesta en un día laborable.",
+  "title": "Solicitar presupuesto",
+  "subtitle": "Cuéntanos sobre tu proyecto y nuestro equipo de ventas responderá en un día laborable.",
+  "corporate": {
+    "metaTitle": "Programas de regalos corporativos — kits con tu marca a escala",
+    "metaDescription": "Programas de regalos para onboarding, fidelización de clientes y eventos.",
+    "hero": {
+      "eyebrow": "Para equipos de 50+",
+      "title": "Regalos corporativos que se sienten personales",
+      "subtitle": "Desde el kit de bienvenida hasta la caja navideña: programas con tu marca que tu equipo y tus clientes adorarán, enviados a cualquier parte.",
+      "ctaPrimary": "Solicitar presupuesto",
+      "ctaSecondary": "Ver productos a granel"
+    },
+    "scenarios": {
+      "heading": "Pensado para cada escenario corporativo",
+      "subtitle": "Elige un punto de partida y lo adaptamos a tu marca y presupuesto.",
+      "items": {
+        "welcomeKit": {
+          "title": "Kit de bienvenida",
+          "body": "Día uno: camiseta, taza, pegatinas y una tarjeta escrita a mano."
+        },
+        "tradeShow": {
+          "title": "Regalos para ferias",
+          "body": "Swag con valor percibido alto que aguanta vuelos largos y stands intensos."
+        },
+        "teamApparel": {
+          "title": "Ropa de equipo",
+          "body": "Sudaderas y camisetas con tallas, bordados y personalización por equipo."
+        },
+        "clientGifts": {
+          "title": "Regalos para clientes",
+          "body": "Cajas seleccionadas para renovaciones, hitos y agradecimientos."
+        },
+        "eventMerch": {
+          "title": "Merch de eventos",
+          "body": "Kits para conferencias, hackatones y offsites con packaging a medida."
+        }
+      }
+    },
+    "bundles": {
+      "heading": "Bundles populares",
+      "subtitle": "Combinaciones usadas por más de 200 equipos en todo el mundo.",
+      "items": {
+        "essentials": {
+          "title": "Esenciales de marca",
+          "body": "Camiseta + gorra + taza de cerámica.",
+          "products": "Camiseta · Gorra · Taza"
+        },
+        "fieldKit": {
+          "title": "Kit de campo",
+          "body": "Sudadera + bolsa tote + pegatinas con tu marca.",
+          "products": "Sudadera · Tote · Pegatina"
+        },
+        "premiumBox": {
+          "title": "Caja premium",
+          "body": "Sudadera, taza y pegatinas en una caja personalizada con tarjeta manuscrita.",
+          "products": "Caja corporativa"
+        }
+      }
+    },
+    "process": {
+      "heading": "Cómo funciona un pedido corporativo",
+      "subtitle": "Cinco pasos simples desde el inicio hasta la entrega.",
+      "steps": {
+        "uploadLogo": "Sube tu logotipo",
+        "getQuote": "Recibe un presupuesto escalonado en un día laborable",
+        "sample": "Aprueba una muestra física o digital",
+        "production": "Producción a granel con QA en cada etapa",
+        "delivery": "Entrega global — DDP disponible bajo petición"
+      }
+    },
+    "trustBar": {
+      "global": "Enviado a más de 100 países",
+      "speed": "5 días de producción promedio",
+      "quality": "Fábricas auditadas ISO-9001",
+      "support": "Equipo multilingüe 24/7"
+    },
+    "faq": {
+      "heading": "Preguntas frecuentes",
+      "items": {
+        "minOrder": {
+          "q": "¿Cuál es el pedido mínimo?",
+          "a": "La mayoría de productos parten de 50 unidades; pilotos más pequeños se valoran caso por caso."
+        },
+        "leadTime": {
+          "q": "¿En cuánto tiempo se producen 1.000 unidades?",
+          "a": "El tiempo estándar es de 10 días laborables tras aprobar muestra; los programas urgentes salen en 5."
+        },
+        "art": {
+          "q": "¿Podéis vectorizar mi logo?",
+          "a": "Sí, nuestro equipo de arte prepara archivos listos para producción sin coste extra."
+        },
+        "shipping": {
+          "q": "¿Gestionáis envío internacional y aduanas?",
+          "a": "Hacemos DDP desde nuestros hubs en EE. UU., UE y APAC, con factura consolidada para finanzas."
+        }
+      }
+    },
+    "cta": {
+      "heading": "¿Listo para tu próximo programa?",
+      "subtitle": "Envía un RFQ — una persona real te responderá en un día laborable.",
+      "button": "Solicitar presupuesto"
+    }
+  },
+  "bulk": {
+    "metaTitle": "Pedidos a granel — precio escalonado para todos los productos",
+    "metaDescription": "Precios escalonados en ropa, drinkware, accesorios y pegatinas con muestras y entrega global.",
+    "hero": {
+      "eyebrow": "Precio por volumen",
+      "title": "Precios que mejoran a medida que escalas",
+      "subtitle": "Precios escalonados, muestras gratuitas en programas elegibles y un product manager dedicado a partir de 500 unidades.",
+      "ctaPrimary": "Pedir presupuesto a granel",
+      "ctaSecondary": "Ver tramos de precio"
+    },
+    "tiers": {
+      "heading": "Tramos de precio",
+      "subtitle": "Precios indicativos por unidad. El final depende del método de impresión y del mix de SKU.",
+      "columns": {
+        "tier": "Cantidad",
+        "tee": "Camiseta",
+        "hoodie": "Sudadera",
+        "mug": "Taza",
+        "tote": "Tote",
+        "sticker": "Pegatina"
+      },
+      "rows": {
+        "t50": "50–99",
+        "t100": "100–249",
+        "t250": "250–499",
+        "t500": "500–999",
+        "t1000": "1000+"
+      }
+    },
+    "highlights": {
+      "heading": "Qué incluye",
+      "items": {
+        "sampling": {
+          "title": "Muestras gratis a partir de 500",
+          "body": "Enviamos una muestra física para aprobación antes de producir."
+        },
+        "art": {
+          "title": "Preparación de arte incluida",
+          "body": "Vectorización, ajuste de color y preparación de archivos sin coste."
+        },
+        "manager": {
+          "title": "Manager dedicado",
+          "body": "Un único punto de contacto para todo el programa."
+        },
+        "delivery": {
+          "title": "Entrega global",
+          "body": "DDP disponible desde EE. UU., UE y APAC."
+        }
+      }
+    },
+    "faq": {
+      "heading": "FAQ de pedidos a granel",
+      "items": {
+        "minimum": {
+          "q": "¿Cuál es el mínimo?",
+          "a": "Los precios a granel aplican desde 50; los descuentos por volumen empiezan en 250."
+        },
+        "mix": {
+          "q": "¿Puedo mezclar tallas y colores?",
+          "a": "Sí, el mix está incluido siempre que sea el mismo SKU."
+        },
+        "split": {
+          "q": "¿Hacéis envío fraccionado a varias direcciones?",
+          "a": "Por supuesto. Envíanos la lista de direcciones en checkout y nos encargamos."
+        }
+      }
+    },
+    "cta": {
+      "heading": "Cuéntanos tu volumen",
+      "subtitle": "Envía SKUs, cantidades y fecha objetivo y respondemos con presupuesto escalonado en un día laborable.",
+      "button": "Pedir presupuesto a granel"
+    }
+  },
+  "form": {
+    "title": "Cuéntanos sobre tu proyecto",
+    "subtitle": "Los campos con * son obligatorios",
+    "company": "Empresa",
+    "companyName": "Nombre de la empresa",
+    "contactName": "Nombre de contacto",
+    "contactEmail": "Correo electrónico",
+    "email": "Correo electrónico",
+    "contactPhone": "Teléfono",
+    "phone": "Teléfono",
+    "country": "País (código ISO-2)",
+    "productCategories": "Categorías de producto",
+    "estimatedQuantity": "Cantidad estimada",
+    "targetDeliveryDate": "Fecha de entrega objetivo",
+    "budgetRange": "Rango de presupuesto (programa completo)",
+    "logoFile": "Logotipo de marca (PNG / JPG / SVG / PDF)",
+    "logoFileHint": "Hasta 5 MB. Prepararemos un archivo listo para producción.",
+    "needSample": "Quiero una muestra física antes de producir",
+    "note": "Notas adicionales",
+    "notePlaceholder": "Lo que debamos saber: método, packaging, plazos…",
+    "items": "Líneas",
+    "addItem": "Añadir línea",
+    "removeItem": "Quitar",
+    "description": "Descripción",
+    "quantity": "Cantidad",
+    "preferredPrintMethod": "Método de impresión preferido",
+    "targetUnitPrice": "Precio unitario objetivo",
+    "requiredBy": "Fecha requerida",
+    "notes": "Notas adicionales",
+    "attachments": "Adjuntos",
+    "submit": "Enviar solicitud",
+    "submitting": "Enviando…",
+    "errors": {
+      "generic": "No pudimos enviar la solicitud. Inténtalo en unos instantes.",
+      "missing": "Por favor completa los campos obligatorios.",
+      "logoSize": "El logo es demasiado grande (máx. 5 MB).",
+      "logoType": "El logo debe ser PNG, JPG, SVG o PDF."
+    }
+  },
+  "budgetRanges": {
+    "under_1k": "Menos de 1.000 USD",
+    "1k_5k": "1.000–5.000 USD",
+    "5k_20k": "5.000–20.000 USD",
+    "20k_50k": "20.000–50.000 USD",
+    "50k_plus": "50.000 USD o más",
+    "unspecified": "Aún no estoy seguro"
+  },
+  "categoryLabels": {
+    "t-shirts": "Camisetas",
+    "hoodies": "Sudaderas",
+    "mugs": "Tazas",
+    "hats": "Gorras",
+    "tote-bags": "Tote bags",
+    "stickers": "Pegatinas"
+  },
+  "submitted": {
+    "title": "Solicitud recibida",
+    "body": "Hemos asignado un comercial. Recibirás un correo de confirmación en breve.",
+    "rfqNumber": "Número de RFQ: {number}",
+    "next": "Próximos pasos",
+    "step1": "Un comercial revisa tu solicitud en un día laborable.",
+    "step2": "Te enviamos un presupuesto escalonado por SKU y cantidad.",
+    "step3": "Aprobación de muestra (opcional) y arranque de producción."
+  },
+  "success": {
+    "title": "Gracias — hemos recibido tu solicitud",
+    "subtitle": "Estamos en ello. Una persona real te responderá en un día laborable.",
+    "ctaHome": "Volver al inicio",
+    "ctaCorporate": "Conoce los regalos corporativos"
+  },
+  "statusLabels": {
+    "submitted": "Enviada",
+    "sales_reviewing": "Ventas revisando",
+    "supplier_quoting": "Proveedor cotizando",
+    "quote_sent": "Presupuesto enviado",
+    "customer_accepted": "Aceptada por cliente",
+    "customer_rejected": "Rechazada por cliente",
+    "converted_to_order": "Convertida en pedido",
+    "closed": "Cerrada"
+  }
+}

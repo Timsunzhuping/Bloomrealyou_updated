@@ -1,0 +1,70 @@
+{
+  "title": "Checkout",
+  "metaTitle": "Checkout",
+  "metaDescription": "Complete your custom merchandise order — shipping, payment, and review on a single page.",
+  "steps": {
+    "shipping": "Shipping",
+    "payment": "Payment",
+    "review": "Review"
+  },
+  "contact": {
+    "heading": "Contact",
+    "email": "Email"
+  },
+  "shipping": {
+    "heading": "Where should we ship?",
+    "name": "Full name",
+    "company": "Company",
+    "addressLine1": "Address line 1",
+    "addressLine2": "Address line 2",
+    "city": "City",
+    "state": "State / region",
+    "postalCode": "Postal code",
+    "country": "Country (ISO-2)",
+    "phone": "Phone",
+    "saveDefault": "Save as default address",
+    "method": {
+      "heading": "Shipping method",
+      "standard": "Standard (5–7 business days)",
+      "express": "Express (3–5 business days)",
+      "rush": "Rush (1–2 business days)"
+    }
+  },
+  "billing": {
+    "heading": "Billing address",
+    "sameAsShipping": "Same as shipping"
+  },
+  "payment": {
+    "heading": "Payment method",
+    "card": "Credit / debit card",
+    "paypal": "PayPal",
+    "invoice": "Manual invoice (B2B)",
+    "stripeNotConfigured": "Stripe is in demo mode — submit to simulate a paid order.",
+    "processing": "Processing payment…",
+    "submit": "Pay now",
+    "errorTitle": "Payment could not be completed",
+    "errorBody": "Please review the details and try again."
+  },
+  "review": {
+    "heading": "Review and place order",
+    "placeOrder": "Place order",
+    "creatingOrder": "Creating your order…"
+  },
+  "thanks": {
+    "title": "Thank you for your order",
+    "body": "We've sent a confirmation to {email}.",
+    "orderNumber": "Order number: {number}",
+    "trackOrder": "View order details",
+    "continueShopping": "Continue shopping"
+  },
+  "cancelled": {
+    "title": "Payment cancelled",
+    "body": "Your payment was not completed. Your cart is still saved.",
+    "back": "Return to checkout"
+  },
+  "errors": {
+    "cartEmpty": "Your cart is empty.",
+    "missingFields": "Please complete every required field.",
+    "createFailed": "Could not create the order. Please try again."
+  }
+}

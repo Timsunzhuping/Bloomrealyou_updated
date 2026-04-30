@@ -1,0 +1,15 @@
+{
+  "name": "@custom-merch/e2e",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Playwright end-to-end suite covering the storefront, admin console, and RFQ funnel.",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "typescript": "^5.5.4"
+  }
+}

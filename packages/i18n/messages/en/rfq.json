@@ -1,0 +1,260 @@
+{
+  "metaTitle": "Corporate gifts & bulk merchandise — request a quote",
+  "metaDescription": "Premium custom merchandise for employee kits, trade shows, client gifts and team apparel. Submit an RFQ and our sales team will reply within one business day.",
+  "title": "Request a quote",
+  "subtitle": "Tell us about your project and our sales team will get back within one business day.",
+  "corporate": {
+    "metaTitle": "Corporate gift programs — fully branded kits at scale",
+    "metaDescription": "Curated corporate gift programs for onboarding, client appreciation and events.",
+    "hero": {
+      "eyebrow": "For teams of 50+",
+      "title": "Corporate gifting that actually feels personal",
+      "subtitle": "From the welcome kit to the holiday box, build branded gift programs your team and clients will love — and we ship them anywhere.",
+      "ctaPrimary": "Request a quote",
+      "ctaSecondary": "Browse bulk products"
+    },
+    "scenarios": {
+      "heading": "Built for every corporate scenario",
+      "subtitle": "Pick a starting point — we'll tailor it to your brand and budget.",
+      "items": {
+        "welcomeKit": {
+          "title": "Employee welcome kit",
+          "body": "Day-one bundle: tee, mug, sticker pack and a hand-written welcome card."
+        },
+        "tradeShow": {
+          "title": "Trade-show giveaways",
+          "body": "High-perceived-value swag that survives a long flight and a busy booth."
+        },
+        "teamApparel": {
+          "title": "Team apparel",
+          "body": "Hoodies and tees with size runs, embroidery options and per-team customisation."
+        },
+        "clientGifts": {
+          "title": "Client appreciation gifts",
+          "body": "Curated boxes for renewals, milestones, and account-team thank-yous."
+        },
+        "eventMerch": {
+          "title": "Event merchandise",
+          "body": "Conference, hackathon and offsite kits with custom packaging."
+        }
+      }
+    },
+    "bundles": {
+      "heading": "Popular bundles",
+      "subtitle": "Mix-and-match curated kits used by 200+ teams worldwide.",
+      "items": {
+        "essentials": {
+          "title": "Brand essentials",
+          "body": "T-shirt + cap + ceramic mug.",
+          "products": "T-shirt · Hat · Mug"
+        },
+        "fieldKit": {
+          "title": "Field-day kit",
+          "body": "Hoodie + tote bag + branded sticker sheet.",
+          "products": "Hoodie · Tote bag · Sticker"
+        },
+        "premiumBox": {
+          "title": "Premium gift box",
+          "body": "Hoodie, mug and stickers in a custom-printed box with a hand-written card.",
+          "products": "Corporate gift box"
+        }
+      }
+    },
+    "process": {
+      "heading": "How a corporate order works",
+      "subtitle": "Five simple steps from kickoff to delivery.",
+      "steps": {
+        "uploadLogo": "Upload your brand logo",
+        "getQuote": "Receive a tiered quote within one business day",
+        "sample": "Approve a physical or digital sample",
+        "production": "Bulk production with QA at every stage",
+        "delivery": "Global delivery — DDP available on request"
+      }
+    },
+    "trustBar": {
+      "global": "Shipped to 100+ countries",
+      "speed": "5-day average production",
+      "quality": "ISO-9001 audited factories",
+      "support": "24/7 multilingual account team"
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "items": {
+        "minOrder": {
+          "q": "What is the minimum order quantity?",
+          "a": "Most products start at 50 units; our team ships smaller pilot runs for new accounts on request."
+        },
+        "leadTime": {
+          "q": "How fast can you produce 1,000 units?",
+          "a": "Standard lead time is 10 business days from sample approval; rush programs can ship in 5."
+        },
+        "art": {
+          "q": "Can you redraw or vectorise my logo?",
+          "a": "Yes — our in-house art team prepares production-ready files at no extra cost."
+        },
+        "shipping": {
+          "q": "Do you handle international shipping and customs?",
+          "a": "We support DDP from our US, EU and APAC hubs, with consolidated invoices for finance teams."
+        }
+      }
+    },
+    "cta": {
+      "heading": "Ready to plan your next program?",
+      "subtitle": "Submit an RFQ — a real human will reply within one business day.",
+      "button": "Request a quote"
+    }
+  },
+  "bulk": {
+    "metaTitle": "Bulk orders — tiered pricing on every product",
+    "metaDescription": "Tiered bulk pricing on apparel, drinkware, accessories and stickers — with sample approval and global delivery.",
+    "hero": {
+      "eyebrow": "Volume pricing",
+      "title": "Bulk pricing that gets better as you scale",
+      "subtitle": "Tiered unit prices, free samples on qualifying programs, and a dedicated production manager from 500 units.",
+      "ctaPrimary": "Request a bulk quote",
+      "ctaSecondary": "View pricing tiers"
+    },
+    "tiers": {
+      "heading": "Tiered pricing",
+      "subtitle": "Indicative starting prices per unit. Final pricing depends on print method and SKU mix.",
+      "columns": {
+        "tier": "Quantity",
+        "tee": "T-shirt",
+        "hoodie": "Hoodie",
+        "mug": "Mug",
+        "tote": "Tote",
+        "sticker": "Sticker"
+      },
+      "rows": {
+        "t50": "50–99",
+        "t100": "100–249",
+        "t250": "250–499",
+        "t500": "500–999",
+        "t1000": "1000+"
+      }
+    },
+    "highlights": {
+      "heading": "What's included",
+      "items": {
+        "sampling": {
+          "title": "Free sampling on 500+",
+          "body": "We ship a physical sample for sign-off before going to production."
+        },
+        "art": {
+          "title": "Art prep included",
+          "body": "Vectorisation, colour matching and production-file prep at no extra cost."
+        },
+        "manager": {
+          "title": "Dedicated manager",
+          "body": "A single point of contact for the entire program."
+        },
+        "delivery": {
+          "title": "Global delivery",
+          "body": "DDP shipping available from US, EU and APAC fulfilment hubs."
+        }
+      }
+    },
+    "faq": {
+      "heading": "Bulk-order FAQ",
+      "items": {
+        "minimum": {
+          "q": "What is the bulk minimum?",
+          "a": "Bulk pricing applies from 50 units; volume discounts unlock from 250."
+        },
+        "mix": {
+          "q": "Can I mix sizes and colors within a tier?",
+          "a": "Yes — size and color mix is included as long as the SKU stays the same."
+        },
+        "split": {
+          "q": "Can you split-ship to multiple addresses?",
+          "a": "Absolutely. Provide the address sheet during checkout and we'll handle the rest."
+        }
+      }
+    },
+    "cta": {
+      "heading": "Tell us about your volume",
+      "subtitle": "Send us SKUs, quantities and your target date — we'll reply with a tiered quote within one business day.",
+      "button": "Request a bulk quote"
+    }
+  },
+  "form": {
+    "title": "Tell us about your project",
+    "subtitle": "Required fields are marked with *",
+    "company": "Company",
+    "companyName": "Company name",
+    "contactName": "Contact name",
+    "contactEmail": "Email",
+    "email": "Email",
+    "contactPhone": "Phone",
+    "phone": "Phone",
+    "country": "Country (ISO-2 code)",
+    "productCategories": "Product categories",
+    "estimatedQuantity": "Estimated quantity",
+    "targetDeliveryDate": "Target delivery date",
+    "budgetRange": "Budget range (per program)",
+    "logoFile": "Brand logo (PNG / JPG / SVG / PDF)",
+    "logoFileHint": "Up to 5 MB. We'll prepare a production-ready file from your upload.",
+    "needSample": "I'd like a physical sample before production",
+    "note": "Additional notes",
+    "notePlaceholder": "Anything we should know — print method, packaging, deadlines, …",
+    "items": "Items",
+    "addItem": "Add item",
+    "removeItem": "Remove",
+    "description": "Description",
+    "quantity": "Quantity",
+    "preferredPrintMethod": "Preferred print method",
+    "targetUnitPrice": "Target unit price",
+    "requiredBy": "Required by",
+    "notes": "Additional notes",
+    "attachments": "Attachments",
+    "submit": "Submit request",
+    "submitting": "Submitting…",
+    "errors": {
+      "generic": "We couldn't submit your request. Please retry in a moment.",
+      "missing": "Please fill in the required fields.",
+      "logoSize": "Logo file is too large (5 MB max).",
+      "logoType": "Logo must be a PNG, JPG, SVG or PDF."
+    }
+  },
+  "budgetRanges": {
+    "under_1k": "Under $1,000",
+    "1k_5k": "$1,000–$5,000",
+    "5k_20k": "$5,000–$20,000",
+    "20k_50k": "$20,000–$50,000",
+    "50k_plus": "$50,000+",
+    "unspecified": "Not sure yet"
+  },
+  "categoryLabels": {
+    "t-shirts": "T-shirts",
+    "hoodies": "Hoodies",
+    "mugs": "Mugs",
+    "hats": "Hats",
+    "tote-bags": "Tote bags",
+    "stickers": "Stickers"
+  },
+  "submitted": {
+    "title": "Request received",
+    "body": "We've assigned a sales lead. You'll receive a confirmation email shortly.",
+    "rfqNumber": "RFQ number: {number}",
+    "next": "What happens next",
+    "step1": "A sales lead reviews your request within one business day.",
+    "step2": "We send a tiered quote based on your SKUs and quantities.",
+    "step3": "Sample approval (optional) and production kick-off."
+  },
+  "success": {
+    "title": "Thanks — we've received your request",
+    "subtitle": "We're on it. A real human will reply within one business day.",
+    "ctaHome": "Back to home",
+    "ctaCorporate": "Read about corporate gifting"
+  },
+  "statusLabels": {
+    "submitted": "Submitted",
+    "sales_reviewing": "Sales reviewing",
+    "supplier_quoting": "Supplier quoting",
+    "quote_sent": "Quote sent",
+    "customer_accepted": "Customer accepted",
+    "customer_rejected": "Customer rejected",
+    "converted_to_order": "Converted to order",
+    "closed": "Closed"
+  }
+}
