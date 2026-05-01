@@ -101,7 +101,8 @@ export class DoubaoProvider implements AIProvider {
   }
 
   async generateDesignImage(input: AiGenerateDesignImageInput): Promise<AiGenerateDesignImageResult> {
-    const size = input.size ?? '2048x2048';
+    const requestedSize = input.size ?? '2048x2048';
+    const size = normalizeSeedreamSize(requestedSize);
     const prompt = buildImagePrompt(input.prompt, input.transparentBackground ?? true);
     const res = await fetch(`${this.baseUrl}/images/generations`, {
       method: 'POST',
@@ -177,7 +178,6 @@ export class DoubaoProvider implements AIProvider {
         body: JSON.stringify({
           model: this.textModel,
           messages,
-          response_format: { type: 'json_object' },
           temperature: 0.7,
         }),
       });
@@ -185,7 +185,7 @@ export class DoubaoProvider implements AIProvider {
       const json = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
       const content = json.choices?.[0]?.message?.content;
       if (!content) throw new Error('Doubao: empty content');
-      return JSON.parse(content) as T;
+      return parseJsonObject<T>(content);
     } catch (err) {
       this.log.warn(`Doubao call failed: ${(err as Error).message} - using fallback`);
       return fallback();
@@ -200,7 +200,26 @@ function buildImagePrompt(prompt: string, transparent: boolean): string {
   return `${prompt.trim()}${suffix}`.slice(0, 1000);
 }
 
+function normalizeSeedreamSize(size: string): string {
+  const { width, height } = parseSize(size);
+  return width * height < 3_686_400 ? '2048x2048' : `${width}x${height}`;
+}
+
 function parseSize(size: string): { width: number; height: number } {
   const [w, h] = size.split('x').map((n) => Number(n));
   return { width: w || 2048, height: h || 2048 };
+}
+
+function parseJsonObject<T>(content: string): T {
+  const trimmed = content.trim();
+  try {
+    return JSON.parse(trimmed) as T;
+  } catch {
+    const fenced = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i);
+    if (fenced?.[1]) return JSON.parse(fenced[1].trim()) as T;
+    const start = trimmed.indexOf('{');
+    const end = trimmed.lastIndexOf('}');
+    if (start >= 0 && end > start) return JSON.parse(trimmed.slice(start, end + 1)) as T;
+    throw new Error('Doubao: invalid JSON content');
+  }
 }

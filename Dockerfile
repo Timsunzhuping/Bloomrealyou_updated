@@ -26,6 +26,7 @@ ENV NEXT_PUBLIC_DEFAULT_LOCALE=${NEXT_PUBLIC_DEFAULT_LOCALE}
 ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
 ENV DATABASE_URL=postgresql://custom_merch:build-password@postgres:5432/custom_merch?schema=public
 
+RUN pnpm config set registry https://registry.npmmirror.com
 RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
