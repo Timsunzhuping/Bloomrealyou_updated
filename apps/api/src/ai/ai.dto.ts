@@ -7,6 +7,7 @@ import {
   IsObject,
   IsOptional,
   IsString,
+  IsBoolean,
   Max,
   MaxLength,
   Min,
@@ -53,6 +54,77 @@ export class DesignIdeasBody extends PromptBaseBody {
   @ArrayMaxSize(6)
   @IsOptional()
   preferredCategories?: ProductCategory[];
+}
+
+class PrintAreaBody {
+  @IsNumber()
+  @Min(1)
+  width!: number;
+
+  @IsNumber()
+  @Min(1)
+  height!: number;
+}
+
+export class DesignSuggestionsBody {
+  @IsString()
+  @MinLength(2)
+  @MaxLength(AI_PROMPT_MAX_LENGTH)
+  scene!: string;
+
+  @IsString()
+  @MaxLength(120)
+  @IsOptional()
+  productId?: string;
+
+  @IsIn([...SUPPORTED_LOCALES])
+  @IsOptional()
+  locale?: Locale;
+
+  @IsString()
+  @MaxLength(120)
+  @IsOptional()
+  style?: string;
+
+  @IsObject()
+  @IsOptional()
+  printArea?: PrintAreaBody;
+}
+
+export class GenerateDesignImageBody {
+  @IsString()
+  @MinLength(2)
+  @MaxLength(AI_PROMPT_MAX_LENGTH)
+  prompt!: string;
+
+  @IsString()
+  @MaxLength(120)
+  @IsOptional()
+  productId?: string;
+
+  @IsIn(['1024x1024', '2048x2048'])
+  @IsOptional()
+  size?: '1024x1024' | '2048x2048';
+
+  @IsBoolean()
+  @IsOptional()
+  transparentBackground?: boolean;
+}
+
+export class CheckPrintabilityBody {
+  @IsString()
+  @MaxLength(4096)
+  imageUrl!: string;
+
+  @IsString()
+  @MaxLength(120)
+  @IsOptional()
+  productId?: string;
+
+  @IsString()
+  @MaxLength(80)
+  @IsOptional()
+  printMethod?: string;
 }
 
 export class GiftSetBody extends PromptBaseBody {

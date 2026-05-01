@@ -1,15 +1,9 @@
 'use client';
 
 import type { Locale } from '@custom-merch/i18n';
-import type {
-  AiDesignIdeasResult,
-  AiGenerateSloganResult,
-  AiLogoLayoutResult,
-  DesignIdea,
-  LogoLayout,
-} from '@custom-merch/shared';
+import type { AiDesignSuggestion } from '@custom-merch/shared';
 import { Button, Input } from '@custom-merch/ui';
-import { Copy, Sparkles, Wand2 } from 'lucide-react';
+import { Copy, ImagePlus, Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
@@ -19,49 +13,55 @@ import { useCustomizerStore } from './store';
 
 export interface CustomizerAIPanelProps {
   locale: Locale;
-  /** Optional scenario seeded by the home page deep link (?ai=…). */
+  /** Optional scenario seeded by the home page deep link (?ai=...). */
   initialScenario?: string;
+}
+
+type AiDesignState = 'idle' | 'suggesting' | 'suggested' | 'generating' | 'generated' | 'error';
+
+interface GeneratedImageState {
+  imageUrl: string;
+  width: number;
+  height: number;
 }
 
 export function CustomizerAIPanel({ locale, initialScenario }: CustomizerAIPanelProps): JSX.Element {
   const t = useTranslations('customizer.ai');
   const [scenario, setScenario] = React.useState(initialScenario ?? '');
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const [slogans, setSlogans] = React.useState<AiGenerateSloganResult['slogans']>([]);
-  const [ideas, setIdeas] = React.useState<DesignIdea[]>([]);
-  const [layouts, setLayouts] = React.useState<LogoLayout[]>([]);
+  const [state, setState] = React.useState<AiDesignState>('idle');
+  const [error, setError] = React.useState<string | null>(null);
+  const [source, setSource] = React.useState<'doubao' | 'openai' | 'fallback' | null>(null);
+  const [suggestions, setSuggestions] = React.useState<AiDesignSuggestion[]>([]);
+  const [generated, setGenerated] = React.useState<Record<number, GeneratedImageState>>({});
+  const [activeGenerating, setActiveGenerating] = React.useState<number | null>(null);
   const [copied, setCopied] = React.useState<string | null>(null);
 
   const addText = useCustomizerStore((s) => s.addText);
+  const addImage = useCustomizerStore((s) => s.addImage);
+  const updateLayer = useCustomizerStore((s) => s.updateLayer);
   const printArea = useCustomizerStore((s) => s.printArea);
+  const productId = useCustomizerStore((s) => s.productId);
 
   const onSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    if (scenario.trim().length === 0) return;
-    setLoading(true);
-    setError(false);
+    const scene = scenario.trim();
+    if (scene.length === 0) return;
+    setState('suggesting');
+    setError(null);
+    setGenerated({});
     try {
-      const api = getClientApi();
-      const [sloganResp, ideaResp, layoutResp] = await Promise.allSettled([
-        api.ai.generateSlogan({ prompt: scenario, locale, count: 4 }),
-        api.ai.designIdeas({ prompt: scenario, locale }),
-        api.ai.logoLayout({ prompt: scenario, locale }),
-      ]);
-
-      if (sloganResp.status === 'fulfilled') setSlogans(sloganResp.value.slogans);
-      if (ideaResp.status === 'fulfilled') setIdeas((ideaResp.value as AiDesignIdeasResult).ideas);
-      if (layoutResp.status === 'fulfilled')
-        setLayouts((layoutResp.value as AiLogoLayoutResult).layouts);
-      if (
-        sloganResp.status === 'rejected' &&
-        ideaResp.status === 'rejected' &&
-        layoutResp.status === 'rejected'
-      ) {
-        setError(true);
-      }
-    } finally {
-      setLoading(false);
+      const result = await getClientApi().ai.designSuggestions({
+        productId,
+        locale,
+        scene,
+        printArea: { width: printArea.width, height: printArea.height },
+      });
+      setSuggestions(result.suggestions.slice(0, 3));
+      setSource(result.source);
+      setState('suggested');
+    } catch {
+      setError(t('fallback'));
+      setState('error');
     }
   };
 
@@ -75,23 +75,54 @@ export function CustomizerAIPanel({ locale, initialScenario }: CustomizerAIPanel
     }
   };
 
-  const onApplyLayout = (layout: LogoLayout): void => {
-    // Convert relative coords to canvas coords, place a placeholder text per object.
-    for (const obj of layout.objects) {
-      if (obj.type === 'text' || obj.type === 'logo') {
-        const x = printArea.x + obj.x * printArea.width;
-        const y = printArea.y + obj.y * printArea.height;
-        const w = obj.width * printArea.width;
-        const h = obj.height * printArea.height;
-        addText(obj.content ?? layout.name);
-        // The store places newly-added text near canvas centre by default,
-        // so push it to the layout-suggested position by patching the latest layer.
-        const state = useCustomizerStore.getState();
-        const last = state.layers[state.layers.length - 1];
-        if (last) state.updateLayer(last.id, { x, y, width: w, height: Math.max(h, 24) });
-      }
+  const onGenerateImage = async (index: number, suggestion: AiDesignSuggestion): Promise<void> => {
+    setActiveGenerating(index);
+    setState('generating');
+    setError(null);
+    try {
+      const image = await getClientApi().ai.generateDesignImage({
+        productId,
+        prompt: suggestion.prompt,
+        size: '2048x2048',
+        transparentBackground: true,
+      });
+      setGenerated((prev) => ({
+        ...prev,
+        [index]: { imageUrl: image.imageUrl, width: image.width, height: image.height },
+      }));
+      setState('generated');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '';
+      setError(message.includes('400') ? t('imageNotConfigured') : t('imageFailed'));
+      setState('suggested');
+    } finally {
+      setActiveGenerating(null);
     }
   };
+
+  const onAddImageToCanvas = (index: number): void => {
+    const image = generated[index];
+    if (!image) return;
+    addImage({
+      src: image.imageUrl,
+      filename: `ai-design-${index + 1}.png`,
+      naturalWidth: image.width,
+      naturalHeight: image.height,
+    });
+    const stateNow = useCustomizerStore.getState();
+    const last = stateNow.layers[stateNow.layers.length - 1];
+    if (!last) return;
+    const targetWidth = Math.min(printArea.width * 0.82, 360);
+    const targetHeight = targetWidth * (image.height / image.width || 1);
+    updateLayer(last.id, {
+      x: printArea.x + (printArea.width - targetWidth) / 2,
+      y: printArea.y + (printArea.height - targetHeight) / 2,
+      width: targetWidth,
+      height: targetHeight,
+    });
+  };
+
+  const isSuggesting = state === 'suggesting';
 
   return (
     <div className="space-y-4 p-3">
@@ -114,105 +145,104 @@ export function CustomizerAIPanel({ locale, initialScenario }: CustomizerAIPanel
           placeholder={t('scenarioPlaceholder')}
           maxLength={500}
         />
-        <Button type="submit" size="sm" disabled={loading || scenario.trim().length === 0}>
-          <Wand2 className="me-2 h-3.5 w-3.5" />
-          {loading ? t('generating') : t('generate')}
+        <Button type="submit" size="sm" disabled={isSuggesting || scenario.trim().length === 0}>
+          {isSuggesting ? <Loader2 className="me-2 h-3.5 w-3.5 animate-spin" /> : <Wand2 className="me-2 h-3.5 w-3.5" />}
+          {isSuggesting ? t('generating') : t('generate')}
         </Button>
       </form>
 
       {error && (
         <p className="rounded-md border border-destructive/30 bg-destructive/5 p-2 text-xs text-destructive">
-          {t('fallback')}
+          {error}
         </p>
       )}
 
-      {slogans.length > 0 && (
-        <section className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t('slogansHeading')}
-          </h4>
-          <ul className="space-y-2">
-            {slogans.map((slogan, i) => (
-              <li
-                key={`${slogan.text}-${i}`}
-                className="flex items-start gap-2 rounded-md border bg-card p-2 text-xs"
-              >
-                <span className="flex-1">{slogan.text}</span>
-                <button
-                  type="button"
-                  className="rounded p-1 text-muted-foreground hover:bg-accent"
-                  aria-label={t('copy')}
-                  onClick={() => void onCopy(`slogan-${i}`, slogan.text)}
-                >
-                  <Copy className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  className="rounded bg-primary px-2 py-1 text-[11px] font-medium text-primary-foreground hover:bg-primary/90"
-                  onClick={() => addText(slogan.text)}
-                >
-                  {t('applySlogan')}
-                </button>
-              </li>
-            ))}
-          </ul>
-          {copied?.startsWith('slogan') && (
-            <p className="text-[11px] text-muted-foreground">{t('copied')}</p>
-          )}
-        </section>
+      {source === 'fallback' && suggestions.length > 0 && (
+        <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-700">
+          {t('fallbackMode')}
+        </p>
       )}
 
-      {ideas.length > 0 && (
+      {suggestions.length > 0 && (
         <section className="space-y-2">
           <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {t('ideasHeading')}
           </h4>
-          <ul className="space-y-2">
-            {ideas.map((idea, i) => (
-              <li key={i} className="space-y-1.5 rounded-md border bg-card p-2 text-xs">
-                <p className="font-semibold">{idea.title}</p>
-                <p className="text-muted-foreground">{idea.layoutSuggestion}</p>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-muted-foreground">{t('ideaPalette')}:</span>
-                  {idea.colors.map((c) => (
-                    <span
-                      key={c}
-                      className="inline-block h-4 w-4 rounded-sm border"
-                      style={{ backgroundColor: c }}
-                      aria-label={c}
-                      title={c}
-                    />
-                  ))}
-                </div>
-                <p className="text-[11px] text-muted-foreground">
-                  {t('ideaProducts')}: {idea.recommendedProducts.join(', ')}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+          <ul className="space-y-3">
+            {suggestions.map((suggestion, i) => {
+              const image = generated[i];
+              const generatingThis = activeGenerating === i;
+              return (
+                <li key={`${suggestion.title}-${i}`} className="space-y-2 rounded-md border bg-card p-2 text-xs">
+                  <div className="space-y-1">
+                    <p className="font-semibold">{suggestion.title}</p>
+                    <p className="text-muted-foreground">{suggestion.layout}</p>
+                    <p className="font-medium">{suggestion.slogan}</p>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-muted-foreground">{t('ideaPalette')}:</span>
+                      {suggestion.colors.map((c) => (
+                        <span
+                          key={c}
+                          className="inline-block h-4 w-4 rounded-sm border"
+                          style={{ backgroundColor: c }}
+                          aria-label={c}
+                          title={c}
+                        />
+                      ))}
+                    </div>
+                  </div>
 
-      {layouts.length > 0 && (
-        <section className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {t('layoutsHeading')}
-          </h4>
-          <ul className="space-y-2">
-            {layouts.map((layout, i) => (
-              <li key={i} className="space-y-1.5 rounded-md border bg-card p-2 text-xs">
-                <p className="font-semibold">{layout.name}</p>
-                <p className="text-muted-foreground">{layout.description}</p>
-                <button
-                  type="button"
-                  className="rounded bg-primary px-2 py-1 text-[11px] font-medium text-primary-foreground hover:bg-primary/90"
-                  onClick={() => onApplyLayout(layout)}
-                >
-                  {t('applyLayout')}
-                </button>
-              </li>
-            ))}
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      className="rounded bg-primary px-2 py-1 text-[11px] font-medium text-primary-foreground hover:bg-primary/90"
+                      onClick={() => addText(suggestion.slogan)}
+                    >
+                      {t('applySlogan')}
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded border px-2 py-1 text-[11px] font-medium hover:bg-accent"
+                      onClick={() => void onCopy(`prompt-${i}`, suggestion.prompt)}
+                    >
+                      <Copy className="me-1 inline h-3 w-3" />
+                      {t('copyPrompt')}
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded bg-primary px-2 py-1 text-[11px] font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+                      disabled={generatingThis}
+                      onClick={() => void onGenerateImage(i, suggestion)}
+                    >
+                      {generatingThis ? <Loader2 className="me-1 inline h-3 w-3 animate-spin" /> : <ImagePlus className="me-1 inline h-3 w-3" />}
+                      {generatingThis ? t('imageGenerating') : t('generateImage')}
+                    </button>
+                  </div>
+
+                  {image && (
+                    <div className="space-y-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={image.imageUrl}
+                        alt={suggestion.title}
+                        className="aspect-square w-full rounded border object-contain"
+                      />
+                      <button
+                        type="button"
+                        className="w-full rounded bg-primary px-2 py-1.5 text-[11px] font-medium text-primary-foreground hover:bg-primary/90"
+                        onClick={() => onAddImageToCanvas(i)}
+                      >
+                        {t('addImageToCanvas')}
+                      </button>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
+          {copied?.startsWith('prompt') && (
+            <p className="text-[11px] text-muted-foreground">{t('copied')}</p>
+          )}
         </section>
       )}
     </div>

@@ -120,7 +120,14 @@
     "improveDesign": "تحسين التصميم",
     "tryGiftBundle": "اقترح حزمة هدايا",
     "ideaPalette": "اللوحة اللونية",
-    "ideaProducts": "المنتجات"
+    "ideaProducts": "المنتجات",
+    "fallbackMode": "يتم عرض اقتراحات احتياطية. قم بإعداد Doubao للحصول على أفكار أغنى.",
+    "copyPrompt": "نسخ الموجه",
+    "generateImage": "إنشاء الرسم",
+    "imageGenerating": "جار الإنشاء...",
+    "addImageToCanvas": "إضافة إلى اللوحة",
+    "imageNotConfigured": "خدمة إنشاء الصور بالذكاء الاصطناعي غير مهيأة بعد.",
+    "imageFailed": "فشل إنشاء الصورة. حاول مرة أخرى."
   },
   "warnings": {
     "outsideSafeArea": "الطبقة خارج المنطقة الآمنة — قد يتم قصها في الإنتاج.",

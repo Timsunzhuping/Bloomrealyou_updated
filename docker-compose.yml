@@ -1,35 +1,43 @@
+x-app-image: &app-image
+  image: bloomrealyou-app:${APP_VERSION:-latest}
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: runner
+    args:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://api.101.47.76.12.sslip.io}
+      NEXT_PUBLIC_ADMIN_API_BASE_URL: ${NEXT_PUBLIC_ADMIN_API_BASE_URL:-http://api.101.47.76.12.sslip.io}
+      NEXT_PUBLIC_DEFAULT_LOCALE: ${NEXT_PUBLIC_DEFAULT_LOCALE:-en}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+
 services:
   postgres:
     image: postgres:16-alpine
     container_name: cmp-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-custom_merch}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
       POSTGRES_DB: ${POSTGRES_DB:-custom_merch}
-    ports:
-      - '${POSTGRES_PORT:-5432}:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
 
   redis:
     image: redis:7-alpine
     container_name: cmp-redis
     restart: unless-stopped
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
     volumes:
       - redis-data:/data
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
 
   minio:
     image: minio/minio:latest
@@ -39,16 +47,111 @@ services:
     environment:
       MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID:-minioadmin}
       MINIO_ROOT_PASSWORD: ${S3_SECRET_ACCESS_KEY:-minioadmin}
-    ports:
-      - '9000:9000'
-      - '9001:9001'
     volumes:
       - minio-data:/data
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
-      interval: 10s
-      timeout: 5s
-      retries: 10
+
+  minio-init:
+    image: minio/mc:latest
+    container_name: cmp-minio-init
+    restart: 'no'
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 $${S3_ACCESS_KEY_ID:-minioadmin} $${S3_SECRET_ACCESS_KEY:-minioadmin} &&
+      mc mb --ignore-existing local/$${S3_BUCKET:-custom-merch-uploads} &&
+      mc anonymous set download local/$${S3_BUCKET:-custom-merch-uploads}
+      "
+    env_file:
+      - .env.production
+    depends_on:
+      minio:
+        condition: service_started
+
+  migrate:
+    <<: *app-image
+    container_name: cmp-migrate
+    restart: 'no'
+    env_file:
+      - .env.production
+    command: pnpm --filter @custom-merch/db exec prisma migrate deploy --schema prisma/schema.prisma
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    <<: *app-image
+    container_name: cmp-api
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      PORT: 4000
+      API_PORT: 4000
+      API_HOST: 0.0.0.0
+    command: pnpm --filter @custom-merch/api start
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+      migrate:
+        condition: service_completed_successfully
+    expose:
+      - '4000'
+
+  web:
+    <<: *app-image
+    container_name: cmp-web
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      WEB_PORT: 3000
+    command: pnpm --filter @custom-merch/web start
+    depends_on:
+      api:
+        condition: service_started
+    expose:
+      - '3000'
+
+  admin:
+    <<: *app-image
+    container_name: cmp-admin
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      ADMIN_PORT: 3001
+    command: pnpm --filter @custom-merch/admin start
+    depends_on:
+      api:
+        condition: service_started
+    expose:
+      - '3001'
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: cmp-nginx
+    restart: unless-stopped
+    environment:
+      NGINX_PUBLIC_HOST: ${NGINX_PUBLIC_HOST:-101.47.76.12}
+      NGINX_WEB_HOST: ${NGINX_WEB_HOST:-101.47.76.12}
+      NGINX_API_HOST: ${NGINX_API_HOST:-api.101.47.76.12.sslip.io}
+      NGINX_ADMIN_HOST: ${NGINX_ADMIN_HOST:-admin.101.47.76.12.sslip.io}
+    ports:
+      - '80:80'
+    volumes:
+      - ./deploy/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+    depends_on:
+      web:
+        condition: service_started
+      admin:
+        condition: service_started
+      api:
+        condition: service_started
+      minio:
+        condition: service_started
 
 volumes:
   postgres-data:

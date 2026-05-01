@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 
 import type {
   AIProvider,
+  AiCheckPrintabilityInput,
+  AiCheckPrintabilityResult,
   AiCheckRiskInput,
   AiCheckRiskResult,
   AiDesignIdeasInput,
   AiDesignIdeasResult,
+  AiDesignSuggestionsInput,
+  AiDesignSuggestionsResult,
+  AiGenerateDesignImageInput,
+  AiGenerateDesignImageResult,
   AiGenerateSloganInput,
   AiGenerateSloganResult,
   AiGiftSetInput,
@@ -72,6 +78,71 @@ export class MockAIProvider implements AIProvider {
           recommendedProducts: products,
         },
       ],
+    };
+  }
+
+  async designSuggestions(input: AiDesignSuggestionsInput): Promise<AiDesignSuggestionsResult> {
+    const locale = input.locale ?? 'en';
+    const scene = input.scene.trim();
+    const focus = pickKeyword(scene) ?? topic(locale);
+    const style = input.style?.trim() || 'print-ready merchandise';
+    const localized = locale === 'zh-CN';
+    const suggestions = [
+      {
+        title: localized ? '力量徽章风' : `${capitalize(focus)} badge system`,
+        slogan: localized ? '勇敢出发' : `${capitalize(focus)} Forward`,
+        colors: ['#111827', '#FFFFFF', '#EF4444'],
+        layout: localized
+          ? '居中徽章构图，上方弧形文字，下方小字说明，适合胸前主图。'
+          : 'Centred badge composition with arched headline text and a compact footer line.',
+        prompt: `A bold ${style} badge design about ${scene}, vector illustration, high contrast, centred composition, screen print ready, transparent background, no mockup, no photograph`,
+      },
+      {
+        title: localized ? '极简字标风' : `${capitalize(focus)} clean wordmark`,
+        slogan: localized ? '保持真实' : 'Stay Real',
+        colors: ['#0F172A', '#F8FAFC', '#22C55E'],
+        layout: localized
+          ? '大号无衬线主标题居中，辅以小图标和细线分隔。'
+          : 'Large sans-serif wordmark centred with a small icon and thin divider line.',
+        prompt: `Minimal ${style} typography design for ${scene}, clean vector wordmark, simple icon, strong negative space, print ready, transparent background`,
+      },
+      {
+        title: localized ? '复古贴纸风' : `${capitalize(focus)} retro sticker`,
+        slogan: localized ? '一起闪耀' : 'Made to Shine',
+        colors: ['#1F2937', '#FBBF24', '#F97316'],
+        layout: localized
+          ? '复古贴纸轮廓，主体图案居中，使用两到三色便于印刷。'
+          : 'Retro sticker outline with the main mark in the centre and two to three print colours.',
+        prompt: `Retro sticker-style merchandise graphic for ${scene}, limited color palette, thick outlines, vector art, no background, print ready transparent PNG look`,
+      },
+    ];
+    return { suggestions, source: 'fallback' };
+  }
+
+  async generateDesignImage(_input: AiGenerateDesignImageInput): Promise<AiGenerateDesignImageResult> {
+    throw new Error('AI_PROVIDER_NOT_CONFIGURED');
+  }
+
+  async checkPrintability(input: AiCheckPrintabilityInput): Promise<AiCheckPrintabilityResult> {
+    const warnings: string[] = [];
+    const recommendations: string[] = [];
+    if (!/\.(png|webp|jpg|jpeg|svg)(\?|$)/i.test(input.imageUrl) && !input.imageUrl.startsWith('data:image/')) {
+      warnings.push('Image format could not be inferred from the URL.');
+    }
+    if (!/\.png(\?|$)/i.test(input.imageUrl) && !input.imageUrl.startsWith('data:image/png')) {
+      recommendations.push('Use a transparent PNG for the cleanest print workflow.');
+    }
+    if (input.printMethod === 'embroidery') {
+      recommendations.push('Avoid tiny text and thin gradients for embroidery production.');
+    } else {
+      recommendations.push('Use artwork at 2048px or larger for DTG and heat-transfer prints.');
+    }
+    const score = warnings.length === 0 ? 86 : 72;
+    return {
+      score,
+      status: warnings.length === 0 ? 'pass' : 'warning',
+      warnings,
+      recommendations,
     };
   }
 

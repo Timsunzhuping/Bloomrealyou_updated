@@ -1,12 +1,20 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { randomUUID } from 'node:crypto';
 
 import type {
   AICapabilityName,
   AIProvider,
+  AiCheckPrintabilityInput,
+  AiCheckPrintabilityResult,
   AiCheckRiskInput,
   AiCheckRiskResult,
   AiDesignIdeasInput,
   AiDesignIdeasResult,
+  AiDesignSuggestionsInput,
+  AiDesignSuggestionsResult,
+  AiGenerateDesignImageInput,
+  AiGenerateDesignImageResult,
   AiGenerateSloganInput,
   AiGenerateSloganResult,
   AiGiftSetInput,
@@ -15,18 +23,24 @@ import type {
   AiLogoLayoutResult,
   AiRemoveBackgroundInput,
   AiRemoveBackgroundResult,
+  StorageProvider,
 } from '@custom-merch/shared';
 
+import { parseDataUrl } from '../files/files.service';
+import { STORAGE_PROVIDER } from '../storage/storage.tokens';
 import { AIRequestLogRepository } from './ai-request-log.repository';
 import { AI_PROVIDER } from './ai.tokens';
 
 @Injectable()
 export class AIService {
   private readonly log = new Logger(AIService.name);
+  private readonly imageQuota = new Map<string, { date: string; count: number }>();
 
   constructor(
     @Inject(AI_PROVIDER) private readonly provider: AIProvider,
+    @Inject(STORAGE_PROVIDER) private readonly storage: StorageProvider,
     private readonly logs: AIRequestLogRepository,
+    private readonly config: ConfigService,
   ) {}
 
   generateSlogan(input: AiGenerateSloganInput, userId?: string): Promise<AiGenerateSloganResult> {
@@ -35,6 +49,46 @@ export class AIService {
 
   designIdeas(input: AiDesignIdeasInput, userId?: string): Promise<AiDesignIdeasResult> {
     return this.run('design-ideas', input, () => this.provider.designIdeas(input), userId);
+  }
+
+  designSuggestions(
+    input: AiDesignSuggestionsInput,
+    userId?: string,
+  ): Promise<AiDesignSuggestionsResult> {
+    return this.run('design-suggestions', input, () => this.provider.designSuggestions(input), userId);
+  }
+
+  generateDesignImage(
+    input: AiGenerateDesignImageInput,
+    userId?: string,
+  ): Promise<AiGenerateDesignImageResult> {
+    return this.run(
+      'generate-design-image',
+      input,
+      async () => {
+        if (this.provider.name === 'mock') {
+          throw apiError('AI_PROVIDER_NOT_CONFIGURED', 'AI image generation provider is not configured.');
+        }
+        if (this.storage.name === 'in-memory' && process.env.NODE_ENV === 'production') {
+          throw apiError('AI_STORAGE_NOT_CONFIGURED', 'Persistent AI image storage is not configured.');
+        }
+        this.assertDailyLimit(userId);
+        const generated = await this.provider.generateDesignImage({
+          ...input,
+          size: input.size ?? '2048x2048',
+          transparentBackground: input.transparentBackground ?? true,
+        });
+        return this.persistGeneratedImage(generated);
+      },
+      userId,
+    );
+  }
+
+  checkPrintability(
+    input: AiCheckPrintabilityInput,
+    userId?: string,
+  ): Promise<AiCheckPrintabilityResult> {
+    return this.run('check-printability', input, () => this.provider.checkPrintability(input), userId);
   }
 
   giftSet(input: AiGiftSetInput, userId?: string): Promise<AiGiftSetResult> {
@@ -56,7 +110,7 @@ export class AIService {
   ): Promise<AiRemoveBackgroundResult> {
     return this.run(
       'remove-background',
-      // never log raw image bytes — keep the payload size sane
+      // never log raw image bytes - keep the payload size sane
       { imageDataUrl: '<omitted>' },
       () => this.provider.removeBackground(input),
       userId,
@@ -101,9 +155,69 @@ export class AIService {
         errorMessage: message,
         latencyMs: Date.now() - started,
       });
-      // Re-throw so the controller can return a non-200 — the front-end
-      // will fall back to manual tools without breaking the flow.
       throw err;
     }
+  }
+
+  private assertDailyLimit(userId?: string): void {
+    const limit = Number(this.config.get<string>('AI_GENERATION_DAILY_LIMIT') ?? '20');
+    if (!Number.isFinite(limit) || limit <= 0) return;
+    const key = userId || 'anonymous';
+    const today = new Date().toISOString().slice(0, 10);
+    const current = this.imageQuota.get(key);
+    const next = current?.date === today ? current : { date: today, count: 0 };
+    if (next.count >= limit) {
+      throw apiError('AI_DAILY_LIMIT_REACHED', 'AI image generation daily limit reached.');
+    }
+    next.count += 1;
+    this.imageQuota.set(key, next);
+  }
+
+  private async persistGeneratedImage(
+    generated: AiGenerateDesignImageResult,
+  ): Promise<AiGenerateDesignImageResult> {
+    const source = await loadImageBytes(generated.imageUrl);
+    const ext = extensionFromContentType(source.contentType);
+    const result = await this.storage.putObject({
+      key: `ai-designs/${new Date().toISOString().slice(0, 10)}/${randomUUID()}.${ext}`,
+      body: source.buffer,
+      contentType: source.contentType,
+      cacheControl: 'public, max-age=31536000, immutable',
+      metadata: {
+        provider: generated.provider,
+        model: generated.model ?? '',
+      },
+    });
+    return { ...generated, imageUrl: result.url };
+  }
+}
+
+function apiError(code: string, message: string): BadRequestException {
+  return new BadRequestException({ code, message });
+}
+
+async function loadImageBytes(url: string): Promise<{ buffer: Buffer; contentType: string }> {
+  if (url.startsWith('data:')) {
+    const parsed = parseDataUrl(url);
+    if (!parsed) throw apiError('AI_IMAGE_DOWNLOAD_FAILED', 'Generated image data URL is invalid.');
+    return { buffer: parsed.buffer, contentType: parsed.mime };
+  }
+  const res = await fetch(url);
+  if (!res.ok) throw apiError('AI_IMAGE_DOWNLOAD_FAILED', 'Could not download generated image.');
+  const contentType = res.headers.get('content-type')?.split(';')[0] ?? 'image/png';
+  const buffer = Buffer.from(await res.arrayBuffer());
+  return { buffer, contentType };
+}
+
+function extensionFromContentType(contentType: string): string {
+  switch (contentType) {
+    case 'image/jpeg':
+      return 'jpg';
+    case 'image/webp':
+      return 'webp';
+    case 'image/svg+xml':
+      return 'svg';
+    default:
+      return 'png';
   }
 }

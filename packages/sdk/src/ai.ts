@@ -1,8 +1,14 @@
 import type {
+  AiCheckPrintabilityInput,
+  AiCheckPrintabilityResult,
   AiCheckRiskInput,
   AiCheckRiskResult,
   AiDesignIdeasInput,
   AiDesignIdeasResult,
+  AiDesignSuggestionsInput,
+  AiDesignSuggestionsResult,
+  AiGenerateDesignImageInput,
+  AiGenerateDesignImageResult,
   AiGenerateSloganInput,
   AiGenerateSloganResult,
   AiGiftSetInput,
@@ -27,6 +33,27 @@ export class AIClient {
 
   async designIdeas(input: AiDesignIdeasInput): Promise<AiDesignIdeasResult> {
     return this.api.request<AiDesignIdeasResult>('/ai/design-ideas', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  }
+
+  async designSuggestions(input: AiDesignSuggestionsInput): Promise<AiDesignSuggestionsResult> {
+    return this.api.request<AiDesignSuggestionsResult>('/ai/design-suggestions', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  }
+
+  async generateDesignImage(input: AiGenerateDesignImageInput): Promise<AiGenerateDesignImageResult> {
+    return this.api.request<AiGenerateDesignImageResult>('/ai/generate-design-image', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  }
+
+  async checkPrintability(input: AiCheckPrintabilityInput): Promise<AiCheckPrintabilityResult> {
+    return this.api.request<AiCheckPrintabilityResult>('/ai/check-printability', {
       method: 'POST',
       body: JSON.stringify(input),
     });

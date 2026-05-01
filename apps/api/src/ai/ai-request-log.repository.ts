@@ -8,7 +8,7 @@ export type AIRequestStatus = 'success' | 'failed';
 export interface AIRequestLogEntry {
   id: string;
   userId: string | null;
-  provider: 'mock' | 'openai' | 'anthropic';
+  provider: 'mock' | 'openai' | 'anthropic' | 'doubao';
   requestType: AICapabilityName;
   /** JSON-serializable input payload. */
   input: Record<string, unknown>;

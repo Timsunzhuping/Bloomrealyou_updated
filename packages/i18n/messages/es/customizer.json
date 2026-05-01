@@ -120,7 +120,14 @@
     "improveDesign": "Mejorar diseño",
     "tryGiftBundle": "Sugerir pack de regalo",
     "ideaPalette": "Paleta",
-    "ideaProducts": "Productos"
+    "ideaProducts": "Productos",
+    "fallbackMode": "Se muestran sugerencias de respaldo. Configura Doubao para conceptos más ricos.",
+    "copyPrompt": "Copiar prompt",
+    "generateImage": "Generar arte",
+    "imageGenerating": "Generando...",
+    "addImageToCanvas": "Añadir al lienzo",
+    "imageNotConfigured": "La generación de imágenes con IA aún no está configurada.",
+    "imageFailed": "No se pudo generar la imagen. Inténtalo de nuevo."
   },
   "warnings": {
     "outsideSafeArea": "La capa sale del área segura — puede recortarse en producción.",

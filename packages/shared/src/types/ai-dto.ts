@@ -7,10 +7,10 @@ import type { ProductCategory } from '../constants/product-categories';
 
 /** Maximum prompt length accepted by every AI endpoint. */
 export const AI_PROMPT_MAX_LENGTH = 1000;
-/** Maximum data-URL bytes (≈ 5MB raw) for the remove-background mock. */
+/** Maximum data-URL bytes (approx. 5MB raw) for the remove-background mock. */
 export const AI_IMAGE_MAX_BYTES = 6_500_000;
 
-// ── generate-slogan ────────────────────────────────────────────────────
+// -- generate-slogan -------------------------------------------------------
 
 export type SloganTone = 'professional' | 'playful' | 'inspirational' | 'bold' | 'friendly';
 
@@ -35,7 +35,7 @@ export interface AiGenerateSloganResult {
   slogans: SloganSuggestion[];
 }
 
-// ── design-ideas ────────────────────────────────────────────────────────
+// -- design-ideas ---------------------------------------------------------
 
 export interface AiDesignIdeasInput {
   prompt: string;
@@ -47,7 +47,7 @@ export interface AiDesignIdeasInput {
 export interface DesignIdea {
   title: string;
   style: string;
-  /** 3–6 hex colour codes. */
+  /** 3-6 hex colour codes. */
   colors: string[];
   layoutSuggestion: string;
   recommendedProducts: ProductCategory[];
@@ -57,7 +57,75 @@ export interface AiDesignIdeasResult {
   ideas: DesignIdea[];
 }
 
-// ── gift-set-suggestions ────────────────────────────────────────────────
+// -- design-suggestions ---------------------------------------------------
+
+export interface AiDesignPrintAreaInput {
+  width: number;
+  height: number;
+}
+
+export interface AiDesignSuggestionsInput {
+  productId?: string;
+  locale?: Locale;
+  /** Customer scenario, e.g. "gym opening event t-shirt". */
+  scene: string;
+  /** Optional style hint, e.g. "bold streetwear". */
+  style?: string;
+  printArea?: AiDesignPrintAreaInput;
+}
+
+export interface AiDesignSuggestion {
+  title: string;
+  slogan: string;
+  colors: string[];
+  layout: string;
+  /** Print-ready prompt suitable for image generation. */
+  prompt: string;
+}
+
+export interface AiDesignSuggestionsResult {
+  suggestions: AiDesignSuggestion[];
+  source: 'doubao' | 'openai' | 'fallback';
+}
+
+// -- generate-design-image -----------------------------------------------
+
+export type AiDesignImageSize = '1024x1024' | '2048x2048';
+
+export interface AiGenerateDesignImageInput {
+  prompt: string;
+  productId?: string;
+  size?: AiDesignImageSize;
+  transparentBackground?: boolean;
+}
+
+export interface AiGenerateDesignImageResult {
+  imageUrl: string;
+  width: number;
+  height: number;
+  prompt: string;
+  provider: 'doubao-seedream' | 'openai-image' | 'mock';
+  model?: string;
+}
+
+// -- check-printability ---------------------------------------------------
+
+export type AiPrintabilityStatus = 'pass' | 'warning' | 'fail';
+
+export interface AiCheckPrintabilityInput {
+  imageUrl: string;
+  productId?: string;
+  printMethod?: string;
+}
+
+export interface AiCheckPrintabilityResult {
+  score: number;
+  status: AiPrintabilityStatus;
+  warnings: string[];
+  recommendations: string[];
+}
+
+// -- gift-set-suggestions -------------------------------------------------
 
 export interface AiGiftSetInput {
   /** Scenario / occasion (e.g. "Holiday gift for engineering team of 80"). */
@@ -78,7 +146,7 @@ export interface AiGiftSetResult {
   sets: GiftSet[];
 }
 
-// ── logo-layout ─────────────────────────────────────────────────────────
+// -- logo-layout ----------------------------------------------------------
 
 export interface AiLogoLayoutInput {
   /** Brand or product context. */
@@ -88,7 +156,7 @@ export interface AiLogoLayoutInput {
   printArea?: string;
 }
 
-/** Lightweight layout descriptor — the customizer can map this to layers. */
+/** Lightweight layout descriptor - the customizer can map this to layers. */
 export interface LogoLayoutObject {
   type: 'text' | 'logo' | 'shape';
   /** Relative position in the print area (0..1). */
@@ -111,7 +179,7 @@ export interface AiLogoLayoutResult {
   layouts: LogoLayout[];
 }
 
-// ── remove-background ───────────────────────────────────────────────────
+// -- remove-background ----------------------------------------------------
 
 export interface AiRemoveBackgroundInput {
   /** Source image as a data URL (PNG / JPG). */
@@ -125,7 +193,7 @@ export interface AiRemoveBackgroundResult {
   mode: 'real' | 'mock';
 }
 
-// ── check-design-risk ───────────────────────────────────────────────────
+// -- check-design-risk ----------------------------------------------------
 
 export interface AiCheckRiskInput {
   /** Design JSON (customizer snapshot). */

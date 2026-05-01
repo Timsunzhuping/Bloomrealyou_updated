@@ -1,8 +1,11 @@
 import { Body, Controller, Headers, HttpCode, Post } from '@nestjs/common';
 
 import type {
+  AiCheckPrintabilityResult,
   AiCheckRiskResult,
   AiDesignIdeasResult,
+  AiDesignSuggestionsResult,
+  AiGenerateDesignImageResult,
   AiGenerateSloganResult,
   AiGiftSetResult,
   AiLogoLayoutResult,
@@ -10,8 +13,11 @@ import type {
 } from '@custom-merch/shared';
 
 import {
+  CheckPrintabilityBody,
   CheckRiskBody,
   DesignIdeasBody,
+  DesignSuggestionsBody,
+  GenerateDesignImageBody,
   GenerateSloganBody,
   GiftSetBody,
   LogoLayoutBody,
@@ -41,6 +47,36 @@ export class AIController {
     @Headers('x-cart-session') userId?: string,
   ): Promise<AiDesignIdeasResult> {
     return this.service.designIdeas(body, userId);
+  }
+
+  /** POST /ai/design-suggestions */
+  @Post('design-suggestions')
+  @HttpCode(200)
+  designSuggestions(
+    @Body() body: DesignSuggestionsBody,
+    @Headers('x-cart-session') userId?: string,
+  ): Promise<AiDesignSuggestionsResult> {
+    return this.service.designSuggestions(body, userId);
+  }
+
+  /** POST /ai/generate-design-image */
+  @Post('generate-design-image')
+  @HttpCode(200)
+  generateDesignImage(
+    @Body() body: GenerateDesignImageBody,
+    @Headers('x-cart-session') userId?: string,
+  ): Promise<AiGenerateDesignImageResult> {
+    return this.service.generateDesignImage(body, userId);
+  }
+
+  /** POST /ai/check-printability */
+  @Post('check-printability')
+  @HttpCode(200)
+  checkPrintability(
+    @Body() body: CheckPrintabilityBody,
+    @Headers('x-cart-session') userId?: string,
+  ): Promise<AiCheckPrintabilityResult> {
+    return this.service.checkPrintability(body, userId);
   }
 
   /** POST /ai/gift-set-suggestions */

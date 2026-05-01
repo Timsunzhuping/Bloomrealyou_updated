@@ -2,10 +2,16 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import type {
   AIProvider,
+  AiCheckPrintabilityInput,
+  AiCheckPrintabilityResult,
   AiCheckRiskInput,
   AiCheckRiskResult,
   AiDesignIdeasInput,
   AiDesignIdeasResult,
+  AiDesignSuggestionsInput,
+  AiDesignSuggestionsResult,
+  AiGenerateDesignImageInput,
+  AiGenerateDesignImageResult,
   AiGenerateSloganInput,
   AiGenerateSloganResult,
   AiGiftSetInput,
@@ -89,6 +95,31 @@ export class OpenAIProvider implements AIProvider {
       ],
       () => this.fallback.designIdeas(input),
     );
+  }
+
+  async designSuggestions(input: AiDesignSuggestionsInput): Promise<AiDesignSuggestionsResult> {
+    const fallback = await this.fallback.designSuggestions(input);
+    return this.callOrFallback<AiDesignSuggestionsResult>(
+      [
+        {
+          role: 'system',
+          content:
+            'You are a print-on-demand art director. Return strict JSON of the shape ' +
+            '{"suggestions":[{"title":string,"slogan":string,"colors":[hex],"layout":string,"prompt":string}],"source":"openai"}. ' +
+            'Provide exactly 3 suggestions. Prompts must be suitable for printable standalone artwork, with transparent background, no product mockup and no photography.',
+        },
+        { role: 'user', content: JSON.stringify(input) },
+      ],
+      async () => fallback,
+    ).then((result) => ({ ...result, source: result.source === 'fallback' ? 'fallback' : 'openai' }));
+  }
+
+  async generateDesignImage(_input: AiGenerateDesignImageInput): Promise<AiGenerateDesignImageResult> {
+    throw new Error('AI_IMAGE_GENERATION_NOT_SUPPORTED');
+  }
+
+  async checkPrintability(input: AiCheckPrintabilityInput): Promise<AiCheckPrintabilityResult> {
+    return this.fallback.checkPrintability(input);
   }
 
   async giftSetSuggestions(input: AiGiftSetInput): Promise<AiGiftSetResult> {

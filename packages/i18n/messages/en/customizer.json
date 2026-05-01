@@ -108,7 +108,7 @@
     "scenarioPlaceholder": "e.g. Tech conference in Dubai for an AI startup",
     "generate": "Get suggestions",
     "generating": "Thinking…",
-    "fallback": "AI is unavailable right now — your manual tools still work.",
+    "fallback": "AI suggestions are using the local fallback right now. Manual tools still work.",
     "slogansHeading": "Slogans",
     "ideasHeading": "Design ideas",
     "layoutsHeading": "Layouts",
@@ -120,7 +120,14 @@
     "improveDesign": "Improve design",
     "tryGiftBundle": "Suggest gift bundle",
     "ideaPalette": "Palette",
-    "ideaProducts": "Products"
+    "ideaProducts": "Products",
+    "fallbackMode": "Showing fallback design suggestions. Configure Doubao for richer generated concepts.",
+    "copyPrompt": "Copy prompt",
+    "generateImage": "Generate artwork",
+    "imageGenerating": "Generating...",
+    "addImageToCanvas": "Add to canvas",
+    "imageNotConfigured": "AI image generation is not configured yet. Add the Doubao/Ark key on the server.",
+    "imageFailed": "AI image generation failed. Please try again."
   },
   "warnings": {
     "outsideSafeArea": "Layer extends past the safe area — it may be trimmed in production.",
