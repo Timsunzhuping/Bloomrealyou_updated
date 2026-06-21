@@ -1031,3 +1031,36 @@ model AIRequestLog {
   @@index([occurredAt])
   @@map("ai_request_logs")
 }
+
+// =============================================================================
+// Durable snapshots (Phase 1 persistence)
+// =============================================================================
+//
+// Generic JSON-backed durable store for aggregates whose runtime repositories
+// keep an in-memory map as the source of truth (orders, payments, carts,
+// designs, quotes, RFQs, accounts, ...). Each repository primes its in-memory
+// map from these rows at boot and write-throughs on every mutation, so data
+// survives restarts and is shared across instances — without forcing the full
+// relational reconciliation (guest users, catalog FKs) that the rich models
+// above require. A later phase can migrate high-value aggregates to those
+// relational tables; until then this is the launch-blocking persistence layer.
+//
+//   kind      — aggregate type: "order" | "payment" | "cart" | "design" | ...
+//   entityId  — the aggregate's own id (UUID string)
+//   refKey    — optional secondary lookup (orderNumber, providerReference,
+//               email, cartSessionId, ...) for prime-time index building
+//   data      — the full DTO payload as JSON
+
+model EntitySnapshot {
+  kind      String
+  entityId  String
+  refKey    String?
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([kind, entityId])
+  @@index([kind, refKey])
+  @@index([kind, updatedAt])
+  @@map("entity_snapshots")
+}

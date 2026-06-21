@@ -3,13 +3,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import type { PaymentDto } from '@custom-merch/shared';
 
 import { PaymentsRepository } from './payments.repository';
-import { PrismaService } from '../_lib/prisma.service';
+import { SnapshotStore, type SnapshotRow } from '../_lib/snapshot-store';
 
 describe('PaymentsRepository - persistence', () => {
   let repository: PaymentsRepository;
-  let prismaService: PrismaService;
+  let snapshots: { loadAll: jest.Mock; put: jest.Mock; remove: jest.Mock };
 
-  const mockPayment: PaymentDto = {
+  const mockPayment = {
     id: 'pay_test_123',
     orderId: 'order_abc',
     providerReference: 'ch_stripe_12345',
@@ -18,220 +18,142 @@ describe('PaymentsRepository - persistence', () => {
     currency: 'USD',
     status: 'succeeded',
     providerMetadata: { chargeId: 'ch_stripe_12345' },
-  };
+  } as unknown as PaymentDto;
 
   beforeEach(async () => {
-    const mockPrismaService = {
-      payment: {
-        findMany: jest.fn().mockResolvedValue([]),
-        upsert: jest.fn().mockResolvedValue({}),
-      },
-      webhookEvent: {
-        upsert: jest.fn().mockResolvedValue({}),
-      },
-      client_: {},
+    snapshots = {
+      loadAll: jest.fn().mockResolvedValue([]),
+      put: jest.fn(),
+      remove: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        PaymentsRepository,
-        {
-          provide: PrismaService,
-          useValue: mockPrismaService,
-        },
-      ],
+      providers: [PaymentsRepository, { provide: SnapshotStore, useValue: snapshots }],
     }).compile();
 
     repository = module.get<PaymentsRepository>(PaymentsRepository);
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   describe('save', () => {
-    it('should save payment to in-memory store', () => {
+    it('should save payment to in-memory store and write-through', () => {
       const result = repository.save(mockPayment);
 
       expect(result).toEqual(mockPayment);
       expect(repository.get(mockPayment.id)).toEqual(mockPayment);
+      expect(snapshots.put).toHaveBeenCalledWith(
+        'payment',
+        mockPayment.id,
+        mockPayment,
+        mockPayment.providerReference,
+      );
     });
 
-    it('should update provider reference lookup', () => {
+    it('should index by provider reference', () => {
       repository.save(mockPayment);
-
-      const retrieved = repository.findByProviderReference(mockPayment.providerReference);
-      expect(retrieved).toEqual(mockPayment);
+      expect(repository.findByProviderReference(mockPayment.providerReference)).toEqual(mockPayment);
     });
 
     it('should handle multiple payments', () => {
-      const payment1 = { ...mockPayment, id: 'pay_1', providerReference: 'ch_1' };
-      const payment2 = { ...mockPayment, id: 'pay_2', providerReference: 'ch_2' };
+      const p1 = { ...mockPayment, id: 'pay_1', providerReference: 'ch_1' };
+      const p2 = { ...mockPayment, id: 'pay_2', providerReference: 'ch_2' };
 
-      repository.save(payment1);
-      repository.save(payment2);
+      repository.save(p1);
+      repository.save(p2);
 
-      expect(repository.get('pay_1')).toEqual(payment1);
-      expect(repository.get('pay_2')).toEqual(payment2);
-      expect(repository.findByProviderReference('ch_1')).toEqual(payment1);
-      expect(repository.findByProviderReference('ch_2')).toEqual(payment2);
-    });
-  });
-
-  describe('get', () => {
-    it('should retrieve payment by ID', () => {
-      repository.save(mockPayment);
-
-      const result = repository.get(mockPayment.id);
-      expect(result).toEqual(mockPayment);
-    });
-
-    it('should return undefined for non-existent payment', () => {
-      const result = repository.get('fake_id');
-      expect(result).toBeUndefined();
+      expect(repository.findByProviderReference('ch_1')).toEqual(p1);
+      expect(repository.findByProviderReference('ch_2')).toEqual(p2);
     });
   });
 
   describe('findByProviderReference', () => {
-    it('should find payment by provider reference', () => {
-      repository.save(mockPayment);
-
-      const result = repository.findByProviderReference('ch_stripe_12345');
-      expect(result).toEqual(mockPayment);
-    });
-
-    it('should return undefined for non-existent reference', () => {
-      const result = repository.findByProviderReference('ch_fake_999');
-      expect(result).toBeUndefined();
+    it('should return undefined for unknown reference', () => {
+      expect(repository.findByProviderReference('ch_fake_999')).toBeUndefined();
     });
   });
 
   describe('markEventProcessed (webhook idempotency)', () => {
-    it('should mark event as processed on first call', () => {
+    it('should return true on first call, false on duplicate', () => {
       const eventId = 'evt_stripe_abc123';
 
-      const result = repository.markEventProcessed(eventId);
-
-      expect(result).toBe(true);
+      expect(repository.markEventProcessed(eventId)).toBe(true);
+      expect(repository.markEventProcessed(eventId)).toBe(false);
     });
 
-    it('should return false on duplicate event', () => {
-      const eventId = 'evt_stripe_abc123';
+    it('should write-through the marker on first sight only', () => {
+      const eventId = 'evt_stripe_persist';
 
-      const first = repository.markEventProcessed(eventId);
-      const second = repository.markEventProcessed(eventId);
+      repository.markEventProcessed(eventId);
+      repository.markEventProcessed(eventId);
 
-      expect(first).toBe(true);
-      expect(second).toBe(false);
+      expect(snapshots.put).toHaveBeenCalledTimes(1);
+      expect(snapshots.put).toHaveBeenCalledWith(
+        'payment_event',
+        eventId,
+        expect.objectContaining({ eventId }),
+      );
     });
 
     it('should prevent double-charging from duplicate webhooks', () => {
       const eventId = 'evt_stripe_duplicate';
 
-      const isNew1 = repository.markEventProcessed(eventId);
-      const isNew2 = repository.markEventProcessed(eventId);
+      const first = repository.markEventProcessed(eventId);
+      if (first) {
+        repository.save({ ...mockPayment, id: 'pay_webhook_1', providerReference: 'ch_wh' });
+      }
+      const second = repository.markEventProcessed(eventId);
+      if (second) {
+        fail('Duplicate webhook was processed twice');
+      }
 
-      // Application logic would check isNew1 before processing payment,
-      // and skip processing if isNew2 is false
-      expect(isNew1).toBe(true);
-      expect(isNew2).toBe(false);
-    });
-
-    it('should trigger fire-and-forget Prisma write', () => {
-      const eventId = 'evt_stripe_persistence_test';
-
-      repository.markEventProcessed(eventId);
-
-      // Verify the method returns true (event marked)
-      const isDuplicate = repository.markEventProcessed(eventId);
-      expect(isDuplicate).toBe(false);
+      expect(repository.listForOrder(mockPayment.orderId).length).toBe(1);
     });
   });
 
   describe('listForOrder', () => {
     it('should return payments for a given order', () => {
-      const payment1 = { ...mockPayment, id: 'pay_1', orderId: 'order_1' };
-      const payment2 = { ...mockPayment, id: 'pay_2', orderId: 'order_2' };
-      const payment3 = { ...mockPayment, id: 'pay_3', orderId: 'order_1' };
-
-      repository.save(payment1);
-      repository.save(payment2);
-      repository.save(payment3);
+      repository.save({ ...mockPayment, id: 'pay_1', orderId: 'order_1', providerReference: 'r1' });
+      repository.save({ ...mockPayment, id: 'pay_2', orderId: 'order_2', providerReference: 'r2' });
+      repository.save({ ...mockPayment, id: 'pay_3', orderId: 'order_1', providerReference: 'r3' });
 
       const result = repository.listForOrder('order_1');
 
-      expect(result.length).toBe(2);
-      expect(result.map(p => p.id)).toContain('pay_1');
-      expect(result.map(p => p.id)).toContain('pay_3');
+      expect(result.map((p) => p.id).sort()).toEqual(['pay_1', 'pay_3']);
     });
 
-    it('should return empty array for non-existent order', () => {
-      const result = repository.listForOrder('fake_order');
-      expect(result).toEqual([]);
+    it('should return empty array for unknown order', () => {
+      expect(repository.listForOrder('fake_order')).toEqual([]);
     });
   });
 
-  describe('onModuleInit (Prisma priming)', () => {
-    it('should load payments from database on init', async () => {
-      const mockPrismaPayment = {
-        id: 'pay_db_1',
-        orderId: 'order_db',
-        providerReference: 'ch_db_12345',
-        provider: 'stripe',
-        amountMinor: 5000,
-        currency: 'USD',
-        status: 'succeeded',
-        providerMetadata: {},
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+  describe('onModuleInit (priming from durable store)', () => {
+    it('should load payments and webhook markers into memory', async () => {
+      const paymentRows: SnapshotRow<PaymentDto>[] = [
+        {
+          entityId: 'pay_db_1',
+          refKey: 'ch_db_12345',
+          data: { ...mockPayment, id: 'pay_db_1', providerReference: 'ch_db_12345' },
+        },
+      ];
+      const eventRows: SnapshotRow<{ eventId: string }> = [
+        { entityId: 'evt_db_1', refKey: null, data: { eventId: 'evt_db_1' } },
+      ] as unknown as SnapshotRow<{ eventId: string }>;
 
-      (prismaService.payment.findMany as jest.Mock).mockResolvedValueOnce([mockPrismaPayment]);
+      snapshots.loadAll
+        .mockResolvedValueOnce(paymentRows) // KIND = 'payment'
+        .mockResolvedValueOnce(eventRows); // EVENT_KIND = 'payment_event'
 
-      const newRepository = new PaymentsRepository(prismaService);
-      await newRepository.onModuleInit();
+      await repository.onModuleInit();
 
-      const loaded = newRepository.get('pay_db_1');
-      expect(loaded).toBeDefined();
-      expect(loaded?.providerReference).toBe('ch_db_12345');
+      expect(repository.get('pay_db_1')).toBeDefined();
+      expect(repository.findByProviderReference('ch_db_12345')?.id).toBe('pay_db_1');
+      // The previously-seen event is recognised as a duplicate (returns false).
+      expect(repository.markEventProcessed('evt_db_1')).toBe(false);
     });
 
-    it('should handle empty database on init', async () => {
-      (prismaService.payment.findMany as jest.Mock).mockResolvedValueOnce([]);
-
-      const newRepository = new PaymentsRepository(prismaService);
-      await newRepository.onModuleInit();
-
-      expect(newRepository.listForOrder('any_order')).toEqual([]);
-    });
-  });
-
-  describe('webhook idempotency flow', () => {
-    it('should block duplicate charge events', () => {
-      const webhook = {
-        id: 'evt_duplicate_charge',
-        type: 'charge.succeeded',
-        data: { chargeId: 'ch_stripe_charge' },
-      };
-
-      // First webhook arrives
-      const isNew1 = repository.markEventProcessed(webhook.id);
-      if (isNew1) {
-        // Process charge
-        const payment = {
-          ...mockPayment,
-          id: 'pay_webhook_1',
-          providerReference: webhook.data.chargeId,
-        };
-        repository.save(payment);
-      }
-
-      // Duplicate webhook arrives (network retry)
-      const isNew2 = repository.markEventProcessed(webhook.id);
-      if (isNew2) {
-        // Process charge again (should NOT happen)
-        fail('Duplicate webhook was processed twice');
-      }
-
-      expect(repository.get('pay_webhook_1')).toBeDefined();
-      expect(repository.listForOrder(mockPayment.orderId).length).toBe(1);
+    it('should handle an empty durable store', async () => {
+      snapshots.loadAll.mockResolvedValue([]);
+      await repository.onModuleInit();
+      expect(repository.listForOrder('any')).toEqual([]);
     });
   });
 });
