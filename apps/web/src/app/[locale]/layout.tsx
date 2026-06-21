@@ -59,6 +59,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps): Promise<JS
                 <Link href="/">{t('nav.home')}</Link>
                 <Link href="/products">{t('nav.products')}</Link>
                 <Link href="/business">{t('nav.business')}</Link>
+                <Link href="/ai-chat">AI Chat</Link>
                 <Link href="/account">{t('nav.account')}</Link>
                 <Link href="/cart">{t('nav.cart')}</Link>
                 <LanguageSwitcher />
