@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { createHmac, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 
 import {
   ADMIN_ROLE_PERMISSIONS,
@@ -8,6 +8,11 @@ import {
   type AdminUserDto,
   type Locale,
 } from '@custom-merch/shared';
+
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+/** Durable admin sessions survive API restarts (snapshot kind). */
+const SESSION_KIND = 'admin_session';
 
 interface StoredAdminUser {
   id: string;
@@ -35,13 +40,30 @@ interface StoredSession {
  * just an email / password pair.
  */
 @Injectable()
-export class AdminUsersRepository {
+export class AdminUsersRepository implements OnModuleInit {
+  private readonly log = new Logger(AdminUsersRepository.name);
   private readonly users = new Map<string, StoredAdminUser>();
   private readonly byEmail = new Map<string, string>();
   private readonly sessions = new Map<string, StoredSession>();
 
-  constructor() {
+  constructor(private readonly snapshots: SnapshotStore) {
     this.seed();
+  }
+
+  /**
+   * Restore active sessions from the durable store so admins stay logged in
+   * across an API restart / redeploy. Sessions reference users by their
+   * deterministic id (derived from email), so they resolve correctly even
+   * though the user records are re-seeded on every boot.
+   */
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<StoredSession>(SESSION_KIND);
+    for (const row of rows) {
+      this.sessions.set(row.entityId, row.data);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Restored ${rows.length} admin sessions from durable store`);
+    }
   }
 
   private seed(): void {
@@ -87,7 +109,9 @@ export class AdminUsersRepository {
     supplierId?: string | null;
   }): StoredAdminUser {
     const user: StoredAdminUser = {
-      id: randomUUID(),
+      // Deterministic id derived from email so it's stable across restarts —
+      // required for durable sessions (which reference users by id) to resolve.
+      id: `usr_${createHash('sha256').update(input.email.toLowerCase()).digest('hex').slice(0, 24)}`,
       email: input.email.toLowerCase(),
       passwordHash: input.passwordHash,
       passwordSalt: input.passwordSalt,
@@ -119,11 +143,13 @@ export class AdminUsersRepository {
   /** Issue an opaque session token. The full table is in-memory; future swap to JWT. */
   issueSession(userId: string): string {
     const token = `at_${randomBytes(24).toString('hex')}`;
-    this.sessions.set(token, {
+    const session: StoredSession = {
       token,
       userId,
       issuedAt: new Date().toISOString(),
-    });
+    };
+    this.sessions.set(token, session);
+    this.snapshots.put(SESSION_KIND, token, session);
     return token;
   }
 
@@ -135,6 +161,7 @@ export class AdminUsersRepository {
 
   revokeSession(token: string): void {
     this.sessions.delete(token);
+    this.snapshots.remove(SESSION_KIND, token);
   }
 
   toDto(user: StoredAdminUser): AdminUserDto {

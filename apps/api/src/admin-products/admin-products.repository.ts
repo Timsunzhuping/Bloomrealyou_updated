@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import {
@@ -12,6 +12,10 @@ import {
   type ProductCategory,
   type ProductStatus,
 } from '@custom-merch/shared';
+
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const KIND = 'admin_product';
 
 interface ListFilter {
   q?: string;
@@ -28,11 +32,28 @@ interface ListFilter {
  * everything from a single payload.
  */
 @Injectable()
-export class AdminProductsRepository {
+export class AdminProductsRepository implements OnModuleInit {
+  private readonly log = new Logger(AdminProductsRepository.name);
   private readonly products = new Map<string, AdminProductDto>();
 
-  constructor() {
+  constructor(private readonly snapshots: SnapshotStore) {
     this.seed();
+  }
+
+  /**
+   * After the mock seed, overlay any persisted admin edits so they win across
+   * restarts. Note: deleting a *seeded* product won't stay deleted (the seed
+   * re-adds it on boot); admin-created products and edits do persist. A later
+   * relational phase replaces the mock seed entirely.
+   */
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<AdminProductDto>(KIND);
+    for (const row of rows) {
+      this.products.set(row.data.id, row.data);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Overlaid ${rows.length} persisted product edits from durable store`);
+    }
   }
 
   private seed(): void {
@@ -122,6 +143,7 @@ export class AdminProductsRepository {
 
   create(dto: AdminProductDto): AdminProductDto {
     this.products.set(dto.id, dto);
+    this.snapshots.put(KIND, dto.id, dto, dto.slug);
     return dto;
   }
 
@@ -136,11 +158,14 @@ export class AdminProductsRepository {
       updatedAt: new Date().toISOString(),
     };
     this.products.set(id, next);
+    this.snapshots.put(KIND, next.id, next, next.slug);
     return next;
   }
 
   delete(id: string): boolean {
-    return this.products.delete(id);
+    const removed = this.products.delete(id);
+    if (removed) this.snapshots.remove(KIND, id);
+    return removed;
   }
 
   // ── nested resources (variants / print areas / price tiers) ────────────

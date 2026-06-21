@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import type { AdminTemplateDto, ProductCategory } from '@custom-merch/shared';
+
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const KIND = 'admin_template';
 
 interface ListFilter {
   q?: string;
@@ -12,11 +16,23 @@ interface ListFilter {
 }
 
 @Injectable()
-export class AdminTemplatesRepository {
+export class AdminTemplatesRepository implements OnModuleInit {
+  private readonly log = new Logger(AdminTemplatesRepository.name);
   private readonly templates = new Map<string, AdminTemplateDto>();
 
-  constructor() {
+  constructor(private readonly snapshots: SnapshotStore) {
     this.seed();
+  }
+
+  /** Overlay persisted admin template edits/creations on top of the seed. */
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<AdminTemplateDto>(KIND);
+    for (const row of rows) {
+      this.templates.set(row.data.id, row.data);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Overlaid ${rows.length} persisted template edits from durable store`);
+    }
   }
 
   private seed(): void {
@@ -90,6 +106,7 @@ export class AdminTemplatesRepository {
 
   save(template: AdminTemplateDto): AdminTemplateDto {
     this.templates.set(template.id, template);
+    this.snapshots.put(KIND, template.id, template);
     return template;
   }
 
@@ -104,11 +121,14 @@ export class AdminTemplatesRepository {
       updatedAt: new Date().toISOString(),
     };
     this.templates.set(id, next);
+    this.snapshots.put(KIND, next.id, next);
     return next;
   }
 
   delete(id: string): boolean {
-    return this.templates.delete(id);
+    const removed = this.templates.delete(id);
+    if (removed) this.snapshots.remove(KIND, id);
+    return removed;
   }
 }
 
