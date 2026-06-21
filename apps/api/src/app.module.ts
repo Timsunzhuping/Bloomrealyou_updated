@@ -15,6 +15,7 @@ import { AdminShippingModule } from './admin-shipments/admin-shipments.module';
 import { AdminSuppliersModule } from './admin-suppliers/admin-suppliers.module';
 import { AdminTemplatesModule } from './admin-templates/admin-templates.module';
 import { AIModule } from './ai/ai.module';
+import { AiAgentsModule } from './ai-agents/ai-agents.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
 import { CartModule } from './cart/cart.module';
 import { NotificationsModule } from './notifications/notifications.module';
@@ -42,6 +43,7 @@ import { RFQsModule } from './rfqs/rfqs.module';
     PaymentsModule,
     AccountModule,
     AIModule,
+    AiAgentsModule,
     RFQsModule,
     QuotesModule,
     AdminAuthModule,
