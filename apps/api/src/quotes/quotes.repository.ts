@@ -1,15 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 
 import type { QuoteDto, QuoteStatus } from '@custom-merch/shared';
 
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const KIND = 'quote';
+
 @Injectable()
-export class QuotesRepository {
+export class QuotesRepository implements OnModuleInit {
+  private readonly log = new Logger(QuotesRepository.name);
   private readonly quotes = new Map<string, QuoteDto>();
   private readonly byNumber = new Map<string, string>();
+
+  constructor(private readonly snapshots: SnapshotStore) {}
+
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<QuoteDto>(KIND);
+    for (const row of rows) {
+      this.quotes.set(row.data.id, row.data);
+      this.byNumber.set(row.data.quoteNumber, row.data.id);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Primed ${rows.length} quotes from durable store`);
+    }
+  }
 
   save(quote: QuoteDto): QuoteDto {
     this.quotes.set(quote.id, quote);
     this.byNumber.set(quote.quoteNumber, quote.id);
+    this.snapshots.put(KIND, quote.id, quote, quote.quoteNumber);
     return quote;
   }
 
@@ -33,6 +52,7 @@ export class QuotesRepository {
       updatedAt: now,
     };
     this.quotes.set(id, updated);
+    this.snapshots.put(KIND, updated.id, updated, updated.quoteNumber);
     return updated;
   }
 
@@ -45,6 +65,7 @@ export class QuotesRepository {
       updatedAt: new Date().toISOString(),
     };
     this.quotes.set(id, updated);
+    this.snapshots.put(KIND, updated.id, updated, updated.quoteNumber);
     return updated;
   }
 

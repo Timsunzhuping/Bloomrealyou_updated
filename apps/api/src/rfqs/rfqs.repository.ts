@@ -1,16 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 
 import type { RfqDto, RFQStatus } from '@custom-merch/shared';
 
-/** In-memory RFQ store. Drop-in replacement for the future Prisma table. */
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const KIND = 'rfq';
+
+/**
+ * RFQ store. In-memory map is the runtime source of truth, made durable via
+ * the {@link SnapshotStore}.
+ */
 @Injectable()
-export class RFQsRepository {
+export class RFQsRepository implements OnModuleInit {
+  private readonly log = new Logger(RFQsRepository.name);
   private readonly rfqs = new Map<string, RfqDto>();
   private readonly byNumber = new Map<string, string>();
+
+  constructor(private readonly snapshots: SnapshotStore) {}
+
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<RfqDto>(KIND);
+    for (const row of rows) {
+      this.rfqs.set(row.data.id, row.data);
+      this.byNumber.set(row.data.rfqNumber, row.data.id);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Primed ${rows.length} RFQs from durable store`);
+    }
+  }
+
+  private persist(rfq: RfqDto): void {
+    this.snapshots.put(KIND, rfq.id, rfq, rfq.rfqNumber);
+  }
 
   save(rfq: RfqDto): RfqDto {
     this.rfqs.set(rfq.id, rfq);
     this.byNumber.set(rfq.rfqNumber, rfq.id);
+    this.persist(rfq);
     return rfq;
   }
 
@@ -35,6 +61,7 @@ export class RFQsRepository {
         existing.reviewedAt ?? (status !== 'submitted' ? now : null),
     };
     this.rfqs.set(id, updated);
+    this.persist(updated);
     return updated;
   }
 
@@ -47,6 +74,7 @@ export class RFQsRepository {
       updatedAt: new Date().toISOString(),
     };
     this.rfqs.set(id, updated);
+    this.persist(updated);
     return updated;
   }
 
@@ -60,6 +88,7 @@ export class RFQsRepository {
       updatedAt: new Date().toISOString(),
     };
     this.rfqs.set(id, updated);
+    this.persist(updated);
     return updated;
   }
 

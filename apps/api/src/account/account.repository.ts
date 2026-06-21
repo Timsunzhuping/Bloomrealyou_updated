@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import type {
@@ -8,15 +8,47 @@ import type {
   SavedAddressDto,
 } from '@custom-merch/shared';
 
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const PROFILE_KIND = 'account_profile';
+const ADDRESS_KIND = 'account_addresses';
+
 /**
  * Anonymous-session profile + addresses store. The MVP uses the cart
- * session id as the user id; profile and address state survive in memory
- * for the life of the API process.
+ * session id as the user id. In-memory maps are the runtime source of truth;
+ * the {@link SnapshotStore} makes them durable across restarts.
+ *
+ * Writes go through on real mutations only (updateProfile / *Address) — a
+ * bare read via {@link ensureProfile} does not persist an empty profile, so
+ * casual browsing sessions don't bloat the durable store.
  */
 @Injectable()
-export class AccountRepository {
+export class AccountRepository implements OnModuleInit {
+  private readonly log = new Logger(AccountRepository.name);
   private readonly profilesBySession = new Map<string, AccountProfileDto>();
   private readonly addressesBySession = new Map<string, SavedAddressDto[]>();
+
+  constructor(private readonly snapshots: SnapshotStore) {}
+
+  async onModuleInit(): Promise<void> {
+    const profiles = await this.snapshots.loadAll<AccountProfileDto>(PROFILE_KIND);
+    for (const row of profiles) {
+      this.profilesBySession.set(row.entityId, row.data);
+    }
+    const addresses = await this.snapshots.loadAll<SavedAddressDto[]>(ADDRESS_KIND);
+    for (const row of addresses) {
+      this.addressesBySession.set(row.entityId, row.data);
+    }
+    if (profiles.length > 0 || addresses.length > 0) {
+      this.log.log(
+        `Primed ${profiles.length} profiles + ${addresses.length} address books from durable store`,
+      );
+    }
+  }
+
+  private persistAddresses(sessionId: string): void {
+    this.snapshots.put(ADDRESS_KIND, sessionId, this.addressesBySession.get(sessionId) ?? []);
+  }
 
   ensureProfile(sessionId: string): AccountProfileDto {
     let p = this.profilesBySession.get(sessionId);
@@ -47,6 +79,7 @@ export class AccountRepository {
       updatedAt: new Date().toISOString(),
     };
     this.profilesBySession.set(sessionId, next);
+    this.snapshots.put(PROFILE_KIND, sessionId, next);
     return next;
   }
 
@@ -83,6 +116,7 @@ export class AccountRepository {
     }
     list.push(dto);
     this.addressesBySession.set(sessionId, list);
+    this.persistAddresses(sessionId);
     return dto;
   }
 
@@ -113,6 +147,7 @@ export class AccountRepository {
       });
     }
     list[idx] = next;
+    this.persistAddresses(sessionId);
     return next;
   }
 
@@ -121,6 +156,7 @@ export class AccountRepository {
     const next = list.filter((a) => a.id !== id);
     if (next.length === list.length) return false;
     this.addressesBySession.set(sessionId, next);
+    this.persistAddresses(sessionId);
     return true;
   }
 

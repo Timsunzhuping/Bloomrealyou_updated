@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import type { CustomerDesignDto, ValidationResult } from '@custom-merch/shared';
+
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const KIND = 'design';
 
 interface CreateInput {
   ownerUserId: string;
@@ -15,15 +19,34 @@ interface CreateInput {
 }
 
 /**
- * In-memory repository for the WP-07 MVP. Mirrors the public surface of the
- * future Prisma repository (`customer_designs` table) so swapping it out
- * later is a one-file change.
+ * Customer designs repository. In-memory maps are the runtime source of truth;
+ * the {@link SnapshotStore} makes them durable so customer designs (their IP)
+ * survive restarts. The owning anonymous session is stored in the snapshot
+ * `refKey` so the design↔session mapping is rebuilt on boot.
  */
 @Injectable()
-export class CustomizationsRepository {
+export class CustomizationsRepository implements OnModuleInit {
+  private readonly log = new Logger(CustomizationsRepository.name);
   private readonly designs = new Map<string, CustomerDesignDto>();
   /** designId -> ownerSessionId. Anonymous-user scoping for the MVP. */
   private readonly designSession = new Map<string, string>();
+
+  constructor(private readonly snapshots: SnapshotStore) {}
+
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<CustomerDesignDto>(KIND);
+    for (const row of rows) {
+      this.designs.set(row.data.id, row.data);
+      if (row.refKey) this.designSession.set(row.data.id, row.refKey);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Primed ${rows.length} designs from durable store`);
+    }
+  }
+
+  private persist(dto: CustomerDesignDto): void {
+    this.snapshots.put(KIND, dto.id, dto, this.designSession.get(dto.id) ?? null);
+  }
 
   create(input: CreateInput): CustomerDesignDto {
     const now = new Date().toISOString();
@@ -46,6 +69,7 @@ export class CustomizationsRepository {
       updatedAt: now,
     };
     this.designs.set(id, dto);
+    this.persist(dto);
     return dto;
   }
 
@@ -65,6 +89,7 @@ export class CustomizationsRepository {
       updatedAt: new Date().toISOString(),
     };
     this.designs.set(id, next);
+    this.persist(next);
     return next;
   }
 
@@ -87,6 +112,9 @@ export class CustomizationsRepository {
   /** Track ownership for the anonymous-user model. */
   setSession(designId: string, sessionId: string): void {
     this.designSession.set(designId, sessionId);
+    // Re-persist so the owning session (snapshot refKey) survives restarts.
+    const dto = this.designs.get(designId);
+    if (dto) this.persist(dto);
   }
 
   /** List designs owned by a given anonymous session, newest first. */

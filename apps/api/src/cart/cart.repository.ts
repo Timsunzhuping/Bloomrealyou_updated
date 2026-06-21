@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import type { CartDto, CartItemDto } from '@custom-merch/shared';
+
+import { SnapshotStore } from '../_lib/snapshot-store';
+
+const KIND = 'cart';
 
 interface InternalCart {
   id: string;
@@ -12,13 +16,33 @@ interface InternalCart {
 }
 
 /**
- * In-memory cart store keyed by anonymous session id. Mirrors the future
- * Prisma `carts` + `cart_items` tables so swapping in a real repository is
- * mechanical.
+ * Cart store keyed by anonymous session id. The in-memory map is the runtime
+ * source of truth; the {@link SnapshotStore} makes it durable across restarts
+ * so an in-progress checkout survives a redeploy.
+ *
+ * Empty carts created lazily by {@link ensure} are not persisted — only
+ * mutations (saveItem / removeItem / replaceItems) write through.
  */
 @Injectable()
-export class CartRepository {
+export class CartRepository implements OnModuleInit {
+  private readonly log = new Logger(CartRepository.name);
   private readonly cartsBySession = new Map<string, InternalCart>();
+
+  constructor(private readonly snapshots: SnapshotStore) {}
+
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<InternalCart>(KIND);
+    for (const row of rows) {
+      this.cartsBySession.set(row.data.sessionId, row.data);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Primed ${rows.length} carts from durable store`);
+    }
+  }
+
+  private persist(cart: InternalCart): void {
+    this.snapshots.put(KIND, cart.sessionId, cart, cart.id);
+  }
 
   ensure(sessionId: string): InternalCart {
     let cart = this.cartsBySession.get(sessionId);
@@ -42,6 +66,7 @@ export class CartRepository {
     if (existingIdx >= 0) cart.items[existingIdx] = item;
     else cart.items.push(item);
     cart.updatedAt = new Date().toISOString();
+    this.persist(cart);
     return cart;
   }
 
@@ -49,6 +74,7 @@ export class CartRepository {
     const cart = this.ensure(sessionId);
     cart.items = cart.items.filter((i) => i.id !== itemId);
     cart.updatedAt = new Date().toISOString();
+    this.persist(cart);
     return cart;
   }
 
@@ -56,6 +82,7 @@ export class CartRepository {
     const cart = this.ensure(sessionId);
     cart.items = items;
     cart.updatedAt = new Date().toISOString();
+    this.persist(cart);
     return cart;
   }
 
