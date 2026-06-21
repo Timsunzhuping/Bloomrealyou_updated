@@ -47,6 +47,34 @@ export interface Conversation {
   shareToken?: string;
   /** Share type: 'private' (default), 'public', 'link'. */
   shareType?: 'private' | 'public' | 'link';
+
+  // Phase 5+ features
+  /** Custom user tags for organization (Phase 5). */
+  tags?: string[];
+  /** Auto-generated summary of conversation (Phase 5). */
+  summary?: string;
+  /** Access control list for shared conversations (Phase 5). */
+  permissions?: ConversationPermission[];
+  /** Merged conversation IDs (Phase 5). */
+  mergedFrom?: string[];
+  /** Conversation insights/predictions (Phase 5). */
+  insights?: ConversationInsights;
+}
+
+/** Permission entry for role-based access control. */
+export interface ConversationPermission {
+  userId: string;
+  role: 'viewer' | 'editor' | 'commenter';
+  grantedAt: string;
+}
+
+/** AI-generated insights and predictions. */
+export interface ConversationInsights {
+  sentiment?: 'positive' | 'neutral' | 'negative';
+  topic?: string;
+  completionLikelihood?: number;
+  nextActionSuggested?: string;
+  generatedAt?: string;
 }
 
 /**

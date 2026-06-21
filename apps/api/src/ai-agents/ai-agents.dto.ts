@@ -31,6 +31,11 @@ export interface ConversationDto {
   isBookmarked?: boolean;
   shareToken?: string;
   shareType?: 'private' | 'public' | 'link';
+  tags?: string[];
+  summary?: string;
+  permissions?: Array<{ userId: string; role: string; grantedAt: string }>;
+  mergedFrom?: string[];
+  insights?: any;
 }
 
 export interface SendMessageResponse {
@@ -88,4 +93,77 @@ export interface CreateShareTokenResponse {
   shareToken: string;
   shareUrl: string;
   expiresAt?: string;
+}
+
+// --- Phase 5+ Features ---
+
+// Public Conversation Indexing
+export interface PublicConversationsResponse {
+  conversations: ConversationDto[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+// Tagging
+export interface AddTagsRequest {
+  tags: string[];
+}
+
+export interface RemoveTagRequest {
+  tag: string;
+}
+
+// Summaries
+export interface GenerateSummaryResponse {
+  summary: string;
+  keyPoints: string[];
+  generatedAt: string;
+}
+
+// Export Templates
+export interface ExportTemplate {
+  format: 'html' | 'markdown' | 'docx';
+  includeMetadata: boolean;
+  includeTools: boolean;
+  style?: 'professional' | 'casual' | 'minimal';
+}
+
+export interface ExportTemplateResponse {
+  content: string;
+  format: string;
+  contentType: string;
+  filename: string;
+}
+
+// Access Control
+export interface GrantAccessRequest {
+  userId: string;
+  role: 'viewer' | 'editor' | 'commenter';
+}
+
+export interface AccessListResponse {
+  permissions: Array<{ userId: string; role: string; grantedAt: string }>;
+}
+
+// Merging
+export interface MergeConversationsRequest {
+  sourceConversationIds: string[];
+  targetConversationId: string;
+}
+
+export interface MergeResponse {
+  mergedConversation: ConversationDto;
+  mergedCount: number;
+}
+
+// Predictive Analytics
+export interface ConversationPredictionsResponse {
+  predictions: {
+    sentiment: string;
+    topic: string;
+    completionLikelihood: number;
+    nextActionSuggested: string;
+    recommendations: string[];
+  };
 }

@@ -183,4 +183,117 @@ export class ConversationManager implements OnModuleInit {
       })
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
+
+  /** Get all public conversations (Phase 5). */
+  listPublic(): Conversation[] {
+    return Array.from(this.conversations.values())
+      .filter((c) => c.shareType === 'public')
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  }
+
+  /** Add tags to conversation (Phase 5). */
+  addTags(conversationId: string, tags: string[]): void {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return;
+    conversation.tags = [...new Set([...(conversation.tags || []), ...tags])];
+    this.persist(conversation);
+  }
+
+  /** Remove tag from conversation (Phase 5). */
+  removeTag(conversationId: string, tag: string): void {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return;
+    conversation.tags = (conversation.tags || []).filter((t) => t !== tag);
+    this.persist(conversation);
+  }
+
+  /** Generate summary for conversation (Phase 5). */
+  generateSummary(conversationId: string): string {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation || conversation.messages.length === 0) return '';
+
+    // Simple summarization: Extract key points from messages
+    const userMessages = conversation.messages.filter((m) => m.role === 'user');
+    const points = userMessages.slice(0, 3).map((m) => m.content.slice(0, 100));
+    return `Conversation about: ${points.join('. ')}`;
+  }
+
+  /** Set summary on conversation (Phase 5). */
+  setSummary(conversationId: string, summary: string): void {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return;
+    conversation.summary = summary;
+    this.persist(conversation);
+  }
+
+  /** Grant access to user (Phase 5). */
+  grantAccess(conversationId: string, userId: string, role: string): void {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return;
+    conversation.permissions = conversation.permissions || [];
+    conversation.permissions = conversation.permissions.filter((p) => p.userId !== userId);
+    conversation.permissions.push({
+      userId,
+      role: role as any,
+      grantedAt: new Date().toISOString(),
+    });
+    this.persist(conversation);
+  }
+
+  /** Revoke access from user (Phase 5). */
+  revokeAccess(conversationId: string, userId: string): void {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return;
+    conversation.permissions = (conversation.permissions || []).filter((p) => p.userId !== userId);
+    this.persist(conversation);
+  }
+
+  /** Merge conversations (Phase 5). */
+  mergeConversations(sourceIds: string[], targetId: string): Conversation | null {
+    const target = this.conversations.get(targetId);
+    if (!target) return null;
+
+    // Add all messages from source conversations to target
+    const sourceConversations = sourceIds.map((id) => this.conversations.get(id)).filter(Boolean) as Conversation[];
+    for (const source of sourceConversations) {
+      target.messages.push(...source.messages);
+      target.mergedFrom = [...new Set([...(target.mergedFrom || []), source.id])];
+    }
+
+    // Update timestamps and persist
+    target.updatedAt = new Date().toISOString();
+    target.tokenCount = target.messages.length * 100; // Estimate
+    this.persist(target);
+
+    return target;
+  }
+
+  /** Generate insights for conversation (Phase 5). */
+  generateInsights(conversationId: string): any {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return null;
+
+    const messages = conversation.messages;
+    const userMessages = messages.filter((m) => m.role === 'user');
+    const assistantMessages = messages.filter((m) => m.role === 'assistant');
+
+    // Simple sentiment analysis based on message length patterns
+    const avgUserLength = userMessages.reduce((sum, m) => sum + m.content.length, 0) / (userMessages.length || 1);
+    const sentiment = avgUserLength > 100 ? 'positive' : avgUserLength < 30 ? 'negative' : 'neutral';
+
+    // Topic extraction from first message
+    const firstMessage = userMessages[0]?.content || '';
+    const topic = firstMessage.split(' ').slice(0, 3).join(' ');
+
+    // Completion likelihood based on message count
+    const completionLikelihood = Math.min(messages.length / 10, 1);
+
+    return {
+      sentiment,
+      topic,
+      completionLikelihood,
+      nextActionSuggested: completionLikelihood > 0.7 ? 'Review and export' : 'Continue conversation',
+      generatedAt: new Date().toISOString(),
+    };
+  }
 }

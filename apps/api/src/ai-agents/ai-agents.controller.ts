@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   HttpException,
@@ -338,6 +339,11 @@ export class AiAgentsController {
       isBookmarked: conversation.isBookmarked,
       shareToken: conversation.shareToken,
       shareType: conversation.shareType,
+      tags: conversation.tags,
+      summary: conversation.summary,
+      permissions: conversation.permissions,
+      mergedFrom: conversation.mergedFrom,
+      insights: conversation.insights,
     };
   }
 
@@ -429,6 +435,167 @@ export class AiAgentsController {
     };
   }
 
+  @Get('/public-conversations')
+  getPublicConversations(
+    @Headers('x-page') page: string = '1',
+    @Headers('x-page-size') pageSize: string = '20',
+  ): any {
+    const conversations = this.conversationManager.listPublic();
+    const pageNum = parseInt(page) || 1;
+    const size = parseInt(pageSize) || 20;
+    const start = (pageNum - 1) * size;
+    const paged = conversations.slice(start, start + size);
+
+    return {
+      conversations: paged.map((c) => this.toDto(c)),
+      total: conversations.length,
+      page: pageNum,
+      pageSize: size,
+    };
+  }
+
+  @Post('/conversations/:conversationId/tags')
+  addTags(
+    @Param('conversationId') conversationId: string,
+    @Body() body: { tags: string[] },
+  ): any {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      throw new BadRequestException(`Conversation ${conversationId} not found`);
+    }
+    this.conversationManager.addTags(conversationId, body.tags);
+    const updated = this.conversationManager.getConversation(conversationId);
+    return { conversation: this.toDto(updated) };
+  }
+
+  @Post('/conversations/:conversationId/tags/:tag/remove')
+  removeTag(
+    @Param('conversationId') conversationId: string,
+    @Param('tag') tag: string,
+  ): any {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      throw new BadRequestException(`Conversation ${conversationId} not found`);
+    }
+    this.conversationManager.removeTag(conversationId, decodeURIComponent(tag));
+    const updated = this.conversationManager.getConversation(conversationId);
+    return { conversation: this.toDto(updated) };
+  }
+
+  @Get('/conversations/:conversationId/summary')
+  getSummary(
+    @Param('conversationId') conversationId: string,
+  ): any {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      throw new BadRequestException(`Conversation ${conversationId} not found`);
+    }
+    if (!conversation.summary) {
+      const generated = this.conversationManager.generateSummary(conversationId);
+      this.conversationManager.setSummary(conversationId, generated);
+    }
+    return { summary: conversation.summary };
+  }
+
+  @Post('/conversations/:conversationId/export/template')
+  async exportWithTemplate(
+    @Param('conversationId') conversationId: string,
+    @Body() body: any,
+    @Res() res: Response,
+  ): Promise<void> {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      res.status(400).json({ error: `Conversation ${conversationId} not found` });
+      return;
+    }
+
+    const format = body.format || 'markdown';
+
+    if (format === 'html') {
+      const html = this.generateHtmlExport(conversation);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="conversation.html"`);
+      res.send(html);
+    } else if (format === 'markdown') {
+      const md = this.generateMarkdownExport(conversation);
+      res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="conversation.md"`);
+      res.send(md);
+    } else {
+      res.status(400).json({ error: 'Unsupported format' });
+    }
+  }
+
+  @Post('/conversations/:conversationId/access')
+  grantAccess(
+    @Param('conversationId') conversationId: string,
+    @Body() body: { userId: string; role: string },
+  ): any {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      throw new BadRequestException(`Conversation ${conversationId} not found`);
+    }
+    this.conversationManager.grantAccess(conversationId, body.userId, body.role);
+    const updated = this.conversationManager.getConversation(conversationId);
+    return {
+      permissions: updated?.permissions || [],
+    };
+  }
+
+  @Delete('/conversations/:conversationId/access/:userId')
+  revokeAccess(
+    @Param('conversationId') conversationId: string,
+    @Param('userId') userId: string,
+  ): any {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      throw new BadRequestException(`Conversation ${conversationId} not found`);
+    }
+    this.conversationManager.revokeAccess(conversationId, userId);
+    const updated = this.conversationManager.getConversation(conversationId);
+    return {
+      permissions: updated?.permissions || [],
+    };
+  }
+
+  @Post('/conversations/merge')
+  mergeConversations(
+    @Body() body: { sourceConversationIds: string[]; targetConversationId: string },
+  ): any {
+    const merged = this.conversationManager.mergeConversations(
+      body.sourceConversationIds,
+      body.targetConversationId,
+    );
+    if (!merged) {
+      throw new BadRequestException('Target conversation not found');
+    }
+    return {
+      mergedConversation: this.toDto(merged),
+      mergedCount: body.sourceConversationIds.length,
+    };
+  }
+
+  @Get('/conversations/:conversationId/predictions')
+  getPredictions(
+    @Param('conversationId') conversationId: string,
+  ): any {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      throw new BadRequestException(`Conversation ${conversationId} not found`);
+    }
+    const insights = this.conversationManager.generateInsights(conversationId);
+    return {
+      predictions: {
+        ...insights,
+        recommendations: [
+          insights.sentiment === 'positive' ? 'Conversation went well' : 'May need follow-up',
+          insights.completionLikelihood > 0.7 ? 'Ready for export' : 'More interaction needed',
+          `Topic: ${insights.topic}`,
+        ],
+      },
+    };
+  }
+
   @Post('/conversations/batch-export')
   async batchExport(
     @Body() body: { conversationIds: string[]; format: string },
@@ -483,6 +650,103 @@ export class AiAgentsController {
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
       res.send(zipBuffer);
     }
+  }
+
+  private generateHtmlExport(conversation: any): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${this.escapeHtml(conversation.title || 'Conversation')}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+    .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .header { border-bottom: 3px solid #3b82f6; padding-bottom: 20px; margin-bottom: 30px; }
+    .header h1 { margin: 0 0 10px 0; color: #1f2937; }
+    .meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; font-size: 14px; color: #666; }
+    .message { margin-bottom: 20px; padding: 15px; border-radius: 6px; border-left: 4px solid #ccc; }
+    .user { background: #dbeafe; border-left-color: #3b82f6; }
+    .assistant { background: #f3f4f6; border-left-color: #6b7280; }
+    .role { font-weight: bold; font-size: 13px; color: #1f2937; margin-bottom: 8px; }
+    .content { color: #374151; white-space: pre-wrap; word-break: break-word; }
+    .timestamp { font-size: 12px; color: #999; margin-top: 8px; }
+    .tools { font-size: 12px; color: #7c3aed; margin-top: 8px; font-style: italic; }
+    .tags { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+    .tag { display: inline-block; background: #e0e7ff; color: #4f46e5; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>${this.escapeHtml(conversation.title || 'Conversation')}</h1>
+      <div class="meta">
+        <div><strong>Agent:</strong> ${conversation.agentType}</div>
+        <div><strong>Date:</strong> ${new Date(conversation.createdAt).toLocaleString()}</div>
+        <div><strong>Tokens:</strong> ${conversation.tokenCount}</div>
+        <div><strong>Cost:</strong> $${conversation.totalCost.toFixed(4)}</div>
+      </div>
+    </div>
+    ${conversation.summary ? `<p><strong>Summary:</strong> ${this.escapeHtml(conversation.summary)}</p>` : ''}
+    <div class="messages">
+      ${conversation.messages
+        .map(
+          (msg: any) => `
+        <div class="message ${msg.role}">
+          <div class="role">${msg.role.toUpperCase()}</div>
+          <div class="content">${this.escapeHtml(msg.content)}</div>
+          ${msg.toolCalls ? `<div class="tools">🔧 Tools: ${msg.toolCalls.map((t: any) => t.name).join(', ')}</div>` : ''}
+          <div class="timestamp">${new Date(msg.createdAt).toLocaleString()}</div>
+        </div>
+      `,
+        )
+        .join('')}
+    </div>
+    ${conversation.tags && conversation.tags.length > 0 ? `<div class="tags">${conversation.tags.map((tag: string) => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('')}</div>` : ''}
+  </div>
+</body>
+</html>
+    `;
+  }
+
+  private generateMarkdownExport(conversation: any): string {
+    const lines = [
+      `# ${conversation.title || 'Conversation'}`,
+      '',
+      `**Agent:** ${conversation.agentType}  `,
+      `**Created:** ${new Date(conversation.createdAt).toLocaleString()}  `,
+      `**Tokens:** ${conversation.tokenCount} | **Cost:** $${conversation.totalCost.toFixed(4)}  `,
+      '',
+    ];
+
+    if (conversation.summary) {
+      lines.push(`## Summary`);
+      lines.push(`${conversation.summary}`);
+      lines.push('');
+    }
+
+    lines.push('## Conversation');
+    lines.push('');
+
+    for (const msg of conversation.messages) {
+      lines.push(`### ${msg.role.charAt(0).toUpperCase() + msg.role.slice(1)}`);
+      lines.push(`*${new Date(msg.createdAt).toLocaleString()}*`);
+      lines.push('');
+      lines.push(msg.content);
+      lines.push('');
+      if (msg.toolCalls?.length) {
+        lines.push(`**Tools used:** ${msg.toolCalls.map((t: any) => `\`${t.name}\``).join(', ')}`);
+        lines.push('');
+      }
+    }
+
+    if (conversation.tags && conversation.tags.length > 0) {
+      lines.push('## Tags');
+      lines.push(conversation.tags.map((tag: string) => `- ${tag}`).join('\n'));
+    }
+
+    return lines.join('\n');
   }
 
   private escapeHtml(text: string): string {
