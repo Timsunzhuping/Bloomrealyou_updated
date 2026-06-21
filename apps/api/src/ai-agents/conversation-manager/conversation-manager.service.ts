@@ -135,4 +135,11 @@ export class ConversationManager implements OnModuleInit {
       .filter((c) => c.userId === userId)
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
+
+  /** All conversations, newest first (for development/admin). */
+  listAll(): Conversation[] {
+    return Array.from(this.conversations.values()).sort((a, b) =>
+      b.updatedAt.localeCompare(a.updatedAt),
+    );
+  }
 }

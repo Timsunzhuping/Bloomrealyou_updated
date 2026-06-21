@@ -10,7 +10,9 @@ import {
   Logger,
   Param,
   Post,
+  Res,
 } from '@nestjs/common';
+import type { Response } from 'express';
 
 import { AgentOrchestrator } from './agent-orchestrator.service';
 import { ConversationManager } from './conversation-manager/conversation-manager.service';
@@ -54,6 +56,12 @@ export class AiAgentsController {
     return { conversation: this.toDto(conversation) };
   }
 
+  @Get('/conversations')
+  listConversations(): { conversations: ReturnType<typeof this.toDto>[] } {
+    const conversations = this.conversationManager.listAll();
+    return { conversations: conversations.map((c) => this.toDto(c)) };
+  }
+
   @Get('/conversations/:conversationId')
   getConversation(
     @Param('conversationId') conversationId: string,
@@ -63,6 +71,45 @@ export class AiAgentsController {
       throw new BadRequestException(`Conversation ${conversationId} not found`);
     }
     return { conversation: this.toDto(conversation) };
+  }
+
+  @Get('/conversations/:conversationId/export')
+  exportConversation(
+    @Param('conversationId') conversationId: string,
+    @Res() res: Response,
+  ): void {
+    const conversation = this.conversationManager.getConversation(conversationId);
+    if (!conversation) {
+      res.status(400).json({ error: `Conversation ${conversationId} not found` });
+      return;
+    }
+
+    // Format as plain text transcript
+    const lines = [
+      `Conversation ${conversation.id}`,
+      `Agent: ${conversation.agentType}`,
+      `Started: ${conversation.createdAt}`,
+      `Tokens: ${conversation.tokenCount} | Cost: $${conversation.totalCost.toFixed(4)}`,
+      '',
+      '---',
+      '',
+    ];
+
+    for (const msg of conversation.messages) {
+      lines.push(`${msg.role.toUpperCase()} [${msg.createdAt}]:`);
+      lines.push(msg.content);
+      if (msg.toolCalls?.length) {
+        lines.push('Tools used: ' + msg.toolCalls.map((t) => t.name).join(', '));
+      }
+      lines.push('');
+    }
+
+    const text = lines.join('\n');
+    const filename = `conversation-${conversation.id}-${Date.now()}.txt`;
+
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.send(text);
   }
 
   @Post('/conversations/:conversationId/messages')

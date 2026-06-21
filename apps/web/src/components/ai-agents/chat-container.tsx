@@ -41,14 +41,7 @@ export function ChatContainer({
 
   return (
     <div className="flex flex-col h-full bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 border-b border-blue-700">
-        <h2 className="text-lg font-semibold mb-1">Sales Assistant</h2>
-        <p className="text-sm opacity-90 flex gap-4">
-          <span>Tokens used: {conversation.tokenCount}</span>
-          <span>Cost: ${conversation.totalCost.toFixed(4)}</span>
-        </p>
-      </div>
+      {/* Note: Header is now in ConversationHeader component */}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 bg-gray-50 space-y-4">

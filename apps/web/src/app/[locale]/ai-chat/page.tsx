@@ -6,5 +6,9 @@ export const metadata = {
 };
 
 export default function AIChatPage() {
-  return <SalesCopilotPage />;
+  return (
+    <div className="h-[calc(100vh-3.5rem)] -mx-4 -my-10 md:-mx-10 md:-my-10">
+      <SalesCopilotPage />
+    </div>
+  );
 }

@@ -13,6 +13,7 @@ export interface UseAgentChatState {
 
 export interface UseAgentChat extends UseAgentChatState {
   createConversation: (agentType: 'sales_copilot' | 'support_agent') => Promise<void>;
+  loadConversation: (conversationId: string) => Promise<void>;
   sendMessage: (content: string) => Promise<void>;
   clearError: () => void;
 }
@@ -38,6 +39,25 @@ export function useAgentChat(): UseAgentChat {
         }));
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to create conversation';
+        setState((prev) => ({ ...prev, loading: false, error: message }));
+      }
+    },
+    [],
+  );
+
+  const loadConversation = useCallback(
+    async (conversationId: string) => {
+      setState((prev) => ({ ...prev, loading: true, error: null }));
+      try {
+        const api = getClientApi();
+        const result = await api.agents.getConversation(conversationId);
+        setState((prev) => ({
+          ...prev,
+          conversation: result.conversation,
+          loading: false,
+        }));
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to load conversation';
         setState((prev) => ({ ...prev, loading: false, error: message }));
       }
     },
@@ -79,6 +99,7 @@ export function useAgentChat(): UseAgentChat {
   return {
     ...state,
     createConversation,
+    loadConversation,
     sendMessage,
     clearError,
   };

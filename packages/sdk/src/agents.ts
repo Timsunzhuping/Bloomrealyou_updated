@@ -1,4 +1,5 @@
 import type {
+  Conversation,
   CreateConversationInput,
   CreateConversationResult,
   GetConversationResult,
@@ -18,6 +19,15 @@ export class AgentsClient {
     });
   }
 
+  async listConversations(): Promise<{ conversations: Conversation[] }> {
+    return this.api.request<{ conversations: Conversation[] }>(
+      '/api/ai-agents/conversations',
+      {
+        method: 'GET',
+      },
+    );
+  }
+
   async getConversation(conversationId: string): Promise<GetConversationResult> {
     return this.api.request<GetConversationResult>(
       `/api/ai-agents/conversations/${conversationId}`,
@@ -25,6 +35,15 @@ export class AgentsClient {
         method: 'GET',
       },
     );
+  }
+
+  async exportConversation(conversationId: string): Promise<Blob> {
+    const response = await fetch(
+      `${this.api['baseUrl']}/api/ai-agents/conversations/${conversationId}/export`,
+      { method: 'GET' },
+    );
+    if (!response.ok) throw new Error(`Export failed: ${response.statusText}`);
+    return response.blob();
   }
 
   async sendMessage(
