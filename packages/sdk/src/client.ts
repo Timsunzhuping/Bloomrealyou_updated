@@ -11,6 +11,7 @@ import { AdminSuppliersClient } from './admin-suppliers.js';
 import { AdminTemplatesClient } from './admin-templates.js';
 import { SupplierPortalClient } from './supplier-portal.js';
 import { AIClient } from './ai.js';
+import { AgentsClient } from './agents.js';
 import { CartClient } from './cart.js';
 import { CustomizationsClient } from './customizations.js';
 import { OrdersClient } from './orders.js';
@@ -95,6 +96,7 @@ export class ApiClient {
   readonly payments: PaymentsClient;
   readonly account: AccountClient;
   readonly ai: AIClient;
+  readonly agents: AgentsClient;
   readonly rfqs: RFQsClient;
   readonly adminRfqs: AdminRFQsClient;
   readonly adminQuotes: AdminQuotesClient;
@@ -126,6 +128,7 @@ export class ApiClient {
     this.payments = new PaymentsClient(this);
     this.account = new AccountClient(this);
     this.ai = new AIClient(this);
+    this.agents = new AgentsClient(this);
     this.rfqs = new RFQsClient(this);
     this.adminRfqs = new AdminRFQsClient(this);
     this.adminQuotes = new AdminQuotesClient(this);
