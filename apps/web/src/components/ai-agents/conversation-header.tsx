@@ -46,6 +46,30 @@ export function ConversationHeader({ conversation, onToggleSidebar }: Conversati
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleExportPdf = async () => {
+    if (!conversation) return;
+
+    setExporting(true);
+    try {
+      const api = getClientApi();
+      const blob = await api.agents.exportConversationPdf(conversation.id);
+
+      // Create download link
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `conversation-${conversation.id}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('PDF export failed:', err);
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-3 border-b border-blue-700 flex items-center justify-between">
       <div className="flex items-center gap-3 flex-1">
@@ -75,7 +99,15 @@ export function ConversationHeader({ conversation, onToggleSidebar }: Conversati
             className="px-3 py-2 bg-blue-400 hover:bg-blue-300 text-white rounded-lg text-sm transition-colors disabled:opacity-50"
             title="Download conversation as text"
           >
-            {exporting ? '⏳' : '⬇️'} Export
+            {exporting ? '⏳' : '📄'} Text
+          </button>
+          <button
+            onClick={handleExportPdf}
+            disabled={exporting}
+            className="px-3 py-2 bg-blue-400 hover:bg-blue-300 text-white rounded-lg text-sm transition-colors disabled:opacity-50"
+            title="Download conversation as PDF"
+          >
+            {exporting ? '⏳' : '📕'} PDF
           </button>
           <button
             onClick={handleShare}

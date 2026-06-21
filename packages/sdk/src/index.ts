@@ -19,6 +19,7 @@ export { PaymentsClient } from './payments.js';
 export { AccountClient } from './account.js';
 export { AIClient } from './ai.js';
 export { AgentsClient } from './agents.js';
+export type { StreamEvent } from '@custom-merch/shared';
 export { AdminRFQsClient, RFQsClient } from './rfqs.js';
 export { AdminQuotesClient } from './quotes.js';
 export { AdminAuthClient } from './admin-auth.js';

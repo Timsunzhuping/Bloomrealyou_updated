@@ -77,3 +77,25 @@ export interface RateLimitError {
   reason: 'tokens_exceeded' | 'cost_exceeded' | 'turns_exceeded';
   message: string;
 }
+
+// -- streaming events (SSE) -----------------------------------------------
+
+export type StreamEventType = 'user_message' | 'assistant_message' | 'complete' | 'error' | 'token';
+
+export interface StreamEvent {
+  type: StreamEventType;
+  message?: ConversationMessage;
+  conversation?: Conversation;
+  token?: string;
+  code?: string;
+  reason?: string;
+}
+
+// -- conversation search -------------------------------------------------
+
+export interface SearchConversationsInput {
+  query?: string;
+  agentType?: AgentType;
+  startDate?: string;
+  endDate?: string;
+}

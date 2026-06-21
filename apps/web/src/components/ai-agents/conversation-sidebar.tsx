@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getClientApi } from '@/lib/client-api';
+import { ConversationSearch } from './conversation-search';
 import type { Conversation } from '@custom-merch/shared';
 
 interface ConversationSidebarProps {
@@ -16,8 +17,10 @@ export function ConversationSidebar({
   onNewConversation,
 }: ConversationSidebarProps) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [filteredConversations, setFilteredConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
     const loadConversations = async () => {
@@ -25,7 +28,9 @@ export function ConversationSidebar({
         const api = getClientApi();
         const result = await api.agents.listConversations();
         if ('conversations' in result) {
-          setConversations(result.conversations as Conversation[]);
+          const convs = result.conversations as Conversation[];
+          setConversations(convs);
+          setFilteredConversations(convs);
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to load conversations';
@@ -38,17 +43,34 @@ export function ConversationSidebar({
     loadConversations();
   }, []);
 
+  const handleSearchResults = (results: Conversation[]) => {
+    setFilteredConversations(results.length > 0 ? results : conversations);
+  };
+
   return (
     <div className="flex flex-col h-full bg-gray-900 text-white w-64 border-r border-gray-700">
       {/* Header */}
-      <div className="p-4 border-b border-gray-700">
+      <div className="p-4 border-b border-gray-700 space-y-2">
         <button
           onClick={onNewConversation}
           className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-colors text-sm"
         >
           + New Chat
         </button>
+        <button
+          onClick={() => setShowSearch(!showSearch)}
+          className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors text-sm"
+        >
+          🔍 {showSearch ? 'Hide' : 'Search'}
+        </button>
       </div>
+
+      {/* Search Panel */}
+      {showSearch && (
+        <div className="bg-gray-800 border-b border-gray-700">
+          <ConversationSearch onResultsChange={handleSearchResults} />
+        </div>
+      )}
 
       {/* Conversations List */}
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
@@ -56,10 +78,10 @@ export function ConversationSidebar({
           <div className="text-gray-400 text-sm p-2">Loading...</div>
         ) : error ? (
           <div className="text-red-400 text-sm p-2">{error}</div>
-        ) : conversations.length === 0 ? (
+        ) : filteredConversations.length === 0 ? (
           <div className="text-gray-400 text-sm p-2">No conversations yet</div>
         ) : (
-          conversations.map((conv) => (
+          filteredConversations.map((conv) => (
             <button
               key={conv.id}
               onClick={() => onSelectConversation(conv.id)}
@@ -83,7 +105,7 @@ export function ConversationSidebar({
 
       {/* Footer */}
       <div className="p-3 border-t border-gray-700 text-xs text-gray-400">
-        <p>Total conversations: {conversations.length}</p>
+        <p>Showing {filteredConversations.length} of {conversations.length}</p>
       </div>
     </div>
   );
