@@ -29,6 +29,7 @@ export class AgentOrchestrator {
     userMessage: string,
     llmProvider: LLMProvider,
     maxToolCalls: number = 10,
+    replyToId?: string,
   ): Promise<AgentTurnResult> {
     const conversation = this.conversationManager.getConversation(conversationId);
     if (!conversation) {
@@ -40,7 +41,7 @@ export class AgentOrchestrator {
     this.rateLimiter.assertWithinLimits(conversation.userId);
 
     // Add user message to history
-    this.conversationManager.addUserMessage(conversationId, userMessage);
+    this.conversationManager.addUserMessage(conversationId, userMessage, replyToId);
 
     // Get system prompt based on agent type
     const systemPrompt = this.getSystemPrompt(conversation.agentType);
@@ -98,6 +99,14 @@ export class AgentOrchestrator {
     // Continue if: there are successful tool results and we haven't hit the limit
     const shouldContinue =
       toolCallCount > 0 && toolCallCount < maxToolCalls && !toolResults?.some((r) => r.error);
+
+    // Update search index and generate title on first message
+    this.conversationManager.updateSearchIndex(conversationId);
+    const conv = this.conversationManager.getConversation(conversationId);
+    if (conv && !conv.title && conv.messages.length > 0) {
+      conv.title = this.conversationManager.generateTitle(conversationId);
+      (this.conversationManager as any)['persist'](conv);
+    }
 
     return {
       message: assistantMsg,

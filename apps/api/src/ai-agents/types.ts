@@ -6,6 +6,8 @@ export interface ConversationMessage {
   toolCalls?: ToolCall[];
   toolResults?: ToolResult[];
   createdAt: string;
+  /** Optional: ID of message this is a reply to (threading). */
+  replyToId?: string;
 }
 
 /** Represents a tool invocation from the LLM. */
@@ -35,6 +37,16 @@ export interface Conversation {
   totalCost: number;
   createdAt: string;
   updatedAt: string;
+  /** Auto-generated title based on first message (Phase 4). */
+  title?: string;
+  /** Whether conversation is bookmarked/starred. */
+  isBookmarked?: boolean;
+  /** Search index for full-text search (comma-separated keywords). */
+  searchIndex?: string;
+  /** Share token for public/private sharing. */
+  shareToken?: string;
+  /** Share type: 'private' (default), 'public', 'link'. */
+  shareType?: 'private' | 'public' | 'link';
 }
 
 /**

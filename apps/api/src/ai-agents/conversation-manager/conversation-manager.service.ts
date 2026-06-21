@@ -61,7 +61,7 @@ export class ConversationManager implements OnModuleInit {
     return this.conversations.get(conversationId);
   }
 
-  addUserMessage(conversationId: string, content: string): ConversationMessage {
+  addUserMessage(conversationId: string, content: string, replyToId?: string): ConversationMessage {
     const conversation = this.conversations.get(conversationId);
     if (!conversation) throw new Error(`Conversation ${conversationId} not found`);
 
@@ -70,6 +70,7 @@ export class ConversationManager implements OnModuleInit {
       role: 'user',
       content,
       createdAt: new Date().toISOString(),
+      replyToId,
     };
     conversation.messages.push(message);
     conversation.updatedAt = new Date().toISOString();
@@ -141,5 +142,45 @@ export class ConversationManager implements OnModuleInit {
     return Array.from(this.conversations.values()).sort((a, b) =>
       b.updatedAt.localeCompare(a.updatedAt),
     );
+  }
+
+  /** Generate a short title from the first user message. */
+  generateTitle(conversationId: string): string {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return 'Unknown';
+
+    const firstUserMessage = conversation.messages.find((m) => m.role === 'user');
+    if (!firstUserMessage) return 'Empty Conversation';
+
+    const title = firstUserMessage.content.slice(0, 50).trim();
+    return title.length >= 50 ? title + '...' : title;
+  }
+
+  /** Update search index for full-text search. */
+  updateSearchIndex(conversationId: string): void {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation) return;
+
+    const allText = conversation.messages
+      .map((m) => m.content.toLowerCase())
+      .join(' ');
+    const words = allText
+      .split(/\W+/)
+      .filter((w) => w.length > 2)
+      .filter((v, i, a) => a.indexOf(v) === i);
+
+    conversation.searchIndex = words.join(',');
+    this.persist(conversation);
+  }
+
+  /** Find conversations matching search query using index. */
+  searchFull(query: string): Conversation[] {
+    const queryTerms = query.toLowerCase().split(/\W+/).filter((w) => w.length > 2);
+    return Array.from(this.conversations.values())
+      .filter((c) => {
+        const index = c.searchIndex || '';
+        return queryTerms.some((term) => index.includes(term));
+      })
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
 }
