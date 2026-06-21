@@ -5,6 +5,7 @@ import { IDEMPOTENCY_STORE } from './idempotency-store.tokens';
 import type { IdempotencyStore } from './idempotency-store';
 import { InMemoryIdempotencyStore } from './in-memory-idempotency.store';
 import { RedisIdempotencyStore } from './redis-idempotency.store';
+import { PrismaService } from './prisma.service';
 
 const log = new Logger('PlatformInfraModule');
 
@@ -123,7 +124,7 @@ function redactedUrl(url: string): string {
 @Global()
 @Module({
   imports: [ConfigModule],
-  providers: [idempotencyStoreFactory],
-  exports: [IDEMPOTENCY_STORE],
+  providers: [PrismaService, idempotencyStoreFactory],
+  exports: [PrismaService, IDEMPOTENCY_STORE],
 })
 export class PlatformInfraModule {}
