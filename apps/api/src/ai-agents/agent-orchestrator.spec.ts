@@ -2,8 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AgentOrchestrator } from './agent-orchestrator.service';
 import { ConversationManager } from './conversation-manager/conversation-manager.service';
 import { ToolExecutor } from './tool-executor/tool-executor.service';
+import { AgentRateLimiter } from './rate-limiter/agent-rate-limiter.service';
 import { MockLLMProvider } from './llm-provider/mock-llm.provider';
 import { SEARCH_PRODUCTS_TOOL } from './tool-executor/tools';
+import { SnapshotStore } from '../_lib/snapshot-store';
 
 describe('AgentOrchestrator', () => {
   let orchestrator: AgentOrchestrator;
@@ -12,8 +14,15 @@ describe('AgentOrchestrator', () => {
   let llmProvider: MockLLMProvider;
 
   beforeEach(async () => {
+    const snapshots = { loadAll: jest.fn().mockResolvedValue([]), put: jest.fn(), remove: jest.fn() };
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AgentOrchestrator, ConversationManager, ToolExecutor],
+      providers: [
+        AgentOrchestrator,
+        ConversationManager,
+        ToolExecutor,
+        AgentRateLimiter,
+        { provide: SnapshotStore, useValue: snapshots },
+      ],
     }).compile();
 
     orchestrator = module.get(AgentOrchestrator);

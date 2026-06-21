@@ -1,9 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import type { ToolCall, ToolDefinition, ToolExecutorFunction, ToolResult } from '../types';
+import type {
+  ToolCall,
+  ToolContext,
+  ToolDefinition,
+  ToolExecutorFunction,
+  ToolResult,
+} from '../types';
 
 /**
  * Manages tool definitions and executes tool calls from the LLM.
+ *
+ * Each tool call is executed with a {@link ToolContext} so tools can act on
+ * behalf of the conversation's user (look up their orders, create an order
+ * against their cart session, etc.).
  */
 @Injectable()
 export class ToolExecutor {
@@ -20,7 +30,7 @@ export class ToolExecutor {
     return Array.from(this.definitions.values());
   }
 
-  async executeToolCall(toolCall: ToolCall): Promise<ToolResult> {
+  async executeToolCall(toolCall: ToolCall, context: ToolContext): Promise<ToolResult> {
     const executor = this.tools.get(toolCall.name);
     if (!executor) {
       const error = `Tool not found: ${toolCall.name}`;
@@ -34,7 +44,7 @@ export class ToolExecutor {
     }
 
     try {
-      const result = await executor(toolCall.arguments);
+      const result = await executor(toolCall.arguments, context);
       return {
         toolCallId: toolCall.id,
         name: toolCall.name,
@@ -52,7 +62,7 @@ export class ToolExecutor {
     }
   }
 
-  async executeToolCalls(toolCalls: ToolCall[]): Promise<ToolResult[]> {
-    return Promise.all(toolCalls.map((call) => this.executeToolCall(call)));
+  async executeToolCalls(toolCalls: ToolCall[], context: ToolContext): Promise<ToolResult[]> {
+    return Promise.all(toolCalls.map((call) => this.executeToolCall(call, context)));
   }
 }

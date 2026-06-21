@@ -1,14 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import type { AgentTurnResult, ConversationMessage, LLMProvider } from './types';
+import type { AgentTurnResult, LLMProvider, ToolContext } from './types';
 import { ConversationManager } from './conversation-manager/conversation-manager.service';
 import { ToolExecutor } from './tool-executor/tool-executor.service';
+import { AgentRateLimiter } from './rate-limiter/agent-rate-limiter.service';
 import { SALES_COPILOT_SYSTEM_PROMPT } from './system-prompts/sales-copilot.prompt';
 import { SUPPORT_AGENT_SYSTEM_PROMPT } from './system-prompts/support-agent.prompt';
 
 /**
  * Orchestrates multi-turn agent conversations.
  * Manages the agentic loop: LLM response → tool execution → next turn.
+ *
+ * Enforces per-user daily limits via {@link AgentRateLimiter} before each turn
+ * and records token/cost usage after the LLM responds.
  */
 @Injectable()
 export class AgentOrchestrator {
@@ -17,6 +21,7 @@ export class AgentOrchestrator {
   constructor(
     private readonly conversationManager: ConversationManager,
     private readonly toolExecutor: ToolExecutor,
+    private readonly rateLimiter: AgentRateLimiter,
   ) {}
 
   async processTurn(
@@ -30,8 +35,12 @@ export class AgentOrchestrator {
       throw new Error(`Conversation ${conversationId} not found`);
     }
 
+    // Enforce daily limits before spending any tokens. Throws
+    // RateLimitExceededError when a hard cap is already reached.
+    this.rateLimiter.assertWithinLimits(conversation.userId);
+
     // Add user message to history
-    const userMsg = this.conversationManager.addUserMessage(conversationId, userMessage);
+    this.conversationManager.addUserMessage(conversationId, userMessage);
 
     // Get system prompt based on agent type
     const systemPrompt = this.getSystemPrompt(conversation.agentType);
@@ -42,6 +51,9 @@ export class AgentOrchestrator {
     // Call LLM
     const toolDefs = this.toolExecutor.getDefinitions();
     const llmResponse = await llmProvider.generateResponse(messages, toolDefs, systemPrompt);
+
+    // Record usage for this turn (tokens + cost) and persist the running total.
+    this.rateLimiter.recordUsage(conversation.userId, llmResponse.tokenCount, llmResponse.cost);
 
     // Add assistant message (with tool calls if any)
     const assistantMsg = this.conversationManager.addAssistantMessage(
@@ -71,7 +83,13 @@ export class AgentOrchestrator {
           },
         ];
       } else {
-        toolResults = await this.toolExecutor.executeToolCalls(llmResponse.toolCalls);
+        const context: ToolContext = {
+          userId: conversation.userId,
+          sessionId: conversation.sessionId,
+          conversationId: conversation.id,
+          agentType: conversation.agentType,
+        };
+        toolResults = await this.toolExecutor.executeToolCalls(llmResponse.toolCalls, context);
         this.conversationManager.addToolResults(conversationId, toolResults);
       }
     }

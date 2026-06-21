@@ -1,21 +1,50 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
+import { SnapshotStore } from '../../_lib/snapshot-store';
 import type { Conversation, ConversationMessage, ToolResult } from '../types';
+
+/** Durable agent conversations survive API restarts (snapshot kind). */
+const KIND = 'ai_conversation';
 
 /**
  * Manages conversation history and message state.
- * In-memory for now; future: persist via SnapshotStore.
+ *
+ * The in-memory map is the runtime source of truth; the {@link SnapshotStore}
+ * makes it durable across restarts so an in-progress chat (and its accumulated
+ * token/cost totals) survives a redeploy. Every mutation write-throughs the
+ * full conversation as JSON; on boot the map is primed from the durable store.
  */
 @Injectable()
-export class ConversationManager {
+export class ConversationManager implements OnModuleInit {
   private readonly log = new Logger(ConversationManager.name);
   private readonly conversations = new Map<string, Conversation>();
 
-  createConversation(userId: string, agentType: 'sales_copilot' | 'support_agent'): Conversation {
+  constructor(private readonly snapshots: SnapshotStore) {}
+
+  async onModuleInit(): Promise<void> {
+    const rows = await this.snapshots.loadAll<Conversation>(KIND);
+    for (const row of rows) {
+      this.conversations.set(row.data.id, row.data);
+    }
+    if (rows.length > 0) {
+      this.log.log(`Restored ${rows.length} agent conversations from durable store`);
+    }
+  }
+
+  private persist(conversation: Conversation): void {
+    this.snapshots.put(KIND, conversation.id, conversation, conversation.userId);
+  }
+
+  createConversation(
+    userId: string,
+    agentType: 'sales_copilot' | 'support_agent',
+    sessionId: string | null = null,
+  ): Conversation {
     const conversation: Conversation = {
       id: `conv_${randomUUID().slice(0, 8)}`,
       userId,
+      sessionId,
       agentType,
       messages: [],
       tokenCount: 0,
@@ -24,6 +53,7 @@ export class ConversationManager {
       updatedAt: new Date().toISOString(),
     };
     this.conversations.set(conversation.id, conversation);
+    this.persist(conversation);
     return conversation;
   }
 
@@ -43,6 +73,7 @@ export class ConversationManager {
     };
     conversation.messages.push(message);
     conversation.updatedAt = new Date().toISOString();
+    this.persist(conversation);
     return message;
   }
 
@@ -67,6 +98,7 @@ export class ConversationManager {
     conversation.tokenCount += tokenCount;
     conversation.totalCost += cost;
     conversation.updatedAt = new Date().toISOString();
+    this.persist(conversation);
     return message;
   }
 
@@ -88,11 +120,19 @@ export class ConversationManager {
     }
     lastMessage.toolResults.push(...toolResults);
     conversation.updatedAt = new Date().toISOString();
+    this.persist(conversation);
   }
 
   getMessages(conversationId: string): ConversationMessage[] {
     const conversation = this.conversations.get(conversationId);
     if (!conversation) throw new Error(`Conversation ${conversationId} not found`);
     return conversation.messages;
+  }
+
+  /** All conversations for a user, newest first. */
+  listForUser(userId: string): Conversation[] {
+    return Array.from(this.conversations.values())
+      .filter((c) => c.userId === userId)
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
 }

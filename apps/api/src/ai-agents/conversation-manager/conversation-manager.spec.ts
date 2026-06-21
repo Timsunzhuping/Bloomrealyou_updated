@@ -1,12 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConversationManager } from './conversation-manager.service';
+import { SnapshotStore } from '../../_lib/snapshot-store';
 
 describe('ConversationManager', () => {
   let manager: ConversationManager;
+  let snapshots: { loadAll: jest.Mock; put: jest.Mock; remove: jest.Mock };
 
   beforeEach(async () => {
+    snapshots = { loadAll: jest.fn().mockResolvedValue([]), put: jest.fn(), remove: jest.fn() };
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConversationManager],
+      providers: [ConversationManager, { provide: SnapshotStore, useValue: snapshots }],
     }).compile();
     manager = module.get(ConversationManager);
   });
@@ -92,5 +95,56 @@ describe('ConversationManager', () => {
 
   it('should throw on adding message to non-existent conversation', () => {
     expect(() => manager.addUserMessage('nonexistent', 'Hello')).toThrow();
+  });
+
+  it('should write-through conversation mutations to the durable store', () => {
+    const conv = manager.createConversation('user123', 'sales_copilot', 'sess_1');
+    expect(snapshots.put).toHaveBeenCalledWith(
+      'ai_conversation',
+      conv.id,
+      expect.objectContaining({ id: conv.id, sessionId: 'sess_1' }),
+      'user123',
+    );
+
+    snapshots.put.mockClear();
+    manager.addUserMessage(conv.id, 'Hello');
+    expect(snapshots.put).toHaveBeenCalledTimes(1);
+  });
+
+  it('should restore conversations from the durable store after a restart', async () => {
+    // Simulate a persisted conversation from a previous process.
+    const persisted = {
+      id: 'conv_restored',
+      userId: 'user123',
+      sessionId: 'sess_1',
+      agentType: 'sales_copilot' as const,
+      messages: [
+        { id: 'm1', role: 'user' as const, content: 'Hi', createdAt: new Date().toISOString() },
+      ],
+      tokenCount: 42,
+      totalCost: 0.02,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    snapshots.loadAll.mockResolvedValueOnce([
+      { entityId: persisted.id, refKey: 'user123', data: persisted },
+    ]);
+
+    await manager.onModuleInit();
+
+    const restored = manager.getConversation('conv_restored');
+    expect(restored).toBeDefined();
+    expect(restored?.tokenCount).toBe(42);
+    expect(restored?.messages).toHaveLength(1);
+  });
+
+  it('should list conversations for a user newest-first', () => {
+    const a = manager.createConversation('userA', 'sales_copilot');
+    manager.createConversation('userB', 'support_agent');
+    const c = manager.createConversation('userA', 'support_agent');
+
+    const list = manager.listForUser('userA');
+    expect(list).toHaveLength(2);
+    expect(list.map((x) => x.id)).toEqual(expect.arrayContaining([a.id, c.id]));
   });
 });

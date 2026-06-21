@@ -27,12 +27,25 @@ export interface ToolResult {
 export interface Conversation {
   id: string;
   userId: string;
+  /** Optional cart/checkout session this conversation operates on. */
+  sessionId: string | null;
   agentType: 'sales_copilot' | 'support_agent';
   messages: ConversationMessage[];
   tokenCount: number;
   totalCost: number;
   createdAt: string;
   updatedAt: string;
+}
+
+/**
+ * Per-turn context handed to tool executors so they can act on behalf of the
+ * conversation's user (e.g. create an order against their cart session).
+ */
+export interface ToolContext {
+  userId: string;
+  sessionId: string | null;
+  conversationId: string;
+  agentType: 'sales_copilot' | 'support_agent';
 }
 
 /** Tool definition for function calling. */
@@ -67,7 +80,10 @@ export interface LLMResponse {
 }
 
 /** Function signature for tool execution. */
-export type ToolExecutorFunction = (input: Record<string, unknown>) => Promise<unknown>;
+export type ToolExecutorFunction = (
+  input: Record<string, unknown>,
+  context: ToolContext,
+) => Promise<unknown>;
 
 /** Agent turn result. */
 export interface AgentTurnResult {

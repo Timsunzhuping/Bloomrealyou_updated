@@ -12,6 +12,6 @@ import { AccountService } from './account.service';
   imports: [OrdersModule, CustomizationsModule, CartModule],
   controllers: [AccountController],
   providers: [AccountRepository, AccountService],
-  exports: [AccountService],
+  exports: [AccountService, AccountRepository],
 })
 export class AccountModule {}

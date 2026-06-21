@@ -153,6 +153,34 @@ export const GET_ORDER_STATUS_TOOL: ToolDefinition = {
   },
 };
 
+/** Tool: Look up the current customer's profile and saved addresses. */
+export const LOOKUP_CUSTOMER_TOOL: ToolDefinition = {
+  name: 'lookup_customer',
+  description:
+    "Retrieve the current customer's profile (name, email, locale) and their saved addresses. Use this to personalise responses and pre-fill order details.",
+  inputSchema: {
+    type: 'object',
+    properties: {},
+    required: [],
+  },
+};
+
+/** Tool: List the current customer's recent orders. */
+export const LIST_MY_ORDERS_TOOL: ToolDefinition = {
+  name: 'list_my_orders',
+  description: "List the current customer's recent orders so they can be referenced in support.",
+  inputSchema: {
+    type: 'object',
+    properties: {
+      limit: {
+        type: 'number',
+        description: 'Maximum number of orders to return (default: 5)',
+      },
+    },
+    required: [],
+  },
+};
+
 /** Tool: Request a design review. */
 export const REQUEST_DESIGN_REVIEW_TOOL: ToolDefinition = {
   name: 'request_design_review',
@@ -185,5 +213,7 @@ export const ALL_TOOLS: ToolDefinition[] = [
   CREATE_ORDER_TOOL,
   LOOKUP_ORDER_TOOL,
   GET_ORDER_STATUS_TOOL,
+  LOOKUP_CUSTOMER_TOOL,
+  LIST_MY_ORDERS_TOOL,
   REQUEST_DESIGN_REVIEW_TOOL,
 ];
