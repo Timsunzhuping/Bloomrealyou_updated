@@ -12,15 +12,17 @@ export interface ToolCall {
 
 export interface ToolResult {
   toolCallId: string;
+  name: string;
   result: unknown;
   error?: string;
 }
 
 export interface ConversationMessage {
   id: string;
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system';
   content: string;
   toolCalls?: ToolCall[];
+  toolResults?: ToolResult[];
   createdAt: string;
 }
 
@@ -47,13 +49,13 @@ export interface CreateConversationResult {
 // -- send-message ---------------------------------------------------------
 
 export interface SendMessageInput {
-  content: string;
+  message: string;
 }
 
 export interface SendMessageResult {
-  message: ConversationMessage;
-  toolResults?: ToolResult[];
-  updatedConversation: Conversation;
+  conversation: Conversation;
+  lastMessage: ConversationMessage;
+  shouldContinue: boolean;
 }
 
 // -- get-conversation -----------------------------------------------------
@@ -71,9 +73,7 @@ export interface ListConversationsResult {
 // -- rate-limit error (HTTP 429) ------------------------------------------
 
 export interface RateLimitError {
-  error: string;
+  code: 'AI_AGENT_RATE_LIMITED';
   reason: 'tokens_exceeded' | 'cost_exceeded' | 'turns_exceeded';
-  limit: number;
-  used: number;
-  resetAt: string;
+  message: string;
 }

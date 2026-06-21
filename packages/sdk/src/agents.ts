@@ -1,9 +1,7 @@
 import type {
-  AgentType,
   CreateConversationInput,
   CreateConversationResult,
   GetConversationResult,
-  ListConversationsResult,
   SendMessageInput,
   SendMessageResult,
 } from '@custom-merch/shared';
@@ -27,12 +25,6 @@ export class AgentsClient {
         method: 'GET',
       },
     );
-  }
-
-  async listConversations(): Promise<ListConversationsResult> {
-    return this.api.request<ListConversationsResult>('/api/ai-agents/conversations', {
-      method: 'GET',
-    });
   }
 
   async sendMessage(

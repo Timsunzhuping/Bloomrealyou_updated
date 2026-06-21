@@ -2,11 +2,10 @@
 
 import { useState, useCallback } from 'react';
 import { getClientApi } from '@/lib/client-api';
-import type { Conversation, ConversationMessage } from '@custom-merch/shared';
+import type { Conversation } from '@custom-merch/shared';
 
 export interface UseAgentChatState {
   conversation: Conversation | null;
-  messages: ConversationMessage[];
   loading: boolean;
   error: string | null;
   isRateLimited: boolean;
@@ -21,7 +20,6 @@ export interface UseAgentChat extends UseAgentChatState {
 export function useAgentChat(): UseAgentChat {
   const [state, setState] = useState<UseAgentChatState>({
     conversation: null,
-    messages: [],
     loading: false,
     error: null,
     isRateLimited: false,
@@ -36,7 +34,6 @@ export function useAgentChat(): UseAgentChat {
         setState((prev) => ({
           ...prev,
           conversation: result.conversation,
-          messages: result.conversation.messages,
           loading: false,
         }));
       } catch (err) {
@@ -54,11 +51,10 @@ export function useAgentChat(): UseAgentChat {
       setState((prev) => ({ ...prev, loading: true, error: null }));
       try {
         const api = getClientApi();
-        const result = await api.agents.sendMessage(state.conversation.id, { content });
+        const result = await api.agents.sendMessage(state.conversation.id, { message: content });
         setState((prev) => ({
           ...prev,
-          conversation: result.updatedConversation,
-          messages: result.updatedConversation.messages,
+          conversation: result.conversation,
           loading: false,
           isRateLimited: false,
         }));
