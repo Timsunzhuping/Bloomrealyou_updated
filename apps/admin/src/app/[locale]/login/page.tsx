@@ -1,6 +1,5 @@
 import { isSupportedLocale, type Locale } from '@custom-merch/i18n';
-import { Card, CardContent } from '@custom-merch/ui';
-import { Building2 } from 'lucide-react';
+import { BrandLogo, Card, CardContent } from '@custom-merch/ui';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { LanguageSwitcher } from '@/components/language-switcher';
@@ -34,12 +33,7 @@ export default async function LoginPage({ params, searchParams }: Props): Promis
   return (
     <div className="min-h-screen bg-muted/30">
       <header className="flex items-center justify-between border-b bg-background px-4 py-3">
-        <div className="flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-primary" aria-hidden="true" />
-          <span className="font-semibold">
-            {tApp('name')} · {t('title')}
-          </span>
-        </div>
+        <BrandLogo label={`${tApp('name')} · ${t('title')}`} markSize={38} textClassName="text-sm sm:text-base" />
         <LanguageSwitcher />
       </header>
 

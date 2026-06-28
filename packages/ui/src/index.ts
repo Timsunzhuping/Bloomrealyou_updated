@@ -145,6 +145,7 @@ export { CategoryGrid, type CategoryGridProps } from './components/category-grid
 
 // Page-level layout
 export { Header, type HeaderProps } from './components/header';
+export { BrandLogo, type BrandLogoProps } from './components/brand-logo';
 export { Footer, type FooterProps, type FooterColumn } from './components/footer';
 export {
   MegaMenu,

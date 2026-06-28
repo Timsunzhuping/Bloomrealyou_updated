@@ -1,6 +1,7 @@
 'use client';
 
 import type { AdminUserDto } from '@custom-merch/shared';
+import { BrandLogo } from '@custom-merch/ui';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
@@ -61,7 +62,7 @@ export function MobileSidebar({ user }: Props): JSX.Element {
           />
           <aside className="absolute inset-y-0 start-0 flex w-72 max-w-[85vw] flex-col bg-card shadow-xl">
             <header className="flex items-center justify-between border-b px-3 py-2">
-              <span className="text-sm font-semibold">{t('openMenu')}</span>
+              <BrandLogo markSize={32} textClassName="text-sm" />
               <button
                 type="button"
                 aria-label={t('closeMenu')}

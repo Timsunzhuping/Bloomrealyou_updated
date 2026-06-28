@@ -1,4 +1,5 @@
 import type { AdminUserDto } from '@custom-merch/shared';
+import { BrandLogo } from '@custom-merch/ui';
 import { getTranslations } from 'next-intl/server';
 
 import { LanguageSwitcher } from '@/components/language-switcher';
@@ -22,8 +23,8 @@ export async function Topbar({ user, apiBaseUrl }: Props): Promise<JSX.Element> 
     <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">
       <div className="flex h-14 items-center gap-3 px-4">
         <MobileSidebar user={user} />
-        <Link href="/dashboard" className="hidden font-semibold sm:inline-block">
-          {tApp('name')} · {t('title')}
+        <Link href="/dashboard" className="hidden shrink-0 sm:inline-flex" aria-label={`${tApp('name')} · ${t('title')}`}>
+          <BrandLogo label={`${tApp('name')} · ${t('title')}`} markSize={34} textClassName="text-sm" />
         </Link>
         <div className="hidden flex-1 md:block">
           <Breadcrumb />
