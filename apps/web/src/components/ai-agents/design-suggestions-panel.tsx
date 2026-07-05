@@ -2,11 +2,11 @@
 
 import { useState, useCallback } from 'react';
 import { getClientApi } from '@/lib/client-api';
-import type { AiDesignSuggestionsResult } from '@custom-merch/shared';
+import type { AiDesignSuggestion, AiDesignSuggestionsResult } from '@custom-merch/shared';
 
 interface DesignSuggestionsPanelProps {
   prompt?: string;
-  onSelectSuggestion?: (suggestion: any) => void;
+  onSelectSuggestion?: (suggestion: AiDesignSuggestion) => void;
 }
 
 export function DesignSuggestionsPanel({

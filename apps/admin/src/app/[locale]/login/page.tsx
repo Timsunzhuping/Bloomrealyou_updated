@@ -20,6 +20,9 @@ const DEMO_ACCOUNTS: Array<{ roleKey: string; email: string; password: string }>
   { roleKey: 'supplier_user', email: 'supplier@bloomrealyou.com', password: 'supplier123' },
 ];
 
+const SHOW_DEMO_ACCOUNTS =
+  process.env.SHOW_DEMO_ACCOUNTS === 'true' || process.env.NODE_ENV !== 'production';
+
 export default async function LoginPage({ params, searchParams }: Props): Promise<JSX.Element> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isSupportedLocale(rawLocale) ? rawLocale : 'en';
@@ -41,24 +44,26 @@ export default async function LoginPage({ params, searchParams }: Props): Promis
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tight">{t('auth.signInHeading')}</h1>
           <p className="max-w-md text-sm text-muted-foreground">{t('auth.signInSubtitle')}</p>
-          <Card className="mt-6 bg-background/80">
-            <CardContent className="space-y-3 p-5 text-xs">
-              <div>
-                <p className="font-semibold text-foreground">{t('auth.demoTitle')}</p>
-                <p className="text-muted-foreground">{t('auth.demoHint')}</p>
-              </div>
-              <ul className="space-y-1.5 font-mono text-[11px]">
-                {DEMO_ACCOUNTS.map((acc) => (
-                  <li key={acc.email} className="flex justify-between gap-3">
-                    <span className="text-muted-foreground">{t(`roleLabels.${acc.roleKey}`)}</span>
-                    <span>
-                      {acc.email} / {acc.password}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          {SHOW_DEMO_ACCOUNTS && (
+            <Card className="mt-6 bg-background/80">
+              <CardContent className="space-y-3 p-5 text-xs">
+                <div>
+                  <p className="font-semibold text-foreground">{t('auth.demoTitle')}</p>
+                  <p className="text-muted-foreground">{t('auth.demoHint')}</p>
+                </div>
+                <ul className="space-y-1.5 font-mono text-[11px]">
+                  {DEMO_ACCOUNTS.map((acc) => (
+                    <li key={acc.email} className="flex justify-between gap-3">
+                      <span className="text-muted-foreground">{t(`roleLabels.${acc.roleKey}`)}</span>
+                      <span>
+                        {acc.email} / {acc.password}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
         </div>
         <LoginForm apiBaseUrl={apiBaseUrl} redirectTo={next} />
       </div>

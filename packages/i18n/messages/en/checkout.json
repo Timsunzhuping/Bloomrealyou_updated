@@ -42,6 +42,9 @@
     "stripeNotConfigured": "Stripe is in demo mode — submit to simulate a paid order.",
     "processing": "Processing payment…",
     "submit": "Pay now",
+    "paypalRedirectTitle": "Redirecting to PayPal",
+    "paypalRedirectBody": "Pay {amount} for order {orderNumber} securely on PayPal.",
+    "paypalRedirectCta": "Continue to PayPal",
     "errorTitle": "Payment could not be completed",
     "errorBody": "Please review the details and try again."
   },
@@ -61,6 +64,15 @@
     "title": "Payment cancelled",
     "body": "Your payment was not completed. Your cart is still saved.",
     "back": "Return to checkout"
+  },
+  "paypalCapture": {
+    "processing": "Finalizing your PayPal payment…",
+    "succeededTitle": "PayPal payment confirmed",
+    "succeededBody": "Your payment has been captured and your order is now being prepared.",
+    "failedTitle": "PayPal payment needs attention",
+    "failedBody": "We could not finalize the PayPal payment. Please return to checkout or contact support.",
+    "back": "Return to checkout",
+    "trackOrder": "View order details"
   },
   "errors": {
     "cartEmpty": "Your cart is empty.",

@@ -8,7 +8,9 @@ import {
   Min,
 } from 'class-validator';
 
-import { PRINT_METHODS, type PrintMethod } from '@custom-merch/shared';
+import { PRINT_METHODS, type CheckoutShippingMethod, type PrintMethod } from '@custom-merch/shared';
+
+const CHECKOUT_SHIPPING_METHODS = ['standard', 'express', 'rush'] as const;
 
 export class AddCartItemBody {
   @IsString()
@@ -41,6 +43,10 @@ export class AddCartItemBody {
   @IsString()
   @IsOptional()
   shippingCountry?: string;
+
+  @IsIn([...CHECKOUT_SHIPPING_METHODS])
+  @IsOptional()
+  shippingMethod?: CheckoutShippingMethod;
 
   @IsString()
   @IsOptional()
@@ -77,12 +83,20 @@ export class UpdateCartItemBody {
   @IsString()
   @IsOptional()
   shippingCountry?: string;
+
+  @IsIn([...CHECKOUT_SHIPPING_METHODS])
+  @IsOptional()
+  shippingMethod?: CheckoutShippingMethod;
 }
 
 export class RecalculateCartBody {
   @IsString()
   @IsOptional()
   shippingCountry?: string;
+
+  @IsIn([...CHECKOUT_SHIPPING_METHODS])
+  @IsOptional()
+  shippingMethod?: CheckoutShippingMethod;
 
   @IsBoolean()
   @IsOptional()

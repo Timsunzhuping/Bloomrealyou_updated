@@ -1,4 +1,5 @@
 import type {
+  CapturePaypalOrderResult,
   CreatePaymentIntentInput,
   CreatePaymentIntentResult,
   PaymentDto,
@@ -18,5 +19,12 @@ export class PaymentsClient {
 
   async get(id: string): Promise<PaymentDto> {
     return this.api.request<PaymentDto>(`/payments/${encodeURIComponent(id)}`);
+  }
+
+  async capturePaypalOrder(paypalOrderId: string): Promise<CapturePaypalOrderResult> {
+    return this.api.request<CapturePaypalOrderResult>('/payments/paypal/capture', {
+      method: 'POST',
+      body: JSON.stringify({ paypalOrderId }),
+    });
   }
 }

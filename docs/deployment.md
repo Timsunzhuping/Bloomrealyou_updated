@@ -79,6 +79,8 @@ docker build -f apps/admin/Dockerfile -t bloomrealyou/admin:latest . \
 - Use **RDS Postgres 16** (`db.t4g.medium` is enough for staging) and **ElastiCache Redis 7**.
 - Bucket: a private S3 bucket. Set `S3_FORCE_PATH_STYLE=false` and pass `S3_REGION` so the AWS SDK signs correctly.
 - Stripe webhook endpoint: `https://api.example.com/payments/webhook/stripe`. Enable signature verification (`STRIPE_WEBHOOK_REQUIRE_SIGNATURE=true`).
+- PayPal webhook endpoint: `https://api.example.com/payments/webhook/paypal`. Set `PAYPAL_WEBHOOK_ID`, enable signature verification (`PAYPAL_WEBHOOK_REQUIRE_SIGNATURE=true`), and only then enable the storefront option with `NEXT_PUBLIC_ENABLE_PAYPAL_CHECKOUT=true`.
+- The customizer writes production artifacts under `designs/{designId}/production.{png,svg,pdf}` and `designs/{designId}/source.json`. Confirm the API role can write these keys before accepting live customized orders.
 - Health check: `GET /health` on the API; Next.js apps reply on `/api/health` (root is fine for k8s probes too).
 
 ### Vercel
@@ -128,6 +130,8 @@ mc anonymous set-json /tmp/policy.json local/bloomrealyou-uploads
 ```
 
 For AWS S3, use a CloudFront distribution in front of public objects + a signed-URL workflow for private ones. The storage adapter handles signing on its end.
+
+Customized order assets are stored in `designs/{designId}/`. The checkout flow generates a print-area PNG plus SVG/PDF/source JSON before adding the item to the cart; if storage writes fail, customized checkout should fail closed instead of creating an order without a production file.
 
 ## 8. CDN / TLS
 

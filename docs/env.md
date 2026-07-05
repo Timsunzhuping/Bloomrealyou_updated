@@ -67,6 +67,8 @@ Every variable understood by the platform. Categories follow `.env.example`. Var
 | `S3_REGION` | no | `us-east-1` | |
 | `S3_FORCE_PATH_STYLE` | no | `true` | `true` for MinIO, `false` for AWS S3. |
 
+Customized checkout depends on object storage. The API writes preview and production files to `designs/{designId}/`, including `production.pdf`, `production.svg`, `production.png` when a browser print render is available, and `source.json`.
+
 ## Payments
 
 | Variable | Required | Default | Notes |
@@ -74,9 +76,12 @@ Every variable understood by the platform. Categories follow `.env.example`. Var
 | `STRIPE_SECRET_KEY` | yes (prod) | `` | `sk_live_*` for prod, `sk_test_*` for staging. |
 | `STRIPE_WEBHOOK_SECRET` | yes (prod) | `` | `whsec_*`. The API rejects unsigned events when `STRIPE_WEBHOOK_REQUIRE_SIGNATURE=true`. |
 | `STRIPE_WEBHOOK_REQUIRE_SIGNATURE` | yes (prod) | `false` | Set to `true` in production. |
-| `PAYPAL_CLIENT_ID` | no | `` | |
-| `PAYPAL_CLIENT_SECRET` | no | `` | |
+| `PAYPAL_CLIENT_ID` | no | `` | PayPal REST app client id. Required before showing PayPal checkout. |
+| `PAYPAL_CLIENT_SECRET` | no | `` | PayPal REST app secret. Required before showing PayPal checkout. |
 | `PAYPAL_ENV` | no | `sandbox` | `sandbox` or `live`. |
+| `PAYPAL_WEBHOOK_ID` | yes (PayPal prod) | `` | Webhook id from PayPal Developer Dashboard for `POST /payments/webhook/paypal`. |
+| `PAYPAL_WEBHOOK_REQUIRE_SIGNATURE` | yes (PayPal prod) | `false` | Set to `true` in production so unsigned PayPal webhooks are rejected. |
+| `NEXT_PUBLIC_ENABLE_PAYPAL_CHECKOUT` | no | `false` | Set to `true` only after PayPal credentials, capture, and webhook verification are configured. |
 
 ## AI
 

@@ -42,6 +42,9 @@
     "stripeNotConfigured": "Stripe 处于演示模式 — 提交即模拟付款成功。",
     "processing": "处理支付中…",
     "submit": "立即支付",
+    "paypalRedirectTitle": "正在跳转到 PayPal",
+    "paypalRedirectBody": "请在 PayPal 安全支付订单 {orderNumber}，金额 {amount}。",
+    "paypalRedirectCta": "继续前往 PayPal",
     "errorTitle": "支付未完成",
     "errorBody": "请检查信息后重试。"
   },
@@ -61,6 +64,15 @@
     "title": "支付已取消",
     "body": "您的支付未完成，购物车已保留。",
     "back": "返回结账"
+  },
+  "paypalCapture": {
+    "processing": "正在确认 PayPal 支付…",
+    "succeededTitle": "PayPal 支付已确认",
+    "succeededBody": "支付已完成，订单将进入后续处理。",
+    "failedTitle": "PayPal 支付需要处理",
+    "failedBody": "暂时无法完成 PayPal 支付确认，请返回结账页重试或联系支持。",
+    "back": "返回结账",
+    "trackOrder": "查看订单详情"
   },
   "errors": {
     "cartEmpty": "购物车为空。",

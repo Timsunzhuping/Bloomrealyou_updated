@@ -19,6 +19,8 @@ import type { ImageLayer, Layer, TextLayer } from './types';
 export interface CanvasStageHandle {
   /** Returns a PNG data URL of the current stage. */
   exportPreview(pixelRatio?: number): string | null;
+  /** Returns a PNG data URL cropped to the printable area, without mockup/guides. */
+  exportProduction(pixelRatio?: number): string | null;
 }
 
 interface CanvasStageProps {
@@ -33,6 +35,7 @@ export const CanvasStage = forwardRef<CanvasStageHandle, CanvasStageProps>(funct
   ref,
 ) {
   const stageRef = useRef<Konva.Stage>(null);
+  const guideLayerRef = useRef<Konva.Layer>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
   const layerRefs = useRef<Map<string, Konva.Node>>(new Map());
 
@@ -72,8 +75,26 @@ export const CanvasStage = forwardRef<CanvasStageHandle, CanvasStageProps>(funct
         tr?.visible(true);
         return data;
       },
+      exportProduction(pixelRatio = 4) {
+        const stage = stageRef.current;
+        if (!stage) return null;
+        const tr = transformerRef.current;
+        const guides = guideLayerRef.current;
+        tr?.visible(false);
+        guides?.visible(false);
+        const data = stage.toDataURL({
+          x: printArea.x * scale,
+          y: printArea.y * scale,
+          width: printArea.width * scale,
+          height: printArea.height * scale,
+          pixelRatio: Math.max(pixelRatio / scale, 1),
+        });
+        guides?.visible(true);
+        tr?.visible(true);
+        return data;
+      },
     }),
-    [],
+    [printArea.height, printArea.width, printArea.x, printArea.y, scale],
   );
 
   const onStageClick = (e: Konva.KonvaEventObject<MouseEvent | TouchEvent>): void => {
@@ -110,7 +131,7 @@ export const CanvasStage = forwardRef<CanvasStageHandle, CanvasStageProps>(funct
       onTouchStart={onStageClick}
       className="bg-muted"
     >
-      <KonvaLayer listening={false}>
+      <KonvaLayer ref={guideLayerRef} listening={false}>
         {/* Product mockup background */}
         {mockup && (
           <KonvaImage

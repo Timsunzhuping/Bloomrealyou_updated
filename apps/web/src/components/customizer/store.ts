@@ -48,6 +48,7 @@ interface CustomizerActions {
   addImage(input: {
     src: string;
     filename: string;
+    mime?: string;
     naturalWidth: number;
     naturalHeight: number;
   }): void;
@@ -137,6 +138,7 @@ export const useCustomizerStore = create<CustomizerState & CustomizerActions>((s
       type: 'image',
       src: input.src,
       filename: input.filename,
+      mime: input.mime,
       naturalWidth: input.naturalWidth,
       naturalHeight: input.naturalHeight,
       x: canvasWidth / 2 - targetWidth / 2,
@@ -202,6 +204,8 @@ export const useCustomizerStore = create<CustomizerState & CustomizerActions>((s
       productSlug: s.productSlug,
       variantId: s.variantId,
       printArea: s.printAreaKey,
+      printAreaRect: s.printArea,
+      safeAreaRect: s.safeArea,
       canvas: {
         width: s.canvasWidth,
         height: s.canvasHeight,
@@ -223,6 +227,8 @@ export const useCustomizerStore = create<CustomizerState & CustomizerActions>((s
       printAreaKey: snapshot.printArea,
       canvasWidth: snapshot.canvas.width,
       canvasHeight: snapshot.canvas.height,
+      printArea: snapshot.printAreaRect ?? s.printArea,
+      safeArea: snapshot.safeAreaRect ?? s.safeArea,
       layers: snapshot.canvas.objects,
       selectedLayerId: null,
       dirtyTick: 0,

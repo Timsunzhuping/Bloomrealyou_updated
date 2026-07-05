@@ -72,6 +72,7 @@ describe('CartRepository - persistence', () => {
           id: 'cart_db',
           sessionId: 'sess_db',
           items: [makeItem('i9')],
+          expiresAt: new Date(Date.now() + 60_000).toISOString(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         },
@@ -83,5 +84,45 @@ describe('CartRepository - persistence', () => {
 
     expect(snapshots.loadAll).toHaveBeenCalledWith('cart');
     expect(repository.toDto('sess_db').items.length).toBe(1);
+  });
+
+  it('should skip and delete expired carts during prime', async () => {
+    const rows: SnapshotRow<any>[] = [
+      {
+        entityId: 'sess_old',
+        refKey: 'cart_old',
+        data: {
+          id: 'cart_old',
+          sessionId: 'sess_old',
+          items: [makeItem('old_item')],
+          expiresAt: new Date(Date.now() - 60_000).toISOString(),
+          createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+          updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+        },
+      },
+    ];
+    snapshots.loadAll.mockResolvedValueOnce(rows);
+
+    await repository.onModuleInit();
+
+    expect(snapshots.remove).toHaveBeenCalledWith('cart', 'sess_old');
+    expect(repository.toDto('sess_old').items).toEqual([]);
+  });
+
+  it('should lazily replace an expired in-memory cart', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-07-04T00:00:00.000Z'));
+    try {
+      repository.saveItem('sess_live_expired', makeItem('active_item'));
+      const originalId = repository.toDto('sess_live_expired').id;
+
+      jest.setSystemTime(new Date('2026-07-12T00:00:00.000Z'));
+
+      const dto = repository.toDto('sess_live_expired');
+      expect(snapshots.remove).toHaveBeenCalledWith('cart', 'sess_live_expired');
+      expect(dto.id).not.toBe(originalId);
+      expect(dto.items).toEqual([]);
+    } finally {
+      jest.useRealTimers();
+    }
   });
 });

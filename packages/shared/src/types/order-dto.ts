@@ -8,6 +8,8 @@ import type { OrderStatus } from '../constants/statuses';
 
 import type { Address, Money } from './common';
 
+export type CheckoutShippingMethod = 'standard' | 'express' | 'rush';
+
 export interface OrderItemDto {
   id: string;
   orderId: string;
@@ -40,7 +42,7 @@ export interface OrderDto {
   shippingAddress: Address;
   billingAddress: Address;
   /** Selected logical shipping method (e.g. "standard" | "express" | "rush"). */
-  shippingMethod: 'standard' | 'express' | 'rush';
+  shippingMethod: CheckoutShippingMethod;
   subtotal: Money;
   shipping: Money;
   tax: Money;

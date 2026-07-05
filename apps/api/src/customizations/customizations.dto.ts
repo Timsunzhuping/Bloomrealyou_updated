@@ -75,6 +75,10 @@ export class GenerateProductionFileBody {
   @IsIn(['png', 'svg', 'pdf', 'json'], { each: true })
   @IsOptional()
   formats?: Array<'png' | 'svg' | 'pdf' | 'json'>;
+
+  @IsString()
+  @IsOptional()
+  productionDataUrl?: string;
 }
 
 export class ValidateDesignBody {

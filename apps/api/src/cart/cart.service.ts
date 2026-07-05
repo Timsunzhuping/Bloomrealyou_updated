@@ -21,6 +21,7 @@ interface AddItemInput {
   printAreas?: string[];
   rush?: boolean;
   shippingCountry?: string;
+  shippingMethod?: 'standard' | 'express' | 'rush';
   previewImageUrl?: string | null;
   productNameSnapshot?: string;
   variantSkuSnapshot?: string;
@@ -32,6 +33,7 @@ interface UpdateItemInput {
   printAreas?: string[];
   rush?: boolean;
   shippingCountry?: string;
+  shippingMethod?: 'standard' | 'express' | 'rush';
 }
 
 @Injectable()
@@ -58,6 +60,7 @@ export class CartService {
       printMethod: input.printMethod,
       printAreas: input.printAreas,
       shippingCountry: input.shippingCountry,
+      shippingMethod: input.shippingMethod,
       rush: input.rush,
     });
 
@@ -103,6 +106,7 @@ export class CartService {
       printMethod: next.printMethod ?? undefined,
       printAreas: next.printAreas,
       shippingCountry: patch.shippingCountry,
+      shippingMethod: patch.shippingMethod,
       rush: patch.rush,
     });
 
@@ -125,7 +129,10 @@ export class CartService {
     return this.repo.toDto(sessionId);
   }
 
-  recalculate(sessionId: string, opts: { shippingCountry?: string; rush?: boolean }): CartDto {
+  recalculate(
+    sessionId: string,
+    opts: { shippingCountry?: string; shippingMethod?: 'standard' | 'express' | 'rush'; rush?: boolean },
+  ): CartDto {
     const cart = this.repo.toDto(sessionId);
     const next = cart.items.map((item) => {
       const pricing = this.pricing.calculate({
@@ -135,6 +142,7 @@ export class CartService {
         printMethod: item.printMethod ?? undefined,
         printAreas: item.printAreas,
         shippingCountry: opts.shippingCountry,
+        shippingMethod: opts.shippingMethod,
         rush: opts.rush,
       });
       return {

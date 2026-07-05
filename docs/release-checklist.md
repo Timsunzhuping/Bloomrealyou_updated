@@ -61,12 +61,14 @@ Walk this list **before** flipping DNS / promoting an image to production. Items
 - [ ] `STRIPE_WEBHOOK_SECRET` matches the dashboard.
 - [ ] `STRIPE_WEBHOOK_REQUIRE_SIGNATURE=true` in the production environment.
 - [ ] A real $0.50 test order completes end-to-end and the funds appear in the Stripe dashboard.
-- [ ] PayPal credentials (`PAYPAL_*`) are populated **or** the PayPal option is hidden in the UI.
+- [ ] PayPal credentials (`PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_WEBHOOK_ID`) are populated and `PAYPAL_WEBHOOK_REQUIRE_SIGNATURE=true`, or `NEXT_PUBLIC_ENABLE_PAYPAL_CHECKOUT=false` keeps PayPal hidden in the UI.
 
 ## 7. Infrastructure
 
 - [ ] Postgres migration `prisma migrate deploy` ran cleanly with no pending diffs.
 - [ ] Object storage bucket exists and the IAM policy permits the API role to `PutObject` / `GetObject`.
+- [ ] A customized product can be added to cart and produces `production.pdf`, `production.svg`, optional `production.png`, and `source.json` under `designs/{designId}/`.
+- [ ] Admin order/detail pages show a non-null production file link for customized order items.
 - [ ] Redis is reachable from every API replica; `IDEMPOTENCY_STORE_BACKEND=redis` is set if running > 1 instance.
 - [ ] CDN serves the storefront with HSTS, a valid TLS cert, and gzip + brotli enabled.
 - [ ] CORS allow-list (`API_CORS_ORIGINS`) lists only the production storefront / admin domains.

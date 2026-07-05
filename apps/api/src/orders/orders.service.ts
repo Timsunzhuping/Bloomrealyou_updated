@@ -14,6 +14,7 @@ import {
 } from '@custom-merch/shared';
 
 import { CartRepository } from '../cart/cart.repository';
+import { PricingService } from '../pricing/pricing.service';
 import { CustomizationsRepository } from '../customizations/customizations.repository';
 import { OrderProgressService } from '../notifications/order-progress.service';
 
@@ -26,6 +27,7 @@ export class OrdersService {
   constructor(
     private readonly orders: OrdersRepository,
     private readonly carts: CartRepository,
+    private readonly pricing: PricingService,
     private readonly customizations: CustomizationsRepository,
     private readonly progress: OrderProgressService,
   ) {}
@@ -40,9 +42,29 @@ export class OrdersService {
     const billing = input.billingAddress ?? input.shippingAddress;
     const shippingMethod = input.shippingMethod ?? 'standard';
 
+    const shippingCountry = input.shippingAddress.country;
+    const isRush = shippingMethod === 'rush';
+    let subtotalMinor = 0;
+    let shippingMinor = 0;
+    let taxMinor = 0;
+    let totalMinor = 0;
+
     const items: OrderItemDto[] = cart.items.map((line) => {
       const bundle = findMockProductById(line.productId);
       const variant = bundle?.variants.find((v) => v.id === line.variantId);
+      const pricing = this.pricing.calculate({
+        productId: line.productId,
+        variantId: line.variantId,
+        quantity: line.quantity,
+        printMethod: line.printMethod ?? undefined,
+        printAreas: line.printAreas,
+        shippingCountry,
+        shippingMethod,
+        rush: isRush,
+      });
+      subtotalMinor += pricing.subtotal.amountMinor + pricing.printingFee.amountMinor + pricing.rushFee.amountMinor;
+      shippingMinor += pricing.shippingFee.amountMinor;
+      totalMinor += pricing.total.amountMinor;
       const design = line.customizationId
         ? this.customizations.get(line.customizationId)
         : undefined;
@@ -65,8 +87,8 @@ export class OrdersService {
         printMethod: line.printMethod ?? null,
         printAreas: line.printAreas,
         quantity: line.quantity,
-        unitPrice: line.unitPrice,
-        totalPrice: line.totalPrice,
+        unitPrice: pricing.unitPrice,
+        totalPrice: pricing.total,
       };
     });
 
@@ -87,11 +109,11 @@ export class OrdersService {
       shippingAddress: input.shippingAddress as Address,
       billingAddress: billing as Address,
       shippingMethod,
-      subtotal: cart.subtotal,
-      shipping: cart.shipping,
-      tax: cart.tax,
+      subtotal: money(subtotalMinor, cart.currency),
+      shipping: money(shippingMinor, cart.currency),
+      tax: money(taxMinor, cart.currency),
       discount: { amountMinor: 0, currency: cart.currency },
-      total: cart.total,
+      total: money(totalMinor, cart.currency),
       items,
       notes: input.notes ?? null,
       cartSessionId: input.cartSessionId,
@@ -198,4 +220,11 @@ export class OrdersService {
 function formatMoney(money: { amountMinor: number; currency: string }): string {
   const major = (money.amountMinor / 100).toFixed(2);
   return `${money.currency} ${major}`;
+}
+
+function money(amountMinor: number, currency: OrderDto['currency']): OrderDto['total'] {
+  return {
+    amountMinor: Math.max(0, Math.round(amountMinor)),
+    currency,
+  };
 }

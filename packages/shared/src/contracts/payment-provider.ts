@@ -34,11 +34,18 @@ export interface CreateIntentResult {
   immediateSuccess?: boolean;
 }
 
+export interface CaptureIntentInput {
+  /** External provider intent/order id to settle (PayPal order id, etc.). */
+  intentId: string;
+}
+
 export interface VerifyWebhookInput {
   /** Raw HTTP body bytes (Stripe needs them for signature verification). */
   rawBody: Buffer | string;
   /** Provider-specific signature header. */
   signature?: string;
+  /** Provider-specific webhook headers, normalized by the API controller. */
+  headers?: Record<string, string | undefined>;
 }
 
 export type WebhookEventKind =
@@ -64,6 +71,8 @@ export interface PaymentProvider {
   readonly name: PaymentProviderName;
   /** Create a payment intent / authorisation. */
   createIntent(input: CreateIntentInput): Promise<CreateIntentResult>;
+  /** Capture a previously approved redirect-style payment, if the provider requires it. */
+  captureIntent?(input: CaptureIntentInput): Promise<WebhookEvent>;
   /** Validate a webhook payload and return a normalized event. */
   parseWebhook(input: VerifyWebhookInput): Promise<WebhookEvent>;
   /** Provider supports the given currency. */

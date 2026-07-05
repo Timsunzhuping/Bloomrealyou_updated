@@ -69,6 +69,8 @@ export interface RenderPreviewResult {
 export interface GenerateProductionFileInput {
   /** Output format — multiple may be requested. */
   formats?: Array<'png' | 'svg' | 'pdf' | 'json'>;
+  /** High-resolution print-area PNG data URL captured by the browser customizer. */
+  productionDataUrl?: string;
 }
 
 export interface ProductionArtifact {

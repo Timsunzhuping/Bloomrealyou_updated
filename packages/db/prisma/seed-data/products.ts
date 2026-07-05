@@ -41,10 +41,16 @@ export interface SeedProductSpec {
   priceTiers: SeedPriceTierSpec[];
 }
 
-const galleryStub = (slug: string): string[] => [
-  `https://placehold.co/800x800?text=${slug}-front`,
-  `https://placehold.co/800x800?text=${slug}-back`,
-];
+const galleryStub = (slug: string): string[] => {
+  if (slug.includes('hoodie')) return ['/product-assets/hoodies.jpg'];
+  if (slug.includes('mug')) return ['/product-assets/mugs.jpg'];
+  if (slug.includes('cap') || slug === 'beanie') return ['/product-assets/hats.jpg'];
+  if (slug.includes('tote') || slug.includes('shopper')) {
+    return ['/product-assets/tote-bags.jpg'];
+  }
+  if (slug.includes('sticker')) return ['/product-assets/stickers.jpg'];
+  return ['/product-assets/t-shirts.jpg'];
+};
 
 /** Standard 3-tier volume pricing curve: 1-49 / 50-199 / 200+. */
 const tiers = (base: number): SeedPriceTierSpec[] => [

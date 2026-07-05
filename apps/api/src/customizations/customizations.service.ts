@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 import type {
   CustomerDesignDto,
@@ -96,24 +96,39 @@ export class CustomizationsService {
 
   async generateProductionFile(
     id: string,
-    formats: Array<'png' | 'svg' | 'pdf' | 'json'> = ['png', 'json'],
+    formats: Array<'png' | 'svg' | 'pdf' | 'json'> = ['png', 'svg', 'pdf', 'json'],
+    productionDataUrl?: string,
   ): Promise<GenerateProductionFileResult> {
     const existing = this.repo.get(id);
     if (!existing) throw new NotFoundException(`Design not found: ${id}`);
-    // Pull the most recent preview content from the same data URL we
-    // persisted. In production the renderer runs server-side; today we
-    // duplicate the preview as the production PNG.
+
+    const validation = validateDesign({
+      designJson: existing.designJson,
+      hasPreview: !!existing.previewImageUrl || !!productionDataUrl,
+    });
+    this.repo.setValidation(id, validation);
+    if (!validation.ok) {
+      throw new BadRequestException({
+        message: 'Design is not production-ready',
+        validation,
+      });
+    }
+
     const artifacts = await this.files.generateProduction(
       id,
       existing.designJson,
-      existing.previewImageUrl?.startsWith('data:') ? existing.previewImageUrl : undefined,
+      productionDataUrl,
       formats,
     );
-    const png = artifacts.find((a) => a.format === 'png');
-    if (png) this.repo.setProductionUrl(id, png.url);
+    const primary =
+      artifacts.find((a) => a.format === 'pdf') ??
+      artifacts.find((a) => a.format === 'png') ??
+      artifacts.find((a) => a.format === 'svg') ??
+      artifacts.find((a) => a.format === 'json');
+    if (primary) this.repo.setProductionUrl(id, primary.url);
     return {
       artifacts,
-      productionFileUrl: png?.url,
+      productionFileUrl: primary?.url,
       generatedAt: new Date().toISOString(),
     };
   }

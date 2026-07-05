@@ -27,7 +27,14 @@ const providersFactory: Provider<Record<PaymentProviderName, PaymentProvider>> =
           log.warn('STRIPE_SECRET_KEY missing — using mock Stripe provider');
           return new MockStripeProvider();
         })();
-    const paypal = new PaypalProvider();
+    const paypal = new PaypalProvider({
+      clientId: config.get<string>('PAYPAL_CLIENT_ID'),
+      clientSecret: config.get<string>('PAYPAL_CLIENT_SECRET'),
+      environment: config.get<string>('PAYPAL_ENV') === 'live' ? 'live' : 'sandbox',
+      webhookId: config.get<string>('PAYPAL_WEBHOOK_ID'),
+      requireWebhookSignature: config.get<string>('PAYPAL_WEBHOOK_REQUIRE_SIGNATURE') === 'true',
+      appUrl: config.get<string>('APP_URL') ?? config.get<string>('WEB_URL'),
+    });
     const manualInvoice = new ManualInvoiceProvider();
     return { stripe, paypal, manual_invoice: manualInvoice };
   },

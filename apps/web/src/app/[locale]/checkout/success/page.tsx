@@ -3,13 +3,14 @@ import { Button } from '@custom-merch/ui';
 import { CheckCircle2 } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+import { PaypalCaptureStatus } from '@/components/checkout/paypal-capture-status';
 import { Link } from '@/i18n/navigation';
 
 import type { Metadata } from 'next';
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ orderNumber?: string }>;
+  searchParams: Promise<{ orderNumber?: string; token?: string }>;
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -21,7 +22,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function CheckoutSuccessPage(props: Props): Promise<JSX.Element> {
   const { locale: rawLocale } = await props.params;
-  const { orderNumber } = await props.searchParams;
+  const { orderNumber, token } = await props.searchParams;
   const locale: Locale = isSupportedLocale(rawLocale) ? rawLocale : 'en';
   setRequestLocale(locale);
 
@@ -35,6 +36,7 @@ export default async function CheckoutSuccessPage(props: Props): Promise<JSX.Ele
       {orderNumber && (
         <p className="text-sm font-medium">{t('orderNumber', { number: orderNumber })}</p>
       )}
+      {token && <PaypalCaptureStatus paypalOrderId={token} orderNumber={orderNumber} />}
       <div className="flex justify-center gap-3">
         {orderNumber && (
           <Button asChild>

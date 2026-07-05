@@ -27,6 +27,7 @@ export async function generateMetadata(props: LocaleLayoutProps): Promise<Metada
   return {
     title: { default: t('title'), template: `%s · ${tApp('name')}` },
     description: tApp('tagline'),
+    icons: { icon: '/logo.png', apple: '/logo.png' },
     alternates: {
       languages: Object.fromEntries(
         routing.locales.map((code) => [code, `/${code}/dashboard`]),

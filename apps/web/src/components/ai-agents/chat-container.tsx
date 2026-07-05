@@ -49,7 +49,7 @@ export function ChatContainer({
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <p className="text-gray-600 text-lg mb-2">Welcome to Sales Assistant</p>
-              <p className="text-gray-500">Start by telling me what you're looking for</p>
+              <p className="text-gray-500">Start by telling me what you are looking for</p>
             </div>
           </div>
         ) : (

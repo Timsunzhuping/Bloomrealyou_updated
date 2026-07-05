@@ -6,6 +6,7 @@ import type { Currency } from '../constants/currencies';
 import type { PrintMethod } from '../constants/print-methods';
 
 import type { Money } from './common';
+import type { CheckoutShippingMethod } from './order-dto';
 
 export interface PricingInput {
   productId: string;
@@ -16,6 +17,8 @@ export interface PricingInput {
   printAreas?: string[];
   /** ISO 3166-1 alpha-2 (e.g. "US"). Drives the shipping rate band. */
   shippingCountry?: string;
+  /** Customer-selected checkout service level. */
+  shippingMethod?: CheckoutShippingMethod;
   rush?: boolean;
   currency?: Currency;
 }

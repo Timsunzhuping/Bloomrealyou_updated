@@ -18,17 +18,17 @@
     "prisma"
   ],
   "scripts": {
-    "build": "prisma generate && tsup src/index.ts --format esm,cjs --dts --clean",
+    "build": "prisma generate --schema prisma/schema.prisma && tsup src/index.ts --format esm,cjs --dts --clean",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "lint": "eslint \"src/**/*.ts\" \"prisma/**/*.ts\"",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "prisma generate --schema prisma/schema.prisma && tsc --noEmit",
     "test": "echo \"@custom-merch/db: no tests yet\"",
     "clean": "rimraf dist .turbo src/generated",
-    "db:generate": "dotenv -e ../../.env -- prisma generate",
-    "db:migrate": "dotenv -e ../../.env -- prisma migrate dev",
-    "db:migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy",
-    "db:studio": "dotenv -e ../../.env -- prisma studio",
-    "db:reset": "dotenv -e ../../.env -- prisma migrate reset",
+    "db:generate": "dotenv -e ../../.env -- prisma generate --schema prisma/schema.prisma",
+    "db:migrate": "dotenv -e ../../.env -- prisma migrate dev --schema prisma/schema.prisma",
+    "db:migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy --schema prisma/schema.prisma",
+    "db:studio": "dotenv -e ../../.env -- prisma studio --schema prisma/schema.prisma",
+    "db:reset": "dotenv -e ../../.env -- prisma migrate reset --schema prisma/schema.prisma",
     "db:seed": "dotenv -e ../../.env -- tsx prisma/seed.ts"
   },
   "dependencies": {

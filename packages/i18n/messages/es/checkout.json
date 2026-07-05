@@ -42,6 +42,9 @@
     "stripeNotConfigured": "Stripe en modo demo — al enviar se simula un pago aprobado.",
     "processing": "Procesando pago…",
     "submit": "Pagar ahora",
+    "paypalRedirectTitle": "Redirigiendo a PayPal",
+    "paypalRedirectBody": "Paga {amount} por el pedido {orderNumber} de forma segura en PayPal.",
+    "paypalRedirectCta": "Continuar a PayPal",
     "errorTitle": "El pago no se pudo completar",
     "errorBody": "Revisa los datos e inténtalo de nuevo."
   },
@@ -61,6 +64,15 @@
     "title": "Pago cancelado",
     "body": "Tu pago no se completó. El carrito sigue guardado.",
     "back": "Volver al pago"
+  },
+  "paypalCapture": {
+    "processing": "Finalizando tu pago con PayPal…",
+    "succeededTitle": "Pago con PayPal confirmado",
+    "succeededBody": "El pago se capturó correctamente y tu pedido ya está en preparación.",
+    "failedTitle": "El pago con PayPal requiere atención",
+    "failedBody": "No pudimos finalizar el pago con PayPal. Vuelve al pago o contacta con soporte.",
+    "back": "Volver al pago",
+    "trackOrder": "Ver pedido"
   },
   "errors": {
     "cartEmpty": "Tu carrito está vacío.",

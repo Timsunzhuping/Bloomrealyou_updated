@@ -6,11 +6,13 @@ import type { CartDto, CartItemDto } from '@custom-merch/shared';
 import { SnapshotStore } from '../_lib/snapshot-store';
 
 const KIND = 'cart';
+const CART_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 interface InternalCart {
   id: string;
   sessionId: string;
   items: CartItemDto[];
+  expiresAt: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -33,7 +35,12 @@ export class CartRepository implements OnModuleInit {
   async onModuleInit(): Promise<void> {
     const rows = await this.snapshots.loadAll<InternalCart>(KIND);
     for (const row of rows) {
-      this.cartsBySession.set(row.data.sessionId, row.data);
+      const cart = normaliseCart(row.data);
+      if (isExpired(cart)) {
+        this.snapshots.remove(KIND, row.entityId);
+        continue;
+      }
+      this.cartsBySession.set(cart.sessionId, cart);
     }
     if (rows.length > 0) {
       this.log.log(`Primed ${rows.length} carts from durable store`);
@@ -46,12 +53,18 @@ export class CartRepository implements OnModuleInit {
 
   ensure(sessionId: string): InternalCart {
     let cart = this.cartsBySession.get(sessionId);
+    if (cart && isExpired(cart)) {
+      this.cartsBySession.delete(sessionId);
+      this.snapshots.remove(KIND, sessionId);
+      cart = undefined;
+    }
     if (!cart) {
       const now = new Date().toISOString();
       cart = {
         id: randomUUID(),
         sessionId,
         items: [],
+        expiresAt: expiresAtFromNow(),
         createdAt: now,
         updatedAt: now,
       };
@@ -66,6 +79,7 @@ export class CartRepository implements OnModuleInit {
     if (existingIdx >= 0) cart.items[existingIdx] = item;
     else cart.items.push(item);
     cart.updatedAt = new Date().toISOString();
+    cart.expiresAt = expiresAtFromNow();
     this.persist(cart);
     return cart;
   }
@@ -74,6 +88,7 @@ export class CartRepository implements OnModuleInit {
     const cart = this.ensure(sessionId);
     cart.items = cart.items.filter((i) => i.id !== itemId);
     cart.updatedAt = new Date().toISOString();
+    cart.expiresAt = expiresAtFromNow();
     this.persist(cart);
     return cart;
   }
@@ -82,6 +97,7 @@ export class CartRepository implements OnModuleInit {
     const cart = this.ensure(sessionId);
     cart.items = items;
     cart.updatedAt = new Date().toISOString();
+    cart.expiresAt = expiresAtFromNow();
     this.persist(cart);
     return cart;
   }
@@ -120,4 +136,21 @@ export class CartRepository implements OnModuleInit {
       updatedAt: cart.updatedAt,
     };
   }
+}
+
+function expiresAtFromNow(now = Date.now()): string {
+  return new Date(now + CART_TTL_MS).toISOString();
+}
+
+function isExpired(cart: InternalCart, now = Date.now()): boolean {
+  return new Date(cart.expiresAt).getTime() <= now;
+}
+
+function normaliseCart(cart: InternalCart): InternalCart {
+  if (cart.expiresAt) return cart;
+  const base = new Date(cart.updatedAt || cart.createdAt).getTime();
+  return {
+    ...cart,
+    expiresAt: expiresAtFromNow(Number.isFinite(base) ? base : Date.now()),
+  };
 }

@@ -34,3 +34,12 @@ export interface CreatePaymentIntentResult {
   redirectUrl?: string;
   immediateSuccess?: boolean;
 }
+
+export interface CapturePaypalOrderInput {
+  paypalOrderId: string;
+}
+
+export interface CapturePaypalOrderResult {
+  received: true;
+  payment: PaymentDto;
+}

@@ -207,17 +207,23 @@ export function Customizer({
           setToast(tWarn('fileTooLarge'));
           continue;
         }
-        const url = URL.createObjectURL(file);
-        const img = new window.Image();
-        img.onload = () => {
-          addImage({
-            src: url,
-            filename: file.name,
-            naturalWidth: img.naturalWidth,
-            naturalHeight: img.naturalHeight,
-          });
+        const reader = new FileReader();
+        reader.onload = () => {
+          const src = typeof reader.result === 'string' ? reader.result : '';
+          if (!src) return;
+          const img = new window.Image();
+          img.onload = () => {
+            addImage({
+              src,
+              filename: file.name,
+              mime: file.type,
+              naturalWidth: img.naturalWidth,
+              naturalHeight: img.naturalHeight,
+            });
+          };
+          img.src = src;
         };
-        img.src = url;
+        reader.readAsDataURL(file);
       }
     },
     [addImage, tWarn],
@@ -227,6 +233,10 @@ export function Customizer({
   const captureDataUrl = React.useCallback((): string | null => {
     return stageRef.current?.exportPreview(2) ?? null;
   }, []);
+
+  const captureProductionDataUrl = React.useCallback((): string | null => {
+    return stageRef.current?.exportProduction(4) ?? captureDataUrl();
+  }, [captureDataUrl]);
 
   const persist = React.useCallback(
     async (existingId: string | null): Promise<CustomerDesignDto | null> => {
@@ -371,6 +381,11 @@ export function Customizer({
         return;
       }
       try {
+        const productionDataUrl = captureProductionDataUrl() ?? captureDataUrl() ?? undefined;
+        await getClientApi().customizations.generateProductionFile(designId, {
+          formats: ['png', 'svg', 'pdf', 'json'],
+          productionDataUrl,
+        });
         await getClientApi().cart.addItem({
           productId: product.id,
           variantId,
@@ -391,6 +406,7 @@ export function Customizer({
     },
     [
       captureDataUrl,
+      captureProductionDataUrl,
       defaultPrintMethod,
       initialVariantId,
       localizedName,

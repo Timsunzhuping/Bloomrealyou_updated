@@ -33,10 +33,12 @@ export interface TextLayer extends BaseLayer {
 
 export interface ImageLayer extends BaseLayer {
   type: 'image';
-  /** Object URL (created via URL.createObjectURL) for the uploaded file. */
+  /** Image source. Persisted designs should use a data URL so exports survive reloads. */
   src: string;
   /** Original filename — surfaced in the layers/properties panel. */
   filename: string;
+  /** Source MIME type, used by production validation/export. */
+  mime?: string;
   /** Source pixel dimensions, used to compute DPI warnings. */
   naturalWidth: number;
   naturalHeight: number;
@@ -50,6 +52,8 @@ export interface CustomizerDesignSnapshot {
   productSlug: string;
   variantId: string | null;
   printArea: string;
+  printAreaRect: AreaRect;
+  safeAreaRect: AreaRect;
   canvas: {
     width: number;
     height: number;

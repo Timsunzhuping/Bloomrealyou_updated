@@ -7,6 +7,7 @@ import type { PrintMethod } from '../constants/print-methods';
 import type { CartStatus } from '../constants/statuses';
 
 import type { Money } from './common';
+import type { CheckoutShippingMethod } from './order-dto';
 import type { PricingResult } from './pricing';
 
 export interface CartItemDto {
@@ -57,6 +58,7 @@ export interface AddCartItemInput {
   printAreas?: string[];
   rush?: boolean;
   shippingCountry?: string;
+  shippingMethod?: CheckoutShippingMethod;
   /** When set, used to display the customised mockup in the cart line. */
   previewImageUrl?: string | null;
   /** Optional snapshots passed through from the front-end (otherwise inferred). */
@@ -70,10 +72,12 @@ export interface UpdateCartItemInput {
   printAreas?: string[];
   rush?: boolean;
   shippingCountry?: string;
+  shippingMethod?: CheckoutShippingMethod;
 }
 
 export interface RecalculateCartInput {
   /** Optional override applied to every line item (e.g. ship-to country change). */
   shippingCountry?: string;
+  shippingMethod?: CheckoutShippingMethod;
   rush?: boolean;
 }

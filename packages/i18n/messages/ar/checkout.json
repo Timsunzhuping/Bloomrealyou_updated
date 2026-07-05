@@ -42,6 +42,9 @@
     "stripeNotConfigured": "Stripe في وضع تجريبي — إرسال الطلب يحاكي نجاح الدفع.",
     "processing": "جاري معالجة الدفع…",
     "submit": "ادفع الآن",
+    "paypalRedirectTitle": "جارٍ التحويل إلى PayPal",
+    "paypalRedirectBody": "ادفع {amount} للطلب {orderNumber} بأمان عبر PayPal.",
+    "paypalRedirectCta": "المتابعة إلى PayPal",
     "errorTitle": "تعذّر إكمال الدفع",
     "errorBody": "يرجى مراجعة البيانات وإعادة المحاولة."
   },
@@ -61,6 +64,15 @@
     "title": "تم إلغاء الدفع",
     "body": "لم يكتمل الدفع، وسلتك لا تزال محفوظة.",
     "back": "العودة إلى الدفع"
+  },
+  "paypalCapture": {
+    "processing": "جارٍ إكمال دفع PayPal…",
+    "succeededTitle": "تم تأكيد دفع PayPal",
+    "succeededBody": "تم تحصيل الدفع وسيبدأ تجهيز طلبك.",
+    "failedTitle": "دفع PayPal يحتاج إلى متابعة",
+    "failedBody": "تعذّر إكمال دفع PayPal. يرجى العودة إلى الدفع أو التواصل مع الدعم.",
+    "back": "العودة إلى الدفع",
+    "trackOrder": "عرض تفاصيل الطلب"
   },
   "errors": {
     "cartEmpty": "سلتك فارغة.",

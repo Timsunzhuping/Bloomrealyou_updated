@@ -85,7 +85,7 @@ export class CustomizationsController {
     @Param('id') id: string,
     @Body() body: GenerateProductionFileBody,
   ): Promise<GenerateProductionFileResult> {
-    return this.service.generateProductionFile(id, body.formats);
+    return this.service.generateProductionFile(id, body.formats, body.productionDataUrl);
   }
 
   /** POST /customizations/:id/validate */

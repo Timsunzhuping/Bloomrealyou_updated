@@ -7,6 +7,7 @@ import type {
   CartDto,
   CreatePaymentIntentResult,
   OrderDto,
+  PaymentProviderName,
 } from '@custom-merch/shared';
 import {
   Button,
@@ -33,6 +34,7 @@ interface CheckoutPageProps {
 }
 
 const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '';
+const ENABLE_PAYPAL = process.env.NEXT_PUBLIC_ENABLE_PAYPAL_CHECKOUT === 'true';
 
 let stripePromise: Promise<Stripe | null> | null = null;
 function getStripePromise(): Promise<Stripe | null> | null {
@@ -47,6 +49,7 @@ interface FormState {
   billingSameAsShipping: boolean;
   billing: Address;
   shippingMethod: 'standard' | 'express' | 'rush';
+  paymentProvider: Extract<PaymentProviderName, 'stripe' | 'paypal'>;
 }
 
 const EMPTY_ADDRESS: Address = {
@@ -74,6 +77,7 @@ export function CheckoutPage({ locale }: CheckoutPageProps): JSX.Element {
     billingSameAsShipping: true,
     billing: { ...EMPTY_ADDRESS },
     shippingMethod: 'standard',
+    paymentProvider: 'stripe',
   });
 
   React.useEffect(() => {
@@ -93,6 +97,29 @@ export function CheckoutPage({ locale }: CheckoutPageProps): JSX.Element {
       cancelled = true;
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!cart?.id) return;
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      getClientApi().cart.recalculate({
+        shippingCountry: form.shipping.country,
+        shippingMethod: form.shippingMethod,
+        rush: form.shippingMethod === 'rush',
+      })
+        .then((next) => {
+          if (!cancelled) setCart(next);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.warn('[checkout] cart recalculate failed', (err as Error).message);
+        });
+    }, 250);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [cart?.id, form.shipping.country, form.shippingMethod]);
 
   if (loading) {
     return (
@@ -141,7 +168,7 @@ export function CheckoutPage({ locale }: CheckoutPageProps): JSX.Element {
 
       const created = await api.payments.createIntent({
         orderId: placedOrder.id,
-        provider: 'stripe',
+        provider: form.paymentProvider,
       });
       setIntent(created);
     } catch (err) {
@@ -253,6 +280,29 @@ export function CheckoutPage({ locale }: CheckoutPageProps): JSX.Element {
           )}
         </section>
 
+        {ENABLE_PAYPAL && (
+          <section className="space-y-3 rounded-lg border bg-card p-5">
+            <h2 className="text-base font-semibold">{t('payment.heading')}</h2>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {(['stripe', 'paypal'] as const).map((provider) => (
+                <label
+                  key={provider}
+                  className="flex min-h-12 items-center gap-3 rounded-md border px-3 py-2 text-sm"
+                >
+                  <input
+                    type="radio"
+                    name="paymentProvider"
+                    value={provider}
+                    checked={form.paymentProvider === provider}
+                    onChange={() => setForm((s) => ({ ...s, paymentProvider: provider }))}
+                  />
+                  <span>{provider === 'stripe' ? t('payment.card') : t('payment.paypal')}</span>
+                </label>
+              ))}
+            </div>
+          </section>
+        )}
+
         {error && <p className="text-sm text-destructive">{error}</p>}
 
         <Button type="submit" size="lg" disabled={submitting}>
@@ -362,6 +412,16 @@ function PaymentStep({
   const t = useTranslations('checkout');
   const stripePromise = getStripePromise();
 
+  if (intent.provider === 'paypal') {
+    return (
+      <PaypalRedirectStep
+        order={order}
+        intent={intent}
+        locale={locale}
+      />
+    );
+  }
+
   if (!stripePromise) {
     return (
       <section className="space-y-4 rounded-lg border bg-card p-6 text-center">
@@ -393,6 +453,43 @@ function PaymentStep({
     >
       <StripePaymentForm order={order} locale={locale} />
     </Elements>
+  );
+}
+
+function PaypalRedirectStep({
+  order,
+  intent,
+  locale,
+}: {
+  order: OrderDto;
+  intent: CreatePaymentIntentResult;
+  locale: Locale;
+}): JSX.Element {
+  const t = useTranslations('checkout');
+
+  React.useEffect(() => {
+    if (intent.redirectUrl) {
+      window.location.assign(intent.redirectUrl);
+    }
+  }, [intent.redirectUrl]);
+
+  return (
+    <section className="space-y-4 rounded-lg border bg-card p-6 text-center">
+      <h2 className="text-lg font-semibold">{t('payment.paypalRedirectTitle')}</h2>
+      <p className="text-sm text-muted-foreground">
+        {t('payment.paypalRedirectBody', {
+          amount: formatCurrency(order.total, locale),
+          orderNumber: order.orderNumber,
+        })}
+      </p>
+      {intent.redirectUrl ? (
+        <Button asChild size="lg">
+          <a href={intent.redirectUrl}>{t('payment.paypalRedirectCta')}</a>
+        </Button>
+      ) : (
+        <p className="text-sm text-destructive">{t('payment.errorTitle')}</p>
+      )}
+    </section>
   );
 }
 

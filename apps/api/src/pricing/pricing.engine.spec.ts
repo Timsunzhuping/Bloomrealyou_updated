@@ -118,6 +118,48 @@ describe('calculatePricing', () => {
     expect(r.estimatedProductionDays).toBe(Math.max(1, 5 - 2));
   });
 
+  it('applies shipping service-level multipliers', () => {
+    const standard = calculatePricing({
+      product: PRODUCT,
+      variant: VARIANT,
+      priceTiers: TIERS,
+      request: {
+        productId: PRODUCT.id,
+        quantity: 2,
+        shippingCountry: 'US',
+        shippingMethod: 'standard',
+      },
+    });
+    const express = calculatePricing({
+      product: PRODUCT,
+      variant: VARIANT,
+      priceTiers: TIERS,
+      request: {
+        productId: PRODUCT.id,
+        quantity: 2,
+        shippingCountry: 'US',
+        shippingMethod: 'express',
+      },
+    });
+    const rush = calculatePricing({
+      product: PRODUCT,
+      variant: VARIANT,
+      priceTiers: TIERS,
+      request: {
+        productId: PRODUCT.id,
+        quantity: 2,
+        shippingCountry: 'US',
+        shippingMethod: 'rush',
+      },
+    });
+
+    expect(standard.shippingFee.amountMinor).toBe(510);
+    expect(express.shippingFee.amountMinor).toBe(Math.round(510 * 1.75));
+    expect(rush.shippingFee.amountMinor).toBe(Math.round(510 * 2.5));
+    expect(express.estimatedDeliveryDays).toBeLessThan(standard.estimatedDeliveryDays);
+    expect(rush.rushFee.amountMinor).toBeGreaterThan(0);
+  });
+
   it('produces a defensive shipping rate when country is unknown', () => {
     const r = calculatePricing({
       product: PRODUCT,

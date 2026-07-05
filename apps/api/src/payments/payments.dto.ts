@@ -9,3 +9,7 @@ export class CreatePaymentIntentBody {
   @IsOptional()
   provider?: PaymentProviderName;
 }
+
+export class CapturePaypalOrderBody {
+  @IsString() paypalOrderId!: string;
+}

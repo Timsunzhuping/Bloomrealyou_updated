@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable, Logger, NotFoundException } fr
 import { randomUUID } from 'node:crypto';
 
 import type {
+  CapturePaypalOrderResult,
   CreatePaymentIntentResult,
   PaymentDto,
   PaymentProvider,
@@ -67,6 +68,27 @@ export class PaymentsService {
     };
   }
 
+  async capturePaypalOrder(input: { paypalOrderId: string }): Promise<CapturePaypalOrderResult> {
+    const payment = this.repo.findByProviderReference(input.paypalOrderId);
+    if (!payment) throw new NotFoundException(`PayPal payment not found: ${input.paypalOrderId}`);
+    if (payment.provider !== 'paypal') {
+      throw new BadRequestException(`Payment ${payment.id} is not a PayPal payment`);
+    }
+    if (payment.status === 'succeeded') {
+      return { received: true, payment };
+    }
+
+    const provider = this.providers.paypal;
+    if (!provider.captureIntent) {
+      throw new BadRequestException('PayPal provider does not support capture');
+    }
+
+    const event = await provider.captureIntent({ intentId: input.paypalOrderId });
+    await this.applyEvent('paypal', event);
+    const updated = this.repo.findByProviderReference(input.paypalOrderId) ?? payment;
+    return { received: true, payment: updated };
+  }
+
   /** Process a Stripe webhook payload. */
   async handleStripeWebhook(rawBody: Buffer, signature?: string): Promise<{ received: true }> {
     const provider = this.providers.stripe;
@@ -76,9 +98,13 @@ export class PaymentsService {
   }
 
   /** Process a PayPal webhook payload. */
-  async handlePaypalWebhook(rawBody: Buffer, signature?: string): Promise<{ received: true }> {
+  async handlePaypalWebhook(
+    rawBody: Buffer,
+    signature?: string,
+    headers?: Record<string, string | undefined>,
+  ): Promise<{ received: true }> {
     const provider = this.providers.paypal;
-    const event = await provider.parseWebhook({ rawBody, signature });
+    const event = await provider.parseWebhook({ rawBody, signature, headers });
     await this.applyEvent('paypal', event);
     return { received: true };
   }
@@ -98,6 +124,10 @@ export class PaymentsService {
     }
 
     if (event.kind === 'payment_succeeded') {
+      if (payment.status === 'succeeded') {
+        this.log.log(`payment ${payment.id} already succeeded — skipping duplicate success event`);
+        return;
+      }
       this.repo.save({
         ...payment,
         status: 'succeeded',

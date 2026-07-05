@@ -19,15 +19,14 @@ import type {
 
 const NOW = '2026-04-26T00:00:00.000Z';
 
-/**
- * Fixed image placeholder used by mock products. Real product imagery lives
- * in object storage and is referenced by URL.
- */
-const PLACEHOLDER_IMG =
-  'data:image/svg+xml;utf8,' +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="%23e5e7eb"/></svg>',
-  );
+const CATEGORY_IMAGE_URLS: Record<(typeof PRODUCT_CATEGORIES)[number], string> = {
+  't-shirts': '/product-assets/t-shirts.jpg',
+  hoodies: '/product-assets/hoodies.jpg',
+  mugs: '/product-assets/mugs.jpg',
+  hats: '/product-assets/hats.jpg',
+  stickers: '/product-assets/stickers.jpg',
+  'tote-bags': '/product-assets/tote-bags.jpg',
+};
 
 /** Price tier templates reused across products. amounts are in USD minor units. */
 function priceTiers(productId: ProductId, basePriceCents: number): ProductPriceTier[] {
@@ -435,7 +434,7 @@ function buildBundle(
       ar: prod.descriptionAr,
     },
     supportedPrintMethods: config.printMethods,
-    imageUrls: [PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG],
+    imageUrls: [CATEGORY_IMAGE_URLS[config.category]],
     basePrice: { amountMinor: config.basePriceCents, currency: 'USD' },
     tags: prod.tags,
     productionLeadDays: config.productionLeadDays,
