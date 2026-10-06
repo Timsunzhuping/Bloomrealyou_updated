@@ -30,6 +30,9 @@ interface OpenAIOptions {
   model?: string;
   /** Optional override for non-OpenAI compatible endpoints. */
   baseUrl?: string;
+  request?: (
+    body: Record<string, unknown>,
+  ) => Promise<{ choices?: Array<{ message?: { content?: string } }> }>;
 }
 
 interface ChatMessage {
@@ -111,10 +114,15 @@ export class OpenAIProvider implements AIProvider {
         { role: 'user', content: JSON.stringify(input) },
       ],
       async () => fallback,
-    ).then((result) => ({ ...result, source: result.source === 'fallback' ? 'fallback' : 'openai' }));
+    ).then((result) => ({
+      ...result,
+      source: result.source === 'fallback' ? 'fallback' : 'openai',
+    }));
   }
 
-  async generateDesignImage(_input: AiGenerateDesignImageInput): Promise<AiGenerateDesignImageResult> {
+  async generateDesignImage(
+    _input: AiGenerateDesignImageInput,
+  ): Promise<AiGenerateDesignImageResult> {
     throw new Error('AI_IMAGE_GENERATION_NOT_SUPPORTED');
   }
 
@@ -181,6 +189,12 @@ export class OpenAIProvider implements AIProvider {
 
   private async callOrFallback<T>(messages: ChatMessage[], fallback: () => Promise<T>): Promise<T> {
     try {
+      if (this.options.request) {
+        const json = await this.options.request({ model: this.model, messages, temperature: 0.7 });
+        const content = json.choices?.[0]?.message?.content;
+        if (!content) throw new Error('EMPTY_CONTENT');
+        return JSON.parse(content) as T;
+      }
       const res = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
@@ -202,7 +216,7 @@ export class OpenAIProvider implements AIProvider {
       if (!content) throw new Error('OpenAI: empty content');
       return JSON.parse(content) as T;
     } catch (err) {
-      this.log.warn(`OpenAI call failed: ${(err as Error).message} — using fallback`);
+      this.log.warn('OpenAI call failed - using fallback');
       return fallback();
     }
   }

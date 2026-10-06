@@ -104,6 +104,7 @@ export const ADMIN_MENU_GROUPS: AdminMenuGroup[] = [
   {
     labelKey: 'system',
     items: [
+      { href: '/model-config', labelKey: 'modelConfig', permission: 'settings.read', icon: 'settings' },
       { href: '/settings', labelKey: 'settings', permission: 'settings.read', icon: 'settings' },
     ],
   },

@@ -1,6 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 
 import { ListingAIService } from './listing-ai.service';
+import type { ModelConfigurationService } from '../model-config/model-config.service';
+import type { ModelTransport } from '../model-config/model-transport.service';
 
 import type { ListingImage } from '@custom-merch/shared';
 
@@ -17,7 +19,6 @@ const image: ListingImage = {
 
 describe('ListingAIService', () => {
   const fetchMock = jest.fn();
-  const originalFetch = global.fetch;
   const settings = {
     AI_PROVIDER: 'doubao',
     ARK_API_KEY: 'test-only-placeholder',
@@ -28,15 +29,35 @@ describe('ListingAIService', () => {
   };
   beforeEach(() => {
     fetchMock.mockReset();
-    global.fetch = fetchMock;
   });
-  afterAll(() => {
-    global.fetch = originalFetch;
-  });
-  const service = (overrides = {}) =>
-    new ListingAIService(new ConfigService({ ...settings, ...overrides }));
+  const service = (overrides = {}) => {
+    const config = new ConfigService({ ...settings, ...overrides });
+    const models = {
+      resolve: (scope: string) =>
+        config.get('ARK_API_KEY')
+          ? {
+              id: 'test',
+              provider: 'doubao',
+              kind: scope.endsWith('image') ? 'image' : 'text',
+              model: config.get(
+                scope.endsWith('image') ? 'DOUBAO_IMAGE_MODEL' : 'DOUBAO_TEXT_MODEL',
+              ),
+              baseUrl: config.get('ARK_BASE_URL'),
+              apiKey: config.get('ARK_API_KEY'),
+              timeoutMs: 120000,
+            }
+          : null,
+    };
+    return new ListingAIService(
+      config,
+      models as unknown as ModelConfigurationService,
+      { chat: fetchMock, post: fetchMock } as unknown as ModelTransport,
+    );
+  };
   const respond = (data: unknown, status = 200) =>
-    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify(data), { status }));
+    status === 200
+      ? fetchMock.mockResolvedValueOnce(data)
+      : fetchMock.mockRejectedValueOnce(new Error('upstream failed'));
 
   it('uses guided mode and refuses enhancement when the model is unconfigured', async () => {
     const ai = service({ ARK_API_KEY: '' });
@@ -69,9 +90,10 @@ describe('ListingAIService', () => {
     const ai = service();
     const output = await ai.enhance(image, 'studio', 'admin');
     expect(output.contentType).toBe('image/png');
-    const [url, init] = fetchMock.mock.calls[0]!;
-    expect(url).toBe('https://ark.example.test/api/v3/images/generations');
-    expect(JSON.parse(init.body)).toMatchObject({
+    const [runtime, path, body] = fetchMock.mock.calls[0]!;
+    expect(runtime.baseUrl).toBe('https://ark.example.test/api/v3');
+    expect(path).toBe('images/generations');
+    expect(body).toMatchObject({
       model: 'image-model',
       image: image.url,
       response_format: 'b64_json',

@@ -1,6 +1,7 @@
 {
   "title": "后台管理",
   "nav": {
+    "modelConfig": "大模型配置",
     "dashboard": "概览",
     "products": "商品",
     "productListings": "AI 自动上品",

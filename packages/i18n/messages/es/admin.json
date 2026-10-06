@@ -1,6 +1,7 @@
 {
   "title": "Consola de administración",
   "nav": {
+    "modelConfig": "Configuración de modelos",
     "dashboard": "Panel",
     "products": "Productos",
     "productListings": "Alta de productos con IA",

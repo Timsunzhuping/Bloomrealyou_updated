@@ -349,8 +349,8 @@ export function ProductListingWorkspace(): JSX.Element {
                     {L('上品对话', 'Listing Conversation')}
                   </h2>
                   <span className="text-xs text-muted-foreground">
-                    {session.source === 'doubao'
-                      ? L('豆包', 'Doubao')
+                    {session.source !== 'guided'
+                      ? L('模型辅助', 'Model-assisted')
                       : L('引导模式', 'Guided Mode')}
                   </span>
                 </div>

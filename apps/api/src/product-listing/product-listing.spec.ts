@@ -37,6 +37,7 @@ describe('Product listing workflow', () => {
   let actor: AdminUserDto;
   const snapshots = {
     loadAll: jest.fn().mockResolvedValue([]),
+    loadAllConfirmed: jest.fn().mockResolvedValue([]),
     put: jest.fn(),
     remove: jest.fn(),
     putBatchConfirmed: jest.fn().mockResolvedValue(undefined),

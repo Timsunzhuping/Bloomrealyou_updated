@@ -55,7 +55,12 @@ export class AIService {
     input: AiDesignSuggestionsInput,
     userId?: string,
   ): Promise<AiDesignSuggestionsResult> {
-    return this.run('design-suggestions', input, () => this.provider.designSuggestions(input), userId);
+    return this.run(
+      'design-suggestions',
+      input,
+      () => this.provider.designSuggestions(input),
+      userId,
+    );
   }
 
   generateDesignImage(
@@ -66,11 +71,20 @@ export class AIService {
       'generate-design-image',
       input,
       async () => {
-        if (this.provider.name === 'mock') {
-          throw apiError('AI_PROVIDER_NOT_CONFIGURED', 'AI image generation provider is not configured.');
+        if (
+          (this.provider.providerForCapability?.('generate-design-image') ?? this.provider.name) ===
+          'mock'
+        ) {
+          throw apiError(
+            'AI_PROVIDER_NOT_CONFIGURED',
+            'AI image generation provider is not configured.',
+          );
         }
         if (this.storage.name === 'in-memory' && process.env.NODE_ENV === 'production') {
-          throw apiError('AI_STORAGE_NOT_CONFIGURED', 'Persistent AI image storage is not configured.');
+          throw apiError(
+            'AI_STORAGE_NOT_CONFIGURED',
+            'Persistent AI image storage is not configured.',
+          );
         }
         this.assertDailyLimit(userId);
         const generated = await this.provider.generateDesignImage({
@@ -88,7 +102,12 @@ export class AIService {
     input: AiCheckPrintabilityInput,
     userId?: string,
   ): Promise<AiCheckPrintabilityResult> {
-    return this.run('check-printability', input, () => this.provider.checkPrintability(input), userId);
+    return this.run(
+      'check-printability',
+      input,
+      () => this.provider.checkPrintability(input),
+      userId,
+    );
   }
 
   giftSet(input: AiGiftSetInput, userId?: string): Promise<AiGiftSetResult> {
@@ -129,11 +148,12 @@ export class AIService {
   ): Promise<T> {
     const input = rawInput as Record<string, unknown>;
     const started = Date.now();
+    const providerName = this.provider.providerForCapability?.(type) ?? this.provider.name;
     try {
       const output = (await fn()) as unknown as Record<string, unknown>;
       this.logs.record({
         userId: userId ?? null,
-        provider: this.provider.name,
+        provider: providerName,
         requestType: type,
         input,
         output,
@@ -147,7 +167,7 @@ export class AIService {
       this.log.warn(`AI ${type} failed: ${message}`);
       this.logs.record({
         userId: userId ?? null,
-        provider: this.provider.name,
+        provider: providerName,
         requestType: type,
         input,
         output: null,
