@@ -3,6 +3,7 @@
   "nav": {
     "dashboard": "Panel",
     "products": "Productos",
+    "productListings": "Alta de productos con IA",
     "templates": "Plantillas",
     "orders": "Pedidos",
     "designReviews": "Revisiones de diseño",

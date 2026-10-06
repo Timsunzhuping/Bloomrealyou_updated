@@ -25,6 +25,10 @@ lerna-debug.log*
 .env
 .env.local
 .env.*.local
+.env.production
+.env.production.aliyun
+output/playwright/
+.playwright-cli/
 !.env.example
 
 # OS / Editor

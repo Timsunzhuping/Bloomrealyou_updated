@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
 import {
-  findMockProductById,
   type CartDto,
   type CartItemDto,
   type PrintMethod,
 } from '@custom-merch/shared';
 
 import { PricingService } from '../pricing/pricing.service';
+import { CatalogService } from '../products/catalog.service';
 
 import { CartRepository } from './cart.repository';
 
@@ -41,6 +41,7 @@ export class CartService {
   constructor(
     private readonly repo: CartRepository,
     private readonly pricing: PricingService,
+    private readonly catalog: CatalogService,
   ) {}
 
   get(sessionId: string): CartDto {
@@ -48,7 +49,7 @@ export class CartService {
   }
 
   addItem(sessionId: string, input: AddItemInput): CartDto {
-    const bundle = findMockProductById(input.productId);
+    const bundle = this.catalog.find(input.productId);
     if (!bundle) throw new NotFoundException(`Product not found: ${input.productId}`);
     const variant = bundle.variants.find((v) => v.id === input.variantId);
     if (!variant) throw new NotFoundException(`Variant not found: ${input.variantId}`);

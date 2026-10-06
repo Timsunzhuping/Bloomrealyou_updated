@@ -25,6 +25,7 @@ import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PricingModule } from './pricing/pricing.module';
 import { ProductsModule } from './products/products.module';
+import { ProductListingModule } from './product-listing/product-listing.module';
 import { QuotesModule } from './quotes/quotes.module';
 import { RFQsModule } from './rfqs/rfqs.module';
 
@@ -49,6 +50,7 @@ import { RFQsModule } from './rfqs/rfqs.module';
     AdminAuthModule,
     AdminDashboardModule,
     AdminProductsModule,
+    ProductListingModule,
     AdminTemplatesModule,
     AdminOrdersModule,
     AdminDesignReviewsModule,

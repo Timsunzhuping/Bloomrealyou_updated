@@ -141,6 +141,11 @@ export class AdminProductsRepository implements OnModuleInit {
     return undefined;
   }
 
+  /** The listing workflow has already committed this aggregate durably. */
+  acceptPersisted(dto: AdminProductDto): void {
+    this.products.set(dto.id, dto);
+  }
+
   create(dto: AdminProductDto): AdminProductDto {
     this.products.set(dto.id, dto);
     this.snapshots.put(KIND, dto.id, dto, dto.slug);
