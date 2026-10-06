@@ -5,6 +5,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { Logo } from '@/components/logo';
+import { StorefrontAssistant } from '@/components/storefront-assistant/storefront-assistant';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 
@@ -53,9 +54,9 @@ export default async function LocaleLayout(props: LocaleLayoutProps): Promise<JS
       <body className="min-h-screen bg-background text-foreground antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <header className="border-b">
-            <div className="container flex h-16 items-center justify-between gap-6">
+            <div className="container flex min-h-16 flex-wrap items-center justify-between gap-3 py-3">
               <Logo />
-              <nav className="flex items-center gap-4 text-sm">
+              <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                 <Link href="/">{t('nav.home')}</Link>
                 <Link href="/products">{t('nav.products')}</Link>
                 <Link href="/business">{t('nav.business')}</Link>
@@ -67,6 +68,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps): Promise<JS
             </div>
           </header>
           <main className="container py-10">{props.children}</main>
+          <StorefrontAssistant />
         </NextIntlClientProvider>
       </body>
     </html>

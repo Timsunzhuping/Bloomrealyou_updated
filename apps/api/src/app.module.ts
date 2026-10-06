@@ -26,6 +26,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { PricingModule } from './pricing/pricing.module';
 import { ProductsModule } from './products/products.module';
 import { ProductListingModule } from './product-listing/product-listing.module';
+import { StorefrontAssistantModule } from './storefront-assistant/storefront-assistant.module';
 import { QuotesModule } from './quotes/quotes.module';
 import { RFQsModule } from './rfqs/rfqs.module';
 
@@ -51,6 +52,7 @@ import { RFQsModule } from './rfqs/rfqs.module';
     AdminDashboardModule,
     AdminProductsModule,
     ProductListingModule,
+    StorefrontAssistantModule,
     AdminTemplatesModule,
     AdminOrdersModule,
     AdminDesignReviewsModule,
