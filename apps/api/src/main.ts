@@ -38,6 +38,8 @@ async function bootstrap(): Promise<void> {
     },
     rawBody: true,
   });
+  // Single-image uploads are capped again at 5MB inside the listing workflow.
+  app.useBodyParser('json', { limit: '8mb' });
   // `whitelist: true` strips unknown DTO fields; `forbidNonWhitelisted` makes
   // the API reject them outright so attackers can't smuggle parameters past
   // class-validator. `transform` converts strings to declared types.

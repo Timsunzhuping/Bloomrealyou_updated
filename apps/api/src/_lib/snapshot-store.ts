@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 
 import { readIfPrismaAvailable, runIfPrismaAvailable } from './prisma-sink';
 
@@ -33,6 +33,35 @@ export interface SnapshotRow<T> {
 @Injectable()
 export class SnapshotStore {
   private readonly log = new Logger(SnapshotStore.name);
+
+  /** Await durable writes for workflows that must not report a false success. */
+  async putBatchConfirmed(
+    rows: Array<{ kind: string; entityId: string; data: unknown; refKey?: string | null }>,
+  ): Promise<void> {
+    if (!process.env.DATABASE_URL && process.env.NODE_ENV !== 'production') return;
+    const written = await readIfPrismaAvailable('snapshot-confirmed', async (client) => {
+      await client.$transaction(
+        rows.map((row) =>
+          client.entitySnapshot.upsert({
+            where: { kind_entityId: { kind: row.kind, entityId: row.entityId } },
+            update: { data: row.data, refKey: row.refKey ?? null },
+            create: {
+              kind: row.kind,
+              entityId: row.entityId,
+              refKey: row.refKey ?? null,
+              data: row.data,
+            },
+          }),
+        ),
+      );
+      return true;
+    });
+    if (!written)
+      throw new ServiceUnavailableException({
+        code: 'LISTING_DATABASE_UNAVAILABLE',
+        message: '商品资料未入库，请恢复数据库后重试。',
+      });
+  }
 
   /**
    * Load every snapshot of a given `kind`. Returns `[]` when Prisma is

@@ -7,6 +7,8 @@ import { CartRepository } from '../cart/cart.repository';
 import { CustomizationsRepository } from '../customizations/customizations.repository';
 import { OrderProgressService } from '../notifications/order-progress.service';
 import { PricingService } from '../pricing/pricing.service';
+import { CatalogService } from '../products/catalog.service';
+import { AdminProductsRepository } from '../admin-products/admin-products.repository';
 
 import { OrdersRepository } from './orders.repository';
 import { OrdersService } from './orders.service';
@@ -29,6 +31,8 @@ describe('OrdersService', () => {
         CartRepository,
         CustomizationsRepository,
         PricingService,
+        CatalogService,
+        AdminProductsRepository,
         { provide: SnapshotStore, useValue: snapshots },
         { provide: OrderProgressService, useValue: { notify: jest.fn() } },
       ],

@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, Logger, NotFoundException } from '@nes
 import { randomUUID } from 'node:crypto';
 
 import {
-  findMockProductById,
   generateOrderNumber,
   type Address,
   type ConvertQuoteToOrderInput,
@@ -19,6 +18,7 @@ import { CustomizationsRepository } from '../customizations/customizations.repos
 import { OrderProgressService } from '../notifications/order-progress.service';
 
 import { OrdersRepository } from './orders.repository';
+import { CatalogService } from '../products/catalog.service';
 
 @Injectable()
 export class OrdersService {
@@ -30,6 +30,7 @@ export class OrdersService {
     private readonly pricing: PricingService,
     private readonly customizations: CustomizationsRepository,
     private readonly progress: OrderProgressService,
+    private readonly catalog: CatalogService,
   ) {}
 
   /** Create an order from a cart session. */
@@ -50,7 +51,7 @@ export class OrdersService {
     let totalMinor = 0;
 
     const items: OrderItemDto[] = cart.items.map((line) => {
-      const bundle = findMockProductById(line.productId);
+      const bundle = this.catalog.find(line.productId);
       const variant = bundle?.variants.find((v) => v.id === line.variantId);
       const pricing = this.pricing.calculate({
         productId: line.productId,
@@ -157,7 +158,7 @@ export class OrdersService {
   createFromQuote(quote: QuoteDto, input: ConvertQuoteToOrderInput): OrderDto {
     const orderId = randomUUID();
     const items: OrderItemDto[] = quote.items.map((line) => {
-      const bundle = line.productId ? findMockProductById(line.productId) : undefined;
+      const bundle = line.productId ? this.catalog.find(line.productId) : undefined;
       const variant = bundle?.variants[0];
       const productName = bundle?.product.name?.[quote.locale] ?? bundle?.product.name?.en;
       return {

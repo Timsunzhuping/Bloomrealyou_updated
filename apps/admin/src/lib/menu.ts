@@ -53,6 +53,12 @@ export const ADMIN_MENU_GROUPS: AdminMenuGroup[] = [
     labelKey: 'commerce',
     items: [
       { href: '/products', labelKey: 'products', permission: 'products.read', icon: 'package' },
+      {
+        href: '/product-listings',
+        labelKey: 'productListings',
+        permission: 'products.write',
+        icon: 'sparkles',
+      },
       { href: '/templates', labelKey: 'templates', permission: 'templates.read', icon: 'palette' },
       { href: '/orders', labelKey: 'orders', permission: 'orders.read', icon: 'shopping-bag' },
       {

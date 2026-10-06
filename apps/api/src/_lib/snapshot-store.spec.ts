@@ -81,6 +81,28 @@ describe('SnapshotStore', () => {
 
     expect(entitySnapshot.delete).toHaveBeenCalledTimes(1);
   });
+
+  it('waits for confirmed writes in one transaction and propagates failure', async () => {
+    const previous = process.env.DATABASE_URL;
+    process.env.DATABASE_URL = 'postgresql://test/test';
+    const transaction = jest.fn().mockResolvedValue(undefined);
+    __setPrismaClientForTests({ entitySnapshot, $transaction: transaction });
+    try {
+      await store.putBatchConfirmed([
+        { kind: 'admin_product', entityId: 'p1', data: { id: 'p1' } },
+        { kind: 'product_listing', entityId: 'l1', data: { productId: 'p1' } },
+      ]);
+      expect(transaction).toHaveBeenCalledTimes(1);
+      expect(transaction.mock.calls[0]?.[0]).toHaveLength(2);
+      transaction.mockRejectedValueOnce(new Error('database unavailable'));
+      await expect(
+        store.putBatchConfirmed([{ kind: 'product_listing', entityId: 'l1', data: {} }]),
+      ).rejects.toMatchObject({ status: 503 });
+    } finally {
+      if (previous === undefined) delete process.env.DATABASE_URL;
+      else process.env.DATABASE_URL = previous;
+    }
+  });
 });
 
 async function flushPrismaSink(): Promise<void> {

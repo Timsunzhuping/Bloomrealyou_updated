@@ -30,3 +30,4 @@ export * from './admin-design-review-dto';
 export * from './audit-log-dto';
 export * from './admin-supply-dto';
 export * from './agent-dto';
+export * from './product-listing-dto';
