@@ -19,9 +19,11 @@ import {
   TabsList,
   TabsTrigger,
 } from '@custom-merch/ui';
+import { MessageCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import * as React from 'react';
 
+import { assistantCopy } from '@/components/storefront-assistant/copy';
 import { Link, useRouter } from '@/i18n/navigation';
 
 export interface ProductDetailProps {
@@ -207,6 +209,15 @@ export function ProductDetail({
             <Button asChild variant="outline" size="lg">
               <Link href={`/business?productSlug=${product.slug}`}>{t('requestBulkQuote')}</Link>
             </Button>
+            <Button
+              variant="outline"
+              onClick={() => window.dispatchEvent(new CustomEvent('bloom:assistant-open', {
+                detail: { productSlug: product.slug, mode: 'shop', draft: assistantCopy[locale].question },
+              }))}
+            >
+              <MessageCircle className="me-2 h-4 w-4" />
+              {assistantCopy[locale].launcher}
+            </Button>
           </div>
 
           {priceTiers.length > 0 && (
@@ -237,7 +248,7 @@ export function ProductDetail({
       </div>
 
       <Tabs defaultValue="details">
-        <TabsList>
+        <TabsList className="h-auto max-w-full flex-wrap justify-start">
           <TabsTrigger value="details">{t('tabs.details')}</TabsTrigger>
           <TabsTrigger value="files">{t('tabs.files')}</TabsTrigger>
           <TabsTrigger value="shipping">{t('tabs.shipping')}</TabsTrigger>

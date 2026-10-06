@@ -32,3 +32,4 @@ export * from './admin-supply-dto';
 export * from './agent-dto';
 export * from './product-listing-dto';
 export * from './model-config-dto';
+export * from './storefront-assistant-dto';
