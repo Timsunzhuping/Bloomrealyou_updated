@@ -44,6 +44,7 @@ export type AICapabilityName =
 export interface AIProvider {
   /** Provider identifier surfaced in logs and webhooks. */
   readonly name: 'mock' | 'openai' | 'anthropic' | 'doubao';
+  providerForCapability?(capability: AICapabilityName): AIProvider['name'];
 
   generateSlogan(input: AiGenerateSloganInput): Promise<AiGenerateSloganResult>;
   designIdeas(input: AiDesignIdeasInput): Promise<AiDesignIdeasResult>;

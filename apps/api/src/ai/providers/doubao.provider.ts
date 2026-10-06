@@ -30,6 +30,13 @@ interface DoubaoOptions {
   baseUrl?: string;
   textModel?: string;
   imageModel?: string;
+  request?: (
+    path: string,
+    body: Record<string, unknown>,
+  ) => Promise<{
+    choices?: Array<{ message?: { content?: string } }>;
+    data?: Array<{ url?: string; b64_json?: string; revised_prompt?: string }>;
+  }>;
 }
 
 interface ChatMessage {
@@ -47,7 +54,10 @@ export class DoubaoProvider implements AIProvider {
   private readonly imageModel: string;
 
   constructor(private readonly options: DoubaoOptions) {
-    this.baseUrl = (options.baseUrl ?? 'https://ark.cn-beijing.volces.com/api/v3').replace(/\/$/, '');
+    this.baseUrl = (options.baseUrl ?? 'https://ark.cn-beijing.volces.com/api/v3').replace(
+      /\/$/,
+      '',
+    );
     this.textModel = options.textModel ?? 'doubao-seed-1-6-250615';
     this.imageModel = options.imageModel ?? 'doubao-seedream-4-0-250828';
   }
@@ -97,33 +107,30 @@ export class DoubaoProvider implements AIProvider {
         { role: 'user', content: JSON.stringify(input) },
       ],
       async () => fallback,
-    ).then((result) => ({ ...result, source: result.source === 'fallback' ? 'fallback' : 'doubao' }));
+    ).then((result) => ({
+      ...result,
+      source: result.source === 'fallback' ? 'fallback' : 'doubao',
+    }));
   }
 
-  async generateDesignImage(input: AiGenerateDesignImageInput): Promise<AiGenerateDesignImageResult> {
+  async generateDesignImage(
+    input: AiGenerateDesignImageInput,
+  ): Promise<AiGenerateDesignImageResult> {
     const requestedSize = input.size ?? '2048x2048';
     const size = normalizeSeedreamSize(requestedSize);
     const prompt = buildImagePrompt(input.prompt, input.transparentBackground ?? true);
-    const res = await fetch(`${this.baseUrl}/images/generations`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${this.options.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: this.imageModel,
-        prompt,
-        size,
-        response_format: 'url',
-        watermark: false,
-      }),
-    });
-    if (!res.ok) throw new Error(`DOUBAO_IMAGE_${res.status}`);
-    const json = (await res.json()) as {
-      data?: Array<{ url?: string; b64_json?: string; revised_prompt?: string }>;
+    const body = {
+      model: this.imageModel,
+      prompt,
+      size,
+      response_format: 'b64_json',
+      watermark: true,
     };
+    const json = this.options.request
+      ? await this.options.request('images/generations', body)
+      : await this.fetchImage(body);
     const first = json.data?.[0];
-    const imageUrl = first?.url ?? (first?.b64_json ? `data:image/png;base64,${first.b64_json}` : null);
+    const imageUrl = first?.b64_json ? `data:image/png;base64,${first.b64_json}` : null;
     if (!imageUrl) throw new Error('DOUBAO_IMAGE_EMPTY');
     const { width, height } = parseSize(size);
     return {
@@ -134,6 +141,23 @@ export class DoubaoProvider implements AIProvider {
       provider: 'doubao-seedream',
       model: this.imageModel,
     };
+  }
+
+  private async fetchImage(body: Record<string, unknown>) {
+    const res = await fetch(`${this.baseUrl}/images/generations`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${this.options.apiKey}`,
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(120000),
+    });
+    if (!res.ok) throw new Error(`DOUBAO_IMAGE_${res.status}`);
+    const json = (await res.json()) as {
+      data?: Array<{ url?: string; b64_json?: string; revised_prompt?: string }>;
+    };
+    return json;
   }
 
   async checkPrintability(input: AiCheckPrintabilityInput): Promise<AiCheckPrintabilityResult> {
@@ -169,6 +193,16 @@ export class DoubaoProvider implements AIProvider {
 
   private async callOrFallback<T>(messages: ChatMessage[], fallback: () => Promise<T>): Promise<T> {
     try {
+      if (this.options.request) {
+        const json = await this.options.request('chat/completions', {
+          model: this.textModel,
+          messages,
+          temperature: 0.7,
+        });
+        const content = json.choices?.[0]?.message?.content;
+        if (!content) throw new Error('EMPTY_CONTENT');
+        return parseJsonObject<T>(content);
+      }
       const res = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
@@ -187,7 +221,7 @@ export class DoubaoProvider implements AIProvider {
       if (!content) throw new Error('Doubao: empty content');
       return parseJsonObject<T>(content);
     } catch (err) {
-      this.log.warn(`Doubao call failed: ${(err as Error).message} - using fallback`);
+      this.log.warn('Doubao call failed - using fallback');
       return fallback();
     }
   }

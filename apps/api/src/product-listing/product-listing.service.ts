@@ -117,7 +117,7 @@ export class ProductListingService implements OnModuleInit {
       const aiPatch = await this.ai.extract(message);
       const patch = { ...(aiPatch ?? {}), ...guidedPatch(message) };
       this.patchDraft(s, patch);
-      s.source = aiPatch ? 'doubao' : 'guided';
+      s.source = aiPatch ? 'model' : 'guided';
       s.messages.push({ role: 'user', text: message, at: new Date().toISOString() });
       s.messages.push({ role: 'assistant', text: followUp(s), at: new Date().toISOString() });
     });

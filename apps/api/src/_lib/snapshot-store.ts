@@ -34,6 +34,19 @@ export interface SnapshotRow<T> {
 export class SnapshotStore {
   private readonly log = new Logger(SnapshotStore.name);
 
+  async loadAllConfirmed<T>(kind: string): Promise<SnapshotRow<T>[]> {
+    if (!process.env.DATABASE_URL && process.env.NODE_ENV !== 'production') return [];
+    const rows = await readIfPrismaAvailable(`snapshot-load-confirmed:${kind}`, (client) =>
+      client.entitySnapshot.findMany({ where: { kind } }),
+    );
+    if (!rows) throw new ServiceUnavailableException('Configuration store unavailable');
+    return (rows as Array<{ entityId: string; refKey: string | null; data: T }>).map((r) => ({
+      entityId: r.entityId,
+      refKey: r.refKey,
+      data: r.data,
+    }));
+  }
+
   /** Await durable writes for workflows that must not report a false success. */
   async putBatchConfirmed(
     rows: Array<{ kind: string; entityId: string; data: unknown; refKey?: string | null }>,

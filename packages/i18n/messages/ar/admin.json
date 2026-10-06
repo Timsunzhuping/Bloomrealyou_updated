@@ -1,6 +1,7 @@
 {
   "title": "وحدة الإدارة",
   "nav": {
+    "modelConfig": "إعدادات النماذج",
     "dashboard": "اللوحة",
     "products": "المنتجات",
     "productListings": "إدراج المنتجات بالذكاء الاصطناعي",

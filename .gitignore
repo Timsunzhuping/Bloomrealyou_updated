@@ -28,6 +28,7 @@ lerna-debug.log*
 .env.production
 .env.production.aliyun
 output/playwright/
+**/output/playwright/
 .playwright-cli/
 !.env.example
 

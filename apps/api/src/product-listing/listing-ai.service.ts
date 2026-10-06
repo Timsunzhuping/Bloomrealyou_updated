@@ -10,6 +10,8 @@ import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 
 import { ListingPatchBody } from './product-listing.dto';
+import { ModelConfigurationService } from '../model-config/model-config.service';
+import { ModelTransport } from '../model-config/model-transport.service';
 
 import type { ListingDraft, ListingImage } from '@custom-merch/shared';
 
@@ -22,15 +24,20 @@ interface ArkResponse {
 export class ListingAIService {
   private readonly log = new Logger(ListingAIService.name);
   private readonly quotas = new Map<string, { day: string; count: number }>();
-  constructor(private readonly config: ConfigService) {}
+  constructor(
+    private readonly config: ConfigService,
+    private readonly models: ModelConfigurationService,
+    private readonly transport: ModelTransport,
+  ) {}
 
   async extract(message: string): Promise<Partial<ListingDraft> | null> {
-    if (!this.enabled()) return null;
     try {
+      const profile = this.models.resolve('listing-text');
+      if (!profile) return null;
       const json = await this.request(
         'chat/completions',
         {
-          model: this.config.get('DOUBAO_TEXT_MODEL') ?? 'doubao-seed-1-6-250615',
+          model: profile.model,
           temperature: 0.1,
           max_tokens: 1600,
           messages: [
@@ -80,7 +87,7 @@ export class ListingAIService {
     mode: 'studio' | 'clean',
     actorId: string,
   ): Promise<{ body: Buffer; contentType: string }> {
-    if (!this.enabled())
+    if (!this.models.resolve('listing-image'))
       throw new ServiceUnavailableException({
         code: 'LISTING_AI_NOT_CONFIGURED',
         message: '豆包图片模型未配置，原图仍可上架。',
@@ -101,7 +108,7 @@ export class ListingAIService {
       const json = await this.request(
         'images/generations',
         {
-          model: this.config.get('DOUBAO_IMAGE_MODEL') ?? 'doubao-seedream-4-0-250828',
+          model: this.models.resolve('listing-image')!.model,
           image: source.url,
           prompt:
             'Edit this exact product photograph for an e-commerce listing. Preserve the actual product, color, material, shape, logo, text, proportions and all construction details. Do not add, remove or invent product features. ' +
@@ -127,46 +134,16 @@ export class ListingAIService {
     }
   }
 
-  private enabled(): boolean {
-    return (
-      Boolean(this.config.get('ARK_API_KEY')) &&
-      this.config.get('AI_PROVIDER') !== 'mock' &&
-      this.config.get('AI_PROVIDER') !== 'openai'
-    );
-  }
-
   // No model responses, images or credentials are written to logs.
   private async request(path: string, body: unknown, timeout: number): Promise<ArkResponse> {
-    const base = String(
-      this.config.get('ARK_BASE_URL') ?? 'https://ark.cn-beijing.volces.com/api/v3',
-    ).replace(/\/$/, '');
-    const response = await fetch(`${base}/${path}`, {
-      method: 'POST',
-      signal: AbortSignal.timeout(timeout),
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${this.config.get('ARK_API_KEY')}`,
-      },
-      body: JSON.stringify(body),
-    });
-    if (!response.ok || !response.body) throw new Error('MODEL_REQUEST_FAILED');
-    const reader = response.body.getReader();
-    const chunks: Uint8Array[] = [];
-    let length = 0;
-    try {
-      let finished = false;
-      while (!finished) {
-        const { value, done } = await reader.read();
-        finished = done;
-        if (done) break;
-        length += value.byteLength;
-        if (length > 30 * 1024 * 1024) throw new Error('MODEL_RESPONSE_TOO_LARGE');
-        chunks.push(value);
-      }
-    } finally {
-      await reader.cancel();
-    }
-    return JSON.parse(Buffer.concat(chunks).toString('utf8')) as ArkResponse;
+    const profile = this.models.resolve(
+      path === 'chat/completions' ? 'listing-text' : 'listing-image',
+    );
+    if (!profile) throw new Error('MODEL_NOT_CONFIGURED');
+    const options = { ...profile, timeoutMs: Math.min(profile.timeoutMs, timeout) };
+    return path === 'chat/completions'
+      ? this.transport.chat(options, body as Record<string, unknown>)
+      : this.transport.post(options, path, body as Record<string, unknown>);
   }
 }
 

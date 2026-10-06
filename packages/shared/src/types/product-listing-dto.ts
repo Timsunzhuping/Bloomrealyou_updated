@@ -50,7 +50,7 @@ export interface ProductListingSession {
   mainImageId: string | null;
   messages: ListingMessage[];
   productId: string | null;
-  source: 'doubao' | 'guided';
+  source: 'doubao' | 'model' | 'guided';
   missing: string[];
   createdAt: string;
   updatedAt: string;

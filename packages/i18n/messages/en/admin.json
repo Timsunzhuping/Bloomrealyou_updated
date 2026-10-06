@@ -1,6 +1,7 @@
 {
   "title": "Admin Console",
   "nav": {
+    "modelConfig": "Model configuration",
     "dashboard": "Dashboard",
     "products": "Products",
     "productListings": "AI Product Listing",

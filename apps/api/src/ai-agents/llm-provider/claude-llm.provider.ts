@@ -11,9 +11,13 @@ export class ClaudeLLMProvider extends BaseLLMProvider {
   private readonly client: Anthropic;
   private readonly model: string;
 
-  constructor(apiKey: string, model: string = 'claude-3-5-sonnet-20241022') {
+  constructor(
+    apiKey: string,
+    model: string = 'claude-3-5-sonnet-20241022',
+    options: { baseURL?: string; timeout?: number; maxRetries?: number; fetch?: typeof fetch } = {},
+  ) {
     super();
-    this.client = new Anthropic({ apiKey });
+    this.client = new Anthropic({ apiKey, ...options });
     this.model = model;
   }
 

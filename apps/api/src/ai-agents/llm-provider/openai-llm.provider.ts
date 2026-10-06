@@ -10,9 +10,13 @@ export class OpenAILLMProvider extends BaseLLMProvider {
   private readonly client: OpenAI;
   private readonly model: string;
 
-  constructor(apiKey: string, model: string = 'gpt-4o') {
+  constructor(
+    apiKey: string,
+    model: string = 'gpt-4o',
+    options: { baseURL?: string; timeout?: number; maxRetries?: number; fetch?: typeof fetch } = {},
+  ) {
     super();
-    this.client = new OpenAI({ apiKey });
+    this.client = new OpenAI({ apiKey, ...options });
     this.model = model;
   }
 
@@ -31,16 +35,17 @@ export class OpenAILLMProvider extends BaseLLMProvider {
         })),
     ];
 
-    const toolDefs = tools.length > 0
-      ? tools.map((tool) => ({
-          type: 'function' as const,
-          function: {
-            name: tool.name,
-            description: tool.description,
-            parameters: tool.inputSchema,
-          },
-        }))
-      : undefined;
+    const toolDefs =
+      tools.length > 0
+        ? tools.map((tool) => ({
+            type: 'function' as const,
+            function: {
+              name: tool.name,
+              description: tool.description,
+              parameters: tool.inputSchema,
+            },
+          }))
+        : undefined;
 
     const response = await this.client.chat.completions.create({
       model: this.model,
@@ -61,7 +66,8 @@ export class OpenAILLMProvider extends BaseLLMProvider {
       : [];
 
     const content = firstChoice?.message?.content ?? '';
-    const tokenCount = (response.usage?.prompt_tokens ?? 0) + (response.usage?.completion_tokens ?? 0);
+    const tokenCount =
+      (response.usage?.prompt_tokens ?? 0) + (response.usage?.completion_tokens ?? 0);
     const cost = this.estimateCost(tokenCount);
 
     return {
